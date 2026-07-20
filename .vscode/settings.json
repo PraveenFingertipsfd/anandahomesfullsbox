@@ -1,0 +1,10 @@
+{
+  "editor.formatOnSave": true,
+  "editor.tabSize": 4,
+  "salesforcedx-vscode-apex.java.home": "",
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.sfdx": true,
+    "**/.sf": true
+  }
+}

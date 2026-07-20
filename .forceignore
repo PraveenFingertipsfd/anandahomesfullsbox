@@ -1,0 +1,29 @@
+# ===========================================
+# .forceignore - Exclude from source tracking
+# ===========================================
+
+# Package manifest (not metadata)
+package.xml
+
+# LWC config files
+**/jsconfig.json
+**/.eslintrc.json
+
+# LWC test files
+**/__tests__/**
+
+# Profiles (manage separately - too large/fragile)
+# Uncomment below if you want to exclude ALL profiles:
+# **/profiles/**
+
+# Admin profile (almost always causes issues)
+**/profiles/Admin.profile-meta.xml
+
+# App menus (org-specific, causes conflicts)
+**/appMenus/**
+
+# Object translations (usually org-specific)
+**/objectTranslations/**
+
+# Scratch org settings that vary per org
+**/settings/Security.settings-meta.xml

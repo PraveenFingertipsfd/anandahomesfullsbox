@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <!-- ===== Code ===== -->
+    <types>
+        <members>*</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>ApexTrigger</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>ApexComponent</name>
+    </types>
+
+    <!-- ===== Components ===== -->
+    <types>
+        <members>*</members>
+        <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>AuraDefinitionBundle</name>
+    </types>
+
+    <!-- ===== Configuration ===== -->
+    <types>
+        <members>*</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>Flow</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>ValidationRule</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>CustomLabel</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>CustomMetadata</name>
+    </types>
+
+    <!-- ===== Security ===== -->
+    <types>
+        <members>*</members>
+        <name>PermissionSet</name>
+    </types>
+
+    <!-- ===== Assets ===== -->
+    <types>
+        <members>*</members>
+        <name>StaticResource</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>EmailTemplate</name>
+    </types>
+
+    <!--
+        NOTE: The following are intentionally EXCLUDED:
+        - Profile:*        → Too large, causes deploy failures
+        - Report:*         → Too many, causes timeouts
+        - Dashboard:*      → Too many, causes timeouts
+        - Queue:*          → Org-specific, rarely needed in source
+        - WorkflowRule:*   → Deprecated (use Flows instead)
+
+        To retrieve specific ones, add them individually:
+        <types>
+            <members>MySpecificProfile</members>
+            <name>Profile</name>
+        </types>
+    -->
+
+    <version>62.0</version>
+</Package>

@@ -1,0 +1,30 @@
+# Salesforce CLI
+.sf/
+.sfdx/
+.localdevserver/
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Node
+node_modules/
+
+# Auth files (NEVER commit these)
+authfile.txt
+authurl.txt
+*.key
+*.crt
+
+# Deployment artifacts
+delta-output/
+changed-sources/
