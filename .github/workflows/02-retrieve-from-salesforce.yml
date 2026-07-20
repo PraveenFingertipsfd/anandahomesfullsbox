@@ -1,0 +1,192 @@
+# ============================================================
+# Workflow: Retrieve from Salesforce to GitHub
+# Trigger: Manual (workflow_dispatch)
+#
+# Always retrieves using manifest/package.xml → into force-app/
+#
+# SECRETS: SALESFORCE_AUTH_URL (or SFDX_AUTH_URL_PRODUCTION / _SANDBOX / _DEV)
+# ============================================================
+
+name: 03 - Retrieve from Salesforce
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_org:
+        description: 'Salesforce org to retrieve FROM'
+        required: true
+        default: 'DEFAULT'
+        type: choice
+        options:
+          - DEFAULT
+          - PRODUCTION
+          - SANDBOX
+          - DEV
+      commit_to:
+        description: '"current" = commit to this branch | "new" = create new branch for PR review'
+        required: true
+        default: 'current'
+        type: choice
+        options:
+          - current
+          - new
+      create_pr:
+        description: 'Create Pull Request? (only when commit_to = new)'
+        required: true
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
+
+jobs:
+  retrieve:
+    name: Retrieve ${{ github.event.inputs.source_org }} → ${{ github.ref_name }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout (${{ github.ref_name }})
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          fetch-depth: 0
+
+      - name: Display Run Info
+        run: |
+          echo "╔═════════════════════════════════════════╗"
+          echo "║  🌿 Branch      : ${{ github.ref_name }}"
+          echo "║  🏢 Source Org  : ${{ github.event.inputs.source_org }}"
+          echo "║  📥 Manifest   : manifest/package.xml"
+          echo "║  📂 Target     : force-app/"
+          echo "╚═════════════════════════════════════════╝"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Salesforce CLI
+        run: |
+          npm install --global @salesforce/cli@2.117.7
+          sf --version
+
+      - name: Authenticate to Salesforce
+        env:
+          SALESFORCE_AUTH_URL: ${{ secrets.SALESFORCE_AUTH_URL }}
+          SFDX_AUTH_URL_PRODUCTION: ${{ secrets.SFDX_AUTH_URL_PRODUCTION }}
+          SFDX_AUTH_URL_SANDBOX: ${{ secrets.SFDX_AUTH_URL_SANDBOX }}
+          SFDX_AUTH_URL_DEV: ${{ secrets.SFDX_AUTH_URL_DEV }}
+        run: |
+          SOURCE_ORG="${{ github.event.inputs.source_org }}"
+          AUTH_URL=""
+
+          case "$SOURCE_ORG" in
+            DEFAULT)    AUTH_URL="$SALESFORCE_AUTH_URL" ;;
+            PRODUCTION) AUTH_URL="$SFDX_AUTH_URL_PRODUCTION" ;;
+            SANDBOX)    AUTH_URL="$SFDX_AUTH_URL_SANDBOX" ;;
+            DEV)        AUTH_URL="$SFDX_AUTH_URL_DEV" ;;
+          esac
+
+          if [ -z "$AUTH_URL" ]; then AUTH_URL="$SALESFORCE_AUTH_URL"; fi
+
+          if [ -z "$AUTH_URL" ]; then
+            echo "❌ No auth secret found!"
+            echo "Add SALESFORCE_AUTH_URL in: Repo → Settings → Secrets → Actions"
+            exit 1
+          fi
+
+          echo "$AUTH_URL" > ./authfile.txt
+          sf org login sfdx-url --sfdx-url-file ./authfile.txt --alias target-org --set-default
+          rm -f ./authfile.txt
+          echo "✅ Authenticated!"
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Setup Target Branch
+        run: |
+          if [ "${{ github.event.inputs.commit_to }}" = "new" ]; then
+            NEW_BRANCH="sf-retrieve/${{ github.ref_name }}-$(date -u +'%Y%m%d-%H%M')"
+            git checkout -b "$NEW_BRANCH"
+            echo "TARGET_BRANCH=$NEW_BRANCH" >> $GITHUB_ENV
+          else
+            echo "TARGET_BRANCH=${{ github.ref_name }}" >> $GITHUB_ENV
+          fi
+
+      # ── Always retrieve using manifest/package.xml → force-app/ ──
+      - name: Retrieve from Salesforce
+        run: |
+          echo "📥 Retrieving metadata using manifest/package.xml..."
+          sf project retrieve start \
+            --manifest manifest/package.xml \
+            --target-org target-org \
+            --wait 60
+          echo "✅ Retrieval complete! Metadata is in force-app/"
+
+      - name: Security Cleanup
+        if: always()
+        run: rm -f authfile.txt authurl.txt
+
+      - name: Check for Changes
+        run: |
+          git add -A
+
+          if git diff --staged --quiet; then
+            echo "⚠️ No changes — Salesforce and GitHub are in sync."
+            echo "HAS_CHANGES=false" >> $GITHUB_ENV
+          else
+            echo "📋 Changed files:"
+            echo "───────────────────────────────────────────"
+            git diff --staged --stat
+            echo "───────────────────────────────────────────"
+            echo "Total: $(git diff --staged --numstat | wc -l) file(s)"
+            echo "HAS_CHANGES=true" >> $GITHUB_ENV
+          fi
+
+      - name: Commit and Push
+        if: ${{ env.HAS_CHANGES == 'true' }}
+        run: |
+          TIMESTAMP=$(date -u +'%Y-%m-%d %H:%M UTC')
+          git commit -m "chore: retrieve from ${{ github.event.inputs.source_org }} ($TIMESTAMP) [skip ci]
+
+          By: ${{ github.actor }}
+          Branch: ${{ env.TARGET_BRANCH }}"
+
+          git push origin "${{ env.TARGET_BRANCH }}"
+          echo "✅ Pushed to '${{ env.TARGET_BRANCH }}'!"
+
+      - name: Create Pull Request
+        if: ${{ env.HAS_CHANGES == 'true' && github.event.inputs.create_pr == 'true' && github.event.inputs.commit_to == 'new' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TARGET="${{ env.TARGET_BRANCH }}"
+          BASE="${{ github.ref_name }}"
+
+          gh pr create \
+            --base "$BASE" \
+            --head "$TARGET" \
+            --title "🔄 SF Retrieve: ${{ github.event.inputs.source_org }} → $BASE ($(date -u +'%Y-%m-%d'))" \
+            --body "## Salesforce → GitHub Sync
+          **Source Org:** \`${{ github.event.inputs.source_org }}\`
+          **By:** @${{ github.actor }}
+
+          ### Review Checklist
+          - [ ] No unwanted org-specific metadata
+          - [ ] No conflicts with ongoing work" \
+            2>&1 || echo "ℹ️ PR may already exist."
+
+      - name: Summary
+        if: always()
+        run: |
+          echo ""
+          echo "╔═════════════════════════════════════════╗"
+          echo "║  Org         : ${{ github.event.inputs.source_org }}"
+          echo "║  Branch      : ${{ env.TARGET_BRANCH }}"
+          echo "║  Has Changes : ${{ env.HAS_CHANGES }}"
+          echo "╚═════════════════════════════════════════╝"
