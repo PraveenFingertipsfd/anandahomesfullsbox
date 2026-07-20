@@ -1,0 +1,753 @@
+# ============================================================
+# Workflow: Create SFDC Project Skeleton
+# Trigger: Manual (workflow_dispatch)
+#
+# FIXES APPLIED:
+#   1. Added "force-app/main/default/flexipages" folder (was missing)
+#   2. Removed @track from LWC (deprecated since Spring '20)
+#   3. Removed Profile:* from package.xml (retrieves ALL system
+#      profiles = huge files + deployment failures)
+#   4. Removed Report/Dashboard/Queue with * wildcard
+#      (too broad, causes timeouts - specify individually instead)
+#   5. Added pmd-ruleset.xml (needed for code scan pipeline)
+#   6. Added manifest/destructiveChanges.xml template
+#   7. Added config/project-scratch-def.json
+#   8. Fixed .forceignore with more practical exclusions
+#   9. Added FlexiPage, CustomLabel, CustomMetadata to package.xml
+#  10. Added proper scratch org definition
+# ============================================================
+
+name: 01 - Create SFDC Project Skeleton
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch_name:
+        description: 'Branch name for the SFDC skeleton (new or existing)'
+        required: true
+        default: 'main'
+      project_name:
+        description: 'Salesforce project name'
+        required: true
+        default: 'my-sfdc-project'
+      api_version:
+        description: 'Salesforce API version'
+        required: true
+        default: '62.0'
+
+jobs:
+  create-skeleton:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      # ---------------------------------------------------------
+      # 1️⃣ Checkout repository
+      # ---------------------------------------------------------
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # ---------------------------------------------------------
+      # 2️⃣ Configure Git
+      # ---------------------------------------------------------
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      # ---------------------------------------------------------
+      # 3️⃣ Checkout branch (existing or new)
+      # ---------------------------------------------------------
+      - name: Checkout branch
+        run: |
+          BRANCH="${{ github.event.inputs.branch_name }}"
+
+          git fetch origin
+
+          if git ls-remote --heads origin "$BRANCH" | grep -q "$BRANCH"; then
+            echo "✅ Branch '$BRANCH' exists. Checking out..."
+            git checkout "$BRANCH"
+            git pull origin "$BRANCH"
+          else
+            echo "🌿 Branch '$BRANCH' does not exist. Creating..."
+            git checkout -b "$BRANCH"
+          fi
+
+          echo "📍 Current branch: $(git branch --show-current)"
+
+      # ---------------------------------------------------------
+      # 4️⃣ Create SFDC Directory Structure
+      # ---------------------------------------------------------
+      - name: Create SFDC Directory Structure
+        run: |
+          echo "📦 Creating directory structure..."
+
+          # Core metadata folders
+          mkdir -p force-app/main/default/classes
+          mkdir -p force-app/main/default/triggers
+          mkdir -p force-app/main/default/lwc
+          mkdir -p force-app/main/default/aura
+          mkdir -p force-app/main/default/objects
+          mkdir -p force-app/main/default/layouts
+          mkdir -p force-app/main/default/flexipages
+          mkdir -p force-app/main/default/flows
+          mkdir -p force-app/main/default/permissionsets
+          mkdir -p force-app/main/default/staticresources
+          mkdir -p force-app/main/default/tabs
+          mkdir -p force-app/main/default/pages
+          mkdir -p force-app/main/default/components
+          mkdir -p force-app/main/default/customMetadata
+          mkdir -p force-app/main/default/labels
+
+          # Project folders
+          mkdir -p scripts/apex
+          mkdir -p config
+          mkdir -p manifest
+          mkdir -p .vscode
+
+          echo "✅ Directory structure created"
+
+      # ---------------------------------------------------------
+      # 5️⃣ Create sfdx-project.json
+      # ---------------------------------------------------------
+      - name: Create sfdx-project.json
+        run: |
+          API_VERSION="${{ github.event.inputs.api_version }}"
+          PROJECT_NAME="${{ github.event.inputs.project_name }}"
+
+          if [ ! -f "sfdx-project.json" ]; then
+            cat > sfdx-project.json << EOF
+          {
+            "packageDirectories": [
+              {
+                "path": "force-app",
+                "default": true
+              }
+            ],
+            "name": "${PROJECT_NAME}",
+            "namespace": "",
+            "sfdcLoginUrl": "https://login.salesforce.com",
+            "sourceApiVersion": "${API_VERSION}"
+          }
+          EOF
+            echo "✅ sfdx-project.json created"
+          else
+            echo "⏭️ sfdx-project.json already exists"
+          fi
+
+      # ---------------------------------------------------------
+      # 6️⃣ Create .forceignore
+      # ---------------------------------------------------------
+      - name: Create .forceignore
+        run: |
+          if [ ! -f ".forceignore" ]; then
+            cat > .forceignore << 'EOF'
+          # ===========================================
+          # .forceignore - Exclude from source tracking
+          # ===========================================
+
+          # Package manifest (not metadata)
+          package.xml
+
+          # LWC config files
+          **/jsconfig.json
+          **/.eslintrc.json
+
+          # LWC test files
+          **/__tests__/**
+
+          # Profiles (manage separately - too large/fragile)
+          # Uncomment below if you want to exclude ALL profiles:
+          # **/profiles/**
+
+          # Admin profile (almost always causes issues)
+          **/profiles/Admin.profile-meta.xml
+
+          # App menus (org-specific, causes conflicts)
+          **/appMenus/**
+
+          # Object translations (usually org-specific)
+          **/objectTranslations/**
+
+          # Scratch org settings that vary per org
+          **/settings/Security.settings-meta.xml
+          EOF
+            echo "✅ .forceignore created"
+          else
+            echo "⏭️ .forceignore already exists"
+          fi
+
+      # ---------------------------------------------------------
+      # 7️⃣ Create .gitignore
+      # ---------------------------------------------------------
+      - name: Create .gitignore
+        run: |
+          if [ ! -f ".gitignore" ]; then
+            cat > .gitignore << 'EOF'
+          # Salesforce CLI
+          .sf/
+          .sfdx/
+          .localdevserver/
+
+          # Logs
+          *.log
+          logs/
+
+          # OS files
+          .DS_Store
+          Thumbs.db
+
+          # IDE
+          .idea/
+          *.sublime-project
+          *.sublime-workspace
+
+          # Node
+          node_modules/
+
+          # Auth files (NEVER commit these)
+          authfile.txt
+          authurl.txt
+          *.key
+          *.crt
+
+          # Deployment artifacts
+          delta-output/
+          changed-sources/
+          EOF
+            echo "✅ .gitignore created"
+          else
+            echo "⏭️ .gitignore already exists"
+          fi
+
+      # ---------------------------------------------------------
+      # 8️⃣ Create VS Code settings
+      # ---------------------------------------------------------
+      - name: Create VS Code settings
+        run: |
+          if [ ! -f ".vscode/settings.json" ]; then
+            cat > .vscode/settings.json << 'EOF'
+          {
+            "editor.formatOnSave": true,
+            "editor.tabSize": 4,
+            "salesforcedx-vscode-apex.java.home": "",
+            "search.exclude": {
+              "**/node_modules": true,
+              "**/.sfdx": true,
+              "**/.sf": true
+            }
+          }
+          EOF
+          fi
+
+          if [ ! -f ".vscode/extensions.json" ]; then
+            cat > .vscode/extensions.json << 'EOF'
+          {
+            "recommendations": [
+              "salesforce.salesforcedx-vscode",
+              "salesforce.salesforcedx-vscode-apex",
+              "salesforce.salesforcedx-vscode-lwc",
+              "redhat.vscode-xml"
+            ]
+          }
+          EOF
+          fi
+          echo "✅ VS Code settings created"
+
+      # ---------------------------------------------------------
+      # 9️⃣ Create sample Apex class + test
+      # ---------------------------------------------------------
+      - name: Create sample Apex class
+        run: |
+          API_VERSION="${{ github.event.inputs.api_version }}"
+
+          if [ ! -f "force-app/main/default/classes/HelloWorld.cls" ]; then
+            cat > force-app/main/default/classes/HelloWorld.cls << 'EOF'
+          /**
+           * @description Sample Apex class demonstrating best practices
+           * @author Generated by CI/CD Pipeline
+           */
+          public with sharing class HelloWorld {
+
+              /**
+               * @description Returns a greeting message
+               * @param name The name to greet
+               * @return Greeting string
+               */
+              public static String sayHello(String name) {
+                  if (String.isBlank(name)) {
+                      return 'Hello, World!';
+                  }
+                  return 'Hello, ' + String.escapeSingleQuotes(name) + '!';
+              }
+          }
+          EOF
+
+            cat > force-app/main/default/classes/HelloWorld.cls-meta.xml << EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <ApexClass xmlns="http://soap.sforce.com/2006/04/metadata">
+              <apiVersion>${API_VERSION}</apiVersion>
+              <status>Active</status>
+          </ApexClass>
+          EOF
+
+            cat > force-app/main/default/classes/HelloWorldTest.cls << 'EOF'
+          /**
+           * @description Test class for HelloWorld
+           */
+          @isTest
+          private class HelloWorldTest {
+
+              @isTest
+              static void testSayHelloWithNull() {
+                  String result = HelloWorld.sayHello(null);
+                  System.assertEquals('Hello, World!', result, 'Null input should return default greeting');
+              }
+
+              @isTest
+              static void testSayHelloWithBlank() {
+                  String result = HelloWorld.sayHello('');
+                  System.assertEquals('Hello, World!', result, 'Blank input should return default greeting');
+              }
+
+              @isTest
+              static void testSayHelloWithName() {
+                  String result = HelloWorld.sayHello('Salesforce');
+                  System.assertEquals('Hello, Salesforce!', result, 'Should return personalized greeting');
+              }
+          }
+          EOF
+
+            cat > force-app/main/default/classes/HelloWorldTest.cls-meta.xml << EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <ApexClass xmlns="http://soap.sforce.com/2006/04/metadata">
+              <apiVersion>${API_VERSION}</apiVersion>
+              <status>Active</status>
+          </ApexClass>
+          EOF
+
+            echo "✅ Sample Apex classes created"
+          else
+            echo "⏭️ HelloWorld.cls already exists"
+          fi
+
+      # ---------------------------------------------------------
+      # 🔟 Create sample LWC
+      # FIX: Removed @track (deprecated since Spring '20)
+      # ---------------------------------------------------------
+      - name: Create sample LWC
+        run: |
+          API_VERSION="${{ github.event.inputs.api_version }}"
+
+          if [ ! -d "force-app/main/default/lwc/helloWorld" ]; then
+            mkdir -p force-app/main/default/lwc/helloWorld
+
+            cat > force-app/main/default/lwc/helloWorld/helloWorld.html << 'EOF'
+          <template>
+              <lightning-card title="Hello World" icon-name="custom:custom14">
+                  <div class="slds-p-horizontal_small">
+                      <lightning-input
+                          label="Enter your name"
+                          value={name}
+                          onchange={handleNameChange}>
+                      </lightning-input>
+                      <p class="slds-p-top_medium">
+                          <strong>{greeting}</strong>
+                      </p>
+                  </div>
+              </lightning-card>
+          </template>
+          EOF
+
+            # FIX: @track is deprecated — reactive properties work without it
+            cat > force-app/main/default/lwc/helloWorld/helloWorld.js << 'EOF'
+          import { LightningElement } from 'lwc';
+
+          export default class HelloWorld extends LightningElement {
+              name = '';
+
+              get greeting() {
+                  return this.name ? `Hello, ${this.name}!` : 'Hello, World!';
+              }
+
+              handleNameChange(event) {
+                  this.name = event.target.value;
+              }
+          }
+          EOF
+
+            cat > force-app/main/default/lwc/helloWorld/helloWorld.js-meta.xml << EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+              <apiVersion>${API_VERSION}</apiVersion>
+              <isExposed>true</isExposed>
+              <targets>
+                  <target>lightning__AppPage</target>
+                  <target>lightning__RecordPage</target>
+                  <target>lightning__HomePage</target>
+              </targets>
+          </LightningComponentBundle>
+          EOF
+
+            echo "✅ Sample LWC created"
+          else
+            echo "⏭️ helloWorld LWC already exists"
+          fi
+
+      # ---------------------------------------------------------
+      # 1️⃣1️⃣ Create package.xml manifest
+      # FIX: Removed Profile:* (causes massive retrieval + deploy failures)
+      # FIX: Removed Report/Dashboard/Queue:* (too broad, causes timeouts)
+      # Added: FlexiPage, CustomLabel, CustomMetadata, ValidationRule
+      # ---------------------------------------------------------
+      - name: Create package.xml manifest
+        run: |
+          API_VERSION="${{ github.event.inputs.api_version }}"
+
+          cat > manifest/package.xml << EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+              <!-- ===== Code ===== -->
+              <types>
+                  <members>*</members>
+                  <name>ApexClass</name>
+              </types>
+              <types>
+                  <members>*</members>
+                  <name>ApexTrigger</name>
+              </types>
+              <types>
+                  <members>*</members>
+                  <name>ApexPage</name>
+              </types>
+              <types>
+                  <members>*</members>
+                  <name>ApexComponent</name>
+              </types>
+
+              <!-- ===== Components ===== -->
+              <types>
+                  <members>*</members>
+                  <name>LightningComponentBundle</name>
+              </types>
+              <types>
+                  <members>*</members>
+                  <name>AuraDefinitionBundle</name>
+              </types>
+
+              <!-- ===== Configuration ===== -->
+              <types>
+                  <members>*</members>
+                  <name>CustomObject</name>
+              </types>
+              <types>
+                  <members>*</members>
+                  <name>CustomField</name>
+              </types>
+              <types>
+                  <members>*</members>
+                  <name>Layout</name>
+              </types>
+              <types>
+                  <members>*</members>
+                  <name>FlexiPage</name>
+              </types>
+              <types>
+                  <members>*</members>
+                  <name>Flow</name>
+              </types>
+              <types>
+                  <members>*</members>
+                  <name>ValidationRule</name>
+              </types>
+              <types>
+                  <members>*</members>
+                  <name>CustomTab</name>
+              </types>
+              <types>
+                  <members>*</members>
+                  <name>CustomLabel</name>
+              </types>
+              <types>
+                  <members>*</members>
+                  <name>CustomMetadata</name>
+              </types>
+
+              <!-- ===== Security ===== -->
+              <types>
+                  <members>*</members>
+                  <name>PermissionSet</name>
+              </types>
+
+              <!-- ===== Assets ===== -->
+              <types>
+                  <members>*</members>
+                  <name>StaticResource</name>
+              </types>
+              <types>
+                  <members>*</members>
+                  <name>EmailTemplate</name>
+              </types>
+
+              <!--
+                  NOTE: The following are intentionally EXCLUDED:
+                  - Profile:*        → Too large, causes deploy failures
+                  - Report:*         → Too many, causes timeouts
+                  - Dashboard:*      → Too many, causes timeouts
+                  - Queue:*          → Org-specific, rarely needed in source
+                  - WorkflowRule:*   → Deprecated (use Flows instead)
+
+                  To retrieve specific ones, add them individually:
+                  <types>
+                      <members>MySpecificProfile</members>
+                      <name>Profile</name>
+                  </types>
+              -->
+
+              <version>${API_VERSION}</version>
+          </Package>
+          EOF
+
+          echo "✅ package.xml manifest created"
+
+      # ---------------------------------------------------------
+      # 1️⃣2️⃣ Create destructiveChanges template
+      # ---------------------------------------------------------
+      - name: Create destructiveChanges template
+        run: |
+          API_VERSION="${{ github.event.inputs.api_version }}"
+
+          cat > manifest/destructiveChanges.xml << EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+              <!--
+                  Add metadata to delete here. Example:
+                  <types>
+                      <members>OldClassName</members>
+                      <name>ApexClass</name>
+                  </types>
+              -->
+              <version>${API_VERSION}</version>
+          </Package>
+          EOF
+
+          echo "✅ destructiveChanges.xml template created"
+
+      # ---------------------------------------------------------
+      # 1️⃣3️⃣ Create Scratch Org Definition
+      # ---------------------------------------------------------
+      - name: Create scratch org definition
+        run: |
+          if [ ! -f "config/project-scratch-def.json" ]; then
+            cat > config/project-scratch-def.json << 'EOF'
+          {
+            "orgName": "SFDC Scratch Org",
+            "edition": "Developer",
+            "features": [
+              "EnableSetPasswordInApi"
+            ],
+            "settings": {
+              "lightningExperienceSettings": {
+                "enableS1DesktopEnabled": true
+              },
+              "mobileSettings": {
+                "enableS1EncryptedStoragePref2": false
+              }
+            }
+          }
+          EOF
+            echo "✅ Scratch org definition created"
+          else
+            echo "⏭️ project-scratch-def.json already exists"
+          fi
+
+      # ---------------------------------------------------------
+      # 1️⃣4️⃣ Create PMD Ruleset (for code scan pipeline)
+      # ---------------------------------------------------------
+      - name: Create PMD Ruleset
+        run: |
+          if [ ! -f "pmd-ruleset.xml" ]; then
+            cat > pmd-ruleset.xml << 'EOF'
+          <?xml version="1.0"?>
+          <ruleset name="Salesforce Apex Rules"
+                   xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
+
+              <description>Catches common issues in Apex code (including AI-generated)</description>
+
+              <!-- Best Practices -->
+              <rule ref="category/apex/bestpractices.xml/ApexUnitTestClassShouldHaveAsserts"/>
+              <rule ref="category/apex/bestpractices.xml/ApexUnitTestShouldNotUseSeeAllDataTrue"/>
+              <rule ref="category/apex/bestpractices.xml/AvoidGlobalModifier"/>
+              <rule ref="category/apex/bestpractices.xml/UnusedLocalVariable"/>
+
+              <!-- Error Prone -->
+              <rule ref="category/apex/errorprone.xml/AvoidHardcodingId"/>
+              <rule ref="category/apex/errorprone.xml/EmptyCatchBlock"/>
+              <rule ref="category/apex/errorprone.xml/EmptyIfStmt"/>
+              <rule ref="category/apex/errorprone.xml/EmptyStatementBlock"/>
+              <rule ref="category/apex/errorprone.xml/EmptyTryOrFinallyBlock"/>
+              <rule ref="category/apex/errorprone.xml/EmptyWhileStmt"/>
+              <rule ref="category/apex/errorprone.xml/MethodWithSameNameAsEnclosingClass"/>
+
+              <!-- Performance (Governor Limits!) -->
+              <rule ref="category/apex/performance.xml/AvoidDmlStatementsInLoops"/>
+              <rule ref="category/apex/performance.xml/AvoidSoqlInLoops"/>
+              <rule ref="category/apex/performance.xml/AvoidSoslInLoops"/>
+              <rule ref="category/apex/performance.xml/AvoidDebugStatements"/>
+
+              <!-- Security -->
+              <rule ref="category/apex/security.xml/ApexCRUDViolation"/>
+              <rule ref="category/apex/security.xml/ApexSharingViolations"/>
+              <rule ref="category/apex/security.xml/ApexOpenRedirect"/>
+              <rule ref="category/apex/security.xml/ApexSOQLInjection"/>
+              <rule ref="category/apex/security.xml/ApexXSSFromURLParam"/>
+              <rule ref="category/apex/security.xml/ApexXSSFromEscapeFalse"/>
+
+              <!-- Design -->
+              <rule ref="category/apex/design.xml/AvoidDeeplyNestedIfStmts"/>
+              <rule ref="category/apex/design.xml/CyclomaticComplexity"/>
+              <rule ref="category/apex/design.xml/ExcessiveParameterList"/>
+
+          </ruleset>
+          EOF
+            echo "✅ PMD ruleset created"
+          else
+            echo "⏭️ pmd-ruleset.xml already exists"
+          fi
+
+      # ---------------------------------------------------------
+      # 1️⃣5️⃣ Create README
+      # ---------------------------------------------------------
+      - name: Create README
+        run: |
+          PROJECT_NAME="${{ github.event.inputs.project_name }}"
+          API_VERSION="${{ github.event.inputs.api_version }}"
+
+          cat > README.md << EOF
+          # ${PROJECT_NAME}
+
+          Salesforce DX Project — API Version ${API_VERSION}
+
+          ## Quick Start
+
+          \`\`\`bash
+          # Authorize your org
+          sf org login web --alias myorg --set-default
+
+          # Deploy to org
+          sf project deploy start --source-dir force-app --target-org myorg
+
+          # Run tests
+          sf apex run test --target-org myorg --test-level RunLocalTests
+
+          # Retrieve from org
+          sf project retrieve start --source-dir force-app --target-org myorg
+          \`\`\`
+
+          ## Project Structure
+
+          \`\`\`
+          force-app/main/default/
+          ├── classes/          ← Apex classes
+          ├── triggers/         ← Apex triggers
+          ├── lwc/              ← Lightning Web Components
+          ├── aura/             ← Aura components
+          ├── objects/          ← Custom objects & fields
+          ├── layouts/          ← Page layouts
+          ├── flexipages/       ← Lightning pages
+          ├── flows/            ← Flows
+          ├── permissionsets/   ← Permission sets
+          └── staticresources/  ← Static resources
+
+          manifest/
+          ├── package.xml               ← Retrieve manifest
+          └── destructiveChanges.xml    ← Deletion manifest
+
+          config/
+          └── project-scratch-def.json  ← Scratch org config
+          \`\`\`
+
+          ## CI/CD
+
+          This project uses GitHub Actions for automated deployments.
+          See \`.github/workflows/\` for pipeline configuration.
+          EOF
+
+          echo "✅ README created"
+
+      # ---------------------------------------------------------
+      # 1️⃣6️⃣ Create .gitkeep placeholders
+      # ---------------------------------------------------------
+      - name: Create placeholder files
+        run: |
+          # Only add .gitkeep to empty directories
+          for dir in \
+            force-app/main/default/triggers \
+            force-app/main/default/aura \
+            force-app/main/default/objects \
+            force-app/main/default/layouts \
+            force-app/main/default/flexipages \
+            force-app/main/default/flows \
+            force-app/main/default/permissionsets \
+            force-app/main/default/staticresources \
+            force-app/main/default/tabs \
+            force-app/main/default/pages \
+            force-app/main/default/components \
+            force-app/main/default/customMetadata \
+            force-app/main/default/labels \
+            scripts/apex \
+            config; do
+            # Only add .gitkeep if directory has no other files
+            if [ -z "$(ls -A "$dir" 2>/dev/null | grep -v .gitkeep)" ]; then
+              touch "$dir/.gitkeep"
+            fi
+          done
+
+          echo "✅ Placeholder files created"
+
+      # ---------------------------------------------------------
+      # 1️⃣7️⃣ Commit and Push
+      # ---------------------------------------------------------
+      - name: Commit and Push
+        run: |
+          BRANCH="${{ github.event.inputs.branch_name }}"
+
+          git add .
+
+          if git diff --staged --quiet; then
+            echo "ℹ️ No changes to commit. Skeleton may already exist."
+          else
+            git commit -m "🎉 Initialize Salesforce DX project skeleton
+
+          Project: ${{ github.event.inputs.project_name }}
+          API Version: ${{ github.event.inputs.api_version }}
+          Branch: ${BRANCH}
+
+          Includes:
+          - SFDX project structure
+          - Sample Apex class + test
+          - Sample LWC component
+          - package.xml manifest
+          - PMD ruleset for code scanning
+          - VS Code settings
+          - Scratch org definition
+
+          Generated by GitHub Actions"
+
+            git push origin "$BRANCH"
+
+            echo ""
+            echo "╔════════════════════════════════════════════╗"
+            echo "║  ✅ SFDC Skeleton Created Successfully!     ║"
+            echo "╠════════════════════════════════════════════╣"
+            echo "║  🌿 Branch     : ${BRANCH}"
+            echo "║  📦 Project    : ${{ github.event.inputs.project_name }}"
+            echo "║  🔢 API Version: ${{ github.event.inputs.api_version }}"
+            echo "╚════════════════════════════════════════════╝"
+          fi
