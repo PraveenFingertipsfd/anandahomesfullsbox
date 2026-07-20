@@ -1,0 +1,418 @@
+# ============================================================
+# Workflow: Deploy to Salesforce
+# Trigger: Manual (workflow_dispatch)
+#
+# BRANCH: Select from "Use workflow from" dropdown
+# Just deploys. No scan, no validation, no tests.
+#
+# SECRETS: SALESFORCE_AUTH_URL (or SFDX_AUTH_URL_PRODUCTION / _SANDBOX / _DEV)
+# ============================================================
+
+name: 02 - Deploy to Salesforce
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_org:
+        description: 'Target Salesforce org'
+        required: true
+        default: 'DEFAULT'
+        type: choice
+        options:
+          - DEFAULT
+          - PRODUCTION
+          - SANDBOX
+          - DEV
+      deploy_type:
+        description: 'delta = only changed files (last commit) | full = entire source'
+        required: true
+        default: 'full'
+        type: choice
+        options:
+          - full
+          - delta
+      metadata_filter:
+        description: 'What to deploy'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - apex-only
+          - lwc-only
+          - objects-only
+          - tabs-only
+          - flows-only
+          - labels-only
+          - flexipages-only
+          - layouts-only
+          - reports-only
+          - dashboards-only
+          - messageChannels-only
+          - reports-and-dashboards
+          - apex-and-lwc
+          - apex-lwc-messageChannels
+          - apex-lwc-objects-layouts
+          - tabs-and-objects
+          - objects-apex-lwc
+          - objects-tabs-apex-lwc
+          - apex-lwc-objects-pages
+          - apex-objects-lwc-tabs-labels
+          - apex-objects-lwc-labels
+          - apps-flexipages-lwc-apex-pages-objects-tabs
+          - apps-flexipages-lwc-apex-pages-tabs
+      deploy_scope:
+        description: 'Deploy everything in selected metadata or only specific components?'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - specific
+      specific_names:
+        description: 'Only for "specific" — comma-separated component names (e.g. MyClass,myLWC,Home_Page,Account__c)'
+        required: false
+        default: ''
+      exclude_components:
+        description: 'Components to EXCLUDE (comma-separated, e.g. MyHelper,oldLWC,Home_Page). Works for any metadata type.'
+        required: false
+        default: ''
+
+jobs:
+  deploy:
+    name: "Deploy to ${{ github.event.inputs.target_org }} 🚀"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout (${{ github.ref_name }})
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          fetch-depth: 0
+
+      - name: Display Info
+        run: |
+          echo "╔═════════════════════════════════════════════╗"
+          echo "║  🌿 Branch      : ${{ github.ref_name }}"
+          echo "║  🎯 Target Org  : ${{ github.event.inputs.target_org }}"
+          echo "║  📦 Deploy Type : ${{ github.event.inputs.deploy_type }}"
+          echo "║  📂 Metadata    : ${{ github.event.inputs.metadata_filter }}"
+          echo "║  🔎 Scope       : ${{ github.event.inputs.deploy_scope }}"
+          if [ "${{ github.event.inputs.deploy_scope }}" = "specific" ]; then
+          echo "║  📋 Components  : ${{ github.event.inputs.specific_names }}"
+          fi
+          if [ -n "${{ github.event.inputs.exclude_components }}" ]; then
+          echo "║  🚫 Excluding   : ${{ github.event.inputs.exclude_components }}"
+          fi
+          echo "╚═════════════════════════════════════════════╝"
+
+      - name: Resolve Metadata Paths
+        run: |
+          FILTER="${{ github.event.inputs.metadata_filter }}"
+          BASE="force-app/main/default"
+          case "$FILTER" in
+            all)                       echo "SOURCE_PATHS=force-app" >> $GITHUB_ENV ;;
+            apex-only)                 echo "SOURCE_PATHS=${BASE}/classes,${BASE}/triggers" >> $GITHUB_ENV ;;
+            lwc-only)                  echo "SOURCE_PATHS=${BASE}/lwc" >> $GITHUB_ENV ;;
+            objects-only)              echo "SOURCE_PATHS=${BASE}/objects" >> $GITHUB_ENV ;;
+            tabs-only)                 echo "SOURCE_PATHS=${BASE}/tabs" >> $GITHUB_ENV ;;
+            flows-only)                echo "SOURCE_PATHS=${BASE}/flows" >> $GITHUB_ENV ;;
+            labels-only)               echo "SOURCE_PATHS=${BASE}/labels" >> $GITHUB_ENV ;;
+            flexipages-only)           echo "SOURCE_PATHS=${BASE}/flexipages" >> $GITHUB_ENV ;;
+            layouts-only)              echo "SOURCE_PATHS=${BASE}/layouts" >> $GITHUB_ENV ;;
+            reports-only)              echo "SOURCE_PATHS=${BASE}/reports" >> $GITHUB_ENV ;;
+            dashboards-only)           echo "SOURCE_PATHS=${BASE}/dashboards" >> $GITHUB_ENV ;;
+            messageChannels-only)      echo "SOURCE_PATHS=${BASE}/messageChannels" >> $GITHUB_ENV ;;
+            reports-and-dashboards)    echo "SOURCE_PATHS=${BASE}/reports,${BASE}/dashboards" >> $GITHUB_ENV ;;
+            apex-and-lwc)              echo "SOURCE_PATHS=${BASE}/classes,${BASE}/triggers,${BASE}/lwc" >> $GITHUB_ENV ;;
+            apex-lwc-messageChannels)  echo "SOURCE_PATHS=${BASE}/classes,${BASE}/triggers,${BASE}/lwc,${BASE}/messageChannels" >> $GITHUB_ENV ;;
+            apex-lwc-objects-layouts)  echo "SOURCE_PATHS=${BASE}/classes,${BASE}/triggers,${BASE}/lwc,${BASE}/objects,${BASE}/layouts" >> $GITHUB_ENV ;;
+            tabs-and-objects)          echo "SOURCE_PATHS=${BASE}/tabs,${BASE}/objects" >> $GITHUB_ENV ;;
+            objects-apex-lwc)          echo "SOURCE_PATHS=${BASE}/objects,${BASE}/classes,${BASE}/triggers,${BASE}/lwc" >> $GITHUB_ENV ;;
+            objects-tabs-apex-lwc)     echo "SOURCE_PATHS=${BASE}/objects,${BASE}/tabs,${BASE}/classes,${BASE}/triggers,${BASE}/lwc" >> $GITHUB_ENV ;;
+            apex-lwc-objects-pages)    echo "SOURCE_PATHS=${BASE}/classes,${BASE}/triggers,${BASE}/lwc,${BASE}/objects,${BASE}/pages" >> $GITHUB_ENV ;;
+            apex-objects-lwc-tabs-labels) echo "SOURCE_PATHS=${BASE}/classes,${BASE}/triggers,${BASE}/objects,${BASE}/lwc,${BASE}/tabs,${BASE}/labels" >> $GITHUB_ENV ;;
+            apex-objects-lwc-labels)   echo "SOURCE_PATHS=${BASE}/classes,${BASE}/triggers,${BASE}/objects,${BASE}/lwc,${BASE}/labels" >> $GITHUB_ENV ;;
+            apps-flexipages-lwc-apex-pages-objects-tabs) echo "SOURCE_PATHS=${BASE}/applications,${BASE}/flexipages,${BASE}/lwc,${BASE}/classes,${BASE}/triggers,${BASE}/pages,${BASE}/objects,${BASE}/tabs" >> $GITHUB_ENV ;;
+            apps-flexipages-lwc-apex-pages-tabs) echo "SOURCE_PATHS=${BASE}/applications,${BASE}/flexipages,${BASE}/lwc,${BASE}/classes,${BASE}/triggers,${BASE}/pages,${BASE}/tabs" >> $GITHUB_ENV ;;
+          esac
+
+      # ── Filter to specific components only ──
+      - name: Filter Specific Components
+        if: ${{ github.event.inputs.deploy_scope == 'specific' }}
+        run: |
+          NAMES="${{ github.event.inputs.specific_names }}"
+          if [ -z "$NAMES" ]; then
+            echo "❌ 'specific' selected but no component names provided!"
+            exit 1
+          fi
+
+          echo "🔎 Keeping ONLY these components: $NAMES"
+          echo "═══════════════════════════════════════"
+
+          declare -A KEEP_LIST
+          IFS=',' read -ra ITEMS <<< "$NAMES"
+          for ITEM in "${ITEMS[@]}"; do
+            ITEM=$(echo "$ITEM" | xargs)
+            KEEP_LIST["$ITEM"]=1
+          done
+
+          IFS=',' read -ra SRC_PATHS <<< "${{ env.SOURCE_PATHS }}"
+          for DIR in "${SRC_PATHS[@]}"; do
+            DIR=$(echo "$DIR" | xargs)
+            [ ! -d "$DIR" ] && continue
+
+            echo ""
+            echo "📂 Filtering: $DIR"
+            echo "───────────────────────────────────────"
+
+            for ENTRY in "$DIR"/*; do
+              [ ! -e "$ENTRY" ] && continue
+              BASENAME=$(basename "$ENTRY")
+              COMPONENT_NAME=$(echo "$BASENAME" | sed 's/\..*//')
+
+              if [ -n "${KEEP_LIST[$COMPONENT_NAME]}" ]; then
+                echo "  ✅ Keep: $BASENAME"
+              else
+                rm -rf "$ENTRY"
+                echo "  🗑️ Removed: $BASENAME"
+              fi
+            done
+          done
+
+          echo ""
+          echo "═══════════════════════════════════════"
+          echo "✅ Filtering complete."
+
+      # ── Exclude components (works across ALL metadata types) ──
+      - name: Exclude Components
+        if: ${{ github.event.inputs.exclude_components != '' }}
+        run: |
+          EXCLUDE="${{ github.event.inputs.exclude_components }}"
+          echo "🚫 Excluding components: $EXCLUDE"
+          echo "═══════════════════════════════════════"
+
+          declare -A EXCLUDE_LIST
+          IFS=',' read -ra ITEMS <<< "$EXCLUDE"
+          for ITEM in "${ITEMS[@]}"; do
+            ITEM=$(echo "$ITEM" | xargs)
+            EXCLUDE_LIST["$ITEM"]=1
+          done
+
+          IFS=',' read -ra SRC_PATHS <<< "${{ env.SOURCE_PATHS }}"
+          for DIR in "${SRC_PATHS[@]}"; do
+            DIR=$(echo "$DIR" | xargs)
+            [ ! -d "$DIR" ] && continue
+
+            for ENTRY in "$DIR"/*; do
+              [ ! -e "$ENTRY" ] && continue
+              BASENAME=$(basename "$ENTRY")
+              COMPONENT_NAME=$(echo "$BASENAME" | sed 's/\..*//')
+
+              if [ -n "${EXCLUDE_LIST[$COMPONENT_NAME]}" ]; then
+                rm -rf "$ENTRY"
+                echo "  🚫 Excluded: $BASENAME (from $DIR)"
+              fi
+            done
+          done
+
+          echo "═══════════════════════════════════════"
+          echo "✅ Exclusion complete."
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Salesforce CLI
+        run: |
+          npm install @salesforce/cli --global
+          sf --version
+
+      - name: Install sfdx-git-delta
+        if: ${{ github.event.inputs.deploy_type == 'delta' }}
+        run: echo y | sf plugins install sfdx-git-delta
+
+      - name: Authenticate to Salesforce
+        env:
+          SALESFORCE_AUTH_URL: ${{ secrets.SALESFORCE_AUTH_URL }}
+          SFDX_AUTH_URL_PRODUCTION: ${{ secrets.SFDX_AUTH_URL_PRODUCTION }}
+          SFDX_AUTH_URL_SANDBOX: ${{ secrets.SFDX_AUTH_URL_SANDBOX }}
+          SFDX_AUTH_URL_DEV: ${{ secrets.SFDX_AUTH_URL_DEV }}
+        run: |
+          TARGET_ORG="${{ github.event.inputs.target_org }}"
+          AUTH_URL=""
+          case "$TARGET_ORG" in
+            DEFAULT)    AUTH_URL="$SALESFORCE_AUTH_URL" ;;
+            PRODUCTION) AUTH_URL="$SFDX_AUTH_URL_PRODUCTION" ;;
+            SANDBOX)    AUTH_URL="$SFDX_AUTH_URL_SANDBOX" ;;
+            DEV)        AUTH_URL="$SFDX_AUTH_URL_DEV" ;;
+          esac
+          if [ -z "$AUTH_URL" ]; then AUTH_URL="$SALESFORCE_AUTH_URL"; fi
+          if [ -z "$AUTH_URL" ]; then
+            echo "❌ No auth secret found! Add SALESFORCE_AUTH_URL in Repo → Settings → Secrets"
+            exit 1
+          fi
+          echo "$AUTH_URL" > ./authfile.txt
+          sf org login sfdx-url --sfdx-url-file ./authfile.txt --alias target-org --set-default
+          rm -f ./authfile.txt
+          echo "✅ Authenticated!"
+
+      # ── DELTA DEPLOY ──
+      - name: Generate Delta Package
+        if: ${{ github.event.inputs.deploy_type == 'delta' }}
+        run: |
+          mkdir -p delta-output
+
+          IFS=',' read -ra PATHS <<< "${{ env.SOURCE_PATHS }}"
+          SOURCE_ARGS=""
+          for P in "${PATHS[@]}"; do
+            P=$(echo "$P" | xargs)
+            if [ -d "$P" ]; then
+              SOURCE_ARGS="$SOURCE_ARGS --source-dir $P"
+            fi
+          done
+
+          sf sgd source delta \
+            --from "HEAD~1" \
+            --to "HEAD" \
+            --output-dir delta-output \
+            --generate-delta \
+            $SOURCE_ARGS
+
+          echo "📦 Changed components:"
+          echo "───────────────────────────────────────"
+          cat delta-output/package/package.xml || echo "(empty)"
+
+          if ! grep -q '<types>' delta-output/package/package.xml 2>/dev/null; then
+            echo "⚠️ No changes detected. Nothing to deploy."
+            echo "SKIP_DEPLOY=true" >> $GITHUB_ENV
+          else
+            echo "SKIP_DEPLOY=false" >> $GITHUB_ENV
+          fi
+
+      # Filter & exclude from delta output too
+      - name: Filter Delta Package
+        if: ${{ github.event.inputs.deploy_type == 'delta' && env.SKIP_DEPLOY != 'true' && (github.event.inputs.deploy_scope == 'specific' || github.event.inputs.exclude_components != '') }}
+        run: |
+          declare -A KEEP_LIST
+          if [ "${{ github.event.inputs.deploy_scope }}" = "specific" ]; then
+            IFS=',' read -ra ITEMS <<< "${{ github.event.inputs.specific_names }}"
+            for ITEM in "${ITEMS[@]}"; do
+              ITEM=$(echo "$ITEM" | xargs)
+              KEEP_LIST["$ITEM"]=1
+            done
+          fi
+
+          declare -A EXCLUDE_LIST
+          if [ -n "${{ github.event.inputs.exclude_components }}" ]; then
+            IFS=',' read -ra ITEMS <<< "${{ github.event.inputs.exclude_components }}"
+            for ITEM in "${ITEMS[@]}"; do
+              ITEM=$(echo "$ITEM" | xargs)
+              EXCLUDE_LIST["$ITEM"]=1
+            done
+          fi
+
+          IFS=',' read -ra SRC_PATHS <<< "${{ env.SOURCE_PATHS }}"
+          for DIR in "${SRC_PATHS[@]}"; do
+            DIR=$(echo "$DIR" | xargs)
+            DELTA_DIR="delta-output/$DIR"
+            [ ! -d "$DELTA_DIR" ] && continue
+            for ENTRY in "$DELTA_DIR"/*; do
+              [ ! -e "$ENTRY" ] && continue
+              BASENAME=$(basename "$ENTRY")
+              COMPONENT_NAME=$(echo "$BASENAME" | sed 's/\..*//')
+
+              if [ "${{ github.event.inputs.deploy_scope }}" = "specific" ] && [ -z "${KEEP_LIST[$COMPONENT_NAME]}" ]; then
+                rm -rf "$ENTRY"
+                continue
+              fi
+
+              if [ -n "${EXCLUDE_LIST[$COMPONENT_NAME]}" ]; then
+                rm -rf "$ENTRY"
+              fi
+            done
+          done
+          echo "🔎 Delta package filtered"
+
+      - name: Set skip flag (full)
+        if: ${{ github.event.inputs.deploy_type == 'full' }}
+        run: echo "SKIP_DEPLOY=false" >> $GITHUB_ENV
+
+      - name: "🚀 Deploy to Salesforce"
+        if: ${{ env.SKIP_DEPLOY != 'true' }}
+        run: |
+          echo "═══════════════════════════════════════"
+          echo "  🔥 DEPLOYING TO ${{ github.event.inputs.target_org }}"
+          echo "  📂 ${{ github.event.inputs.metadata_filter }} (${{ github.event.inputs.deploy_scope }})"
+          if [ "${{ github.event.inputs.deploy_scope }}" = "specific" ]; then
+          echo "  📋 Components: ${{ github.event.inputs.specific_names }}"
+          fi
+          if [ -n "${{ github.event.inputs.exclude_components }}" ]; then
+          echo "  🚫 Excluding: ${{ github.event.inputs.exclude_components }}"
+          fi
+          echo "═══════════════════════════════════════"
+          echo ""
+
+          if [ "${{ github.event.inputs.deploy_type }}" = "delta" ]; then
+            echo "📦 Deploying changed components only..."
+            sf project deploy start \
+              --manifest delta-output/package/package.xml \
+              --target-org target-org \
+              --test-level NoTestRun \
+              --wait 60
+          else
+            IFS=',' read -ra PATHS <<< "${{ env.SOURCE_PATHS }}"
+            SOURCE_ARGS=""
+            for P in "${PATHS[@]}"; do
+              P=$(echo "$P" | xargs)
+              if [ -d "$P" ]; then
+                SOURCE_ARGS="$SOURCE_ARGS --source-dir $P"
+              fi
+            done
+
+            echo "📂 Deploying: ${{ env.SOURCE_PATHS }}"
+            sf project deploy start \
+              $SOURCE_ARGS \
+              --target-org target-org \
+              --test-level NoTestRun \
+              --wait 60
+          fi
+
+          echo ""
+          echo "✅ Deployment SUCCESSFUL!"
+
+      - name: Deploy Destructive Changes
+        if: ${{ github.event.inputs.deploy_type == 'delta' && env.SKIP_DEPLOY != 'true' }}
+        run: |
+          if [ -f "delta-output/destructiveChanges/destructiveChanges.xml" ] && \
+             grep -q '<types>' delta-output/destructiveChanges/destructiveChanges.xml 2>/dev/null; then
+            echo "🗑️ Deploying deletions..."
+            sf project deploy start \
+              --manifest delta-output/destructiveChanges/package.xml \
+              --post-destructive-changes delta-output/destructiveChanges/destructiveChanges.xml \
+              --target-org target-org \
+              --test-level NoTestRun \
+              --wait 30
+          else
+            echo "No deletions."
+          fi
+
+      - name: Security Cleanup
+        if: always()
+        run: rm -f authfile.txt authurl.txt
+
+      - name: Summary
+        if: always()
+        run: |
+          echo ""
+          echo "╔═════════════════════════════════════════════╗"
+          echo "║  Branch      : ${{ github.ref_name }}"
+          echo "║  Target Org  : ${{ github.event.inputs.target_org }}"
+          echo "║  Deploy Type : ${{ github.event.inputs.deploy_type }}"
+          echo "║  Metadata    : ${{ github.event.inputs.metadata_filter }}"
+          echo "║  Scope       : ${{ github.event.inputs.deploy_scope }}"
+          echo "║  Components  : ${{ github.event.inputs.specific_names }}"
+          echo "║  Excluded    : ${{ github.event.inputs.exclude_components }}"
+          echo "║  Skipped     : ${{ env.SKIP_DEPLOY }}"
+          echo "╚═════════════════════════════════════════════╝"
