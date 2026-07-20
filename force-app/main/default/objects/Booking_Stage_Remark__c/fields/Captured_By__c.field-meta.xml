@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Captured_By__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>User who triggered the stage change that captured this remark.</description>
+    <label>Captured By</label>
+    <referenceTo>User</referenceTo>
+    <relationshipLabel>Booking Stage Remarks</relationshipLabel>
+    <relationshipName>Booking_Stage_Remarks</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

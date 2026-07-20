@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Unit_Preference__c</fullName>
+    <label>Unit Preference</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>1 BHK</fullName>
+                <default>false</default>
+                <label>1 BHK</label>
+            </value>
+            <value>
+                <fullName>2 BHK</fullName>
+                <default>false</default>
+                <label>2 BHK</label>
+            </value>
+            <value>
+                <fullName>2.5 BHK</fullName>
+                <default>false</default>
+                <label>2.5 BHK</label>
+            </value>
+            <value>
+                <fullName>3 BHK</fullName>
+                <default>false</default>
+                <label>3 BHK</label>
+            </value>
+            <value>
+                <fullName>3.5 BHK</fullName>
+                <default>false</default>
+                <label>3.5 BHK</label>
+            </value>
+            <value>
+                <fullName>4 BHK</fullName>
+                <default>false</default>
+                <label>4 BHK</label>
+            </value>
+            <value>
+                <fullName>Duplex / Penthouse</fullName>
+                <default>false</default>
+                <label>Duplex / Penthouse</label>
+            </value>
+            <value>
+                <fullName>Villa / Row House</fullName>
+                <default>false</default>
+                <label>Villa / Row House</label>
+            </value>
+            <value>
+                <fullName>Studio</fullName>
+                <default>false</default>
+                <label>Studio</label>
+            </value>
+            <value>
+                <fullName>Undecided</fullName>
+                <default>false</default>
+                <label>Undecided</label>
+            </value>
+            <value>
+                <fullName>4.5 BHK</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>4.5 BHK</label>
+            </value>
+            <value>
+                <fullName>5 BHK</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>5 BHK</label>
+            </value>
+            <value>
+                <fullName>Apartment</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Apartment</label>
+            </value>
+            <value>
+                <fullName>Villa</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Villa</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

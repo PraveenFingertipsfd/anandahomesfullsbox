@@ -1,0 +1,2242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Plot</fullName>
+    <active>true</active>
+    <label>Plot</label>
+    <picklistValues>
+        <picklist>Agreement_Amount_Cleared__c</picklist>
+        <values>
+            <fullName>Received Full Amount</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Received Partial Amount</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Agreement_Stage__c</picklist>
+        <values>
+            <fullName>Stage 1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stage 2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Stage 3</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Annual_income__c</picklist>
+        <values>
+            <fullName>1 CR ABOVE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>10 - 20 LAKHS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>20 -30 LAKHS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>30 - 50 LAKHS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>50 LAKHS - 1 CR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BELOW 10 LAKHS</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Approval_Status__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Assignment_Approval_Status__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Assignment_Status__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Executed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Requested</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>BHK_Type__c</picklist>
+        <values>
+            <fullName>1 BHK</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Bank__c</picklist>
+        <values>
+            <fullName>HDFC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SBI</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Block1__c</picklist>
+        <values>
+            <fullName>A</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>A2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>A4</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>A6</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>A7</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>A8</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>A9</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>B</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>B1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>B10</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>B11</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>B13</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>B17</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>B18</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>B19</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>B2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>B20</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>B21</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>B23</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>B27</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>B28</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>B3</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>B5</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>B6</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>B7</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>B8</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>B9</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>C</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>C1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>C10</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>C12</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>C13</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>C14</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>C19</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>C2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>C23</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>C25</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>C26</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>C27</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>C3</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>C8</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>C9</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>E1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>E2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>E3</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>E4</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>E5</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>E6</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>E7</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Booking_Source__c</picklist>
+        <values>
+            <fullName>Advertisement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Broker</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Direct Call</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Event</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Online Portal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Referral</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Walk-In</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Booking_Status__c</picklist>
+        <values>
+            <fullName>Cancelled</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Confirmed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Draft</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Booking_Verification_Approval_Status__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Booking_type__c</picklist>
+        <values>
+            <fullName>New</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Transfer</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>CRM_Manager_Approval__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Calculation_Status__c</picklist>
+        <values>
+            <fullName>Calculated</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Failed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manual Override</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Cancellation_Approval_After_Agreement__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Cancellation_Approval_Before_Agreement__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Commission_Status__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Paid</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Discount_Type__c</picklist>
+        <values>
+            <fullName>Fixed Amount On Basic Price</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Percentage On Basic Price</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Percentage On Rate Per Sqft</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Value On Rate Per Sqft</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Existing_customer__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Finance_Approval1__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Funding_Type__c</picklist>
+        <values>
+            <fullName>Self-Funded</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Leads_source__c</picklist>
+        <values>
+            <fullName>99 ACRES</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AARNA%2ECOM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Aarya%2Ecom</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Aff-Social Media</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BLACKCOFFEE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bharath</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bharath-003115</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>C P - Roundtree %28 Proptor%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>COMMON FLOOR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CORPORATE ACTIVITY</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CP %3A Settlin</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CP %3B AS Properties %28Altafl%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CP - 360 Realtors</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CP - Bharath B%2ES</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CP - Carazon Homes Pvt Ltd</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CP - Full Basket Property</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CP - Girija Sankar Sahu</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CP - JLL Property Consultants</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CP - Mark Antony</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CP - Prop Tiger</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CP - Proptiger</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CP - Settlin - No Payout</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CP - Zen homz</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CP%3A 360 Realtors</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CP%3A Amaze Reality</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CP%3A Infra Square Reality Pvt Ltd</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CP%3A JLL Property Consultants</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CP%3A Krishnaprashob K</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CP%3A Primary Key Properties</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CP%3A Property Junction international</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CP%3A Remax Infinity Pvt Ltd</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CP%3A Square Yards Consulting Pvt Ltd</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CP%3A Zen Homes</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CP%3A Zen Homz</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CUSTOMER REFERRAL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Channel Partner</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Client Reference</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Client Reference Mr%2E Mohith B N - B 415 AARYA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Client Referral</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Client Rererral</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DIGITAL MEDIA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DIRECT WALKIN</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dealer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Employee Reference</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Employee Referral</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Existing Customer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Existing Customer %28 AARNA T1 B 208%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Expo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Facebook</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Facebook CTW</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Facebook Helix</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Facebook Leadgen</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Friend</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GOOGLE ADS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Google</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GoogleDiscovery</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>GoogleSearch</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HOARDINGS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HOUSING</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>INDIAN MAKAAN</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>INFOSYS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IVR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IVR - DIGITAL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IVR - OTHERS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IVR - PRINT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inbound Call</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inhouse SEO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Instagram</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LivchatLP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Live Chat</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Live Chat - AARYA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Live Chat -Helix</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Live Chat Aarya</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Live Chat LP Aarya</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Live chat LP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Livechat - AARYA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Livechat - Helix</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Livechat AARYA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Livechat LP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Livechat LP - AARYA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Livechat LP - Existing Customer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Livechat-AARYA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LivechatLP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LivechatLP - AARYA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LivechatLP - Helix</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LivechatLP AARYA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LivechatLP- AARYA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LivechatLP-AARYA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LivechatLP-Helix</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MAGICBRICKS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MANAGEMENT REFERRAL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>META ADS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MGT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mcube</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mcube - Aarya</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mcube AARYA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mcube-Aarya</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NOBROKER</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NON OTP - Helix</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NON OTP NON VERIFIED</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NOT OTP NOT VERIFIED</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>News paper</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non OTP Not Verified</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non OTP Verified</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non OTP helix</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OM - OTHERS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OTHER PORTALS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OTP Not Verified</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prop Tiger</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Proptor %28 In remarks mention no need to pay CP pay</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>QUIKR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>REFERRAL - OTHERS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ROOF AND FLOOR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Radio</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Referral C-1110</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Referred By Friend</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SULEKHA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Site Lead</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Source - CP - Bricksguru</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Source - Walk in</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Swamy - 001374</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Taboola</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WALK-IN</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WALKIN - CP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WALKIN - CUSTOMER REFERRAL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WALKIN - DIGITAL MARKETING</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WALKIN - PRINT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Walik in - Client reference</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Walk -in</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Walk In Hoarding</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Walk in</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Walk in - Client reference</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Walk in - Hoarding</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Walk in - Site Branding</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Walk in - Website</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Walk in Client Reference</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Walk in Helix Hoarding</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Walk in wesite</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Walkin</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Walkin - Hoarding</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Walkin - Website</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Walkin Website</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Walkin Website - helix</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Walkin helix</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Website</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Website - AARYA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Website - Helix</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Website -AARYA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Website AARYA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Website Helix</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Website-AARYA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WhatsApp</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Whatspp</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Loan_Status__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Marital_Status__c</picklist>
+        <values>
+            <fullName>Married</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UnMarried</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Mode_Of_Payment__c</picklist>
+        <values>
+            <fullName>Cheque</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Credit Card</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DD</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Debit Card</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IMPS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Net Banking</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RTGS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UPI</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>NOC_Approval_Status__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Draft</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sent</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Nationality_Applicant2__c</picklist>
+        <values>
+            <fullName>NRI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OCI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>PIO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Resident</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Nationality__c</picklist>
+        <values>
+            <fullName>Indian</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NRI</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Newspaper_Read__c</picklist>
+        <values>
+            <fullName>BUSINESS STANDARD</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>DECCAN HERALD</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ECONOMIC TIMES</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OTHERS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>THE HINDU</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TIMES OF INDIA</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Occupation1__c</picklist>
+        <values>
+            <fullName>Advocate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Business</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Doctor</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Engineer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Govt Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manager and Services</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Payment_Schedule_Source__c</picklist>
+        <values>
+            <fullName>Custom Schedule</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>From Quote</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Master Schedule</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Payment_Type__c</picklist>
+        <values>
+            <fullName>Custom</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Standard</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Plot_Type__c</picklist>
+        <values>
+            <fullName>Apartments</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Flat</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Land</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Villas</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Property_Type__c</picklist>
+        <values>
+            <fullName>Apartment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Villa</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Receipt_Approval_Status__c</picklist>
+        <values>
+            <fullName>Appoved by Finance Team</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected by Finance Team</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Refund_Status__c</picklist>
+        <values>
+            <fullName>Completed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Initiated</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Relation_Details_Applicant1__c</picklist>
+        <values>
+            <fullName>D%2Fo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>H%2Fo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>S%2Fo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>W%2Fo</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Relation_Details_Applicant2__c</picklist>
+        <values>
+            <fullName>C%2Fo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>D%2Fo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>H%2Fo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>S%2Fo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>W%2Fo</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Relationship_Manager__c</picklist>
+        <values>
+            <fullName>Akash J</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Aman Ahmed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Antony Stephen R</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fathima</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Kousalya M</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Manjuunath</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Abdullah Qazi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Abhishek Kumar Singh</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Akash J</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Akbar Basha</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Akshay S</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Anand Rajgopalan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Aravind Kumar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Arjun Naga Vinay</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Avinash Reddy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Bharath Babu</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Bharath bs</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Chaithanya Reddy</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Chetan Yallur</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Dhanashekar M</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Ghouse M</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Gurudutt K</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Habeeb Pasha</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Harish P</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Karthik N</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Kashyap Vadapalli</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Kenneth Bruce Coelho</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Kishore SV</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Lam Subba Rao</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Mahendran Krishna Moorthi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Monisha K</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Mujeeb Alam</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Murali K</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Nagathej BG</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Nagesh M G</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Nandish S</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Naveen Kumar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Pranav Kumar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Pranav S</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Prasad T</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Prashanth Kumar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Praveen Kumar Arto</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Praveen Kumar KP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Praveen M</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Ranjith PJ</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Ratan Yadav</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Rekha B</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Robert Paul</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Saddam Hossain</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Sanjay T</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Santhosh G</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Sasidhar B</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Shahid Khan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Sharath Kumar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Shivamani Alwar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Shrinidhi Patil</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Srujan Kumar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Sunil Kumar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Syed Rasheed Hassan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E V Sandeep</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Vijay A</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Vinod Kumar</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Vinod Kumar G</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E Vishva Sree V</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mrs%2E Divya Anuroop</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ms%2E Bhavana KM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ms%2E Chandana MC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ms%2E Mahalakshmi C</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ms%2E Reena Yadav</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ms%2E Sreejana Das</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ms%2E Swetha R</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nischal S</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ricky Kirtikumar Mistry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rizwan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>STM1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sainath R Shetty</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Shah Fahad</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sharath Kumar M</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Srikanth R</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Suhas</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Residential_Status__c</picklist>
+        <values>
+            <fullName>Non-Resident</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Resident</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>S_o_D_o_W_o__c</picklist>
+        <values>
+            <fullName>D%2Fo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>S%2Fo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>W%2Fo</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Sale_Agreement_Approval_Status__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Sale_Agreement_Status__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Completed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Draft</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Pending Approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Signed</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Sale_Deed_Approval__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Sale_Deed_Status__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Completed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Draft</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Pending Approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Signed</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Salutation__c</picklist>
+        <values>
+            <fullName>Dr%2E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>M%2Fs%2E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr%2E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mrs%2E</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ms%2E</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Scheme_Loan__c</picklist>
+        <values>
+            <fullName>MaxGain</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>None</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Standard</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Step-Up</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Subvention</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Share__c</picklist>
+        <values>
+            <fullName>Ananth</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BTN</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LAND OWNER</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>MHPL</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Social_Media_Use__c</picklist>
+        <values>
+            <fullName>FACEBOOK</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>INSTAGRAM</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LINKEDIN</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TWITTER</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Source_of_refferal__c</picklist>
+        <values>
+            <fullName>AGENT</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>COMPANY WEBISTE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OTHERS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>REFERRAL</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WALK-IN</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Stage__c</picklist>
+        <values>
+            <fullName>Cancellation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New Booking</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Status__c</picklist>
+        <values>
+            <fullName>Agreement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Booked</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cancellation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Demands %26 Collections</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Handover</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Registration</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Swapping</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Sub_Stages__c</picklist>
+        <values>
+            <fullName>Approved by CRM Manager</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Approved by Finance Team</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Approved by Sales Manager</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Submitted For Approval</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Swap_Funding_Type__c</picklist>
+        <values>
+            <fullName>Loan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Self</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Swap_Mode_of_Payment__c</picklist>
+        <values>
+            <fullName>Cash</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cheque</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Credit Card</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Debit Card</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NetBanking</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UPI</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Swap_Status__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Completed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Requested</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Swap_Unit_Status__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Swapping_Approval_After_Agreement__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Swapping_Approval_Before_Agreement__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type_of_Sale__c</picklist>
+        <values>
+            <fullName>OTP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Regular</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Unit_Facing_Direction__c</picklist>
+        <values>
+            <fullName>East</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>North</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>North East</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>North West</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>South</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>South West</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>West</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>salutation_Applicant1__c</picklist>
+        <values>
+            <fullName>Dr</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mrs</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ms</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>salutation_Applicant2__c</picklist>
+        <values>
+            <fullName>Dr</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mr</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mrs</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ms</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

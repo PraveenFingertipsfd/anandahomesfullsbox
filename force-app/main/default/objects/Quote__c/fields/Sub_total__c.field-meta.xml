@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sub_total__c</fullName>
+    <formula>Basic_Price1__c + (East_Facing_Charges__c * Saleable_Area_Sft__c) + (Corner_Charges__c * Saleable_Area_Sft__c) + (Hi_Rise_Charges__c * Saleable_Area_Sft__c) + (Central_Court_Yard_Premium__c * Saleable_Area_Sft__c) + (Meadow_Premium__c * Saleable_Area_Sft__c) + (Roadside_Premium__c * Saleable_Area_Sft__c) + (Court_Yard_Premium__c * Saleable_Area_Sft__c) + (Outer_Premium__c * Saleable_Area_Sft__c) + Amenities_Car_Parking__c + Infrastructure_Charges__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Sub total</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

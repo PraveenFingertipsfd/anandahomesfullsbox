@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Booking_Amount__c</fullName>
+    <label>Booking Amount</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>2bhk – 2 lakhs</fullName>
+                <default>false</default>
+                <label>2bhk – 2 lakhs</label>
+            </value>
+            <value>
+                <fullName>3bhk – 3 lakhs</fullName>
+                <default>false</default>
+                <label>3bhk – 3 lakhs</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

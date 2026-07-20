@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Subject__c</fullName>
+    <label>Subject</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Important Call</fullName>
+                <default>false</default>
+                <label>Important Call</label>
+            </value>
+            <value>
+                <fullName>Switched Off</fullName>
+                <default>false</default>
+                <label>Switched Off</label>
+            </value>
+            <value>
+                <fullName>Call Back Later</fullName>
+                <default>false</default>
+                <label>Call Back Later</label>
+            </value>
+            <value>
+                <fullName>RNR</fullName>
+                <default>false</default>
+                <label>RNR</label>
+            </value>
+            <value>
+                <fullName>Pre Sales Followup</fullName>
+                <default>false</default>
+                <label>Pre Sales Followup</label>
+            </value>
+            <value>
+                <fullName>Interested</fullName>
+                <default>false</default>
+                <label>Interested</label>
+            </value>
+            <value>
+                <fullName>Site Visit Scheduled</fullName>
+                <default>false</default>
+                <label>site visit scheduled</label>
+            </value>
+            <value>
+                <fullName>Unqualified</fullName>
+                <default>false</default>
+                <label>Unqualified</label>
+            </value>
+            <value>
+                <fullName>Potential for Booking</fullName>
+                <default>false</default>
+                <label>Potential for Booking</label>
+            </value>
+            <value>
+                <fullName>Booking Done</fullName>
+                <default>false</default>
+                <label>Booking Done</label>
+            </value>
+            <value>
+                <fullName>Negotiation Stage</fullName>
+                <default>false</default>
+                <label>Negotiation Stage</label>
+            </value>
+            <value>
+                <fullName>Out of Station</fullName>
+                <default>false</default>
+                <label>Out of Station</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

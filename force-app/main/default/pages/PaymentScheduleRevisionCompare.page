@@ -1,0 +1,131 @@
+<apex:page standardController="Payment_Schedule_Revision__c"
+           extensions="PaymentScheduleRevisionCompareController"
+           lightningStylesheets="true">
+    <style>
+        .diffTable { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .diffTable th, .diffTable td { border: 1px solid #d8dde6; padding: 6px 10px; text-align: right; white-space: nowrap; }
+        .diffTable th { background: #f3f4f6; text-align: center; }
+        .diffTable td.label { text-align: left; font-weight: bold; white-space: normal; }
+        .changed { background: #fff3cd; font-weight: bold; border-radius: 3px; padding: 2px 4px; }
+        .totalsBox { margin: 10px 0 16px 0; }
+        .totalsBox .totalItem { display: inline-block; margin-right: 28px; margin-bottom: 6px; }
+        .totalsBox .totalLabel { color: #555; font-size: 0.85em; display: block; }
+        .totalsBox .totalValue { font-size: 1.1em; font-weight: bold; }
+        .noChanges { color: #666; font-style: italic; padding: 12px 0; }
+    </style>
+
+    <apex:sectionHeader title="Payment Schedule Revision" subtitle="{!revision.Name}"/>
+
+    <apex:pageBlock title="Revision Summary">
+        <apex:pageBlockSection columns="2">
+            <apex:outputField value="{!revision.Booking__c}"/>
+            <apex:outputField value="{!revision.Approval_Status__c}"/>
+            <apex:outputField value="{!revision.Revision_Reason__c}"/>
+            <apex:outputField value="{!revision.Submitted_Date__c}"/>
+            <apex:outputField value="{!revision.Approved_Date__c}"/>
+            <apex:outputField value="{!revision.Applied__c}"/>
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+
+    <apex:pageBlock title="Booking Totals — Before vs After">
+        <div class="totalsBox">
+            <div class="totalItem">
+                <span class="totalLabel">Grand Total (Old)</span>
+                <span class="totalValue"><apex:outputText value="{!totals.oldGrandTotal}"/></span>
+            </div>
+            <div class="totalItem">
+                <span class="totalLabel">Grand Total (New)</span>
+                <span class="totalValue"><apex:outputText value="{!totals.newGrandTotal}"/></span>
+            </div>
+            <div class="totalItem">
+                <span class="totalLabel">Percentage Total (Old)</span>
+                <span class="totalValue"><apex:outputText value="{!totals.oldPercentageTotal}"/>%</span>
+            </div>
+            <div class="totalItem">
+                <span class="totalLabel">Percentage Total (New)</span>
+                <span class="totalValue"><apex:outputText value="{!totals.newPercentageTotal}"/>%</span>
+            </div>
+        </div>
+    </apex:pageBlock>
+
+    <apex:pageBlock title="Milestone Changes">
+        <apex:outputPanel rendered="{!AND(NOT(ISNULL(lineRows)), lineRows.size > 0)}">
+
+            <h3 style="margin-top:10px;">Old Values</h3>
+            <table class="diffTable">
+                <thead>
+                    <tr>
+                        <th>Milestone</th>
+                        <th>Percentage</th>
+                        <th>Base / Flat</th>
+                        <th>GST</th>
+                        <th>TDS</th>
+                        <th>Total</th>
+                        <th>Bank Flat</th>
+                        <th>Customer Flat</th>
+                        <th>Bank GST</th>
+                        <th>Customer GST</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <apex:repeat value="{!lineRows}" var="row">
+                        <tr>
+                            <td class="label"><apex:outputText value="{!row.milestoneName}"/></td>
+                            <td><apex:outputText value="{!row.oldPercentage}"/></td>
+                            <td><apex:outputText value="{!row.oldBaseAmount}"/></td>
+                            <td><apex:outputText value="{!row.oldGstAmount}"/></td>
+                            <td><apex:outputText value="{!row.oldTdsAmount}"/></td>
+                            <td><apex:outputText value="{!row.oldAmount}"/></td>
+                            <td><apex:outputText value="{!row.oldBankFlat}"/></td>
+                            <td><apex:outputText value="{!row.oldCustomerFlat}"/></td>
+                            <td><apex:outputText value="{!row.oldBankGst}"/></td>
+                            <td><apex:outputText value="{!row.oldCustomerGst}"/></td>
+                        </tr>
+                    </apex:repeat>
+                </tbody>
+            </table>
+
+            <h3 style="margin-top:22px;">New Values <span style="font-weight:normal; font-size:0.75em; color:#666;">(changed cells highlighted)</span></h3>
+            <table class="diffTable">
+                <thead>
+                    <tr>
+                        <th>Milestone</th>
+                        <th>Percentage</th>
+                        <th>Base / Flat</th>
+                        <th>GST</th>
+                        <th>TDS</th>
+                        <th>Total</th>
+                        <th>Bank Flat</th>
+                        <th>Customer Flat</th>
+                        <th>Bank GST</th>
+                        <th>Customer GST</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <apex:repeat value="{!lineRows}" var="row">
+                        <tr>
+                            <td class="label"><apex:outputText value="{!row.milestoneName}"/></td>
+                            <td class="{!IF(row.percentageChanged,'changed','')}"><apex:outputText value="{!row.newPercentage}"/></td>
+                            <td class="{!IF(row.baseAmountChanged,'changed','')}"><apex:outputText value="{!row.newBaseAmount}"/></td>
+                            <td class="{!IF(row.gstAmountChanged,'changed','')}"><apex:outputText value="{!row.newGstAmount}"/></td>
+                            <td class="{!IF(row.tdsAmountChanged,'changed','')}"><apex:outputText value="{!row.newTdsAmount}"/></td>
+                            <td class="{!IF(row.amountChanged,'changed','')}"><apex:outputText value="{!row.newAmount}"/></td>
+                            <td class="{!IF(row.bankFlatChanged,'changed','')}"><apex:outputText value="{!row.newBankFlat}"/></td>
+                            <td class="{!IF(row.customerFlatChanged,'changed','')}"><apex:outputText value="{!row.newCustomerFlat}"/></td>
+                            <td class="{!IF(row.bankGstChanged,'changed','')}"><apex:outputText value="{!row.newBankGst}"/></td>
+                            <td class="{!IF(row.customerGstChanged,'changed','')}"><apex:outputText value="{!row.newCustomerGst}"/></td>
+                        </tr>
+                    </apex:repeat>
+                </tbody>
+            </table>
+
+        </apex:outputPanel>
+
+        <apex:outputPanel rendered="{!OR(ISNULL(lineRows), lineRows.size == 0)}">
+            <div class="noChanges">
+                No line-level changes could be read from this revision. It may have been staged
+                before the old-vs-new comparison view was added.
+            </div>
+        </apex:outputPanel>
+    </apex:pageBlock>
+</apex:page>

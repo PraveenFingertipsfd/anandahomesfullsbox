@@ -1,0 +1,342 @@
+<template>
+    <lightning-card title="Bulk Lead Re-assignment" icon-name="standard:lead">
+
+        <!-- ═══ TAB SET ═══ -->
+        <lightning-tabset active-tab-value={activeTab} onactive={handleTabChange}>
+
+            <!-- ─────────────── TAB 1: NEW RE-ASSIGNMENT ─────────────── -->
+            <lightning-tab label="New Re-assignment" value="newReassignment">
+
+                <!-- Step 1: Setup Form -->
+                <div class="slds-p-around_medium">
+                    <div class="slds-text-heading_small slds-m-bottom_small">Re-assignment Setup</div>
+
+                    <div class="slds-grid slds-wrap slds-gutters">
+                        <!-- Reassignment Type -->
+                        <div class="slds-col slds-size_1-of-3 slds-p-bottom_small">
+                            <lightning-combobox
+                                label="Re-assignment Type"
+                                value={reassignmentType}
+                                options={reassignmentTypeOptions}
+                                onchange={handleTypeChange}
+                                required>
+                            </lightning-combobox>
+                        </div>
+
+                        <!-- Current Lead Owner -->
+                        <div class="slds-col slds-size_1-of-3 slds-p-bottom_small">
+                            <lightning-combobox
+                                label="Current Lead Owner"
+                                value={currentOwnerId}
+                                options={userOptions}
+                                onchange={handleCurrentOwnerChange}
+                                placeholder="Select Current Owner"
+                                required>
+                            </lightning-combobox>
+                        </div>
+
+                        <!-- New Lead Owner -->
+                        <div class="slds-col slds-size_1-of-3 slds-p-bottom_small">
+                            <lightning-combobox
+                                label="New Lead Owner"
+                                value={newOwnerId}
+                                options={newOwnerOptions}
+                                onchange={handleNewOwnerChange}
+                                placeholder="Select New Owner"
+                                required>
+                            </lightning-combobox>
+                        </div>
+
+                        <!-- Temp Expiry Date (only for Temporary) -->
+                        <template if:true={isTemporary}>
+                            <div class="slds-col slds-size_1-of-3 slds-p-bottom_small">
+                                <lightning-input
+                                    type="date"
+                                    label="Temporary Assignment Expiry Date"
+                                    value={tempExpiryDate}
+                                    onchange={handleExpiryDateChange}
+                                    min={minExpiryDate}
+                                    required>
+                                </lightning-input>
+                            </div>
+                        </template>
+
+                        <!-- Reason -->
+                        <div class="slds-col slds-size_1-of-3 slds-p-bottom_small">
+                            <lightning-input
+                                label="Re-assignment Reason"
+                                value={reason}
+                                onchange={handleReasonChange}
+                                placeholder="Enter reason..."
+                                required>
+                            </lightning-input>
+                        </div>
+                    </div>
+
+                    <!-- Filters -->
+                    <template if:true={currentOwnerId}>
+                        <div class="slds-box slds-m-top_small slds-theme_shade">
+                            <div class="slds-text-heading_small slds-m-bottom_small">Filter Leads</div>
+                            <div class="slds-grid slds-wrap slds-gutters">
+                                <div class="slds-col slds-size_1-of-4 slds-p-bottom_small">
+                                    <lightning-combobox
+                                        label="Project"
+                                        value={projectFilter}
+                                        options={projectOptions}
+                                        onchange={handleProjectFilterChange}
+                                        placeholder="All Projects">
+                                    </lightning-combobox>
+                                </div>
+                                <div class="slds-col slds-size_1-of-4 slds-p-bottom_small">
+                                    <lightning-combobox
+                                        label="Status"
+                                        value={statusFilter}
+                                        options={statusOptions}
+                                        onchange={handleStatusFilterChange}
+                                        placeholder="All Statuses">
+                                    </lightning-combobox>
+                                </div>
+                                <div class="slds-col slds-size_1-of-4 slds-p-bottom_small">
+                                    <lightning-input
+                                        type="date"
+                                        label="Created From"
+                                        value={fromDate}
+                                        onchange={handleFromDateChange}>
+                                    </lightning-input>
+                                </div>
+                                <div class="slds-col slds-size_1-of-4 slds-p-bottom_small">
+                                    <lightning-input
+                                        type="date"
+                                        label="Created To"
+                                        value={toDate}
+                                        onchange={handleToDateChange}>
+                                    </lightning-input>
+                                </div>
+                                <div class="slds-col slds-size_1-of-4 slds-p-bottom_small">
+                                    <lightning-input
+                                        type="search"
+                                        label="Mobile Number"
+                                        value={mobileFilter}
+                                        onchange={handleMobileFilterChange}
+                                        placeholder="Last 4-5 digits">
+                                    </lightning-input>
+                                </div>
+                            </div>
+                            <lightning-button
+                                label="Search Leads"
+                                variant="brand"
+                                onclick={handleSearchLeads}
+                                class="slds-m-top_x-small">
+                            </lightning-button>
+                            <lightning-button
+                                label="Clear Filters"
+                                variant="neutral"
+                                onclick={handleClearFilters}
+                                class="slds-m-left_x-small slds-m-top_x-small">
+                            </lightning-button>
+                        </div>
+                    </template>
+
+                    <!-- Leads Table -->
+                    <template if:true={hasLeads}>
+                        <div class="slds-m-top_medium">
+                            <div class="slds-grid slds-grid_align-spread slds-m-bottom_x-small">
+                                <div class="slds-text-body_regular">
+                                    <strong>{leadCount}</strong> lead(s) found
+                                    <template if:true={selectedCount}>
+                                        &nbsp;|&nbsp; <strong>{selectedCount}</strong> selected
+                                    </template>
+                                </div>
+                                <div>
+                                    <lightning-button
+                                        label="Select All"
+                                        variant="neutral"
+                                        onclick={handleSelectAll}
+                                        class="slds-m-right_x-small">
+                                    </lightning-button>
+                                    <lightning-button
+                                        label="Deselect All"
+                                        variant="neutral"
+                                        onclick={handleDeselectAll}>
+                                    </lightning-button>
+                                </div>
+                            </div>
+
+                            <div class="table-container">
+                                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
+                                    <thead>
+                                        <tr class="slds-line-height_reset">
+                                            <th scope="col" class="slds-cell-wrap" style="width:50px;">
+                                                <span class="slds-truncate">Select</span>
+                                            </th>
+                                            <th scope="col"><span class="slds-truncate">Lead ID</span></th>
+                                            <th scope="col"><span class="slds-truncate">Phone</span></th>
+                                            <th scope="col"><span class="slds-truncate">Status</span></th>
+                                            <th scope="col"><span class="slds-truncate">Project</span></th>
+                                            <th scope="col"><span class="slds-truncate">Owner</span></th>
+                                            <th scope="col"><span class="slds-truncate">Created Date</span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template for:each={leads} for:item="lead">
+                                            <tr key={lead.Id}>
+                                                <td>
+                                                    <lightning-input
+                                                        type="checkbox"
+                                                        data-id={lead.Id}
+                                                        checked={lead.isSelected}
+                                                        onchange={handleLeadSelection}
+                                                        variant="label-hidden"
+                                                        label="Select">
+                                                    </lightning-input>
+                                                </td>
+                                                <td>{lead.Name}</td>
+                                                <td>{lead.Phone__c}</td>
+                                                <td>{lead.Lead_Status__c}</td>
+                                                <td>{lead.Allocated_Project__c}</td>
+                                                <td>{lead.Lead_Owner_Full_Name__c}</td>
+                                                <td>{lead.formattedDate}</td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Re-assign Button -->
+                            <div class="slds-m-top_medium slds-align_absolute-center">
+                                <lightning-button
+                                    label="Re-assign Selected Leads"
+                                    variant="brand"
+                                    onclick={handleReassign}
+                                    disabled={isReassignDisabled}>
+                                </lightning-button>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- No leads message -->
+                    <template if:true={showNoLeadsMessage}>
+                        <div class="slds-m-top_medium slds-align_absolute-center slds-text-color_weak">
+                            No leads found for the selected owner/filters.
+                        </div>
+                    </template>
+                </div>
+            </lightning-tab>
+
+            <!-- ─────────────── TAB 2: TEMPORARY ASSIGNMENTS ─────────────── -->
+            <lightning-tab label="Temporary Assignments" value="tempAssignments" onactive={handleTempTabActive}>
+                <div class="slds-p-around_medium">
+                    <div class="slds-grid slds-grid_align-spread slds-m-bottom_small">
+                        <div class="slds-text-heading_small">Active Temporary Assignments</div>
+                        <lightning-button
+                            label="Refresh"
+                            variant="neutral"
+                            icon-name="utility:refresh"
+                            onclick={handleRefreshTemp}>
+                        </lightning-button>
+                    </div>
+
+                    <template if:true={hasTempAssignments}>
+                        <div class="slds-grid slds-grid_align-spread slds-m-bottom_x-small">
+                            <div class="slds-text-body_regular">
+                                <strong>{tempCount}</strong> active assignment(s)
+                                <template if:true={selectedTempCount}>
+                                    &nbsp;|&nbsp; <strong>{selectedTempCount}</strong> selected
+                                </template>
+                            </div>
+                            <div>
+                                <lightning-button
+                                    label="Select All"
+                                    variant="neutral"
+                                    onclick={handleSelectAllTemp}
+                                    class="slds-m-right_x-small">
+                                </lightning-button>
+                                <lightning-button
+                                    label="Deselect All"
+                                    variant="neutral"
+                                    onclick={handleDeselectAllTemp}>
+                                </lightning-button>
+                            </div>
+                        </div>
+
+                        <div class="table-container">
+                            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th scope="col" style="width:50px;">
+                                            <span class="slds-truncate">Select</span>
+                                        </th>
+                                        <th scope="col"><span class="slds-truncate">Record</span></th>
+                                        <th scope="col"><span class="slds-truncate">Lead</span></th>
+                                        <th scope="col"><span class="slds-truncate">Original Owner</span></th>
+                                        <th scope="col"><span class="slds-truncate">Temp Owner</span></th>
+                                        <th scope="col"><span class="slds-truncate">Assigned By</span></th>
+                                        <th scope="col"><span class="slds-truncate">Assigned On</span></th>
+                                        <th scope="col"><span class="slds-truncate">Expiry Date</span></th>
+                                        <th scope="col"><span class="slds-truncate">Reason</span></th>
+                                        <th scope="col"><span class="slds-truncate">Status</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={tempAssignments} for:item="rec">
+                                        <tr key={rec.Id} class={rec.rowClass}>
+                                            <td>
+                                                <lightning-input
+                                                    type="checkbox"
+                                                    data-id={rec.Id}
+                                                    checked={rec.isSelected}
+                                                    onchange={handleTempSelection}
+                                                    variant="label-hidden"
+                                                    label="Select">
+                                                </lightning-input>
+                                            </td>
+                                            <td>{rec.Name}</td>
+                                            <td>
+                                                <template if:true={rec.leadUrl}>
+                                                    <a href={rec.leadUrl} target="_blank" rel="noopener">{rec.leadName}</a>
+                                                </template>
+                                                <template if:false={rec.leadUrl}>
+                                                    {rec.leadName}
+                                                </template>
+                                            </td>
+                                            <td>{rec.oldOwnerName}</td>
+                                            <td>{rec.newOwnerName}</td>
+                                            <td>{rec.assignedByName}</td>
+                                            <td>{rec.formattedAssignedDate}</td>
+                                            <td>{rec.formattedExpiryDate}</td>
+                                            <td>{rec.Reason__c}</td>
+                                            <td>
+                                                <lightning-badge label={rec.Status__c} class={rec.statusClass}></lightning-badge>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Remove Access Button -->
+                        <div class="slds-m-top_medium slds-align_absolute-center">
+                            <lightning-button
+                                label="Remove Access for Selected"
+                                variant="destructive"
+                                onclick={handleRevokeAccess}
+                                disabled={isRevokeDisabled}>
+                            </lightning-button>
+                        </div>
+                    </template>
+
+                    <template if:false={hasTempAssignments}>
+                        <div class="slds-align_absolute-center slds-text-color_weak slds-p-around_large">
+                            No active temporary assignments found.
+                        </div>
+                    </template>
+                </div>
+            </lightning-tab>
+        </lightning-tabset>
+    </lightning-card>
+
+    <!-- Spinner -->
+    <template if:true={isLoading}>
+        <lightning-spinner alternative-text="Loading..." size="medium" class="slds-is-fixed"></lightning-spinner>
+    </template>
+</template>

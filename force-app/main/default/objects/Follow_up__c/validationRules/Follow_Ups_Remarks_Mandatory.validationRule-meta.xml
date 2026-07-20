@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Follow_Ups_Remarks_Mandatory</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+ ISPICKVAL( Status__c , &quot;Completed&quot;),
+ ISBLANK(Comments__c)
+	)</errorConditionFormula>
+    <errorMessage>Please enter Remark before marking the Follow-up Status as Completed.</errorMessage>
+</ValidationRule>

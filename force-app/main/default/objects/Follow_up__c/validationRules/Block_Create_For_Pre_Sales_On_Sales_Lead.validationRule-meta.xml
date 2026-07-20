@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Block_Create_For_Pre_Sales_On_Sales_Lead</fullName>
+    <active>true</active>
+    <description>Prevents Pre-Sales Executive users from creating new Follow ups on a Lead that has already moved to the Sales record type.</description>
+    <errorConditionFormula>AND(
+    ISNEW(),
+    $Profile.Name = &quot;Pre-Sales Executive&quot;,
+    CLead__r.RecordType.DeveloperName = &quot;Sales&quot;
+)</errorConditionFormula>
+    <errorMessage>You cannot create a Follow up on a Lead that has already moved to Sales.</errorMessage>
+</ValidationRule>

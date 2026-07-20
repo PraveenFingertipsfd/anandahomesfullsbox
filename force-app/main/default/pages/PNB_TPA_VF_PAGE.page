@@ -1,0 +1,138 @@
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false"
+           applyHtmlTag="false" applyBodyTag="false" renderAs="pdf"
+           title="PNB Tripartite Agreement">
+<html>
+<head>
+<style type="text/css">
+    @page {
+        size: A4;
+        margin: 25mm 20mm 25mm 20mm;
+        @bottom-center {
+            content: "Page " counter(page) " of " counter(pages);
+            font-family: Arial, sans-serif;
+            font-size: 9pt;
+            color: #000;
+        }
+    }
+    body { font-family: Arial, sans-serif; font-size: 11pt; color: #000; line-height: 1.5; }
+    h1.doc-title { text-align: center; font-size: 15pt; text-decoration: underline; margin-bottom: 18px; }
+    h2.heading { font-size: 12pt; text-decoration: underline; margin: 14px 0 8px 0; }
+    p { text-align: justify; margin: 8px 0; }
+    .center { text-align: center; font-weight: bold; margin: 10px 0; }
+    ol.clauses { margin: 8px 0 8px 18px; padding-left: 14px; }
+    ol.clauses > li { text-align: justify; margin-bottom: 10px; }
+    table.bordered { width: 100%; border-collapse: collapse; page-break-inside: avoid; margin-top: 10px; }
+    table.bordered td, table.bordered th { border: 1px solid #000; padding: 8px; vertical-align: top; font-size: 10pt; }
+    .sign-cell { height: 70px; text-align: center; font-weight: bold; }
+    .schedule p, .witness p { margin: 4px 0; }
+</style>
+</head>
+<body>
+
+    <h1 class="doc-title">TRIPARTITE AGREEMENT</h1>
+
+    <p>THIS AGREEMENT MADE at_____________this_______day of____________________ 2026 amongst</p>
+
+    <p>SRI. SURAJ VIJAY PATIL S/O SRI. VIJAY WAMAN PATIL, aged about 33 years, Occupation: Private Employee, Resident of Flat No 408, Tangrilla Apartment, Road no 29, Alkapuri Township, Manikonda, Hyderabad, Telangana-500089. (AADHAAR NO. 5880 8934 0830 &amp; PAN NO: BMUPP6074J).</p>
+
+    <p>SMT. KOMAL SURAJ PATIL W/O. SRI. SURAJ VIJAY PATIL, aged about 30 years, Occupation: Private Employee, Resident of Datala, PO: Datala, Dist: Buldhana, Maharasthra-443102. (AADHAAR NO. 2869 1966 3531 &amp; PAN NO: BUGPB9856E).</p>
+
+    <p>(Hereinafter referred to as the &lsquo;borrower(s)&rsquo; which expression shall unless repugnant to the context, include his/her/their heirs, executors, administrators and permitted assigns) of the first part,</p>
+    <p class="center">AND</p>
+
+    <p>M/S. ANANDA HOMES (GST No: 36ABFFA6591E1ZE), a partnership Company incorporated under the provisions of the Companies Act, 1956, having its Registered Office at Flat No. A1, Vista Residency, Road No.4, Plot Nos.81 &amp; 82, Block-D, Sector-I, Alkaapoor Township, Manikonda, Hyderabad, Telangana State-500089. by its authorized signatory SRI. P.V. SREENIVASULU S/O. LATE P.C.V. RAMANAIAH, Resident of Villa No.60, River Edge Villas, Manchirevula, K. V. Ranga Reddy, Telangana &ndash; 500089.</p>
+
+    <p>(Hereinafter referred to as `the Builder/Developer&rsquo; which term shall include its representatives, successors, administrators and permitted assigns) of the second part,</p>
+    <p class="center">AND</p>
+
+    <p>Punjab National Bank, a body corporate constituted under the Banking Companies (Acquisition &amp; Transfer of Undertakings) Act, 1970 having its Head Office at Plot No 4, Dwarka, Sector 10, New Delhi - 110075 and amongst others one of its Branch Offices at ________________________________________ (hereinafter called `the Bank' or &ldquo;PNB&rdquo; which expression shall unless repugnant to the context include its representatives, successors, administrators and permitted assigns) of the third part.</p>
+
+    <p>WHEREAS the Builder/Developer is in the process of developing, allotting and selling residential properties in the Project named as &ldquo;THE LEGACEY&rdquo; situated at Survey Nos. 128/P, 129, 130/P, 145, 147, 147/P, 148 and 149, situated at Puppalguda Village, Gandipet Mandal, Ranga Reddy District, Telangana State &ldquo;said Project&rdquo;) vide RERA approved project registration no P02400008615, dated:- 07/08/2024.</p>
+
+    <p>WHEREAS the Builder/Developer agreed to sell the property mentioned in Schedule &ldquo;A&rdquo;, (hereinafter called said property) to the borrower in &ldquo;THE LEGACEY&rdquo; being developed and constructed in the schedule mentioned premises, under an agreement of sale dated 12th February, 2026 entered into between the Builder and the borrower, which contains the terms and conditions for sale of the said property in favour of the borrower. As per the terms and conditions contained therein and in furtherance thereof, the borrower has already paid to the Builder a sum of Rs. 26,67,840/- (Rupees Twenty-Six Lakh Sixty-Seven Thousand Eight Hundred and Forty Only) including taxes as and by way of earnest money. The balance of sale consideration is payable by the borrower in installments based on the stages of construction, which are detailed in the said agreements.</p>
+
+    <p>WHEREAS, the Party at the First Part has approached the Party at the Third Part for availing a Home Loan of Rs.______________/- (Rupees ______________________________________________________Only) to finance the purchase of the said property. Besides other securities, the Party at the First Part has agreed to create the charge over the said property along with the proportionate undivided share in the land in favour of the Party at the Third Part.</p>
+
+    <p>WHEREAS the Builder and the Borrower have also requested the PNB for release/ disbursement of installments directly to the Builder as per the Builder&rsquo;s requirements depending on the stage of construction, upon the condition that the borrower shall create equitable mortgage by deposit of title deeds relating to the said property to be purchased by her/him from the Builder in favor of the PNB.</p>
+
+    <p>WHEREAS the PNB has agreed to release the loan amount as aforesaid provided the Builder and the Borrower comply with the conditions put forth by the PNB and both the Builder and the Borrower have agreed for the same.</p>
+
+    <h2 class="heading">NOW THIS AGREEMENT WITNESSETH AS UNDER: -</h2>
+
+    <ol class="clauses">
+        <li>The Borrower(s) and the Builder guarantees that the construction/ development of the schedule mentioned premises will be completed as per the terms and conditions contained in the Agreement of Sale dated 12th February, 2026 executed in favor of the Borrower(s), and the possession of the said property allotted to the Borrower shall be delivered to the Borrower(s) within 60 days after clearing all dues (Future Demand Notice) as stated in the Agreement of Sale dated 12th February, 2026. The Builder also guarantees that proper conveyance deed will be executed in favor of the Borrower, upon receipt of full consideration.</li>
+        <li>That the Builder/Developer agrees that it has no objection to the Borrower(s) mortgaging the said property with proportionate share in land to the PNB as security for the said loan agreed to be advanced by the PNB for the purpose of purchase/construction of the said property. And the Builder will give/provide necessary consent/no objection for mortgage of the said property by the Borrower(s) in favour of the Bank.</li>
+        <li>The Borrower(s) have not created any encumbrance over the said property allotted to the Borrower(s) and affirms that all sanctions and permits from the relevant authorities have been obtained for development and construction.</li>
+        <li>The Borrower(s) and the Builder undertake that they will not create any further encumbrance on the said property allotted to the Borrower(s) and in the proportionate undivided share in the schedule mentioned premises sold to the Borrower(s). The Builder shall not allot the said property allotted to the Borrower(s) to any other person.</li>
+        <li>That the PNB has and shall have the first charge/lien over the said property for the due repayment of the loan which PNB has granted to the Borrower(s). The Builder shall note in its records the charge and lien of PNB over the said property. The Builder shall not transfer the said property to any other person without the prior written consent of the PNB.</li>
+        <li>In case residential apartments to be allotted after construction, the Builder guarantees that the construction/ development of the property mentioned in Schedule-A will be completed as per the terms and conditions contained in the Agreement of Sale/Builder buyer Agreement dated 12th February, 2026 executed in favor of the Borrower(s), and the possession of the said property allotted to the Borrower(s) shall be delivered to the Borrower(s) within 60 days after clearing all dues (Final Demand Notice) as stated in the Agreement of Sale dated 12th February, 2026. The Builder also guarantees that proper conveyance deed will be executed in favor of the Borrower, upon receipt of full consideration.</li>
+        <li>If the Borrower(s) withdraw/s from the scheme or fail/s to pay the balance amount representing the difference between the housing loan allowed by the Bank and the actual cost of the said property (including escalation) or die/s or allotment of the said property is otherwise cancelled, the entire amount standing to the credit of the Borrower(s) (including margin money and borrower's contribution) will be refunded by the Builder after deducting earnest money and other charges as per the terms and conditions of allotment letter/builder buyer agreement dated 12th February, 2026 to the Bank. The Bank shall refund to the Borrower(s) balance, if any, after adjusting the entire outstanding dues, including interest, costs and other amount recoverable by the Bank from the borrower/s.</li>
+        <li>In the event of default in repayment of loan and/ or the Borrower(s) committing any other default which makes the Borrower(s) liable for the repayment of the entire amount outstanding in the said loan as per the terms of the Loan Agreement executed between the Borrower(s) and the PNB, the Builder shall at the request of PNB, be under obligation to not deliver possession to the Borrower and/or to cancel the booking and pay all amounts received by the Builder/Developer on behalf of the Borrower(s) to PNB including also any amount paid by the Borrower(s) to the Builder. However, the builder/developer shall be entitled to recover cancellation and/or any other charges, if any payable by the Borrower(s) under the terms of application form for purchase of the said property and/or agreement to sale/construction/allotment letter/buyer&rsquo;s agreement out of the Borrower(s)&rsquo;s contribution. Upon payment of the amounts by the Builder/Developer to PNB as aforesaid, the PNB and the Borrower(s) will not have any claim, charge, lien, mortgage, right, title and interest etc. whatsoever, over the said property. PNB shall issue a certificate to release any mortgage/charge/lien created on the said property.</li>
+        <li>The Borrower(s) hereby expressly agrees that in the event of default in either repayment of the loan or any other default by the Borrower(s), PNB shall be entitled to request the Builder to cancel the booking and return the amounts received by the Builder and the Borrower(s) agrees and acknowledges that any such request by PNB and payment made by the Builder under this clause to PNB shall be binding upon the Borrower(s).</li>
+        <li>The Builder shall maintain a separate account for the Borrower(s), wherein the amounts disbursed by the PNB shall be credited and all costs towards the said property and amounts due to the Builder from the Borrower(s) shall be debited. The Builder shall be accountable for the loan disbursements made by the PNB directly to it and shall render accounts of the same along with such statements as may be required to the PNB as and when called for.</li>
+        <li>The Builder shall deliver possession of the said property to the Borrower(s) only after obtaining &ldquo;No Objection Certificate&rdquo; to that effect from the PNB. The date of registration of the sale deed in favor of the Borrower(s) shall be informed to the PNB by the Builder to enable the PNB to take physical custody of the registered deed.</li>
+        <li>All documents like possession certificate in favor of the Borrower(s), copy of the occupancy certificate issued by Corporation, approved map (wherever applicable) latest maintenance bill or any other document/ letter executed by Borrower(s) which has relation to the title, possession, sale consideration etc., of the borrower over the said property agreed to be sold to the Borrower(s) shall be delivered in original to the PNB by the Builder directly, which shall form part and parcel of the deposit of title deeds made by the Borrower as security by way of mortgage in favor of the PNB.</li>
+        <li>The Builder/Developer shall keep the PNB updated about the status of progress of the construction as and when required by the PNB.</li>
+        <li>The PNB shall have the sole discretion to make disbursement(s) and / or interim disbursement(s) to the Borrower(s) from out of the Loans, at such time, on such conditions and in such manner as the PNB may decide.</li>
+        <li>If for any reason there is an increase/escalation in the cost of the said property /construction cost (in case of developed residential apartments with plot), such increase shall be paid and borne by the Borrower(s) without any reference to the Bank and until such increase is paid, the Bank shall have the right to suspend further disbursement of sanctioned loan. The PNB shall disburse only to the extent of the loan sanctioned. However, if any refunds have to be made by the Builder to the Borrower(s) due to reduction in costs, then the Builder shall make such refunds directly to the PNB under intimation to the Borrower(s), and the PNB shall accordingly credit such amount of refund to the Borrower&rsquo;s loan account.</li>
+        <li>The Builder/Developer shall not entertain the request of transfer of the said property of the borrower/s without the prior written consent of the Bank.</li>
+        <li>The Borrower(s) will not further mortgage/charge the said property as above said to any person/financial institution/body for raising any loan without the prior written consent of PNB.</li>
+        <li>In the event of PNB recalling the loans and the amounts disbursed therein for any reasons whatsoever, the Builder shall remit back to the PNB all amounts standing to the credit of the Borrower(s). In the event of the Builder canceling the allotment in favour of the Borrower(s), upon the PNB recalling the advance, the Builder shall refund all amount disbursed by the PNB till date of such recall as applicable, and only thereafter shall have the liberty to allot the unit to any other party.</li>
+        <li>The Builder/Developer shall keep the PNB indemnified at all times against all losses, costs and expenses that the PNB may incur in the event of the Builder/Developer not completing the development /construction of the schedule mentioned property within the time specified or abandoning the project altogether. The Builder/Developer guarantees that in case of such event occurring, the Builder/Developer shall be liable along with the Borrower to the PNB for the loan availed by the Borrower(s) along with interest, costs and all amount due thereon, and the PNB is at liberty to proceed against the Builder for recovery of the loan as if the Builder/Developer were the principle Borrower(s). The Builder/Developer also undertakes to indemnify the PNB against all losses and costs incurred by the PNB due to the failure on part of the Builder to adhere to the covenants stated herein.</li>
+        <li>In any event in which any refund becomes due and payable, under any agreement/arrangement executed/made between the Borrower(s) and the Builder or otherwise, the Builder agrees not to pay any amount on any account to the borrower/s by way of refund or otherwise without the written consent of the Bank. In case so required by the Bank, any such amount shall be paid by the Builder to the Bank.</li>
+        <li>The covenants hereunder shall not be construed to mean and fasten any responsibility upon the Bank to observe the payment schedule, if any, between the Builder and the Borrower(s) or make payments to the Builder, as requested. The Bank shall not be responsible for any delay or omission in disbursement on account of breach/default attributable to Borrower(s)/builder. The borrower shall be responsible to follow-up with the Bank to make disbursement on his/her/their behalf as per arrangement he may have with the Builder.</li>
+        <li>It is further agreed that the word &ldquo;loan&rdquo; mentioned above includes interest, penal interest and all other sums, payable by the Borrower(s) to the PNB as per the terms and conditions of Sanction Letter and Loan Agreement entered into between the PNB and the Borrower(s).</li>
+    </ol>
+
+    <p class="center">Notwithstanding anything contained hereinabove</p>
+
+    <p>In the event of completion of the construction and delivery of possession of the said property agreed to be purchased by the Borrower(s) as per the terms and conditions contained in the agreement of sale dated 12th February, 2026 the Builder shall be relieved from all obligation under this agreement.</p>
+
+    <p>The terms and conditions and obligations of the Borrower(s) contained herein are in addition and not in derogation of the terms and conditions contained in other security documents/ documents executed by the Borrower(s) in favor of the PNB.</p>
+
+    <p>That the contents of the deed have been read over and translated into_________________________vernacular language [name of the language of the Borrower(s)] and the Borrower(s) having understood the contents thereof subscribe(s) to these presents.</p>
+
+    <p>IN WITNESS WHEREOF the parties hereto have signed this agreement on the day, month and year first above written.</p>
+
+    <h2 class="heading">SCHEDULE &ldquo;A&rdquo;</h2>
+    <div class="schedule">
+        <p>All that the 3 BHK Flat No.T1-2003 (WEST Facing) on 20th Floor, of Tower-1, the High Rise Residential Flats known as &ldquo;THE LEGACEY&rdquo;, with saleable area of 1520 Square Feet (including common areas and One Car Parking), along with proportionate undivided share of land equivalent to 31.9 Square Yards, (Out of total land admeasuring 80704.23 Square yards or equivalent to 67479.02 Square Meters), in Sy.Nos. 128/1A/2/2, 129/A/1, 129/A/2, 129/AA/1, 129/AA/2, 129/AA/3, 129/E/1, 130/A/1, 130/A/2, 130/A/3/1, 130/A/3/2, 130/A/4, 130/AA/1, 130/AA/2, 130/AA/3, 130/E/1, 130/E/2, 145/1/2, 145/1/1/7, 145/1/1/1/2, 145/1/1/1/1/2, 145/1/1/1/1/1/1, 145/1/1/1/1/1/2, 145/2, 147/A/1, 147/A/2, 147/A/3, 147/AA/1, 147/AA/2, 147/AA/3, 147/E/1, 147/E/2, 148/A/1, 148/A/2, 148/A/3, 148/A/4, 148/AA/1, 148/AA/2, 148/AA/3, 148/E/1, 148/E/2, 148/E/3, 148/E/5, 149/1, 149/2, 149/3, 149/4, 149/5, 149/6, 149/7, Situated at PUPPALGUDA VILLAGE, under Manikonda Municipality, Gandipet Mandal, Ranga Reddy District, Telangana State and bounded as follows:</p>
+        <p>NORTH&nbsp;:&nbsp;OPEN TO SKY</p>
+        <p>SOUTH&nbsp;:&nbsp;OPEN TO SKY</p>
+        <p>EAST&nbsp;:&nbsp;OPEN TO SKY</p>
+        <p>WEST&nbsp;:&nbsp;CORRIDOR</p>
+    </div>
+
+    <h2 class="heading">Signature</h2>
+    <table class="bordered">
+        <tr>
+            <td class="sign-cell">&nbsp;</td>
+            <td class="sign-cell">&nbsp;</td>
+            <td class="sign-cell">&nbsp;</td>
+        </tr>
+        <tr>
+            <td>For Borrower(s)</td>
+            <td>For Builder through Authorized signatory</td>
+            <td>For Punjab National Bank represented by its authorized official</td>
+        </tr>
+    </table>
+
+    <h2 class="heading">Witnesses:</h2>
+    <table class="bordered">
+        <tr>
+            <td>
+                Name: ____________________________<br/><br/>
+                Address: _________________________<br/><br/>
+                Signature: _______________________
+            </td>
+            <td>
+                Name: ____________________________<br/><br/>
+                Address: _________________________<br/><br/>
+                Signature: _______________________
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>
+</apex:page>

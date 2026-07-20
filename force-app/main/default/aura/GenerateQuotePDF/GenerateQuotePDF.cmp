@@ -1,0 +1,106 @@
+<aura:component controller="QuoteController"
+                implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickActionWithoutHeader" access="global" >     <aura:handler name="init" value="{!this}" action="{!c.doInit}"></aura:handler>
+    <aura:attribute name="emailContent" type="String" />
+    <aura:attribute name="recepients" type="String" />
+    <aura:attribute name="ownerEmail" type="String" />
+    <aura:attribute name="ownerPhone" type="String" />
+    <aura:attribute name="ownerName" type="String" />
+    <aura:attribute name="customerEmail" type="String" />
+    <aura:attribute name="ApplyDiscount" type="boolean" default="false" />
+    <aura:attribute name="MangerApprovalStatus" type="string" />
+    <aura:attribute name="DiscountApprovalStatus" type="string" />
+    
+    <aura:attribute name="record" type="Object" />
+    <aura:attribute name="vfPage" type="string" />
+    <aura:attribute name="showPdf" type="boolean" default="false" />
+
+
+
+
+    <aura:html tag="style">
+        @media (min-width: 48em) {
+        .slds-modal__container {
+        margin: 0 auto;
+        width: 100%;
+        max-width: 60%;
+        min-width: 20rem;
+        }
+        }
+        .cuf-content {
+        padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+        padding: 0rem !important;
+        }
+        .slds-modal__content{
+        
+        height:unset !important;
+        max-height:unset !important;
+        }
+        
+        .closeIcon{
+        display:none;
+        }
+        .slds-col{
+        margin-left:5px;
+        }
+        .quote-modal {
+        display: flex;
+        flex-direction: column;
+        max-height: 80vh;
+        background: #fff;
+        }
+        .quote-header {
+        flex: 0 0 auto;
+        padding: 1rem;
+        text-align: center;
+        border-bottom: 1px solid #dddbda;
+        }
+        .quote-header .slds-modal__title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        }
+        .quote-body {
+        flex: 1 1 auto;
+        overflow-y: auto;
+        padding: 0.75rem 1rem;
+        }
+        .quote-footer {
+        flex: 0 0 auto;
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5rem;
+        padding: 0.75rem 1rem;
+        border-top: 1px solid #dddbda;
+        }
+    </aura:html >
+    
+    
+    <aura:if isTrue="{!v.showPdf}">
+        <div class="quote-modal">
+            <div class="quote-header">
+                <h2 class="slds-modal__title slds-hyphenate">Generate Cost Sheet</h2>
+            </div>
+            <div class="quote-body">
+                <div class="slds-p-left_small slds-size_1-of-1">
+                    <span>
+                        <lightning:inputRichText class="custom-textarea" aura:id="emailContent"
+                                                 placeholder="Review and edit email content"
+                                                 value="{!v.emailContent}"   />
+
+                    </span>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-p-top_small">
+                    <span>
+                        <iframe src="{!v.vfPage}" width="100%" height="520px;" frameBorder="0" />
+                    </span>
+                </div>
+            </div>
+            <div class="quote-footer">
+                <button class="slds-button slds-button_brand" disabled="{!v.ApplyDiscount}" onclick="{!c.sendEmail}">Send Mail</button>
+                <button class="slds-button slds-button_neutral" onclick="{!c.close}">Cancel</button>
+            </div>
+        </div>
+    </aura:if>
+    
+</aura:component>

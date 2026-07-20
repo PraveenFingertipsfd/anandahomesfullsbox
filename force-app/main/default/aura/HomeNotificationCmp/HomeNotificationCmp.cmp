@@ -1,0 +1,661 @@
+<!-- Last Modified: 2026-03-31 -->
+<aura:component
+                implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+                controller="HomeNotificationController"
+                access="global">
+    
+    <!-- Todays' leads Attributes -->
+    <aura:attribute name="Todayscount" type="Integer" default="0"/>
+    <aura:attribute name="reengagedleads" type="Integer" default="0"/>
+    <aura:attribute name="isPreviousDisabled" type="Boolean" default="true" />
+    <aura:attribute name="isNextDisabled" type="Boolean" default="false" />
+    <aura:attribute name="currentPage" type="Integer" default="1" />
+    <aura:attribute name="pageSize" type="Integer" default="10" />
+    <aura:attribute name="recordList" type="List" />
+    <aura:attribute name="isModalOpen" type="Boolean" default="false"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="greeting" type="String" />
+    
+    <aura:attribute name="followUpDetails" type="Follow_up__c[]" />
+    <aura:attribute name="siteVisitDetails" type="Site_Visit__c[]" />
+    <aura:attribute name="pendingFollowUpDetails" type="Follow_up__c[]" />
+    <aura:attribute name="pendingSiteVisitDetails" type="Site_Visit__c[]" />
+    <aura:attribute name="MissedTask" type="Task[]" />
+    
+    <aura:attribute name="leadRecID" type="String" default="" />
+    <aura:attribute name="SvleadRecID" type="String" default="" />
+    <aura:attribute name="FlsleadRecId" type="String" default="" />
+    
+    <aura:attribute name="showFollowUp" type="boolean" default="false" />
+    <aura:attribute name="showSv" type="boolean" default="false" />
+    <aura:attribute name="isCall" type="boolean" default="false" />
+    <aura:attribute name="isSv" type="boolean" default="false" />
+    <aura:attribute name="isfls" type="boolean" default="false" />
+    
+    <aura:attribute name="isScheduled1" type="boolean" default="false" />
+    <aura:attribute name="isMissed1" type="boolean" default="false" />
+    <aura:attribute name="isCompleted1" type="boolean" default="false" />
+    
+    
+    <aura:attribute name="isCancelled" type="boolean" default="false" />
+    <aura:attribute name="isConducted" type="boolean" default="false" />
+    <aura:attribute name="isReschedule" type="boolean" default="false" />
+    <aura:attribute name="updateValue" type="String" default="" />
+    <aura:attribute name="conductedDate" type="String" default="" />
+    <aura:attribute name="pendingsitevistCount" type="integer" default="0"/>
+    <aura:attribute name="pendingFollowupCount" type="integer" default="0"/>
+    <aura:attribute name="todayssitevistCount" type="integer" default="0"/>
+    <aura:attribute name="todaysFollowupCount" type="integer" default="0"/>
+    <!-- Render Variable -->
+    
+    <aura:method name="closePopUp" action="{!c.closeModel}" access="public">
+    </aura:method>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="DuefollowUpDetails" type="Follow_up__c[]" />
+    <aura:attribute name="DuesiteVisitDetails" type="Site_Visit__c[]" />
+    
+    <div style="background-color:#EBEBEB;">
+        <a href="javascript:void(0)" onclick="{!c.doInit}">
+            <lightning:icon class="slds-m-around_x-small" iconName="action:refresh" alternativeText="Refresh" title="Refresh"  size="x-small" /> 
+        </a>
+        
+        
+        <lightning:tabset selectedTabId="Agenda">
+            <lightning:tab label="Today's Agendas" aura:id="Agenda" id="Agenda">
+                <div class="slds-m-around_x-small  slds-scrollable">
+                    <div class="Button">
+                        <div class="slds-form_horizontal slds-form slds-grid slds-wrap  ">
+                            <div
+                                 class="SVButton slds-size_1-of-3"
+                                 style="background-color:#0176D3;padding:10px;border-radius:5px;color:white;margin:10px;text-align:center"
+                                 >
+                                {!'Site visits: '+ v.siteVisitDetails.length}
+                            </div> 
+                            <div
+                                 class="followUpButton slds-size_1-of-3"
+                                 style="background-color:#0176D3;padding:10px;border-radius: 5px;color:white;margin:10px;text-align:center"
+                                 >
+                                {!'FollowUps: '+ v.followUpDetails.length}
+                            </div>
+                        </div>
+                        
+                        <!--  
+            <lightning:button
+              name="SvButton"
+              class="slds-m-horizontal_small"
+              variant="brand"    
+              label="{!'Site visits: '+ v.siteVisitDetails.length}"
+              title="Site visits"
+              onclick="{! c.svHandleClick }"
+            />
+            <lightning:button
+              name="FollowUpButton"
+              class="slds-m-horizontal_small"
+              variant="brand"     
+              label="{!'FollowUps: '+ v.followUpDetails.length}"
+              title="FollowUps"
+              onclick="{! c.followUpHandleClick }"
+            /> -->
+                    </div>
+                    <!--lightning:button
+              name="FollowUpButton"
+            
+              label="Refresh"
+              title="FollowUps"
+              onclick="{!c.Rendering }"
+            /-->
+                    <div class="Cards slds-m-around_x-small " >
+                        <aura:if isTrue="{!not(empty(v.followUpDetails))}">
+                            <div class="slds-grid ">
+                                <aura:iteration items="{!v.followUpDetails}" var="f"  indexVar="index">
+                                    <div class="slds-col slds-size_1-of-3 slds-p-around_x-small">
+                                        <lightning:card class="slds-box" aura:id="OverTimeFollow">
+                                            <aura:set attribute="title">
+                                                <a href="{!'/'+f.CLead__c}" style="text-decoration: none;">
+                                                    {!f.CLead__r.Name__c}</a
+                                                    >
+
+                                                <br></br>Follow-up Schedule <a href="{!'/'+f.Id}" style="text-decoration: none;">
+                                                ({!f.Name})</a
+                                                >
+                                            </aura:set>
+
+                                            <!--<aura:set attribute="actions">
+                                        <lightning:icon
+                                                        iconName="standard:log_a_call"
+                                                        alternativeText="Call Logo"
+                                                        title="Call"
+                                                        /><br></br> <span class="slds-m-left_xx-small">Call</span>
+                                    </aura:set>-->
+
+                                            <p class="slds-p-horizontal_small" style="font-size:12px">
+                                                {!f.Status__c}<br></br> at {!f.Scheduled_Date__c}
+                                                <br></br> by {!f.Owner.Name}
+                                                <br></br> Remarks: {!f.Comments__c}
+                                                <div style=" float: right;">
+                                                    <lightning:button
+                                                                      name="{!f.Id}"
+                                                                      variant="brand-outline"
+                                                                      label="Change Status"
+                                                                      title="Change Follow-Up Status"
+                                                                      onclick="{!c.onfollowupHandler }"
+                                                                      class="slds-m-left_x-small"
+                                                                      ></lightning:button>
+                                                    <!--<lightning:button
+                                                              name="{!f.CLead__c}"
+                                                              variant="brand-outline"
+                                                              label="Call to Lead"
+                                                              title="Call to Lead"
+                                                              onclick="{!c.onCallHandler }"
+                                                              class="slds-m-left_x-small"
+                                                              ></lightning:button>-->
+                                                </div>
+                                            </p>
+                                        </lightning:card>
+                                        <br></br>
+                                    </div>
+                                </aura:iteration>
+                            </div>
+                        </aura:if>
+                        
+                        <aura:if isTrue="{!not(empty(v.siteVisitDetails))}">
+                            <div class="slds-grid ">
+                                <aura:iteration items="{!v.siteVisitDetails}" var="f">
+                                    <div class="slds-col slds-size_1-of-3 slds-p-around_x-small">
+                                        <lightning:card
+                                                        title="{!f.CLead__r.Name__c+' - ('+f.CLead__r.Lead_Status__c+')' }"
+                                                        class="slds-box"
+                                                        aura:id="OverTimeSV"
+                                                        >
+                                            <aura:set attribute="title">
+                                                <a href="{!'/'+f.CLead__c}" style="text-decoration: none;">
+                                                    {!f.CLead__r.Name__c}</a
+                                                    ><br></br>Site Visit Schedule <a href="{!'/'+f.Id}" style="text-decoration: none;">
+                                                ({!f.Name})</a
+                                                >
+                                            </aura:set>
+
+                                            <aura:set attribute="actions">
+                                                <lightning:icon
+                                                                iconName="standard:visits"
+                                                                alternativeText="Site Visit Logo"
+                                                                title="Site Visit"
+                                                                /><br></br> <span>Site visit</span>
+                                            </aura:set>
+                                            
+                                            <p class="slds-p-horizontal_small">
+                                                {!f.Status__c}<br></br> at {!f.Date__c} <br></br> by
+                                                {!f.Owner.Name}
+                                                <br></br> Description: {!f.Feedback__c}
+                                                <div style=" float: right;">
+                                                    <!--    <lightning:button
+                        name="{!f.Id}"
+                        variant="brand-outline"
+                        label="Change Status"
+                        title="Change SV Status"
+                        onclick="{! c.onsvHandler }"
+                        class="slds-m-left_x-small"
+                      ></lightning:button> -->
+                                                </div>
+                                            </p>
+                                        </lightning:card>
+                                        <br></br>
+                                    </div>
+                                </aura:iteration>
+                            </div>
+                        </aura:if>
+                        
+                        
+                    </div>
+                </div>
+            </lightning:tab>
+            <!--<lightning:tab label="Missed Calls" aura:id="missedCalls"> 
+                <div class="slds-m-around_x-small  slds-scrollable">
+                    <div class="Cards slds-m-around_x-small ">
+                        <aura:if isTrue="{!not(empty(v.MissedTask))}">
+                            <aura:iteration items="{!v.MissedTask}" var="f">
+                                <lightning:card class="slds-box">
+                                    <aura:set attribute="title">
+                                        <a href="{!'/'+f.SLead__c}" style="text-decoration: none;">
+                                            {!f.SLead__r.Name}</a
+                                            >
+                                    </aura:set>
+                                    
+                                    <aura:set attribute="actions">
+                                        <lightning:icon
+                                                        iconName="standard:care_request_reviewer"
+                                                        alternativeText="missed Call logo"
+                                                        title="missed Call"
+                                                        /><br></br> <span class="slds-m-left_xx-small">{!f.SLead__r.Status}</span>
+                                    </aura:set>
+                                    
+                                    <p class="slds-p-horizontal_small" style="font-size:12px">
+                                        <b> {!f.Call_From__c}</b><br></br>  {!f.Status__c}
+                                        <b> </b><br></br>  <ui:outputDateTime value="{!f.Start_Time__c}" format="yyyy-MM-dd h:mm a"/>
+                                        <br></br> Assigned to {!f.Owner.Name}
+                                        <br></br> Description: {!f.SLead__r.Last_Comment__c}
+                                        <div style=" float: right;">
+                      <lightning:button
+                        name="{!f.WhoId}"
+                        variant="brand-outline"
+                        label="Call to Lead"
+                        title="Call to Lead"
+                        onclick="{! c.onCallHandler }"
+                        class="slds-m-left_x-small"
+                      ></lightning:button>
+                    </div>
+                                    </p>
+                                </lightning:card>
+                            </aura:iteration>
+                        </aura:if>
+                    </div>
+                </div>
+                
+            </lightning:tab>-->
+            
+            <!--Pending Follow Ups ands SiteVisit-->
+            <lightning:tab label="Pending items" aura:id="pending"> 
+                <div class="slds-m-around_x-small  slds-scrollable">
+                    <div class="Button">
+                        <div class="slds-form_horizontal slds-form slds-grid slds-wrap  ">
+                            <div
+                                 class="SVButton slds-size_1-of-3"
+                                 style="background-color:#0176D3;padding:10px;border-radius:5px;color:white;margin:10px;text-align:center"
+                                 >
+                                {!'Site visits: '+ v.pendingSiteVisitDetails.length}
+                            </div> 
+                            <div
+                                 class="followUpButton slds-size_1-of-3"
+                                 style="background-color:#0176D3;padding:10px;border-radius: 5px;color:white;margin:10px;text-align:center"
+                                 >
+                                {!'FollowUps: '+ v.pendingFollowUpDetails.length}
+                            </div>
+                        </div>
+                        
+                        <!--  
+            <lightning:button
+              name="SvButton"
+              class="slds-m-horizontal_small"
+              variant="brand"    
+              label="{!'Site visits: '+ v.siteVisitDetails.length}"
+              title="Site visits"
+              onclick="{! c.svHandleClick }"
+            />
+            <lightning:button
+              name="FollowUpButton"
+              class="slds-m-horizontal_small"
+              variant="brand"     
+              label="{!'FollowUps: '+ v.followUpDetails.length}"
+              title="FollowUps"
+              onclick="{! c.followUpHandleClick }"
+            /> -->
+                    </div>
+                    <div class="Cards slds-m-around_x-small ">
+                        <aura:if isTrue="{!not(empty(v.pendingFollowUpDetails))}">
+                            <div class="slds-grid ">
+                                <aura:iteration items="{!v.pendingFollowUpDetails}" var="f">
+                                    <div class="slds-col slds-size_1-of-3 slds-p-around_x-small">
+                                        <lightning:card class="slds-box slds-card__background">
+                                            <aura:set attribute="title">
+                                                <a href="{!'/'+f.CLead__c}" style="text-decoration: none;">
+                                                    {!f.CLead__r.Name__c}</a
+                                                    >
+                                                <br></br>Follow-up Schedule <a href="{!'/'+f.Id}" style="text-decoration: none;">
+                                                ({!f.Name})</a
+                                                > {!f.CLead__r.Lead_Status__c}
+
+                                            </aura:set>
+
+                                            <!--<aura:set attribute="actions">
+                                        <lightning:icon
+                                                        iconName="standard:log_a_call"
+                                                        alternativeText="Call Logo"
+                                                        title="Call"
+                                                        /><br></br> <span class="slds-m-left_xx-small">Call</span>
+                                    </aura:set>-->
+
+                                            <p class="slds-p-horizontal_small" style="font-size:12px">
+                                                {!f.Status__c}<br></br> at {!f.Scheduled_Date__c}
+                                                <br></br> by {!f.Owner.Name}
+                                                <br></br> Description: {!f.Comments__c}
+                                                <div style=" float: right;">
+                                                    <lightning:button
+                                                                      name="{!f.Id}"
+                                                                      variant="brand-outline"
+                                                                      label="Change Status"
+                                                                      title="Change Follow-Up Status"
+                                                                      onclick="{! c.onfollowupHandler }"
+                                                                      class="slds-m-left_x-small"
+                                                                      ></lightning:button>
+                                                    <!--<lightning:button
+                                                              name="{!f.CLead__c}"
+                                                              variant="brand-outline"
+                                                              label="Call to Lead"
+                                                              title="Call to Lead"
+                                                              onclick="{! c.onCallHandler }"
+                                                              class="slds-m-left_x-small"
+                                                              ></lightning:button>-->
+                                                </div>
+                                            </p>
+                                        </lightning:card>
+                                    </div>
+                                </aura:iteration>
+                            </div>
+                        </aura:if>
+                        
+                        <aura:if isTrue="{!not(empty(v.pendingSiteVisitDetails))}">
+                            <div class="slds-grid ">
+                                <aura:iteration items="{!v.pendingSiteVisitDetails}" var="f">
+                                    <div class="slds-col slds-size_1-of-3 slds-p-around_x-small">
+                                        <lightning:card
+                                                        title="{!f.CLead__r.Name__c+' - ('+f.CLead__r.Lead_Status__c+')' }"
+                                                        class="slds-box slds-card__background"
+                                                        >
+                                            <aura:set attribute="title">
+                                                <a href="{!'/'+f.CLead__c}" style="text-decoration: none;">
+                                                    {!f.CLead__r.Name__c}</a
+                                                    ><br></br>Site Visit Schedule <a href="{!'/'+f.Id}" style="text-decoration: none;">
+                                                ({!f.Name})</a
+                                                >
+                                            </aura:set>
+
+                                            <aura:set attribute="actions">
+                                                <lightning:icon
+                                                                iconName="standard:visits"
+                                                                alternativeText="Site Visit Logo"
+                                                                title="Site Visit"
+                                                                /><br></br> <span>Site visit</span>
+                                            </aura:set>
+                                            
+                                            <p class="slds-p-horizontal_small">
+                                                {!f.Status__c}<br></br> at {!f.Date__c} <br></br> by
+                                                {!f.Owner.Name}
+                                                <br></br> Description: {!f.Feedback__c}
+                                                <div style=" float: right;">
+                                                    <!-- <lightning:button
+                        name="{!f.Id}"
+                        variant="brand-outline"
+                        label="Change Status"
+                        title="Change SV Status"
+                        onclick="{! c.onsvHandler }"
+                        class="slds-m-left_x-small"
+                      ></lightning:button>-->
+                                                </div> 
+                                            </p>
+                                        </lightning:card>
+                                    </div>
+                                </aura:iteration>
+                            </div>
+                        </aura:if>
+                    </div>
+                </div><br/>
+                
+            </lightning:tab>
+            <lightning:tab label="Lead's For The Day" aura:id="todaysleads" id=" ">
+                <div class="slds-m-around_x-small  slds-scrollable">
+                    <!-- <div class="Button">
+                        <div class="slds-form_horizontal slds-form slds-grid slds-wrap  ">
+                            <div
+                                 class="SVButton slds-size_1-of-3"
+                                 style="background-color:#0176D3;padding:10px;border-radius:5px;color:white;margin:10px;text-align:center"
+                                 >
+                                {!'Todays Total Leads: '+ v.Todayscount}
+                            </div>
+                            <div
+                                 class="SVButton slds-size_1-of-3"
+                                 style="background-color:#0176D3;padding:10px;border-radius:5px;color:white;margin:10px;text-align:center"
+                                 >
+                                {!'Todays Re-Engaged Leads: '+ v.reengagedleads}
+                            </div>
+                        </div>
+                    </div>-->
+                    <div class="Cards slds-m-around_x-small " >
+                        <div class="slds-p-around_medium" style="background-color: #FFFF;">
+                            <div class="slds-p-around_medium">
+                                <div class="slds-grid slds-wrap">
+                                    <aura:iteration items="{!v.recordList}" var="leadRecord">
+                                        <div class="slds-col slds-size_1-of-5 slds-p-around_x-small">
+                                            <div class="{! ' slds-grid slds-align-top ' + (leadRecord.Lead_Type__c == 'Re-Engaged' ? 'green-background' : '')}">
+                                                <div class="slds-box">
+                                                    <lightning:card iconName="standard:opportunity_contact_role">
+                                                        <aura:set attribute="title">
+                                                            Lead ID: <a href="{!'/'+leadRecord.Id}" style="text-decoration: none;">{!leadRecord.Name}</a>
+                                                        </aura:set>
+                                                        <p class="slds-p-horizontal_small">Lead Name: <b>{!leadRecord.Name__c}</b></p>
+                                                        <!--<p class="slds-p-horizontal_small">Lead Name: <b>{!leadRecord.Projects__c}</b></p>-->
+                                                        <p class="slds-p-horizontal_small">Project Name: <b>{!leadRecord.Allocated_Project__c}</b></p>
+                                                        <p class="slds-p-horizontal_small">Primary Phone: <b>{!leadRecord.Phone__c}</b></p>
+                                                    </lightning:card>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </aura:iteration>
+                                </div>
+                            </div>
+                            <!-- Pagination Controls -->
+                            <div class="slds-align_absolute-center slds-m-top_medium">
+                                <lightning:buttonGroup aura:id="paginationButtons">
+                                    <lightning:button label="Previous" onclick="{!c.previousPage}" disabled="{!v.isPreviousDisabled}" />
+                                    <lightning:button label="{!v.currentPage}" disabled="true" />
+                                    <lightning:button label="Next" onclick="{!c.nextPage}" disabled="{!v.isNextDisabled}" />
+                                </lightning:buttonGroup>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </lightning:tab>
+            <!--  <lightning:tab label="Re Enquired Leads" aura:id="duplicateleads"> 
+                <c:DuplicateLeads recordId="{!v.leadRecID}"/>
+            </lightning:tab> -->
+        </lightning:tabset>
+        <aura:if isTrue="{!v.isCall}">
+            <section
+                     role="dialog"
+                     tabindex="-1"
+                     aria-labelledby="modal-heading-01"
+                     aria-modal="true"
+                     aria-describedby="modal-content-id-1"
+                     class="slds-modal slds-fade-in-open"
+                     >
+                <div class="slds-modal__container">
+                    <!-- Modal/Popup Box Header Starts here-->
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon
+                                              iconName="utility:close"
+                                              onclick="{!c.closeModel }"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"
+                                              />
+                        <h2
+                            id="modal-heading-01"
+                            class="slds-text-heading_medium slds-hyphenate"
+                            >Make Call</h2
+                            >
+                    </header>
+                    <!--Modal/Popup Box Body Starts here-->
+                    <div
+                         class="slds-modal__content slds-p-around_medium"
+                         id="modal-content-id-1"
+                         >
+                        <!--<c:MakeCall recordId="{!v.leadRecID}" fromHome="true"  parent="{!this}" /> -->
+                    </div>
+                    
+                    <!--Modal/Popup Box Footer Starts here-->
+                    <footer class="slds-modal__footer">
+                        <lightning:button
+                                          variant="neutral"
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick="{! c.closeModel }"
+                                          />
+                    </footer>
+                </div>
+            </section>
+            <aura:if isTrue="{!v.isCall}">
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </aura:if>
+        </aura:if>
+        <!--Sv Status Change -->
+        <aura:if isTrue="{!v.isSv}">
+            <section
+                     role="dialog"
+                     tabindex="-1"
+                     aria-labelledby="modal-heading-01"
+                     aria-modal="true"
+                     aria-describedby="modal-content-id-1"
+                     class="slds-modal slds-fade-in-open"
+                     >
+                <div class="slds-modal__container">
+                    <!-- Modal/Popup Box Header Starts here-->
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon
+                                              iconName="utility:close"
+                                              onclick="{! c.closeModel }"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"
+                                              />
+                        <h2
+                            id="modal-heading-01"
+                            class="slds-text-heading_medium slds-hyphenate"
+                            >
+                            Change Site Visit Status
+                        </h2>
+                    </header>
+                    <!--Modal/Popup Box Body Starts here-->
+                    <div
+                         class="slds-modal__content slds-p-around_medium"
+                         id="modal-content-id-1"
+                         >
+                        <lightning:select
+                                          aura:id="StatusID"
+                                          name="select"
+                                          label="Select a Status"
+                                          onchange="{! c.onChange }"
+                                          required="true"
+                                          >
+                            <option value="">Select the Status..</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Cancelled">Cancelled</option>
+                            <option value="Rescheduled">Rescheduled</option>
+                        </lightning:select>
+                        
+                        <aura:if isTrue="{!v.isCancelled}">
+                            
+                            <lightning:textarea name="input3" label="Enter the Cancel Reason" placeholder="type here..." value="{!v.updateValue}" required="true"/>
+                        </aura:if>
+                        <aura:if isTrue="{!v.isConducted}">
+                            <lightning:textarea name="input3" label="Enter the Feedback" placeholder="type here..." value="{!v.updateValue}" required="true"/>
+                        </aura:if>
+                        <aura:if isTrue="{!v.isReschedule}">
+                            <div> 
+                                <lightning:input  aura:id="NextfollowUpDateID"  type="datetime" name="Reschedule Date" label="Reschedule Date" required="true"  value="{!v.updateValue}"/>
+                                <br></br>
+                                <br></br>
+                                
+                            </div>
+                            
+                        </aura:if>
+                        
+                    </div>
+                    <!--Modal/Popup Box Footer Starts here-->
+                    <footer class="slds-modal__footer">
+                        <lightning:button
+                                          variant="neutral"
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick="{! c.closeModel }"
+                                          />
+                        <lightning:button
+                                          variant="brand"
+                                          label="Update"
+                                          title="Update"
+                                          onclick="{! c.UpdateSvStatus }"
+                                          />
+                    </footer>
+                </div>
+            </section>
+            <aura:if isTrue="{!v.isSv}">
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </aura:if>
+        </aura:if>
+        <!-- Follow up status Change -->
+        <aura:if isTrue="{!v.isfls}">
+            <section
+                     role="dialog"
+                     tabindex="-1"
+                     aria-labelledby="modal-heading-01"
+                     aria-modal="true"
+                     aria-describedby="modal-content-id-1"
+                     class="slds-modal slds-fade-in-open"
+                     >
+                <div class="slds-modal__container">
+                    <!-- Modal/Popup Box Header Starts here-->
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon
+                                              iconName="utility:close"
+                                              onclick="{! c.closeModel }"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"
+                                              />
+                        <h2
+                            id="modal-heading-01"
+                            class="slds-text-heading_medium slds-hyphenate"
+                            >
+                            Change Follow-Up Status
+                        </h2>
+                    </header>
+                    <!--Modal/Popup Box Body Starts here-->
+                    <div
+                         class="slds-modal__content slds-p-around_medium"
+                         id="modal-content-id-1"
+                         >
+                        <lightning:select
+                                          aura:id="StatusID1"
+                                          name="select"
+                                          label="Select a Status"
+                                          onchange="{! c.onChange1 }"
+                                          required="true"
+                                          >
+                            <option value="">Select the Status..</option>
+                            <!-- <option value="Scheduled">Scheduled</option>-->
+                            <!-- 'Missed' follow-up status removed <option value="Missed">Missed</option> -->
+                            <option value="Completed">Completed</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </lightning:select>
+                        
+                        <!-- Remarks Input -->
+                        <lightning:textarea aura:id="remarks"
+                                            label="Remarks"
+                                            placeholder="Enter your remarks here..."
+                                            maxlength="255"
+                                            required="true"/>
+                    </div>
+                    <!--Modal/Popup Box Footer Starts here-->
+                    <footer class="slds-modal__footer">
+                        <lightning:button
+                                          variant="neutral"
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick="{! c.closeModel }"
+                                          />
+                        <lightning:button
+                                          variant="brand"
+                                          label="Update"
+                                          title="Update"
+                                          onclick="{! c.UpdateflsStatus }"
+                                          />
+                    </footer>
+                </div>
+            </section>
+            <aura:if isTrue="{!v.isfls}">
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </aura:if>
+            
+        </aura:if>
+    </div>
+</aura:component>

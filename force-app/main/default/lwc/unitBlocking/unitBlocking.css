@@ -1,0 +1,23 @@
+:host {
+    display: block;
+}
+
+/* Spinner */
+.spinner-wrapper {
+    min-height: 60px;
+}
+
+.slds-modal__content {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+}
+
+/* Fix for white backdrop when clicking on unit search */
+.slds-backdrop {
+    display: none !important;
+}
+
+.slds-modal__content {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+}

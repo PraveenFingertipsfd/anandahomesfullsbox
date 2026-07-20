@@ -1,0 +1,157 @@
+/* ===== Lead Cards ===== */
+.lead-card {
+    border-radius: 6px;
+    margin-bottom: 12px;
+    overflow: hidden;
+}
+
+.duplicate-card {
+    border: 1px solid #ea6a6a;
+    background: #fff5f5;
+}
+
+.actual-card {
+    border: 1px solid #2e844a;
+    background: #f0faf3;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.card-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    flex: 1;
+}
+
+.duplicate-title {
+    color: #ba0517;
+}
+
+.actual-title {
+    color: #2e844a;
+}
+
+.card-body {
+    padding: 12px 14px;
+}
+
+/* ===== Detail Grid ===== */
+.detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 20px;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: #706e6b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.detail-value {
+    font-size: 0.875rem;
+    color: #181818;
+    font-weight: 500;
+}
+
+/* ===== Record Badge ===== */
+.record-badge {
+    margin-top: 10px;
+    padding: 6px 12px;
+    background: #c23934;
+    color: #ffffff;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.actual-badge {
+    background: #2e844a;
+}
+
+/* ===== Merge Arrow ===== */
+.merge-arrow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 0;
+    margin-bottom: 8px;
+}
+
+.arrow-text {
+    font-size: 0.8rem;
+    color: #706e6b;
+}
+
+/* ===== Search Section ===== */
+.search-section {
+    margin-bottom: 8px;
+}
+
+.search-results {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #d8dde6;
+    border-radius: 4px;
+    margin-top: 6px;
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+}
+
+.results-table th {
+    background: #f3f3f3;
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 600;
+    color: #444;
+    border-bottom: 1px solid #d8dde6;
+    position: sticky;
+    top: 0;
+}
+
+.results-table td {
+    padding: 6px 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.result-row:hover {
+    background: #eef6ff;
+    cursor: pointer;
+}
+
+.no-results {
+    padding: 14px;
+    text-align: center;
+    color: #999;
+    font-size: 0.85rem;
+}
+
+/* ===== Spinner ===== */
+.spinner-wrapper {
+    position: relative;
+    min-height: 80px;
+}
+
+/* ===== Change Selection Button ===== */
+.change-btn {
+    margin-left: auto;
+}

@@ -1,0 +1,443 @@
+<!-- OLD STATIC PAGE (commented out) -->
+<!--
+<apex:page showHeader="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" standardStylesheets="false" renderAs="PDF">
+    <html>
+        <head>...</head>
+        <body>
+            All static hard-coded content has been replaced with dynamic merge fields below.
+            Original static values: Tower 2, Flat T2-1501, Date 3/26/2026, Flat Size 1830 sft,
+            Base Price 7999/sqft, etc. were all hard-coded.
+        </body>
+    </html>
+</apex:page>
+-->
+
+<!-- NEW DYNAMIC PAGE -->
+<apex:page standardController="Quote__c" extensions="CostSheetController"
+           showHeader="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false"
+           standardStylesheets="false" renderAs="PDF">
+    <html>
+        <head>
+            <style type="text/css" media="print">
+                @page {
+                    size: A4;
+                    margin: 12mm 10mm 12mm 10mm;
+                }
+                body {
+                    font-family: Arial, Helvetica, sans-serif;
+                    font-size: 11px;
+                    color: #000;
+                    margin: 0;
+                    padding: 0;
+                }
+                table {
+                    border-collapse: collapse;
+                    width: 100%;
+                }
+                td, th {
+                    border: 1px solid #000;
+                    padding: 4px 6px;
+                    vertical-align: middle;
+                }
+                .no-border, .no-border td, .no-border th {
+                    border: none;
+                }
+                .text-right { text-align: right; }
+                .text-center { text-align: center; }
+                .text-left { text-align: left; }
+                .text-bold { font-weight: bold; }
+                .bg-gray { background-color: #e8e8e8; }
+                .bg-dark-gray { background-color: #d0d0d0; }
+                .header-label {
+                    font-weight: bold;
+                    background-color: #f0f0f0;
+                    white-space: nowrap;
+                }
+                .cost-header {
+                    font-weight: bold;
+                    font-style: italic;
+                    background-color: #d9d9d9;
+                    text-align: center;
+                }
+                .total-row td {
+                    font-weight: bold;
+                    font-style: italic;
+                }
+                .schedule-header {
+                    background-color: #d9d9d9;
+                    font-weight: bold;
+                    text-align: center;
+                    font-size: 10px;
+                    padding: 5px 4px;
+                }
+                .schedule-td {
+                    font-size: 10px;
+                    padding: 3px 5px;
+                }
+                .section-title {
+                    text-align: center;
+                    font-weight: bold;
+                    font-size: 13px;
+                    padding: 12px 0 6px 0;
+                    text-decoration: underline;
+                }
+                .terms-title {
+                    text-align: center;
+                    font-weight: bold;
+                    font-style: italic;
+                    font-size: 13px;
+                    color: #c00000;
+                    padding: 12px 0 6px 0;
+                    text-decoration: underline;
+                }
+                .sig-cell {
+                    height: 55px;
+                    vertical-align: top;
+                    font-weight: bold;
+                    font-size: 11px;
+                    padding: 8px;
+                }
+                .page-break {
+                    page-break-before: always;
+                }
+                .bank-inner td {
+                    border: none;
+                    padding: 2px 4px;
+                    font-size: 10px;
+                }
+                .terms-td {
+                    font-size: 10px;
+                    padding: 3px 6px;
+                    vertical-align: top;
+                }
+            </style>
+        </head>
+        <body>
+
+            <!-- ===== HEADER ===== -->
+            <table>
+                <tr>
+                    <td class="header-label" style="width:12%">TOWER NO:</td>
+                    <td style="width:8%">{!Quote__c.Tower__c}</td>
+                    <td class="header-label" style="width:10%">FLAT NO:</td>
+                    <td style="width:30%">{!Quote__c.Unit__r.Name}</td>
+                    <td class="header-label" style="width:8%">DATE:</td>
+                    <td style="width:14%">
+                        <apex:outputText value="{0,date,M/d/yyyy}">
+                            <apex:param value="{!Quote__c.Quote_Date__c}" />
+                        </apex:outputText>
+                    </td>
+                </tr>
+            </table>
+            <table style="margin-top:-1px">
+                <tr>
+                    <td class="header-label" style="width:18%">CUSTOMER NAME:</td>
+                    <td>{!IF(ISBLANK(Quote__c.CLead__r.Salutation__c), '', Quote__c.CLead__r.Salutation__c & ' ') & Quote__c.CLead__r.Name__c}</td>
+                </tr>
+            </table>
+
+            <!-- ===== COST BREAKDOWN ===== -->
+            <table style="margin-top:8px">
+                <tr>
+                    <td class="cost-header" style="width:11%"><em>FLAT SIZE(SFT)</em></td>
+                    <td class="cost-header" style="width:40%"><em>SPECIFICATIONS</em></td>
+                    <td class="cost-header" style="width:16%"><em>COST</em></td>
+                    <td class="cost-header" style="width:33%"><em>TOTAL VALUE</em></td>
+                </tr>
+                <!-- Base Price -->
+                <tr>
+                    <td rowspan="9" class="text-center text-bold" style="font-size:16px;vertical-align:middle">
+                        <apex:outputText value="{0, number, ###,###}">
+                            <apex:param value="{!NULLVALUE(Quote__c.Saleable_Area_Sft__c, 0)}" />
+                        </apex:outputText>
+                    </td>
+                    <td class="text-bold">BASE PRICE</td>
+                    <td class="text-right">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!NULLVALUE(Quote__c.Price_Per_Sq_Ft__c, 0)}" /></apex:outputText></td>
+                    <td class="text-right">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!NULLVALUE(Quote__c.Price_Per_Sq_Ft__c, 0) * NULLVALUE(Quote__c.Saleable_Area_Sft__c, 0)}" /></apex:outputText></td>
+                </tr>
+                <tr>
+                    <td>EAST FACING CHARGES</td>
+                    <td class="text-right">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!NULLVALUE(Quote__c.East_Facing_Charges__c, 0)}" /></apex:outputText></td>
+                    <td class="text-right">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!NULLVALUE(Quote__c.East_Facing_Charges__c, 0) * NULLVALUE(Quote__c.Saleable_Area_Sft__c, 0)}" /></apex:outputText></td>
+                </tr>
+                <tr>
+                    <td>CORNER CHARGES</td>
+                    <td class="text-right">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!NULLVALUE(Quote__c.Corner_Charges__c, 0)}" /></apex:outputText></td>
+                    <td class="text-right">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!NULLVALUE(Quote__c.Corner_Charges__c, 0) * NULLVALUE(Quote__c.Saleable_Area_Sft__c, 0)}" /></apex:outputText></td>
+                </tr>
+                <tr>
+                    <td>FLOOR RISE CHARGES</td>
+                    <td class="text-right">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!NULLVALUE(Quote__c.Hi_Rise_Charges__c, 0)}" /></apex:outputText></td>
+                    <td class="text-right">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!NULLVALUE(Quote__c.Hi_Rise_Charges__c, 0) * NULLVALUE(Quote__c.Saleable_Area_Sft__c, 0)}" /></apex:outputText></td>
+                </tr>
+                <tr>
+                    <td>CENTRAL COURT YARD PREMIUM</td>
+                    <td class="text-right">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!NULLVALUE(Quote__c.Central_Court_Yard_Premium__c, 0)}" /></apex:outputText></td>
+                    <td class="text-right">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!NULLVALUE(Quote__c.Central_Court_Yard_Premium__c, 0) * NULLVALUE(Quote__c.Saleable_Area_Sft__c, 0)}" /></apex:outputText></td>
+                </tr>
+                <tr>
+                    <td>MEADOW PREMIUM</td>
+                    <td class="text-right">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!NULLVALUE(Quote__c.Meadow_Premium__c, 0)}" /></apex:outputText></td>
+                    <td class="text-right">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!NULLVALUE(Quote__c.Meadow_Premium__c, 0) * NULLVALUE(Quote__c.Saleable_Area_Sft__c, 0)}" /></apex:outputText></td>
+                </tr>
+                <tr>
+                    <td>ROADSIDE PREMIUM</td>
+                    <td class="text-right">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!NULLVALUE(Quote__c.Roadside_Premium__c, 0)}" /></apex:outputText></td>
+                    <td class="text-right">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!NULLVALUE(Quote__c.Roadside_Premium__c, 0) * NULLVALUE(Quote__c.Saleable_Area_Sft__c, 0)}" /></apex:outputText></td>
+                </tr>
+                <tr>
+                    <td>COURT YARD PREMIUM</td>
+                    <td class="text-right">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!NULLVALUE(Quote__c.Court_Yard_Premium__c, 0)}" /></apex:outputText></td>
+                    <td class="text-right">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!NULLVALUE(Quote__c.Court_Yard_Premium__c, 0) * NULLVALUE(Quote__c.Saleable_Area_Sft__c, 0)}" /></apex:outputText></td>
+                </tr>
+                <tr>
+                    <td>OUTER PREMIUM</td>
+                    <td class="text-right">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!NULLVALUE(Quote__c.Outer_Premium__c, 0)}" /></apex:outputText></td>
+                    <td class="text-right">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!NULLVALUE(Quote__c.Outer_Premium__c, 0) * NULLVALUE(Quote__c.Saleable_Area_Sft__c, 0)}" /></apex:outputText></td>
+                </tr>
+                <!-- Amenities -->
+                <tr>
+                    <td colspan="1"></td>
+                    <td class="text-bold">AMENITIES WITH SINGLE CAR PARKING</td>
+                    <td class="text-right">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!NULLVALUE(Quote__c.Amenities_Car_Parking__c, 0)}" /></apex:outputText></td>
+                    <td class="text-right">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!NULLVALUE(Quote__c.Amenities_Car_Parking__c, 0)}" /></apex:outputText></td>
+                </tr>
+                <!-- Infrastructure -->
+                <tr>
+                    <td colspan="1"></td>
+                    <td class="text-bold">INFRASTRUCTURE CHARGES</td>
+                    <td class="text-right">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!NULLVALUE(Quote__c.Infrastructure_Charges__c, 0)}" /></apex:outputText></td>
+                    <td class="text-right">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!NULLVALUE(Quote__c.Infrastructure_Charges__c, 0)}" /></apex:outputText></td>
+                </tr>
+                <!-- Flat Cost -->
+                <tr class="total-row bg-gray">
+                    <td colspan="3" class="text-right"><em>FLAT COST</em></td>
+                    <td class="text-right">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!NULLVALUE(Quote__c.Sub_total__c, 0)}" /></apex:outputText></td>
+                </tr>
+                <!-- GST -->
+                <tr class="total-row bg-gray">
+                    <td colspan="3" class="text-right"><em>GST (5% ON FLAT COST)</em></td>
+                    <td class="text-right">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!NULLVALUE(Quote__c.GST_Amount__c, 0)}" /></apex:outputText></td>
+                </tr>
+                <!-- Sale Consideration -->
+                <tr class="total-row bg-dark-gray">
+                    <td colspan="3" class="text-right" style="font-size:12px"><em>SALE CONSIDERATION INCLUDING GST</em></td>
+                    <td class="text-right" style="font-size:12px">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!NULLVALUE(Quote__c.Total__c, 0)}" /></apex:outputText></td>
+                </tr>
+            </table>
+
+            <!-- ===== PAYMENT SCHEDULE ===== -->
+            <div class="section-title">PAYMENT SCHEDULE</div>
+
+            <!-- Running totals for payment schedule -->
+            <apex:variable var="sumFlatCost" value="{!0}" />
+            <apex:variable var="sumGst" value="{!0}" />
+            <apex:variable var="sumNet" value="{!0}" />
+
+            <table>
+                <tr>
+                    <td class="schedule-header" style="width:5%">S.NO</td>
+                    <td class="schedule-header" style="width:37%">MILESTONES</td>
+                    <td class="schedule-header" style="width:9%">STAGE<br/>(% OUT<br/>OF 100 )</td>
+                    <td class="schedule-header" style="width:15%">FLAT COST</td>
+                    <td class="schedule-header" style="width:13%">GST (5%)</td>
+                    <td class="schedule-header" style="width:16%">NET<br/>AMOUNT</td>
+                </tr>
+                <apex:repeat value="{!lineItems}" var="item">
+                    <tr>
+                        <td class="schedule-td text-center">
+                            <apex:outputText value="{0, number, #}">
+                                <apex:param value="{!item.S_No__c}" />
+                            </apex:outputText>
+                        </td>
+                        <td class="schedule-td">{!item.Payment_Schedule_Name__c}</td>
+                        <td class="schedule-td text-center">
+                            <apex:outputText value="{0, number, #}">
+                                <apex:param value="{!item.Payment_percent__c}" />
+                            </apex:outputText>%
+                        </td>
+                        <td class="schedule-td text-right">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!NULLVALUE(Quote__c.Sub_total__c, 0) * item.Payment_percent__c / 100}" /></apex:outputText>
+                            <apex:variable var="sumFlatCost" value="{!sumFlatCost + (NULLVALUE(Quote__c.Sub_total__c, 0) * item.Payment_percent__c / 100)}" />
+                        </td>
+                        <td class="schedule-td text-right">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!NULLVALUE(Quote__c.GST_Amount__c, 0) * item.Payment_percent__c / 100}" /></apex:outputText>
+                            <apex:variable var="sumGst" value="{!sumGst + (NULLVALUE(Quote__c.GST_Amount__c, 0) * item.Payment_percent__c / 100)}" />
+                        </td>
+                        <td class="schedule-td text-right">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!NULLVALUE(Quote__c.Total__c, 0) * item.Payment_percent__c / 100}" /></apex:outputText>
+                            <apex:variable var="sumNet" value="{!sumNet + (NULLVALUE(Quote__c.Total__c, 0) * item.Payment_percent__c / 100)}" />
+                        </td>
+                    </tr>
+                </apex:repeat>
+                <!-- Total Row -->
+                <tr class="text-bold" style="background-color:#d9d9d9">
+                    <td colspan="3" class="schedule-td text-right" style="font-weight:bold;font-style:italic"><em>TOTAL FLAT COST INCLUDING GST</em></td>
+                    <td class="schedule-td text-right" style="font-weight:bold">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!sumFlatCost}" /></apex:outputText></td>
+                    <td class="schedule-td text-right" style="font-weight:bold">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!sumGst}" /></apex:outputText></td>
+                    <td class="schedule-td text-right" style="font-weight:bold">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!sumNet}" /></apex:outputText></td>
+                </tr>
+            </table>
+
+            <!-- ===== SIGNATURE BLOCK ===== -->
+            <table style="margin-top:15px">
+                <tr>
+                    <td class="sig-cell" style="width:33%">Customer<br/>Signature:<br/>(with Date)</td>
+                    <td class="sig-cell" style="width:34%">Sales Person<br/>Signature:</td>
+                    <td class="sig-cell" style="width:33%">Authorised<br/>Signature:<br/>(with Date &amp;<br/>Stamp)</td>
+                </tr>
+            </table>
+
+            <!-- ===== PAGE 2: BOOKING DETAILS ===== -->
+            <div class="page-break"></div>
+
+            <!-- Repeated Header -->
+            <table>
+                <tr>
+                    <td class="header-label" style="width:12%">TOWER NO:</td>
+                    <td style="width:8%">{!Quote__c.Tower__c}</td>
+                    <td class="header-label" style="width:10%">FLAT NO:</td>
+                    <td style="width:30%">{!Quote__c.Unit__r.Name}</td>
+                    <td class="header-label" style="width:8%">DATE:</td>
+                    <td style="width:14%">
+                        <apex:outputText value="{0,date,M/d/yyyy}">
+                            <apex:param value="{!Quote__c.Quote_Date__c}" />
+                        </apex:outputText>
+                    </td>
+                </tr>
+            </table>
+            <table style="margin-top:-1px">
+                <tr>
+                    <td class="header-label" style="width:18%">CUSTOMER NAME:</td>
+                    <td>{!IF(ISBLANK(Quote__c.CLead__r.Salutation__c), '', Quote__c.CLead__r.Salutation__c & ' ') & Quote__c.CLead__r.Name__c}</td>
+                </tr>
+            </table>
+
+            <!-- NOTE Section -->
+            <!-- Booking Amount Payable = 20% of Flat Cost (Sub_total__c) -->
+            <apex:variable var="bookingAmountPayable" value="{!NULLVALUE(Quote__c.Sub_total__c, 0) * 0.20}" />
+            <apex:variable var="tdsAmount" value="{!bookingAmountPayable * 0.01}" />
+            <apex:variable var="escrowAmount" value="{!bookingAmountPayable - tdsAmount}" />
+            <apex:variable var="gstOnBooking" value="{!bookingAmountPayable * 0.05}" />
+
+            <table style="margin-top:15px">
+                <tr>
+                    <td rowspan="3" class="text-bold" style="width:10%;vertical-align:middle">NOTE:</td>
+                    <td style="width:38%"></td>
+                    <td class="text-bold" style="width:28%">Booking Amount Payable</td>
+                    <td class="text-right" style="width:24%">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!bookingAmountPayable}" /></apex:outputText></td>
+                </tr>
+                <tr>
+                    <td class="text-center">1% TDS on Booking Amount</td>
+                    <td class="text-right">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!tdsAmount}" /></apex:outputText></td>
+                    <td class="text-bold">5% GST On Booking Amount</td>
+                </tr>
+                <tr>
+                    <td class="text-center">Flat Booking Amount(Pay to Escrow A/c)</td>
+                    <td class="text-right">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!escrowAmount}" /></apex:outputText></td>
+                    <td class="text-right">&#8377; <apex:outputText value="{0, number, ###,###}"><apex:param value="{!gstOnBooking}" /></apex:outputText></td>
+                </tr>
+            </table>
+
+            <!-- Bank Account Details (static - same for all Legacy quotes) -->
+            <table style="margin-top:15px">
+                <tr>
+                    <td style="width:50%;vertical-align:top;padding:8px">
+                        <div style="font-weight:bold;text-decoration:underline;padding-bottom:5px">ESCROW ACCOUNT DETAILS :</div>
+                        <div><strong>ACCOUNT NAME : ANANDA HOMES THE LEGACEY MASTER COLLECTION</strong></div>
+                        <div><strong style="padding-left:100px">ESCROW ACCOUNT</strong></div>
+                        <table class="no-border" style="margin-top:5px">
+                            <tr><td class="no-border" style="width:35%;padding:2px 4px"><strong>ACCOUNT NO</strong></td><td class="no-border" style="padding:2px 4px"><strong>: 57500001468756</strong></td></tr>
+                            <tr><td class="no-border" style="padding:2px 4px"><strong>IFSC Code</strong></td><td class="no-border" style="padding:2px 4px"><strong>: HDFC0009425</strong></td></tr>
+                            <tr><td class="no-border" style="padding:2px 4px"><strong>BANK</strong></td><td class="no-border" style="padding:2px 4px"><strong>: HDFC BANK Ltd</strong></td></tr>
+                            <tr><td class="no-border" style="padding:2px 4px"><strong>A/C TYPE</strong></td><td class="no-border" style="padding:2px 4px"><strong>: CURRENT ACCOUNT</strong></td></tr>
+                        </table>
+                    </td>
+                    <td style="width:50%;vertical-align:top;padding:8px">
+                        <div style="font-weight:bold;text-decoration:underline;padding-bottom:5px">GST ACCOUNT DETAILS :</div>
+                        <div><strong>ACCOUNT NAME &nbsp;: ANANDA HOMES</strong></div>
+                        <table class="no-border" style="margin-top:5px">
+                            <tr><td class="no-border" style="width:35%;padding:2px 4px"><strong>ACCOUNT NO</strong></td><td class="no-border" style="padding:2px 4px"><strong>: 322205002425</strong></td></tr>
+                            <tr><td class="no-border" style="padding:2px 4px"><strong>IFSC CODE</strong></td><td class="no-border" style="padding:2px 4px"><strong>: ICIC0003222</strong></td></tr>
+                            <tr><td class="no-border" style="padding:2px 4px"><strong>BANK</strong></td><td class="no-border" style="padding:2px 4px"><strong>: ICICI BANK</strong></td></tr>
+                            <tr><td class="no-border" style="padding:2px 4px"><strong>A/C TYPE</strong></td><td class="no-border" style="padding:2px 4px"><strong>: CURRENT ACCOUNT</strong></td></tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+
+            <!-- Terms & Conditions (static) -->
+            <div class="terms-title"><em>Terms &amp; Conditions:</em></div>
+
+            <table>
+                <tr>
+                    <td class="terms-td text-center" style="width:5%">1.</td>
+                    <td class="terms-td">Applicable GST should be paid against every payment.</td>
+                </tr>
+                <tr>
+                    <td class="terms-td text-center">2.</td>
+                    <td class="terms-td">TDS @1% Of the Sale Consideration shall be deducted &amp; paid directly to the Govt. through online process on builders PAN against every payment by the buyer.</td>
+                </tr>
+                <tr>
+                    <td class="terms-td text-center">3.</td>
+                    <td class="terms-td">Stamp Duty &amp; Other Statutory Fees/Taxes to be paid as applicable; 30 days ahead of registration date.</td>
+                </tr>
+                <tr>
+                    <td class="terms-td text-center">4.</td>
+                    <td class="terms-td">The GST, Stamp Duty etc., is subject to change from time to time based on Government norms without any prior notifications and it has to be borne by the buyer as per prevailing dates.</td>
+                </tr>
+                <tr>
+                    <td class="terms-td text-center">5.</td>
+                    <td class="terms-td">Any Statutory charges imposed by the authorities / Govt by time to time will also be payable by the buyers.</td>
+                </tr>
+                <tr>
+                    <td class="terms-td text-center">6.</td>
+                    <td class="terms-td">Documentation Charges @ Rs.25000/- + 18% GST has to be paid 30 days ahead of registration date.</td>
+                </tr>
+                <tr>
+                    <td class="terms-td text-center">7.</td>
+                    <td class="terms-td">Advance Maintenance Charges @ Rs.4/-Sft per month for 24 months on Saleable area is to be paid 30 days ahead of registration date along with applicable GST.</td>
+                </tr>
+                <tr>
+                    <td class="terms-td text-center">8.</td>
+                    <td class="terms-td">Corpus Funds of Rs.50/- per Sft has to be paid on Saleable area of flat before 30 days ahead of registration date.</td>
+                </tr>
+                <tr>
+                    <td class="terms-td text-center">9.</td>
+                    <td class="terms-td">Move in Charges @ Rs.25000/- + 18% GST has be paid 30 days ahead of registration date.</td>
+                </tr>
+                <tr>
+                    <td class="terms-td text-center">10.</td>
+                    <td class="terms-td">Charges for HMWSSB Water connection has to be borne by the buyer.</td>
+                </tr>
+                <tr>
+                    <td class="terms-td text-center">11.</td>
+                    <td class="terms-td">Registration after receipt of 100% amount including amenities, taxes and all other charges as applicable.</td>
+                </tr>
+                <tr>
+                    <td class="terms-td text-center">12.</td>
+                    <td class="terms-td">All Cheques/Electronic Fund transfers should be in favour of &quot;ANANDA HOMES THE LEGACEY MASTER COLLECTION ESCROW ACCOUNT-57500001468756.</td>
+                </tr>
+                <tr>
+                    <td class="terms-td text-center">13.</td>
+                    <td class="terms-td">The purchaser(s) are requested to share online transaction details for immediate credit to his/her respective property account. The receipts for all the online transactions made will be issued within 3-4 days from the date of confirmation of such transaction made by the purchaser(s).</td>
+                </tr>
+                <tr>
+                    <td class="terms-td text-center">14.</td>
+                    <td class="terms-td">The purchaser shall enter into Agreement of Sale within 21 days from the date of Booking, if not the same price is not applicable and subject to change.</td>
+                </tr>
+                <tr>
+                    <td class="terms-td text-center">15.</td>
+                    <td class="terms-td">Cancellation charges are applicable.</td>
+                </tr>
+            </table>
+
+            <!-- Footer Signature Block -->
+            <table style="margin-top:20px">
+                <tr>
+                    <td class="sig-cell" style="width:33%">Customer<br/>Signature:<br/>(with Date)</td>
+                    <td class="sig-cell" style="width:34%">Sales Person<br/>Signature:</td>
+                    <td class="sig-cell" style="width:33%">Authorised<br/>Signature:<br/>(with Date &amp;<br/>Stamp)</td>
+                </tr>
+            </table>
+
+        </body>
+    </html>
+</apex:page>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Phase_Detail__c</fullName>
+    <label>Phase Detail</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Phase-1</fullName>
+                <default>false</default>
+                <label>Phase-1</label>
+            </value>
+            <value>
+                <fullName>Phase-2</fullName>
+                <default>false</default>
+                <label>Phase-2</label>
+            </value>
+            <value>
+                <fullName>Phase-3</fullName>
+                <default>false</default>
+                <label>Phase-3</label>
+            </value>
+            <value>
+                <fullName>Phase-4</fullName>
+                <default>false</default>
+                <label>Phase-4</label>
+            </value>
+            <value>
+                <fullName>Phase-5</fullName>
+                <default>false</default>
+                <label>Phase-5</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

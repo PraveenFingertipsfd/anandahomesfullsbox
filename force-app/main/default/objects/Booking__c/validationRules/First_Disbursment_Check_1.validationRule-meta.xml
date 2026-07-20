@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>First_Disbursment_Check_1</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+ISPICKVAL(Stage__c, &apos;Demands &amp; Collection&apos;),
+NOT(Sale_Agreement_Uploaded__c)
+)</errorConditionFormula>
+    <errorDisplayField>Sale_Agreement_Uploaded__c</errorDisplayField>
+    <errorMessage>Customer Signed Sale Agreement uploaded ?</errorMessage>
+</ValidationRule>

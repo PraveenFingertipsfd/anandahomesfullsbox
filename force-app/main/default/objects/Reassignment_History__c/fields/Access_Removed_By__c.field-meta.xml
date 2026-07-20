@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Access_Removed_By__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Access Removed By</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>Reassignment_Histories_Access_Removed</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

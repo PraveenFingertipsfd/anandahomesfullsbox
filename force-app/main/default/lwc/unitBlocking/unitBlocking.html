@@ -1,0 +1,122 @@
+<template>
+    <lightning-quick-action-panel header="Block Unit">
+
+        <template if:true={isLoading}>
+            <div class="spinner-wrapper">
+                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+            </div>
+        </template>
+
+        <!-- ROW 1 - Project and Unit side by side -->
+        <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+            
+            <!-- Project -->
+            <div style="flex: 1; min-width: 0;">
+                <lightning-combobox
+                    label="Project"
+                    value={selectedProject}
+                    options={projectOptions}
+                    onchange={handleProjectChange}
+                    required>
+                </lightning-combobox>
+            </div>
+
+            <!-- Unit -->
+            <div style="flex: 1; min-width: 0;">
+                <div class="slds-combobox_container">
+                    <div class={comboboxClass}>
+
+                        <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right">
+
+                            <lightning-input
+                                type="search"
+                                label="Unit No"
+                                value={unitSearchTerm}
+                                placeholder="Search..."
+                                onchange={handleUnitSearchChange}
+                                onfocus={handleUnitSearchFocus}
+                                disabled={isUnitSearchDisabled}
+                                required>
+                            </lightning-input>
+
+                        </div>
+
+                        <!-- Dropdown -->
+                        <template if:true={showUnitDropdown}>
+                            <div class="slds-dropdown slds-dropdown_fluid slds-dropdown_length-with-icon-7">
+
+                                <ul class="slds-listbox slds-listbox_vertical">
+
+                                    <template if:true={hasUnitResults}>
+                                        <template for:each={unitResults} for:item="unit">
+                                            <li key={unit.unitId}
+                                                class="slds-listbox__item"
+                                                data-id={unit.unitId}
+                                                onmousedown={handleSelectUnit}>
+
+                                                <div class="slds-media slds-listbox__option slds-listbox__option_entity">
+
+                                                    <span class="slds-media__figure">
+                                                        <lightning-icon icon-name="standard:household" size="x-small"></lightning-icon>
+                                                    </span>
+
+                                                    <span class="slds-media__body">
+                                                        <span class="slds-truncate">{unit.name}</span>
+                                                    </span>
+
+                                                </div>
+                                            </li>
+                                        </template>
+                                    </template>
+
+                                    <template if:false={hasUnitResults}>
+                                        <li class="slds-listbox__item">
+                                            <span class="slds-p-around_small slds-text-color_weak">
+                                                No results
+                                            </span>
+                                        </li>
+                                    </template>
+
+                                </ul>
+                            </div>
+                        </template>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ROW 2 - Days and Reason side by side -->
+        <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+            
+            <!-- Days -->
+            <div style="flex: 1; min-width: 0;">
+                <lightning-input
+                    label="Days"
+                    type="number"
+                    value={blockDuration}
+                    onchange={handleDurationChange}
+                    required>
+                </lightning-input>
+            </div>
+
+            <!-- Reason -->
+            <div style="flex: 1; min-width: 0;">
+                <lightning-input
+                    label="Reason"
+                    type="text"
+                    value={blockReason}
+                    onchange={handleReasonChange}
+                    required>
+                </lightning-input>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div slot="footer">
+            <lightning-button label="Cancel" onclick={handleCancel}></lightning-button>
+            <lightning-button variant="brand" label="Save" onclick={handleSave} disabled={isSaveDisabled}></lightning-button>
+        </div>
+
+    </lightning-quick-action-panel>
+</template>

@@ -1,0 +1,81 @@
+<aura:component controller="pushToSalesController"
+                implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader" access="global" >
+    
+    <aura:attribute name="LeadRecord" type="Object"/>
+    <aura:attribute name="newNote" type="String" />
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="selectedProject" type="String"/>
+    <aura:attribute name="selectedProjectType" type="String"/>
+    <aura:attribute name="recordLoadError" type="String"/>
+    <aura:attribute name="isButtonDisabled" type="Boolean" default="false"/>
+
+    <force:recordData aura:id="recordLoader"
+                      recordId="{!v.recordId}"
+                      fields="Id,Name,Allocated_Project__c,Projects__c,Is_Site_Visit_Created__c,Is_Site_Visit_Mandatory__c"
+                      targetFields="{!v.LeadRecord}"
+                      targetError="{!v.recordLoadError}"
+                      />
+    
+    <aura:html tag="style">
+        .slds-modal__container{ 
+        max-width: 75rem !important;
+        width:75% !important;
+        } 
+        .cuf-content {
+        padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+        padding: 0rem !important;
+        }
+        .slds-modal__content{
+        height:unset !important;
+        max-height:unset !important;
+        }
+        .closeIcon{
+        display:none;
+        }
+        .slds-col{
+        margin-left:5px;
+        }
+    </aura:html>
+    
+    <div class="slds-modal slds-fade-in-open" >
+        <div class="slds-modal__container" style="width:800px;">
+            <header class="slds-modal__header">
+                <lightning:buttonIcon iconName="utility:close"
+                                      onclick="{! c.closeModel }"
+                                      alternativeText="close"
+                                      variant="bare-inverse"
+                                      class="slds-modal__close"/>
+                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Push To Sales</h2>
+            </header>
+            <div class="slds-modal__content " id="modal-content-id-1">
+                <div class="slds-form-element slds-m-bottom--medium" style="padding:10px">
+                   <!-- <div class="slds-form-element__control"> 
+                        <lightning:recordEditForm aura:id="recordEditForm" objectApiName="Lead">
+                            <div class="slds-grid">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning:inputField fieldName="Allocated_Project__c" value="{!v.selectedProject}" required="true"/>
+                                </div>
+                            </div>
+                        </lightning:recordEditForm>
+                    </div> -->
+                    <lightning:textarea  label="Lead Transfer Notes" value="{!v.newNote}" required="true" placeholder="Type Here ..."/>
+                </div>            
+            </div>
+            
+            <footer class="slds-modal__footer">
+                <lightning:button variant="neutral"
+                                  label="Cancel"
+                                  title="Cancel"
+                                  onclick="{!c.closeModel}"/>
+                 
+                <lightning:button variant="brand"
+                                  label="{!v.isButtonDisabled ? 'Pushing...' : 'Push To Sales'}"
+                                  title="Push To Sales"
+                                  disabled="{!v.isButtonDisabled}"
+                                  onclick="{!c.pushToSalesComp}"/>
+            </footer>
+        </div>
+    </div>
+</aura:component>

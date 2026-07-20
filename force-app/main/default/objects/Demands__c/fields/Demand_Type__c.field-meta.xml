@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Demand_Type__c</fullName>
+    <label>Demand Type</label>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Individual Demand</fullName>
+                <default>false</default>
+                <label>Individual Demand</label>
+            </value>
+            <value>
+                <fullName>Bulk Demand</fullName>
+                <default>false</default>
+                <label>Bulk Demand</label>
+            </value>
+            <value>
+                <fullName>Ad-hoc Demand</fullName>
+                <default>false</default>
+                <label>Ad-hoc Demand</label>
+            </value>
+            <value>
+                <fullName>Reminder Demand</fullName>
+                <default>false</default>
+                <label>Reminder Demand</label>
+            </value>
+            <value>
+                <fullName>Agreement Amount</fullName>
+                <default>false</default>
+                <label>Agreement Amount</label>
+            </value>
+            <value>
+                <fullName>Bank Demand</fullName>
+                <default>false</default>
+                <label>Bank Demand</label>
+            </value>
+            <value>
+                <fullName>Customer Prorata Demand</fullName>
+                <default>false</default>
+                <label>Customer Prorata Demand</label>
+            </value>
+            <value>
+                <fullName>Self-Funded</fullName>
+                <default>false</default>
+                <label>Self-Funded</label>
+            </value>
+            <value>
+                <fullName>Auto Demand</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Auto Demand</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

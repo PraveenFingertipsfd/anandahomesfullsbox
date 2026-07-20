@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Scheme_Loan__c</fullName>
+    <description>Scheme loan variant. Picklist values are managed via Scheme Loan custom metadata for project-level configuration.</description>
+    <label>Scheme Loan</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>None</fullName>
+                <default>true</default>
+                <label>None</label>
+            </value>
+            <value>
+                <fullName>Standard</fullName>
+                <default>false</default>
+                <label>Standard</label>
+            </value>
+            <value>
+                <fullName>Subvention</fullName>
+                <default>false</default>
+                <label>Subvention</label>
+            </value>
+            <value>
+                <fullName>MaxGain</fullName>
+                <default>false</default>
+                <label>MaxGain</label>
+            </value>
+            <value>
+                <fullName>Step-Up</fullName>
+                <default>false</default>
+                <label>Step-Up</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

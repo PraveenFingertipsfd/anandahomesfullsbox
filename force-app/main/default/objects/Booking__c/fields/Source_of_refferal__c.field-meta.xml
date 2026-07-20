@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Source_of_refferal__c</fullName>
+    <label>Source of refferal</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>COMPANY WEBISTE</fullName>
+                <default>false</default>
+                <label>COMPANY WEBISTE</label>
+            </value>
+            <value>
+                <fullName>REFERRAL</fullName>
+                <default>false</default>
+                <label>REFERRAL</label>
+            </value>
+            <value>
+                <fullName>AGENT</fullName>
+                <default>false</default>
+                <label>AGENT</label>
+            </value>
+            <value>
+                <fullName>OTHERS</fullName>
+                <default>false</default>
+                <label>OTHERS</label>
+            </value>
+            <value>
+                <fullName>WALK-IN</fullName>
+                <default>false</default>
+                <label>WALK-IN</label>
+            </value>
+            <value>
+                <fullName>DIGITAL MEDIA</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>DIGITAL MEDIA</label>
+            </value>
+            <value>
+                <fullName>HOARDINGS</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>HOARDINGS</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

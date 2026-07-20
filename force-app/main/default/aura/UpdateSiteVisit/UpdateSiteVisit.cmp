@@ -1,0 +1,148 @@
+<aura:component controller="followUpController" implements="force:appHostable,force:hasRecordId,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,forceCommunity:availableForAllPageTypes,force:lightningQuickActionWithoutHeader" access="global">
+    <!-- Updated: 2026-04-01 12:00 -->
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="isSubmitting" type="Boolean" default="false"/>
+    <aura:attribute name="SVStatus" type="string" />
+    <aura:attribute name="status" type="string" />
+    <aura:attribute name="originalDate" type="String"/>
+    <aura:attribute name="leadId" type="String"/>
+    <aura:attribute name="Subject" type="list"/>
+    <aura:attribute name="followupDateTimeValue" type="String"/>
+    <aura:attribute name="svChannelPartnerId" type="String" default=""/>
+    <aura:attribute name="visitSourceType" type="String" default=""/>
+    <aura:attribute name="ownerId" type="String" default=""/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"></aura:handler>
+    <!-- Lightning: Record Edit Form -->
+    <lightning:recordEditForm 
+        recordId="{!v.recordId}" 
+        objectApiName="Site_Visit__c" 
+        onsuccess="{!c.handleSuccess}" 
+        onsubmit="{!c.handleSubmit}" 
+        onerror="{!c.handleError}" aura:id="myform">
+
+        <!-- Modal/Popup Box Header -->
+        <div role="dialog"  tabindex="-1" aria-labelledby="header43" aura:id="Modalbox" class="slds-modal slds-fade-in-open slds-modal_medium ">
+        <!--<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" class="slds-modal slds-fade-in-open">-->
+            <div class="slds-modal__container">
+                
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon 
+                        iconName="utility:close"
+                        onclick="{!c.closeModel}"
+                        alternativeText="close"
+                        variant="bare-inverse"
+                        class="slds-modal__close" />
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Edit Site Visit</h2>
+                </header>
+
+                <!-- Modal Body -->
+                <div class="slds-modal__content slds-p-around_medium">
+                    
+                    <!-- Input Fields for Site Visit -->
+                    <lightning:select name="status" aura:id="Status" label="Status"
+                                                              value="{!v.SVStatus}" onchange="{!c.Status}" required="true">
+                                                <option value="">None</option>
+                                                <option value="Rescheduled">Rescheduled</option>
+                                                <option value="Cancelled">Cancelled</option>
+                                                <option value="Completed">Completed</option>
+                                                <!--<option value="Rescheduled">Rescheduled</option>  -->
+
+                                            </lightning:select>
+                    <!--<lightning:inputField fieldName="Status__c" required="true"/>-->
+                    <aura:if isTrue="{!v.status == 'Rescheduled'}" >
+                        <lightning:inputField aura:id="rescheduleDateField" fieldName="Date__c" required="true"/>
+                    </aura:if>
+                    <aura:if isTrue="{!v.status == 'Cancelled'}" >
+                        <lightning:inputField fieldName="Canceled_Reason__c" required="true" value=""/>
+                    </aura:if>
+                    <aura:if isTrue="{!v.status == 'Completed'}" >
+                        <div class="slds-m-bottom_small">
+                            <lightning:inputField aura:id="svCompletedDateTimeField" fieldName="SV_Completed_Date_Time__c" required="true"/>
+                        </div>
+                        <div class="slds-m-bottom_small">
+                            <lightning:inputField aura:id="checkOutField" fieldName="Check_Out__c" required="true"/>
+                        </div>
+                        <div class="slds-m-bottom_small">
+                            <lightning:inputField fieldName="Visit_Type__c" disabled="true"/>
+                        </div>
+                        <div class="usv-two-col slds-m-bottom_small">
+                            <div class="usv-two-col__item">
+                                <lightning:inputField aura:id="visitSourceTypeField" fieldName="Visit_Source_Type__c" required="true" value="{!v.visitSourceType}" onchange="{!c.handleVisitSourceTypeChange}"/>
+                                <aura:if isTrue="{!v.visitSourceType == 'CP'}">
+                                    <div class="slds-m-top_small">
+                                        <c:CustomLookupGlobal objectName="Channel_Partner__c"
+                                                              fieldName="Channel_Partner_Name__c"
+                                                              additionalfield="Mobile_Number_Text__c"
+                                                              label="Channel Partner"
+                                                              iconName="standard:partners"
+                                                              selectedId="{!v.svChannelPartnerId}"
+                                                              required="true"/>
+                                    </div>
+                                </aura:if>
+                            </div>
+                            <div class="usv-two-col__item">
+                                <lightning:inputField aura:id="visitNotesField" fieldName="Visit_Notes__c" required="true"/>
+                            </div>
+                        </div>
+                    </aura:if>
+                    <aura:if isTrue="{!v.status == 'Rescheduled'}" >
+                        <!-- Reminder Details Section -->
+                        <h3 class="usv-section-title slds-m-top_large">Reminder Details</h3>
+                        <div class="usv-divider"></div>
+
+                        <!-- Row 1: Follow-up Date & Time -->
+                        <div class="usv-half-width slds-m-bottom_medium">
+                            <p class="usv-field-group-label"><abbr class="slds-required" title="required">*</abbr> Follow-up Scheduled Date &amp; Time:</p>
+                            <lightning:input type="datetime"
+                                            aura:id="followupDateTime"
+                                            required="true"
+                                            value="{!v.followupDateTimeValue}"
+                                            variant="label-hidden"/>
+                        </div>
+
+                        <!-- Row 2: Subject -->
+                        <div class="usv-half-width slds-m-bottom_medium">
+                            <p class="usv-field-group-label"><abbr class="slds-required" title="required">*</abbr> Subject:</p>
+                            <lightning:select name="subject"
+                                             aura:id="followupSubject"
+                                             class="usv-select-no-gap"
+                                             variant="label-hidden">
+                                <option value="">-- Select Subject --</option>
+                                <aura:iteration items="{!v.Subject}" var="opt">
+                                    <option value="{!opt}">{!opt}</option>
+                                </aura:iteration>
+                            </lightning:select>
+                        </div>
+
+                        <!-- Row 3: Remark & Description side by side -->
+                        <div class="usv-two-col slds-m-bottom_small">
+                            <div class="usv-two-col__item">
+                                <lightning:textarea aura:id="followupRemark"
+                                                   label="Remark"
+                                                   required="true"
+                                                   variant="label-stacked"/>
+                            </div>
+                            <div class="usv-two-col__item">
+                                <lightning:textarea aura:id="followupDescription"
+                                                   label="Description"
+                                                   variant="label-stacked"/>
+                            </div>
+                        </div>
+                    </aura:if>
+                </div>
+
+                <!-- Modal Footer -->
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="neutral" label="Cancel" onclick="{!c.closeModel}" />
+                    <lightning:button variant="brand" type="submit" label="{!v.isSubmitting ? 'Saving...' : 'Save'}" disabled="{!v.isSubmitting}" />
+                </footer>
+            </div>
+        <!--</section>-->
+        </div>
+
+    </lightning:recordEditForm>
+
+    <!-- Toast Message Component -->
+    <lightning:messages />
+
+</aura:component>

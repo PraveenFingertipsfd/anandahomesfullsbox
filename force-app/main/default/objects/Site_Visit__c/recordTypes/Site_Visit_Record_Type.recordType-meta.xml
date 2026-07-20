@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Site_Visit_Record_Type</fullName>
+    <active>true</active>
+    <description>based to Create on GRR User</description>
+    <label>Site Visit Record Type</label>
+    <picklistValues>
+        <picklist>Project__c</picklist>
+        <values>
+            <fullName>ANANDA BAY HILLS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ANANDA LILLY</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ANANDA POETREE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ANANDA URBANSDALE</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>POETREE EXTENSION</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TEST</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>The Legacey</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>The Ozone Heights</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>VIOLA</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Reason_for_not_attending_the_visit__c</picklist>
+        <values>
+            <fullName>Customer didnot Visit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Postponed Plan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>RNR%2FSwitched Off</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Reasons_for_choosing_the_location__c</picklist>
+        <values>
+            <fullName>Close to kid%27s school</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Close to my friend%27s%2Frelative%27s place</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Close to my work place</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Developing area in the city</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Easy commute to other prime locations</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Good for 1nvetment</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Others</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Relocating 1n same location</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Reasons_for_visiting_this_project__c</picklist>
+        <values>
+            <fullName>Brand prom1se%2Fquality</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Communication%2Foffer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Elevat1ons%2Ffloor plans</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Features and amenities</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Location</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>On time delivery</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Others</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Referred by my friend%2Frelative</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Site_Visit_Confirmation__c</picklist>
+        <values>
+            <fullName>Confirm</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tentative</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Site_Visit__c</picklist>
+        <values>
+            <fullName>First Time</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>Re-Site Visit</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Site_Visit_rating__c</picklist>
+        <values>
+            <fullName>Cold</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hot</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Warm</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Status__c</picklist>
+        <values>
+            <fullName>Cancelled</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Completed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rescheduled</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Scheduled</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Visit_Source_Type__c</picklist>
+        <values>
+            <fullName>CP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Digital %28Own%29</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Visit_Type__c</picklist>
+        <values>
+            <fullName>Virtual Visit</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

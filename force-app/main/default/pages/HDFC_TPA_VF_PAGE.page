@@ -1,0 +1,403 @@
+<apex:page renderAs="pdf" showHeader="false" sidebar="false" standardStylesheets="false"
+           applyBodyTag="false" applyHtmlTag="false" cache="false">
+<html>
+<head>
+<style type="text/css">
+    @page {
+        size: A4;
+        margin: 70px 55px 70px 55px;
+        @bottom-center {
+            content: "Page " counter(page) " of " counter(pages);
+            font-family: Arial, sans-serif;
+            font-size: 9pt;
+            color: #000000;
+        }
+    }
+    body {
+        font-family: "Times New Roman", Georgia, serif;
+        font-size: 11pt;
+        line-height: 1.5;
+        color: #000000;
+    }
+    p { text-align: justify; margin: 8px 0; }
+    .doc-title {
+        text-align: center;
+        font-size: 15pt;
+        font-weight: bold;
+        text-decoration: underline;
+        margin-bottom: 18px;
+    }
+    .section-heading {
+        font-weight: bold;
+        text-decoration: underline;
+        margin: 12px 0 6px 0;
+    }
+    .center-bold { text-align: center; font-weight: bold; margin: 8px 0; }
+    .recital { text-align: justify; margin: 6px 0; }
+    .recital .lbl { font-weight: bold; padding-right: 6px; }
+    ol.clauses { margin: 6px 0 6px 22px; padding: 0; }
+    ol.clauses > li { text-align: justify; margin: 8px 0; }
+
+    /* ---- Tables: borders + keep together (do not split) ---- */
+    table.schedule {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        page-break-inside: avoid;
+        -fs-table-paginate: paginate;
+    }
+    table.schedule th,
+    table.schedule td {
+        border: 1px solid #000000;
+        padding: 6px 8px;
+        vertical-align: top;
+        text-align: left;
+        font-size: 10.5pt;
+    }
+    table.schedule th { font-weight: bold; text-align: center; }
+    table.schedule tr { page-break-inside: avoid; }
+    .col-sno  { width: 8%;  text-align: center; }
+    .col-part { width: 34%; }
+    .col-det  { width: 58%; }
+
+    table.sign {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 28px;
+        page-break-inside: avoid;
+    }
+    table.sign td {
+        border: 1px solid #000000;
+        padding: 16px 12px;
+        vertical-align: top;
+        width: 50%;
+        font-size: 10.5pt;
+    }
+    table.sign tr { page-break-inside: avoid; }
+</style>
+</head>
+<body>
+
+    <div class="doc-title">TRIPARTITE AGREEMENT</div>
+
+    <p>THIS TRIPARTITE AGREEMENT ("Agreement") is made and executed at the Hyderabad and on the DATE
+    mentioned in Item No. 1 and in Item No. 2 respectively of SCHEDULE I hereunder written</p>
+
+    <div class="section-heading">BETWEEN</div>
+
+    <p>The person/s specified in Item No. 3 of SCHEDULE I hereunder written, (hereinafter referred to /
+    collectively referred to as the "Borrower" which expression shall, unless it be repugnant to the subject,
+    context or meaning thereof, mean and include, his/her/its/their respective legal heirs, legal
+    representatives, executors, administrators, successors and assignees (where the/a Borrower is an
+    individual/Sole Proprietor); its/their successors and assignees (where the/a Borrower is a company
+    incorporated under the Companies Act, 1956/2013 or a Limited Liability Partnership incorporated under the
+    Limited Liability Partnership Act, 2008, or any other body corporate); all the partner(s) for the time
+    being or from time to time of the firm, the survivor(s) of them and the legal heirs, legal representatives,
+    executors, administrators, successors and assignees of the partners (where the/a Borrower is a partnership
+    firm); all the members / co-parceners or a member / co-parcener for the time being or from time to time of
+    the Hindu Undivided Family and their respective legal heirs, legal representatives, executors,
+    administrators, successors and assignees (where the /a Borrower is a Hindu Undivided Family); all the
+    constituents for the time being or from time to time of the Association of Persons or Body of Individuals
+    and his/her/its/their respective legal heirs, legal representatives, executors, administrators, successors
+    and assignees (where the/a Borrower is an Association of Persons or a Body of Individuals); its / their
+    successors and assignees (where the/a Borrower is a co-operative society formed / incorporated under the
+    laws applicable to co-operative societies); all the trustees for the time being or from time to time,
+    its/their executors, administrators, successors and assignees (where the/a Borrower is a Trust), of the
+    ONE PART;</p>
+
+    <div class="section-heading">AND</div>
+
+    <p>The person/s specified in Item No. 4 of SCHEDULE I hereunder written, (hereinafter referred to /
+    collectively referred to as the "Builder" which expression shall, unless it be repugnant to the subject,
+    context or meaning thereof, mean and include, his/her/its/their respective legal heirs, legal
+    representatives, executors, administrators, successors and assignees (where the/a Builder is an
+    individual/Sole Proprietor); its/their successors and assignees (where the/a Builder is a company
+    incorporated under the Companies Act, 1956/2013 or a Limited Liability Partnership incorporated under the
+    Limited Liability Partnership Act, 2008, or any other body corporate); all the partner(s) for the time
+    being or from time to time of the firm, the survivor(s) of them and the legal heirs, legal representatives,
+    executors, administrators, successors and assignees of the partners (where the/a Builder is a partnership
+    firm); all the members / co-parceners or a member / co-parcener for the time being or from time to time of
+    the Hindu Undivided Family and their respective legal heirs, legal representatives, executors,
+    administrators, successors and assignees (where the /a Builder is a Hindu Undivided Family); all the
+    constituents for the time being or from time to time of the Association of Persons or Body of Individuals
+    and his/her/its/their respective legal heirs, legal representatives, executors, administrators, successors
+    and assignees (where the/a Builder is an Association of Persons or a Body of Individuals); its / their
+    successors and assignees (where the/a Builder is a co-operative society formed / incorporated under the
+    laws applicable to co-operative societies); all the trustees for the time being or from time to time,
+    its/their executors, administrators, successors and assignees (where the/a Builder is a Trust), of the
+    SECOND PART;</p>
+
+    <div class="section-heading">AND</div>
+
+    <p>HDFC Bank Limited, a company incorporated under the Companies Act, 1956 and existing under the Companies
+    Act, 2013 and a banking company under the Banking Regulation Act, 1949 and having its Registered Office at
+    HDFC Bank House, Senapati Bapat Marg, Lower Parel (W), Mumbai - 400 013 and one of its Branch Office at
+    HDFC House, 3-6-310, Hyderguda Road, Basheerbagh, Hyderabad - 500 029 hereinafter referred to as "THE BANK"
+    (which expression shall, unless the meaning or context otherwise requires mean and include its successors
+    and assigns) of the Third Part</p>
+
+    <p>The Borrower, Builder and The Bank wherever the context permits, shall be collectively referred to as
+    the "Parties" and individually as the "Party"</p>
+
+    <div class="section-heading">WHEREAS</div>
+
+    <div class="recital"><span class="lbl">a)</span>As part of its business activity, the builder has
+    undertaken to develop the land more specifically described in Item No. 5 of SCHEDULE I (hereinafter
+    referred to as the "PROJECT");</div>
+
+    <div class="recital"><span class="lbl">b)</span>The Borrower has represented that the Builder is of his
+    choice and that he has satisfied himself with regard to integrity, capability for quality construction of
+    the Builder and the Builder's ability for timely completion and on-time delivery of the Project;</div>
+
+    <div class="recital"><span class="lbl">c)</span>The Borrower have entered into an Agreement of Sale of such
+    date as specified in Item No. 6 of SCHEDULE I with the Builder whereby the builder has agreed to sell unit
+    / flat and the Borrower has agreed to buy the unit / flat, which is more specifically described in the Item
+    No. 7 of SCHEDULE I herein (hereinafter referred to as "the Unit");</div>
+
+    <div class="recital"><span class="lbl">d)</span>The Borrower has approached the Bank for a Loan, towards
+    payment of the sale/purchase consideration of the residential flat/ unit in the Project;</div>
+
+    <div class="recital"><span class="lbl">e)</span>The Borrower has agreed to secure with the Bank the said
+    unit under finance as and by way of mortgage of all the rights, title, benefits that would accrue from the
+    said residential apartment till the currency and term of the said loan to be advanced/advanced. The Builder
+    also agrees and confirms that they shall take note of the said mortgage created by the Borrower and
+    undertake not to create any third-party rights or security interest of any sort whatsoever on the said flat
+    without the prior written consent of the Bank hereinafter;</div>
+
+    <div class="recital"><span class="lbl">f)</span>The borrower has represented that the final sale deed with
+    respect to the Unit will be executed only at the time of possession, which fact is also confirmed by the
+    builder, as such, the said Agreement is the best available, initial and only title document with respect to
+    the Unit as on date of execution of this deed.</div>
+
+    <div class="recital"><span class="lbl">g)</span>The Bank has considered the said request with a clear
+    understanding and an irrevocable undertaking by the Borrower that subsequent to the disbursement, if any,
+    as requested by the Borrower, there would be no repayment default for any reason whatsoever including but
+    not limited to any concern/issues by and between the Borrower and the Builder/Developer.</div>
+
+    <div class="recital"><span class="lbl">h)</span>Based on several representations made by the Borrower, the
+    Bank granted a loan as more particularly detailed in Item No. 8 of SCHEDULE I ("said loan") to the
+    Borrower, in terms of the Loan Agreement and other documents (hereinafter referred to as the "Loan
+    Agreement") duly executed by the Borrower;</div>
+
+    <div class="recital"><span class="lbl">i)</span>The Builder and the borrower agree that they shall inform
+    the Bank in advance the date, time and venue of the registration of the Sale Deed and shall directly
+    forward the duly registered Sale Deed to the Bank as the title document for the security interest created
+    in favour of the Bank.</div>
+
+    <div class="recital"><span class="lbl">j)</span>The Borrower has represented, and such representation being
+    a continuing representation, that Borrower's obligation to repay the Loan shall be a distinct and
+    independent obligation more particularly independent of any issues/concern/dispute of whatsoever nature
+    between the Borrower and Builder. The Borrower and Builder agree and undertake to Indemnify the Bank at all
+    times for all / any loss that may be a direct or remote consequence of and/or arising out of any dispute
+    between the Borrower and Builder subsequent to the Bank disbursing full / part the said loan amount to the
+    builder.</div>
+
+    <div class="recital"><span class="lbl">k)</span>One of the conditions for the Bank sanctioning the said
+    Loan to the Borrower was that the understanding as stipulated in the recitals above shall be reduce and
+    recorded in writing with an understanding and intent of making the same irrevocable, binding and
+    enforceable by and between the Borrower and the Builder such time this formality is complied with to the
+    satisfaction of the Bank and documents in evidence thereof are delivered/furnished to the Bank there will
+    be no disbursement pursuant to the Loan Agreement;</div>
+
+    <div class="recital"><span class="lbl">l)</span>In consideration of the Bank agreeing to give loan to the
+    Borrower, all the Parties have agreed as under.</div>
+
+    <div class="section-heading">NOW THEREFORE IT IS HEREBY AGREED BY AND BETWEEN THE PARTIES THAT:</div>
+
+    <ol class="clauses">
+        <li>The foregoing recitals as mentioned above are incorporated herein by this reference and constitute
+        an integral part of this Agreement.</li>
+
+        <li>In consideration of the parties performing their part of obligations, the Bank has agreed to advance
+        the said loan to the borrower in terms and in accordance with the Loan Agreement.</li>
+
+        <li>The loan advanced to the borrower by the Bank shall be subject to the borrower's repayment capacity
+        as assessed by the Bank and shall be secured against the first and exclusive mortgage of the Unit to be
+        acquired in the Project in favor of the Bank including but not limited to any additional security as may
+        be demanded by the Bank.</li>
+
+        <li>The Borrower irrevocably and unconditionally instructs the Bank to disburse the said loan directly
+        to the builder herein and such disbursements made to the builder shall be deemed to have been done
+        directly to the borrower.</li>
+
+        <li>That irrespective of the stage of construction of the Project and irrespective of the date of
+        handing over the possession of the residential apartment to the Borrower by the Builder the Borrower
+        shall be liable to pay to the Bank regularly each month the EMIs / Pre-EMIs as laid down in the Loan
+        Agreement. The Borrower shall execute an indemnity and such other documents as may be required by the
+        Bank in favor of the Bank in this regard.</li>
+
+        <li>The Borrower agrees and undertakes that he or she shall not raise any dispute or claim against the
+        Bank on the ground that the builder committed any deficiency of service either with the progress of the
+        construction or with the quality of the construction and it is the sole responsibility of the borrower
+        to look after the progress and the quality of the construction of the flat and it is his responsibility
+        to intimate from time to time about the progress of the construction to the Bank. All the parties to the
+        agreement specifically understand that the role of the Bank is limited to advancing the loan amount on
+        behalf of the borrower as a creditor.</li>
+
+        <li>In case of any default and/or breach in the terms of the Loan Agreement by the borrower, the Bank
+        shall intimate the builder for cancellation of the Agreement and upon such request from the Bank, the
+        builder agrees to refund the amounts received from the Bank as per the clause 14 of the tripartite
+        agreement. Further the builder agrees to stand guarantee to the amounts received from the Bank on behalf
+        of the borrower till the deposit of the title deeds relating to the said unit validly creates an
+        equitable mortgage in favor of the Bank. The borrower shall forward all the Original Documents executed
+        by and between the borrower and the builder evidencing the sale and purchase of the Unit to the Bank
+        with immediate effect and also agree to forward any other deeds and/or documents that may be executed
+        subsequently relating to the Unit to the Bank.</li>
+
+        <li>The Builder and the Borrower have assured and represent that it has a clear and marketable title to
+        the said flat / Unit and the same can be freely transferred/registered, and the same is free from any
+        lien and/or any encumbrance and the Builder further state that they have obtained all the required
+        approval, sanctions for developing and selling the said flat/ unit. The Borrower further confirms that
+        he has independently verified the said legal and technical evaluation of the said flat / unit before
+        entering into the agreement with the builder.</li>
+
+        <li>The Borrower shall ensure to pay to the Builder his own contribution in full i.e.,' the cost of the
+        flat minus the loan amount being disbursed by the Bank before availing of the disbursement from the
+        Bank.</li>
+
+        <li>The Borrower agrees that if any escalation of the cost to the said flat / unit, he undertakes to pay
+        the same to the builder with intimation to the Bank.</li>
+
+        <li>That the Builder shall not hand over the actual and physical possession of the said flat/residential
+        apartment to the Borrower without obtaining NOC from the Bank, before execution and registration of the
+        said deed.</li>
+
+        <li>That the original registered sale deed shall be submitted to the Bank directly by the Builder to be
+        kept by the Bank towards security for the said loan. The Builder also agrees that it will submit the
+        sale deed on or before 15 working days from the date of such registration.</li>
+
+        <li>That if the Borrower fails to pay the balance amount representing the difference between the loan
+        sanctioned by the Bank and the actual purchase price of the unit, or in the event of death of the
+        Borrower or in the event of cancellation / termination of the unit / Agreement for any reason whatsoever
+        or then the entire amount advanced by the Bank will be refunded by the Builder to the Bank to the Loan
+        Account of the Borrower with the Bank within 30 (Thirty) days from the date of such cancellation /
+        termination after deducting the cancellation charges, which charges shall not exceed the borrower's
+        contribution. The Borrower hereby subrogates all his rights for refund with respect to the said
+        residential apartment in favor of the Bank.</li>
+
+        <li>Notwithstanding anything to the contrary contained in any letter, document or agreement, under any
+        circumstances should there be any payment i.e., refund / discount / interest subsidy / reduction of
+        price etc., by the builder to borrower, the same shall be paid to the Loan Account of the Borrower with
+        the Bank and at no circumstances be paid to borrower directly. Any such refund given directly to the
+        borrower and not to the Loan account of the Borrower shall be treated as breach of this agreement.</li>
+
+        <li>Further if the Borrower commits a breach of any of the terms and conditions of this Tripartite
+        Agreement and any other terms and condition of the loan, the Borrower hereby authorize the Bank to
+        approach the builder for cancellation of Tripartite Agreement. Upon receipt of such intimation from the
+        Bank, builder shall pay in the manner stipulated in clause 15 hereinabove directly to the Bank for which
+        borrower have no objection. However, it is further agreed between the Parties that such payment made by
+        the Builder directly to the Bank shall not absolve the Borrower from his liability to pay the residual
+        amount, if any, from the outstanding under the Loan.</li>
+
+        <li>That the Borrower agrees that it unconditionally and irrevocable subrogates its right to receive any
+        amount payable by the Builder to the Borrower in the event of cancellation in favour of the Bank and
+        that the act of payment by the Builder to the Bank under this clause shall amount to a valid discharge
+        of the Builder of its obligation to pay the Borrower such cancellation amount.</li>
+
+        <li>Further that the parties agree that the Builder shall in no circumstances forfeit any amount over
+        and above the amount equivalent to the Borrowers contribution towards the purchase consideration paid to
+        the Builder. Borrower's contribution for the purposes of this clause shall mean and include the
+        difference between the total cost of the residential apartment and the Loan amount as mentioned
+        above.</li>
+
+        <li>Further, the Builder, in the in the event of default of repayment by the borrower, shall on
+        intimation by the Bank cancel the allotment of the unit in favour of the borrower and refund all monies
+        to the Bank directly as specified in the clause 15 of this agreement under intimation to the borrower.
+        Although the Buyers Agreement allows forfeiture of the earnest money if any, it is agreed by and between
+        the parties here that irrespective of what is mentioned in the Buyers agreement or other agreement at no
+        point in time the amount funded through the Bank shall be subject to such forfeiture and builder has
+        right to forfeit only such amount which is paid by the purchaser(s) only.</li>
+
+        <li>The Builder also confirms and undertakes that it shall submit to the Bank all documents for the
+        Project as requested by the Bank and shall keep the Bank informed of the progress of the project and
+        shall obtain a clearance from the Bank before handing over possession of the respective apartment to the
+        borrower.</li>
+
+        <li>The Courts at Hyderabad alone, to the exclusion of all other Courts, shall have the jurisdiction to
+        try and entertain any matter or dispute arising out of or in relation to this agreement.</li>
+    </ol>
+
+    <div class="doc-title" style="margin-top:24px;">SCHEDULE I</div>
+    <div class="center-bold" style="text-decoration:underline;">(Terms of Agreement)</div>
+
+    <table class="schedule">
+        <tr>
+            <th class="col-sno">S.No</th>
+            <th class="col-part">Particulars</th>
+            <th class="col-det">Details</th>
+        </tr>
+        <tr>
+            <td class="col-sno">1.</td>
+            <td class="col-part">Place</td>
+            <td class="col-det">&nbsp;</td>
+        </tr>
+        <tr>
+            <td class="col-sno">2.</td>
+            <td class="col-part">Date</td>
+            <td class="col-det">&nbsp;</td>
+        </tr>
+        <tr>
+            <td class="col-sno">3.</td>
+            <td class="col-part">Name and Address of Borrower(s)</td>
+            <td class="col-det">SRI. VELISETTI RAVITEJA S/O. SRI. VELISETTI NARASIMHARAO, Resident of 3-58/A,
+            Kukunoor Mandalam, Madhavaram, PO: Madhavaram, DIST: Eluru, Andhra Pradesh-507114. (AADHAAR NO.
+            4834 8559 6564 &amp; PAN NO. AXRPV6821G).</td>
+        </tr>
+        <tr>
+            <td class="col-sno">4.</td>
+            <td class="col-part">Name and Address of Builder (s)</td>
+            <td class="col-det">"M/S. ANANDA HOMES" (GST No: 36ABFFA6591E1ZE) having registered office at First
+            Floor, A1, Vista Residency, Alkapoor Township, Neknappoor, Ranga Reddy, Telangana, 500089.
+            Represented by its authorized signatory SRI. P.V. SREENIVASULU S/O. LATE P.C.V. RAMANAIAH, Resident
+            of VillaNo.60, River Edge Villas, Manchirevula, K. V. Ranga Reddy, Telangana - 500089.</td>
+        </tr>
+        <tr>
+            <td class="col-sno">5.</td>
+            <td class="col-part">Description of the Project</td>
+            <td class="col-det">Residential Apartment known "THE LEGACEY" Survey Nos. 128/1A/2/2, 129/A/1,
+            129/A/2, 129/AA/1, 129/AA/2, 129/AA/3, 129/E/1, 130/A/1, 130/A/2, 130/A/3/1, 130/A/3/2, 130/A/4,
+            130/AA/1, 130/AA/2, 130/AA/3, 130/E/1, 130/E/2, 145/1/2, 145/1/1/7, 145/1/1/1/2, 145/1/1/1/1/2,
+            145/1/1/1/1/1/1, 145/1/1/1/1/1/2, 145/2, 147/A/1, 147/A/2, 147/A/3, 147/AA/1, 147/AA/2, 147/AA/3,
+            147/E/1, 147/E/2, 148/A/1, 148/A/2, 148/A/3, 148/A/4, 148/AA/1, 148/AA/2, 148/AA/3, 148/E/1,
+            148/E/2, 148/E/3, 148/E/5, 149/1, 149/2, 149/3, 149/4, 149/5, 149/6 &amp; 149/7 situated at
+            Puppalguda Village, Gandipet Mandal, Ranga Reddy District, Telangana State.</td>
+        </tr>
+        <tr>
+            <td class="col-sno">6.</td>
+            <td class="col-part">Date of Agreement of Sale</td>
+            <td class="col-det">&nbsp;</td>
+        </tr>
+        <tr>
+            <td class="col-sno">7.</td>
+            <td class="col-part">Unit details</td>
+            <td class="col-det">All That The 3 BHK Flat No. T8-1001(WEST Facing) on 10th Floor, of Tower-8, in
+            the Residential Apartment known as "THE LEGACEY", with an area of 2105 Square Feet (including Common
+            Areas and One Car Parking), along with a proportionate undivided share of land admeasuring 44.17
+            Square Yards.</td>
+        </tr>
+        <tr>
+            <td class="col-sno">8.</td>
+            <td class="col-part">Loan Amount</td>
+            <td class="col-det">Rs._____________________________ /-</td>
+        </tr>
+        <tr>
+            <td class="col-sno">9.</td>
+            <td class="col-part">Payment in favour of</td>
+            <td class="col-det">HDFC BANK LIMITED Loan account No. "                           "</td>
+        </tr>
+    </table>
+
+    <table class="sign">
+        <tr>
+            <td>Signed and Delivered by the within-named Borrower</td>
+            <td>Signed and Delivered by the within-named Builder By the hand of</td>
+        </tr>
+        <tr>
+            <td colspan="2">Signed and delivered by the within-named HDFC Bank Limited by the hand of<br/>
+            Mr./Ms._____________________________ Its ________________________________</td>
+        </tr>
+    </table>
+
+</body>
+</html>
+</apex:page>

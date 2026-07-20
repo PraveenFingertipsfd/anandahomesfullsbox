@@ -1,0 +1,341 @@
+<apex:page renderAs="pdf" showHeader="false" sidebar="false"
+           standardStylesheets="false" applyHtmlTag="false" applyBodyTag="false"
+           title="Union Bank Tripartite Agreement">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<style type="text/css">
+    @page {
+        size: A4;
+        margin: 1.0in 0.8in 1.0in 0.8in;
+        @bottom-center {
+            content: "Page " counter(page) " of " counter(pages);
+            font-family: Arial, sans-serif;
+            font-size: 10px;
+            color: #000000;
+        }
+    }
+    body {
+        font-family: Arial, "Helvetica", sans-serif;
+        font-size: 12px;
+        color: #000000;
+        line-height: 1.5;
+    }
+    .title {
+        text-align: center;
+        font-size: 16px;
+        font-weight: bold;
+        text-decoration: underline;
+        margin-bottom: 4px;
+    }
+    .subtitle {
+        text-align: center;
+        font-size: 12px;
+        font-style: italic;
+        margin-bottom: 16px;
+    }
+    .heading {
+        font-weight: bold;
+        text-decoration: underline;
+        margin-top: 16px;
+        margin-bottom: 6px;
+    }
+    p {
+        text-align: justify;
+        margin: 6px 0;
+    }
+    .center {
+        text-align: center;
+        font-weight: bold;
+        margin: 6px 0;
+    }
+    ol.clauses > li {
+        text-align: justify;
+        margin-bottom: 8px;
+    }
+    ol.subclauses {
+        list-style-type: lower-alpha;
+        margin-top: 6px;
+    }
+    ol.subclauses > li {
+        text-align: justify;
+        margin-bottom: 6px;
+    }
+    .boundary {
+        margin: 2px 0;
+    }
+    /* Signature block rendered as a bordered table, kept together */
+    table.sign {
+        width: 100%;
+        border-collapse: collapse;
+        page-break-inside: avoid;
+        margin-top: 36px;
+    }
+    table.sign th,
+    table.sign td {
+        border: 1px solid #000000;
+        padding: 8px;
+        text-align: center;
+        vertical-align: top;
+    }
+    table.sign th {
+        font-weight: bold;
+    }
+    .sigspace {
+        height: 70px;
+    }
+</style>
+</head>
+<body>
+
+    <div class="title">TRIPARTITE AGREEMENT</div>
+    <div class="subtitle">(To be executed by the Borrower, Union Bank of India and Builder)</div>
+
+    <p>THIS AGREEMENT MADE THIS _____ DAY OF _____________. BETWEEN</p>
+
+    <p><b>SRI. BAGANA SRINIVASA RAO S/O. BAGANA MUKHALINGAM</b>, aged about 59 years,
+    Occupation: Bank Employee, Resident of Flat NO. 408, West Block, S.M. Sai Hills,
+    Manikonda, Hyderabad-500089. (AADHAAR NO. 6295 1318 5390 &amp; PAN NO. AAUPB3995P).</p>
+
+    <p class="center">&amp;</p>
+
+    <p><b>SMT. BAGANA ARUNA W/O. SRI. BAGANA SRINIVASA RAO</b>, aged about 52 years,
+    Occupation: House Wife, Resident of Flat NO. 408, West Block, S.M. Sai Hills,
+    Manikonda, Hyderabad-500089. (AADHAAR NO. 8300 7491 8443 &amp; PAN NO. ALHPB8584C).</p>
+
+    <p class="center">AND</p>
+
+    <p>&#8220;M/S. ANANDA HOMES&#8221; (GST No: 36ABFFA6591E1ZE) having registered office at
+    First Floor, A1, Vista Residency, Alkapoor Township, Neknappoor, Ranga Reddy, Telangana,
+    500089. Represented by its authorized signatory SRI. P.V. SREENIVASULU S/O. LATE
+    P.C.V. RAMANAIAH, Resident of VillaNo.60, River Edge Villas, Manchirevula,
+    K. V. Ranga Reddy, Telangana &#8211; 500089.</p>
+
+    <p class="center">AND</p>
+
+    <p><b>UNION BANK OF INDIA</b>, a body corporate constituted under the Banking Companies
+    (Acquisition and Transfer of Undertakings) Act, 1970 and having its Head Office at 239,
+    Vidhan Bhavan Marg, Nariman Point, Mumbai-400021 and having among its Branches a Branch
+    at &#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;. (Mention the address of the
+    Branch) hereinafter called the &#8220;Bank&#8221; which expression shall unless repugnant
+    to the context be deemed to include its assigns, successors.</p>
+
+    <p>WHEREAS the builder is developing residential sites for constructing residential
+    flats/ apartments thereon</p>
+
+    <p>All that the property bearing premises the Land in Sy.Nos. 128/1A/2/2, 129/A/1,
+    129/A/2, 129/AA/1, 129/AA/2, 129/AA/3, 129/E/1, 130/A/1, 130/A/2, 130/A/3/1, 130/A/3/2,
+    130/A/4, 130/AA/1, 130/AA/2, 130/AA/3, 130/E/1, 130/E/2, 145/1/2, 145/1/1/7, 145/1/1/1/2,
+    145/1/1/1/1/2, 145/1/1/1/1/1/1, 145/1/1/1/1/1/2, 145/2, 147/A/1, 147/A/2, 147/A/3,
+    147/AA/1, 147/AA/2, 147/AA/3, 147/E/1, 147/E/2, 148/A/1, 148/A/2, 148/A/3, 148/A/4,
+    148/AA/1, 148/AA/2, 148/AA/3, 148/E/1, 148/E/2, 148/E/3, 148/E/5, 149/1, 149/2, 149/3,
+    149/4, 149/5, 149/6, 149/7,, total admeasuring 80704.23 Square yards or equivalent to
+    67479.02 Square Meters, situated at Puppalguda Village, under Manikonda Municipality,
+    Gandipet Mandal, Ranga Reddy District, Telangana State fully described in the schedule
+    hereunder are owned by &#8230;&#8230;&#8230;&#8230;&#8230;. and the said
+    &#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230; has executed a
+    &#8230;&#8230;&#8230;&#8230;&#8230;&#8230;. in favour of the Builder on
+    &#8230;&#8230;&#8230;&#8230;&#8230;&#8230;, entitling the Builder to develop and sell the
+    schedule mentioned premises.</p>
+
+    <p>WHEREAS the Builder is developing the schedule mentioned premises for constructing
+    residential flats/ apartments thereon.</p>
+
+    <p>WHEREAS the Builder agreed to sell a Flat No. T1-1407 to the borrower in the Apartment
+    complex known as THE LEGACEY being developed and constructed in the schedule mentioned
+    premises, under an Agreement of Sale dated 09th February,2025 entered into between the
+    Builder and the Borrower, which contains the terms and conditions for sale of the flat in
+    favour of the Borrower.</p>
+
+    <p>As per the terms and conditions contained therein and in furtherance thereof the
+    Borrower has already paid to the Builder a sum of Rs. 22,46,496/- (Rupees Twenty Two Lakh
+    Forty Six Thousand Four hundred and Ninety Six only) as and by way of earnest money. The
+    balance of sale consideration is payable by the Borrower in instalments based on the
+    stages of construction, which are detailed in the said agreements.</p>
+
+    <p>WHEREAS the Bank on the written application and request of the Borrower has already
+    sanctioned a loan of Rs: __________________/- to the borrower (vide Sanction Advice No
+    _________________ Dated _________________) for the purchase of the said Flat from the
+    Builder, and has agreed to disburse/ release the loan in stages directly to the Builder as
+    per the Builder&#8217;s requirements depending on the stage of construction, upon the
+    condition that the Borrower shall create equitable mortgage by deposit of title deeds
+    relating to the Flat to be purchased by him from the Builder in favour of the Bank.</p>
+
+    <p>WHEREAS the Builder and the Borrower have also requested the Bank for release/
+    disbursement of instalments directly to the Builder.</p>
+
+    <p>WHEREAS the Bank has agreed to release the loan amounts as aforesaid provided the
+    Builder and the Borrower comply with the conditions put forth by the Bank and both the
+    Builder and the Borrower have agreed for the same.</p>
+
+    <p><b>NOW THIS AGREEMENT WITNESSTH AS FOLLOWS:</b></p>
+
+    <ol class="clauses">
+        <li>The Builder guarantees that the construction/ development of the schedule
+        mentioned premises will be completed as per the terms and conditions contained in the
+        Agreement of Sale dated 09th February,2025 executed in favour of the Borrower, and the
+        possession of the Flat allotted to the Borrower shall be delivered to the Borrower by
+        Builder as stated in the Agreement of Sale dated 09th February,2025. The Builder also
+        guarantees that proper conveyance will be executed in favour of the Borrower, upon
+        receipt of the full consideration.</li>
+
+        <li>The Builder and the Borrower have not created any encumbrance over the flat
+        allotted to the Borrower, and affirm that all sanctions and permits from the relevant
+        authorities have been obtained for development and construction of the schedule
+        mentioned premises.</li>
+
+        <li>The Borrower and the Builder undertake that they will not create any further
+        encumbrance on the Flat allotted to the Borrower and the proportionate undivided share
+        in the schedule mentioned premises sold to the Borrower. The Builder shall not allot
+        the Flat No T1-1407 allotted to the Borrower to any other person.</li>
+
+        <li>The Builder shall deliver possession of the flat to the Borrower only after
+        obtaining &#8220;No Objection Certificate&#8221; to that effect from the Bank. The
+        date of registration of the sale deed in favour of the Borrower shall be informed to
+        the Bank by the Builder to enable the Bank to take physical custody of the registered
+        deed.</li>
+
+        <li>All documents like possession certificate in favour of the borrower, copy of the
+        occupancy certificate issued by Corporation, latest maintenance bill or any other
+        document/letter executed by borrower which has relation to the title, possession, sale
+        consideration etc. of the borrower over the flat agreed to be sold to the borrower
+        shall be directly delivered to the Bank by the Builder directly, which shall form part
+        and parcel of the deposit of title deeds made by the Borrower as security by way of
+        mortgage in favour of the Bank.</li>
+
+        <li>The Bank shall have the sole discretion to make disbursement(s) and / or Interim
+        disbursements(s) to the Borrower from out of the Loans, at such time, on such
+        conditions and in such manner as the Bank may decide.</li>
+
+        <li>The Builder shall keep the Bank updated about the status of progress of the
+        construction as and when required by the Bank.</li>
+
+        <li>The Builder shall maintain a separate account for the Borrower, wherein the
+        amounts disbursed by the bank shall be credited and all costs towards the construction
+        and amounts due to the Builder from the Borrower shall be debited. The Builder shall be
+        accountable for the loan disbursement made by the Bank directly to it and shall render
+        accounts of the same along with such statements as may be required to the Bank as and
+        when called for.</li>
+
+        <li>In the event of the project costs being increased for any reason whatsoever, only
+        the Borrower is liable to pay such increased costs to the Builder. The Bank shall
+        disburse only to the extent of the loan sanctioned. However, if any refunds have to be
+        made by the Builder to the Borrower due to reduction in costs, then the Builder shall
+        make such refunds directly to the Bank under intimation to the Borrower, and the Bank
+        shall accordingly credit such amount of refund to the Borrower&#8217;s loan account.</li>
+
+        <li>In the event of bank recalling the loans and the amount disbursed therein for any
+        reasons whatsoever, the Builder shall forthwith remit the bank all amounts standing to
+        the credit of the Borrower including the Margin Money and Borrower&#8217;s
+        contribution. In the event of the Builder cancelling the allotment in favour of the
+        Borrower, consequent to the recalling the advance, the Builder shall refund to the Bank
+        as aforesaid, all amount standing to the credit of the borrower till date of such
+        recall and only thereafter shall have the liberty to allot the flat to any other party
+        after obtaining NOC from the Bank.</li>
+
+        <li>In the event, Builder cancelling the allotment of the flat made in favour of the
+        Borrower or for any default committed by the Borrower(s) or any other reason
+        whatsoever, the Builder shall pay the entire amount received on behalf of the Borrower
+        to the Bank. The Bank shall refund to the Borrower balance, if any, after adjusting the
+        entire outstanding dues, including interest, costs and other amount recoverable by the
+        Bank from the Borrower.</li>
+
+        <li>The Builder agrees that the Bank shall have first charge over the Flat allotted to
+        the Borrower for the amounts due to it even though the Builder may subsequently allot
+        the same to another party after the receipt of the recall notice or cancellation notice
+        as the case may be.</li>
+
+        <li>The Builder shall keep the Bank indemnified at all times against all losses, costs
+        and expenses that the Bank may incur in the event of the Builder not completing the
+        development and construction of the schedule mentioned property within the time
+        specified or abandoning the Project altogether. The Builder guarantees that in case of
+        such event occurring, the Builder shall be liable along with the Borrower to the Bank
+        for the loan availed by the Borrower along with interest, costs and all amounts due
+        thereon, and the Bank is at liberty to proceed against the Builder for recovery of the
+        loan as if the Builder were the principal Borrower. The Builder also undertakes to
+        indemnify the Bank against all losses and costs incurred by the Bank due to the failure
+        on part of the Builder to adhere to the covenants stated herein.</li>
+
+        <li>The Builder consents to put through equitable mortgage by way of deposit of title
+        deeds by the Borrower of the flat more fully described in the Agreement of sale dated
+        09th February,2025 agreed to be sold to the Borrower.</li>
+
+        <li>It is further agreed that, the word &#8220;Loan&#8221; mentioned above includes
+        interest, penal interest and all other sums payable by the borrower to the Bank as per
+        the terms and conditions of Sanction Advice and Loan Agreement entered between the Bank
+        and the Borrower.</li>
+
+        Notwithstanding anything contained hereinabove
+        <p>In the event of completion of the construction and delivery of possession
+                of the flat agreed to be purchased by the Borrower as per the terms and
+                conditions contained in the Agreement of sale dated 09th February,2025 the
+                Builder shall be relieved from all obligations under this Agreement.
+            
+        </p>
+      	<p>
+            The terms and conditions and obligations of the borrower contained herein
+                are in addition and not in derogation of the terms and conditions contained in
+                other security documents / documents executed by the Borrower in favour of the
+                Bank.
+        </p>
+        
+         
+ 
+    </ol>
+
+    <div class="heading">SCHEDULE - A &#8220;PROJECT LAND&#8221;</div>
+
+    <p>All that the property bearing premises the Land in Sy.Nos. 128/1A/2/2, 129/A/1,
+    129/A/2, 129/AA/1, 129/AA/2, 129/AA/3, 129/E/1, 130/A/1, 130/A/2, 130/A/3/1, 130/A/3/2,
+    130/A/4, 130/AA/1, 130/AA/2, 130/AA/3, 130/E/1, 130/E/2, 145/1/2, 145/1/1/7, 145/1/1/1/2,
+    145/1/1/1/1/2, 145/1/1/1/1/1/1, 145/1/1/1/1/1/2, 145/2, 147/A/1, 147/A/2, 147/A/3,
+    147/AA/1, 147/AA/2, 147/AA/3, 147/E/1, 147/E/2, 148/A/1, 148/A/2, 148/A/3, 148/A/4,
+    148/AA/1, 148/AA/2, 148/AA/3, 148/E/1, 148/E/2, 148/E/3, 148/E/5, 149/1, 149/2, 149/3,
+    149/4, 149/5, 149/6, 149/7,, total admeasuring 80704.23 Square yards or equivalent to
+    67479.02 Square Meters, situated at Puppalguda Village, under Manikonda Municipality,
+    Gandipet Mandal, Ranga Reddy District, Telangana State and bounded as follows:</p>
+
+    <p class="boundary"><b>NORTH:</b> Road and Neighbors Properties</p>
+    <p class="boundary"><b>SOUTH:</b> 80&#8217;-0&#8217;feet Road</p>
+    <p class="boundary"><b>EAST:</b> Existing Nala</p>
+    <p class="boundary"><b>WEST:</b> 30&#8217;-0&#8217; feet Road</p>
+
+    <div class="heading">SCHEDULE &#8211; B &#8220;PROPERTY&#8221;</div>
+
+    <p>All that the 3-BHK Flat No.T1-1407 (EAST Facing) on 14th Floor, of Tower-1, the High
+    Rise Residential Flats known as &#8220;THE LEGACEY&#8221;, with saleable area of 1520
+    Square Feet (including common areas and One Car Parking), along with proportionate
+    undivided share of land equivalent to 31.9 Square Yards, (Out of total land admeasuring
+    80704.23 Square yards or equivalent to 67479.02 Square Meters), in Sy.Nos. 128/1A/2/2,
+    129/A/1, 129/A/2, 129/AA/1, 129/AA/2, 129/AA/3, 129/E/1, 130/A/1, 130/A/2, 130/A/3/1,
+    130/A/3/2, 130/A/4, 130/AA/1, 130/AA/2, 130/AA/3, 130/E/1, 130/E/2, 145/1/2, 145/1/1/7,
+    145/1/1/1/2, 145/1/1/1/1/2, 145/1/1/1/1/1/1, 145/1/1/1/1/1/2, 145/2, 147/A/1, 147/A/2,
+    147/A/3, 147/AA/1, 147/AA/2, 147/AA/3, 147/E/1, 147/E/2, 148/A/1, 148/A/2, 148/A/3,
+    148/A/4, 148/AA/1, 148/AA/2, 148/AA/3, 148/E/1, 148/E/2, 148/E/3, 148/E/5, 149/1, 149/2,
+    149/3, 149/4, 149/5, 149/6, 149/7, Situated at PUPPALGUDA VILLAGE, under Manikonda
+    Municipality, Gandipet Mandal, Ranga Reddy District, Telangana State and bounded as
+    follows:</p>
+
+    <p class="boundary"><b>NORTH:</b> OPEN TO SKY</p>
+    <p class="boundary"><b>SOUTH:</b> OPEN TO SKY</p>
+    <p class="boundary"><b>EAST:</b> CORRIDOR</p>
+    <p class="boundary"><b>WEST:</b> OPEN TO SKY</p>
+
+    <p style="margin-top:20px;">In witness whereof the parties have set out their respective
+    hand on the December,2027. herein above mentioned.</p>
+
+    <table class="sign">
+        <tr>
+            <th>BORROWER</th>
+            <th>BUILDER</th>
+            <th>BANK</th>
+        </tr>
+        <tr>
+            <td class="sigspace"></td>
+            <td class="sigspace"></td>
+            <td class="sigspace"></td>
+        </tr>
+    </table>
+
+</body>
+</html>
+</apex:page>

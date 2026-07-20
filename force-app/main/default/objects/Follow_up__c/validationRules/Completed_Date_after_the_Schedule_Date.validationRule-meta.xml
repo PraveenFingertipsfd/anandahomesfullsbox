@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Completed_Date_after_the_Schedule_Date</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    NOT(ISBLANK(Scheduled_Date__c)),
+    NOT(ISBLANK(Completed_Date__c)),
+    Completed_Date__c &lt; Scheduled_Date__c
+)</errorConditionFormula>
+    <errorMessage>Completed Date &amp; Time cannot be earlier than the Scheduled Date &amp; Time.</errorMessage>
+</ValidationRule>

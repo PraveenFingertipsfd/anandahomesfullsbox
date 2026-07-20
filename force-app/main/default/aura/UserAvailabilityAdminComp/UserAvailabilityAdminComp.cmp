@@ -1,0 +1,146 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="UserAvailabilityController">
+    <!--<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
+    <aura:attribute name="users" type="User[]"/>
+    <aura:attribute name="selUser" type="User"/>
+    <aura:attribute name="paginationList" type="Object[]"/>
+    <aura:attribute name="pageSize" type="Integer" default="10"/>
+    <aura:attribute name="totalSize" type="Integer"/>
+    <aura:attribute name="start" type="Integer" />
+    <aura:attribute name="end" type="Integer"/>
+    <aura:attribute name="selZoneFilter" type="String" default="Chennai"/>
+    <aura:attribute name="selProfileFilter" type="String"/>
+    <aura:attribute name="CurrentUser" type="Object"/>
+    <aura:attribute name="profileNames" type="String" />
+    <force:recordData recordId="{!$SObjectType.CurrentUser.Id}"
+                      fields="Profile.Name"
+                      targetFields="{!v.CurrentUser}"
+                      recordUpdated="{!c.doInit}" />
+    
+    <div class="slds-box slds-theme_shade">
+        <h1>
+            <span class="slds-page-header__title slds-hyphenate" title="User Availability">User Availability</span>
+        </h1>
+        <br/>
+        <hr style="margin:0px"/>
+        
+        <!-- <div class="slds-card__body slds-card__body_inner">
+            <lightning:select name="filter" aura:id="filter" label="Filter by Zone" value="{!v.selZoneFilter}" onchange="{! c.onChange }" >
+                <option value="Chennai">Chennai</option>
+                <option value="Bangalore">Bangalore</option>
+                <option value="Hyderabad">Hyderabad</option>
+                <option value="Coimbatore">Coimbatore</option>
+                <option value="Mysore">Mysore</option>
+                <option value="Pune">Pune</option>
+                <option value="Trichy">Trichy</option>
+                <option value="Ballari">Ballari</option>
+                <option value="Hosur">Hosur</option>
+            </lightning:select>
+        </div>-->
+        <div class="slds-card__body slds-card__body_inner">
+            <aura:if isTrue="{!v.profileNames == 'System Administrator' || v.profileNames == 'BDM'}">
+                <lightning:select name="filter" aura:id="filter" label="Filter by Profile" value="{!v.selProfileFilter}" onchange="{! c.onChange }" >
+                    
+                    <option value="Pre-Sales Executive">Pre-Sales Executive</option>
+                    <option value="Pre-Sales TL">Pre-Sales TL</option>
+                    <option value="Pre-Sales Head">Pre-Sales Head</option>
+                    <option value="Associate Manager">Associate Manager</option>
+                    <option value="Sales Head">Sales Head</option>
+                    <option value="Sales Project Head">Sales TL</option>
+                    <option value="GRE">GRE</option>
+                    
+                </lightning:select>
+            </aura:if>
+            <aura:if isTrue="{!v.profileNames == 'Pre Sales Head'}">
+                <lightning:select name="filter" aura:id="filter" label="Filter by Profile" value="{!v.selProfileFilter}" onchange="{! c.onChange }" >
+                    
+                    <option value="Pre-Sales ExecutivePre Sales">Pre-Sales Executive</option>
+                    
+                </lightning:select>
+            </aura:if>
+            <aura:if isTrue="{!v.profileNames == 'Sales Head'}">
+                <lightning:select name="filter" aura:id="filter" label="Filter by Profile" value="{!v.selProfileFilter}" onchange="{! c.onChange }" >
+                    
+                    <option value="Sales Project Head">Sales Project Head</option>
+                    
+                    <option value="STM">STM</option>
+                </lightning:select>
+            </aura:if>
+            
+            
+        </div>
+        <hr style="margin:0px"/>
+        <div class="slds-grid slds-wrap"> 
+            
+            <div class="slds-col">
+                <div class="slds-grid slds-gutters">
+                    
+                    <div class="slds-col">
+                        
+                        <div class="slds-align_absolute-center">
+                            <table border="1" style="padding:1px">
+                                <th style="padding:5px">Name</th>
+                                <th style="padding:5px">User Name</th>
+                                <th style="padding:5px">Manager</th>
+                                <th style="padding:5px">Profile</th>
+                                <th style="padding:5px">Working</th>
+                                <th style="padding:5px">Availability</th>
+                                <aura:iteration items="{!v.paginationList}" var="usr"  indexVar="i">
+                                    <aura:if isTrue="{!usr != null}">
+                                        <tr>
+                                            <td style="padding:5px;overflow-wrap:anywhere">
+                                                {!usr.Name}
+                                            </td>
+                                            <td style="padding:5px;overflow-wrap:anywhere">
+                                                {!usr.Username}
+                                            </td>
+                                            <td style="padding:5px;overflow-wrap:anywhere">
+                                                {!usr.Manager.Name}
+                                            </td>
+                                            <td style="padding:5px;overflow-wrap:anywhere">
+                                                {!usr.Profile.Name}
+                                            </td>
+                                            <td style="padding:5px">
+                                                <div aura:id="option2" data-index="{!i}" data-id="{!usr.Id}" onchange="{!c.selectChange2}" >
+                                                    <lightning:input class="slds-p-right_medium"  type="toggle"   checked="{!usr.is_working__c}" value="{!usr.is_working__c}" messageToggleActive="Working"  messageToggleInactive="On Leave"/>
+                                                    
+                                                </div>
+                                            </td>
+                                            <td style="padding:5px">
+                                                <div aura:id="option" data-index="{!i}" data-id="{!usr.Id}" onchange="{!c.selectChange}" >
+                                                    <lightning:input class="slds-p-right_medium"  type="toggle"   checked="{!usr.Availability__c}" value="{!usr.Availability__c}" messageToggleActive="Available"  messageToggleInactive="Offline"/>
+                                                    <!--<lightning:icon size="xx-small" iconName="{!usr.Availability__c ? 'action:approval' : 'action:close'}"/>  -->
+                                                </div>
+                                            </td>
+                                            
+                                            
+                                        </tr></aura:if>
+                                </aura:iteration>
+                                <tr>
+                                    <aura:if isTrue="{!v.users.length != 0}">
+                                        <td colspan="5" style="padding:5px">
+                                            <lightning:button label="First" disabled="{!v.start == 0}"  onclick="{!c.first}" />
+                                            
+                                            <lightning:button label="Previous" disabled="{!v.start == 0}"  onclick="{!c.previous}" />
+                                            
+                                            <lightning:button label="Next" disabled="{!v.end >= v.totalSize-1}" onclick="{!c.next}" />
+                                            
+                                            <lightning:button label="Last" disabled="{!v.end >= v.totalSize-1}" onclick="{!c.last}" />
+                                            
+                                        </td>
+                                    </aura:if>
+                                    <aura:if isTrue="{!v.users.length == 0}">
+                                        <td colspan="5" style="padding:5px">
+                                            <div style="color:red;font-size:15px;font-weight:bold">No users found.</div>
+                                        </td>
+                                    </aura:if>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+</aura:component>

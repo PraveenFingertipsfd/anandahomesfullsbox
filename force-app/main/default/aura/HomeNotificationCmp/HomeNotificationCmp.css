@@ -1,0 +1,52 @@
+.THIS .overDue{
+   background-color: #F47C7C;
+ 
+}
+.THIS .slds-card__background{
+        background-color: #F47C7C;
+}
+.THIS .custom-icon {
+    height: 24px; 
+    width: 24px;  
+}
+.THIS .green-background {
+    background-color: #50f255;
+}
+.THIS .blue-background {
+    background-color: #22e6e2;
+}
+.THIS .truncate-text {
+    display: inline-block;
+    max-width: 5em;
+    overflow: hidden;
+    white-space: nowrap;
+    line-height: 0.9;
+}
+.THIS .blue-highlight {
+    background-color: #0176D3 !important;
+}
+
+/* Set up responsive grid container */
+.THIS .card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Ensures cards are at least 250px wide */
+    gap: 1rem; /* Space between cards */
+}
+
+/* Style individual cards */
+.THIS .card-item {
+    flex-grow: 1;
+}
+
+.THIS .card-content {
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #d8dde6;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Optional: Green background for Re-Engaged Lead Type */
+.THIS .green-background {
+    background-color: #e0f7e9;
+}

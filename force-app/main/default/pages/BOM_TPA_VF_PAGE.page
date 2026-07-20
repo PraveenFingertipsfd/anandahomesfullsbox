@@ -1,0 +1,164 @@
+<apex:page renderAs="pdf" applyHtmlTag="false" showHeader="false" sidebar="false" standardStylesheets="false">
+<html>
+<head>
+<style type="text/css">
+    @page {
+        size: A4;
+        margin: 1in 0.75in 1in 0.75in;
+        @bottom-center {
+            content: "Page " counter(page) " of " counter(pages);
+            font-size: 9pt;
+            color: #000000;
+        }
+    }
+    body {
+        font-family: "Times New Roman", serif;
+        font-size: 11pt;
+        line-height: 1.5;
+        color: #000000;
+        text-align: justify;
+    }
+    h1.title {
+        text-align: center;
+        font-size: 14pt;
+        text-decoration: underline;
+        margin-bottom: 18pt;
+    }
+    .heading {
+        font-weight: bold;
+        text-decoration: underline;
+    }
+    p { margin: 0 0 10pt 0; }
+    .center { text-align: center; }
+    .party { margin: 0 0 10pt 0; }
+
+    /* Signature / witness block - bordered table that must not split across pages */
+    table.sign {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid #000000;
+        margin-top: 24pt;
+        page-break-inside: avoid;
+    }
+    table.sign th,
+    table.sign td {
+        border: 1px solid #000000;
+        padding: 14pt 10pt;
+        vertical-align: top;
+        font-size: 11pt;
+    }
+    table.sign th {
+        text-align: left;
+        background-color: #f0f0f0;
+    }
+    .sigspace { height: 40pt; }
+</style>
+</head>
+<body>
+
+    <h1 class="title">Tripartite Agreement between Borrower, Builder and Bank</h1>
+
+    <p>THIS AGREEMENT IS MADE on this &hellip;&hellip;&hellip;&hellip;&hellip; day of , 2025 between</p>
+
+    <p class="party"><b>SRI. SHUBHAMSINGH PADAMSINGH CHANDEL</b>, S/O. SRI. PADAMSINGH NARAYANSINGH CHANDEL, aged about 33 years, Occupation: Private Employee, Resident of A1 903 Alcon Springvalley, Yewalewadi, VTC: Yewalewadi, PO: NI &#1042; &#1052;, District: Pune, State: Maharashtra, PIN Code: 411048. (AADHAAR No. 9249 1081 7845 &amp; PAN No. AKYPC8183C)</p>
+
+    <p class="party"><b>SMT. DIKSHA SINGH</b>, W/O. SRI. SHUBHAMSINGH PADAMSINGH CHANDEL, aged about 27 years, Occupation: Private Employee, Resident of A1 903 Alcon Springvalley, Yewalewadi, VTC: Yewalewadi, PO: NI &#1042; &#1052;, District: Pune, State: Maharashtra, PIN Code: 411048. (AADHAAR No. 4192 4377 0379 &amp; PAN No. KABPS2783F).</p>
+
+    <p>hereinafter referred to as the &lsquo;Borrower/buyer&rsquo;, which term shall unless repugnant to the context shall mean and include his / her heirs, representatives, successors, executors, attorneys, administrators and assigns), of the First Part.</p>
+
+    <p class="center"><b>AND</b></p>
+
+    <p><b>M/S. ANANDA HOMES</b> (GST No: 36ABFFA6591E1ZE), a partnership Company incorporated under the provisions of the Companies Act, 1956, having its Registered Office at Flat No. A1, Vista Residency, Road No.4, Plot Nos.81 &amp; 82, Block-D, Sector-I, Alkaapoor Township, Manikonda, Hyderabad, Telangana State-500089. by its authorized signatory SRI. P.V. SREENIVASULU S/O. LATE P.C.V. RAMANAIAH, Resident of Villa No.60, River Edge Villas, Manchirevula, K. V. Ranga Reddy, Telangana &ndash; 500089, of the Second Part.</p>
+
+    <p class="center"><b>AND</b></p>
+
+    <p><b>Bank of Maharashtra</b>, a body corporate, constituted under the Banking Companies (Acquisition &amp; Transfer &amp; Undertaking) Act, 1970, having amongst others one of its Branch Office at Narsingi, 2-88/9 Narsingi Village, gandipet Mandal, Telangana-500089, hereinafter referred to as the &lsquo;BOM&rsquo; which term shall unless repugnant to the context shall mean and include its successors, administrators and assigns) of the Third Part.</p>
+
+    <p>WHEREAS, the Party at the Second Part having clear marketable title M/S. ANANDA HOMES has been authorized for the construction of residential Complex known as ("THE LEGACEY" situated at Puppalguda Village, under Manikonda Municipality, Gandipet Mandal, Ranga Reddy District, Telangana State). The Party at the Second Part (i.e. Builder) has already received the possession of the above-said plot. The building plans have already been approved by the HMDA. Authority and the construction of the residential units / flats in the name "THE LEGACEY" (Name of apartment building) is in progress.</p>
+
+    <p>AND WHEREAS the party at the Second Part will complete the construction of the flats as described in the Agreement for sale dully executed between First and Second Party on Dated. ___________ and the Second Party is booking the sale of the flats. The proposed buyer has to make the payment of the sale consideration as and when demanded by the Second Party (i.e. Builder) as per the terms of the Flat Buyer Agreement, and on the payment of the entire sale consideration, the party at the second part shall hand over the possession of the flat to the said proposed buyer.</p>
+
+    <p>AND WHEREAS the party at the first part has booked a 3 BHK Flat No.T1-1706 (EAST Facing) on 17th Floor, of Tower-1, the High Rise Residential Flats known as &ldquo;THE LEGACEY&rdquo;, with saleable area of 1520 Square Feet. (the Land in Sy.Nos. 128/1A/2/2, 129/A/1, 129/A/2, 129/AA/1, 129/AA/2, 129/AA/3, 129/E/1, 130/A/1, 130/A/2, 130/A/3/1, 130/A/3/2, 130/A/4, 130/AA/1, 130/AA/2, 130/AA/3, 130/E/1, 130/E/2, 145/1/2, 145/1/1/7, 145/1/1/1/2, 145/1/1/1/1/2, 145/1/1/1/1/1/1, 145/1/1/1/1/1/2, 145/2, 147/A/1, 147/A/2, 147/A/3, 147/AA/1, 147/AA/2, 147/AA/3, 147/E/1, 147/E/2, 148/A/1, 148/A/2, 148/A/3, 148/A/4, 148/AA/1, 148/AA/2, 148/AA/3, 148/E/1, 148/E/2, 148/E/3, 148/E/5, 149/1, 149/2, 149/3, 149/4, 149/5, 149/6, 149/7), (hereinafter referred to as the said flat) in the building which the party at the second part shall construct on the above said plot and the party at the first part has to pay the entire consideration amount in the mode as described in the agreement for sale dated ________, duly executed between First and Second Parties.</p>
+
+    <p>AND WHEREAS there is a mortgage charge on (CAPRI GLOBAL CAPITAL LIMITED) as per Mortgage Deed dated________________) on the Said Flat has been created as security for loan facility availed by Builder from (CAPRI GLOBAL CAPITAL LIMITED) for the project under which the said flat is build.</p>
+
+    <p>And Whereas the builder has obtained NOC from CAPRI GLOBAL CAPITAL LIMITED as per Mortgage Deed dated________________) dated ______ and ____respectively wherein CAPRI GLOBAL CAPITAL LIMITED have given there no objection to the Builder to enter into an agreement to sell the said flat to Borrower/Buyer and have also specified that the charge of CAPRI GLOBAL CAPITAL LIMITED as per Mortgage Deed dated________________) shall be released upon execution of sale deed between Builder and Borrower/Buyer upon fulfilment of conditions more specifically provided in the (Schedule of terms Dated._________).</p>
+
+    <p>AND WHEREAS the party at the First Part has approached the party at the Third Part for availing a loan of Rs. &hellip;&hellip;&hellip;&hellip;._/-( Rupees _________________________________only) to finance the purchase of the said flat. Besides other securities, the party at the First part has agreed to create the charge over the said flat in favor of the party at the Third Part. In the absence of proper apartment Deed in its favor, the Party at the First Part is not in a position to create a valid mortgage over the said flat in favor of the party at the Third Part.</p>
+
+    <p>AND WHEREAS the party at the First Part and the Party at the Second Part have requested the BOM to disburse the said loan to the Borrower, notwithstanding the fact that the apartment Sale Deed is not executed in favor of the Party at the First Part at this stage, and in consideration of the BOM sanctioning the loan to the Borrower, the Borrower and the Builder have executed this Agreement on the following terms and conditions.</p>
+
+    <p class="heading">NOW THEREFORE IT IS HEREBY AGREED BY AND BETWEEN THE PARTIES HERETO AS FOLLOWS:</p>
+
+    <p>1. That the Borrower hereby irrevocably request and authorize the Third party BOM to make the disbursement of the sanctioned loan to the Builder directly on borrower&rsquo;s behalf and any payments so made to the builder shall be deemed to be payments made to the borrower and the borrower shall in each case be liable for the amount of loan disbursed by BOM on his/her behalf to the builder as though the same has been disbursed directly to borrower.</p>
+
+    <p>2. That the BOM has and shall have the first and paramount lien over the money already paid by the Borrower to the Builder/developer and or whatever amount the Borrower shall pay to the Builder in future for the due repayment of the loan, which the BOM shall grant to the Borrower. The charge in favor of BOM shall be first and paramount over the charge, which the Builder may have over the said flat.</p>
+
+    <p>3. That the Builder agrees that it has no objection to the Borrower mortgaging the said flat to the BOM as security for the said loan agreed to be advanced by the BOM for the purpose of purchase of the said flat. In the event of default in the repayment of loan and or the Borrower committing any other default which makes the Borrower liable for the repayment of the entire amount outstanding in the said loan as per the terms of the Loan Agreement executed between the Borrower and the BOM, the Builder shall at the call of BOM, be under obligation to cancel the booking and pay all the amounts received by the Builder from the Borrower or on behalf of the Borrower to the BOM.</p>
+
+    <p>4. That if for any reason there is any increase / escalation in the cost of the said flat the increase shall be paid and borne by the Borrower without any reference to the BOM and until such payment is made, the BOM shall have the right to suspend further disbursement of the said loan.</p>
+
+    <p>5. That in the event of the Builder cancelling the said booking for any default committed by the Borrower or the project is shelved by the Builder or for any other reason whatsoever, the Builder shall pay the entire amount received from the Borrower to the BOM.</p>
+
+    <p>6. That in the event of failure of the Builder to complete the project, the Builder shall pay the entire money so received by it from the Borrower to the BOM.</p>
+
+    <p>7. That the Builder shall note in its records the charge and lien of BOM over the said flat and parking space allotted. The Builder shall not transfer the said flat to any other person without the prior written consent of the BOM.</p>
+
+    <p>8. That on the receipt of the entire consideration amount, the Builder shall execute a proper Apartment Deed /conveyance deed/Sale deed in favor of the Borrower. The Builder undertakes to deliver the same directly to the BOM and not to the Borrower. Before the execution of the Apartment Deed/ conveyance deed/Sale deed, the builder shall inform the BOM about the same on the completion of the project.</p>
+
+    <p>9. That the Borrower shall also keep informed the BOM about the developments in the project from time to time. The Borrower shall notify the BOM the date of taking over the possession of the said flat. In case the Borrower receives the Apartment Deed/ conveyance deed/Sale deed, he / she shall immediately deposit the same with the BOM.</p>
+
+    <p>10. That the Borrower assures that he / she will not further mortgage / charge the said flat to be allotted to him / her in any manner whatsoever to any other person/institution before the loan of BOM is cleared.</p>
+
+    <p>11. That the Borrower agrees and authorize the Builder to note the charge of BOM on the said property in their records as a security against the loan advanced by BOM and further authorize the Builder to send the registered sale deed directly to BOM for the creation of the mortgage in favor of BOM on the said property, to be held by BOM until the loan is fully repaid with interest and all other dues to the satisfaction of BOM</p>
+
+    <p>12. That the Borrower shall pay all charges, duties, taxes in respect of the said flat imposed or payable to the Builder and or the statutory Authority or any other Government Department / authority in respect of the said flat and the BOM shall not be liable or responsible in any manner whatsoever or howsoever for the same.</p>
+
+    <p>13. That the Borrower agrees and acknowledges to keep the BOM indemnified against any loss or damage incurred by it in the event of failure of the Borrower to honor or meet any of its obligations under this Agreement in connection with the sanctioning of the loan in respect of the said flat.</p>
+
+    <p>14. That during the currency of the loan, the Borrower shall not transfer the said flat to any other person, without the prior written consent of the BOM. The Builder shall not issue the duplicate allotment letter / possession letter to the Borrower without the prior written consent of the BOM.</p>
+
+    <p>15. That in the event of any default by the Borrower, the BOM may at its discretion enforce the security by sale and the Builder shall accept the Purchaser of the said flat in place of the Borrower, after the Purchaser complied with the necessary requirements of the Builder in this respect. The Builder agrees that the purchaser shall enjoy the same rights as the borrower.</p>
+
+    <p>16. That the Builder assures the BOM that the construction shall be completed as per schedule and as per the sanctioned plans and on completion of construction, the title of the flat shall be conveyed in the name of the Borrower.</p>
+
+    <p>17. That it is further made clear and understood by all the parties that the non-completion of the project or the happening of any event shall not affect the obligations of the Borrower to repay the loan availed from the BOM.</p>
+
+    <p>18. That the said flat is free from all encumbrances, charges, liens, lis-pendence, attachments, trusts, prior agreements, whatsoever or howsoever. However, there is the first charge of the CAPRI GLOBAL CAPITAL LIMITED on the project and the Builder has provided or will provide the NOC, from the competent Authority of CAPRI GLOBAL CAPITAL LIMITED in case any charge is created on the project thus causing release of 1st charge in favor of BOM.</p>
+
+    <p>19. That there is no order of attachment by the Income Tax Authorities or Sales Tax Authority or any other authority under any law for the time being in force nor any notice of acquisition or requisition has been received by the Builder/Developer/Owner in respect of the said Plot property and Flat.</p>
+
+    <p>20. That this Agreement shall not affect in any manner whatsoever the duties and obligations of the Borrower and the terms and conditions agreed to by the Borrower in the Loan Agreement and other documents executed in favor of BOM shall remain binding upon the Borrower.</p>
+
+    <p>21. That in case of acquisition, forfeiture / resumption of the said property, the BOM shall be entitled to get the compensation settled in respect of the said flat and to appear and act before the Collector / Revenue Officer / Estate Officer or any other concerned authorities to sign any form, to give any statement, affidavit, application on Borrower&rsquo;s behalf, to receive the compensation in its own name and on the Borrower&rsquo;s behalf, to file appeal in any court for the enhancement of the compensation amount, to get the compensation amount enhanced and to receive the same.</p>
+
+    <p>22. That the Borrower had investigated about all the approvals and in case the project is adversely affected due to non-clearance or sanction from any statutory authority then the borrower is ready to bear that loss and will pay the entire dues of the Bank as applicable on that date with up to date interest and penalties if any.</p>
+
+    <p>23. That the Borrower/s as well as the Builder/developer have accepted that Bank reserves the right to restrict the loan disbursement and such disbursement in restructured fashion shall be permitted only in case of the projects with construction linked Plans (CLPs / Flexi CLP) involving stage wise payment related to construction progress achieved by the project as given in the loan sanction letter. Each disbursement shall be subject to the following terms and conditions &ndash;</p>
+
+    <p>(i) The borrower / flat buyer accepts that statutory clearances (if any) are yet to be received by the builder / developer having accepted the risk involved, in the project. (ii) The borrower pays 20% or more of the agreed cost of the flat if required. (iii) Bank shall be under no obligation to disburse further amount unless the statutory clearances are received &amp; stages of construction achieved.</p>
+
+    <p>In witness whereof the parties hereto have signed this Agreement on the day, month and year first above written.</p>
+
+    <table class="sign">
+        <tr>
+            <th style="width:50%;">Witnesses:</th>
+            <th style="width:50%;">Signatory</th>
+        </tr>
+        <tr>
+            <td>1. ____________________________<br/><br/>2. ____________________________</td>
+            <td><div class="sigspace">&nbsp;</div>(BORROWER)</td>
+        </tr>
+        <tr>
+            <td>1. ____________________________<br/><br/>2. ____________________________</td>
+            <td><div class="sigspace">&nbsp;</div>(BUILDER)</td>
+        </tr>
+        <tr>
+            <td>1. ____________________________<br/><br/>2. ____________________________</td>
+            <td><div class="sigspace">&nbsp;</div>(BOM)</td>
+        </tr>
+    </table>
+
+</body>
+</html>
+</apex:page>

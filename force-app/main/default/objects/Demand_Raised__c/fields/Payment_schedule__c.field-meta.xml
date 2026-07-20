@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Payment_schedule__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Current Payment schedule</label>
+    <referenceTo>Payment_Schedule__c</referenceTo>
+    <relationshipLabel>Demand Raised</relationshipLabel>
+    <relationshipName>Demand_Raised</relationshipName>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

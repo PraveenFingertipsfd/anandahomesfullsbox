@@ -1,0 +1,282 @@
+<aura:component controller="followUpController" implements="force:appHostable,force:hasRecordId,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickActionWithoutHeader" access="global">
+    <!-- Last modified: 2026-05-06T10:49:27Z -->
+	<!-- Attribute for the recordId -->
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="isSubmitting" type="Boolean" default="false"/>
+    <aura:attribute name="SVStatus" type="string" />
+    <aura:attribute name="status" type="string" />
+    <aura:attribute name="recordTypeName" type="string" />
+    <aura:attribute name="statusOptions" type="list"/>
+    <aura:attribute name="Subject" type="list"/>
+    <aura:attribute name="UnqualifiedReasonList" type="list"/>
+    <aura:attribute name="UnqualifiedReason" type="string"/>
+    <!-- Added By Pattu -->
+    <aura:attribute name="ProjectList" type="list"/>
+    <aura:attribute name="leadProject" type="string"/>
+    
+    <aura:attribute name="closedLostReasonList" type="list"/>
+    <aura:attribute name="closedLostReason" type="string"/>
+    <aura:attribute name="VisitTypeList" type="list"/>
+    <aura:attribute name="visitType" type="string" default=""/>
+    <aura:attribute name="visitSourceType" type="string" default=""/>
+    <aura:attribute name="channelPartnerId" type="string" default=""/>
+    <aura:attribute name="unqualifiedClosedLostRemarks" type="String" />
+    <aura:attribute name="defaultDateTime" type="String" default=""/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"></aura:handler>
+    <!--<force:recordData aura:id="leadRecordLoader" recordId="{!v.recordId}" targetFields="{!v.simpleRecord}" layoutType="FULL" fields="status" recordUpdated="{!c.handleRecordUpdated}"/>-->
+    <!-- Lightning: Record Edit Form -->
+    <!--<lightning:recordEditForm recordId="{!v.recordId}" objectApiName="Lead" aura:id="myform" onsubmit="{!c.handleSubmit}" onsuccess="{!c.handleSuccess}" onerror="{!c.handleError}">-->
+    
+
+        <!-- Modal/Popup Box Header -->
+        <div role="dialog"  tabindex="-1" aria-labelledby="header43" aura:id="Modalbox" class="slds-modal slds-fade-in-open slds-modal_medium ">
+        <!--<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" class="slds-modal slds-fade-in-open">-->
+            <div class="slds-modal__container">
+                
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon 
+                        iconName="utility:close"
+                        onclick="{!c.closeModel}"
+                        alternativeText="close"
+                        variant="bare-inverse"
+                        class="slds-modal__close" />
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Update Lead Status</h2>
+                </header>
+
+                <!-- Modal Body -->
+                <div class="slds-modal__content slds-p-around_medium">
+                    
+                    <!-- Input Fields for Site Visit -->
+                    <!--<label><b>Status:</b></label><br/>-->
+                                            <!-- Status Picklist - dynamically filtered by record type -->
+                    <lightning:recordEditForm recordId="{!v.recordId}" objectApiName="Lead__c">
+                        <lightning:inputField fieldName="Lead_Status__c" aura:id="Status"
+                            value="{!v.SVStatus}" onchange="{!c.Status}" required="true" />
+                    </lightning:recordEditForm>
+                    <!--<lightning:inputField fieldName="Status__c" required="true"/>-->
+                    <aura:if isTrue="{!v.status == 'Unqualified'}" >
+                        <div class="slds-grid slds-wrap slds-text-align_left">
+                            <div class="slds-size_1-of-1 slds-max-small-size_1-of-1">
+                                <div class="slds-form-element__control">
+                                    <!--<label><b>Unqualified Reason:</b></label><br/>-->
+                                    <!--<lightning:inputField variant='label-hidden' fieldName="Unqualified_Reason__c" required="true" />-->
+                                    <lightning:select name="UnqualifiedReason" aura:id="unQualifiedReason" label="Unqualified Reason" value="{!v.UnqualifiedReason}"
+                                                      required="true">
+                                        <option value="">none</option>
+                                        <aura:iteration items="{!v.UnqualifiedReasonList}" var="opt">
+                                            <option value="{!opt}">{!opt}</option>
+                                        </aura:iteration>
+                                    </lightning:select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Add this new Remarks field by karthik 07/11-->
+                        <div class="slds-grid slds-wrap slds-text-align_left slds-m-top_small">
+                            <div class="slds-size_1-of-1">
+                                <div class="slds-form-element__control">
+                                    <lightning:textarea aura:id="unqualifiedClosedLostRemarks"
+                                                        label="Unqualified/Closed Lost Remarks"
+                                                        value="{!v.unqualifiedClosedLostRemarks}" required="true" />
+                                </div>
+                            </div>
+                        </div>    
+                    </aura:if>
+                    <aura:if isTrue="{!v.status == 'Closed Lost'}" >
+                        <div class="slds-grid slds-wrap slds-text-align_left">
+                            <div class="slds-size_1-of-1 slds-max-small-size_1-of-1">
+                                <div class="slds-form-element__control">
+                                    <!--<label><b>Unqualified Reason:</b></label><br/>-->
+                                    <!--<lightning:inputField variant='label-hidden' fieldName="Unqualified_Reason__c" required="true" />-->
+                                    <lightning:select name="closedLostReason" aura:id="closedLostReason" label="Closed Lost Reason" value="{!v.closedLostReason}"
+                                                      required="true">
+                                        <option value="">none</option>
+                                        <aura:iteration items="{!v.closedLostReasonList}" var="opt">
+                                            <option value="{!opt}">{!opt}</option>
+                                        </aura:iteration>
+                                    </lightning:select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Add this new Remarks field by karthik 07/11 -->
+                        <div class="slds-grid slds-wrap slds-text-align_left slds-m-top_small">
+                            <div class="slds-size_1-of-1">
+                                <div class="slds-form-element__control">
+                                    <lightning:textarea aura:id="unqualifiedClosedLostRemarks"
+                                                        label="Unqualified/Closed Lost Remarks"
+                                                        value="{!v.unqualifiedClosedLostRemarks}" required="true" />
+                                </div>
+                            </div>
+                        </div>
+                    </aura:if>
+                    <!-- Site Visit Section -->
+                    <aura:if isTrue="{!v.status == 'Site Visit Scheduled'}" >
+                        <!-- Box Container -->
+    <div class="slds-box slds-box_small slds-theme_default slds-m-top_medium">
+
+        <!-- Header with Icon -->
+        <div class="slds-media slds-media_center slds-m-bottom_medium">
+            <div class="slds-media__figure">
+                <lightning:icon iconName="standard:event" size="small"
+                                class="slds-icon-text-default"/>
+            </div>
+            
+            <!-- Added By Pattu -->
+            <div class="slds-media__body">
+                <h3 class="slds-text-heading_small">
+                    Site Visit Scheduled
+                </h3>
+            </div>
+        </div>
+
+        <!-- Site Visit Date & Time -->
+        <div class="slds-m-bottom_small">
+            <lightning:input
+                type="datetime"
+                aura:id="siteVisitDateTime"
+                label="Site Visit Date &amp; Time"
+                required="true"
+                value="{!v.defaultDateTime}"
+            />
+        </div>
+
+        <!-- Added By Pattu -->
+        <!-- Project -->
+        <div class="slds-m-bottom_small">
+            <lightning:select name="leadProject" aura:id="leadProject" label="Project"
+                              value="{!v.leadProject}" required="true">
+                <option value="">-- Select --</option>
+                <aura:iteration items="{!v.ProjectList}" var="opt">
+                    <option value="{!opt}" selected="{!opt == v.leadProject}">{!opt}</option>
+                </aura:iteration>
+            </lightning:select>
+        </div>
+
+        <!-- Visit Type (active picklist values from Site_Visit__c.Visit_Type__c) -->
+        <div class="slds-m-bottom_small">
+            <lightning:select name="visitType" aura:id="visitType" label="Visit Type"
+                              value="{!v.visitType}" required="true">
+                <option value="">-- Select --</option>
+                <aura:iteration items="{!v.VisitTypeList}" var="opt">
+                    <option value="{!opt}" selected="{!opt == v.visitType}">{!opt}</option>
+                </aura:iteration>
+            </lightning:select>
+        </div>
+
+        <!-- Visit Source Type / Channel Partner hidden for now; retain markup for future use.
+        <aura:if isTrue="{!v.visitType == 'Site Visit'}">
+            <div class="slds-m-bottom_small">
+                <lightning:select name="visitSourceType" aura:id="visitSourceType" label="Visit Source Type"
+                                  value="{!v.visitSourceType}" onchange="{!c.visitSourceTypeChange}" required="true">
+                    <option value="">- Select -</option>
+                    <option value="Digital (Own)">Digital (Own)</option>
+                    <option value="CP">CP</option>
+                </lightning:select>
+            </div>
+
+            <aura:if isTrue="{!v.visitSourceType == 'CP'}">
+                <div class="slds-m-bottom_small">
+                    <c:CustomLookupGlobal objectName="Channel_Partner__c"
+                                          fieldName="Channel_Partner_Name__c"
+                                          additionalfield="Mobile_Number_Text__c"
+                                          label="Channel Partner"
+                                          iconName="standard:partners"
+                                          selectedId="{!v.channelPartnerId}"
+                                          required="true"/>
+                </div>
+            </aura:if>
+        </aura:if>
+        -->
+
+        <!-- Description -->
+        <div class="slds-m-bottom_small">
+            <lightning:textarea
+                aura:id="siteVisitDescription"
+                label="Site Visit Description"
+                value=""
+            />
+        </div>
+
+    </div>
+                    </aura:if>
+                    
+           
+                   <!-- Follow-up Section -->
+<aura:if isTrue="{!and(v.status != 'Closed Lost',and(v.status != 'Booked',v.status != 'Unqualified'))}">
+    
+    <!-- Box Container -->
+    <div class="slds-box slds-box_small slds-theme_default slds-m-top_medium">
+        
+        <!-- Header with Icon -->
+        <div class="slds-media slds-media_center slds-m-bottom_medium">
+            <div class="slds-media__figure">
+                <lightning:icon iconName="standard:task" size="small" class="slds-icon-text-default"/>
+            </div>
+            <div class="slds-media__body">
+                <h3 class="slds-text-heading_small">Follow-up Details</h3>
+            </div>
+        </div>
+        
+        <!-- Follow-up Date -->
+        <div class="slds-m-bottom_small">
+            <lightning:input
+                type="datetime"
+                aura:id="followupDateTime"
+                label="Follow-up Date &amp; Time"
+                required="true"
+                value="{!v.defaultDateTime}"
+            />
+        </div>
+        
+        <!-- Subject -->
+        <div class="slds-m-bottom_small">
+            <lightning:select 
+                name="status" 
+                aura:id="followupSubject" 
+                label="Subject" 
+                required="true"
+            >
+                <option value="">-- Select --</option>
+                <aura:iteration items="{!v.Subject}" var="opt">
+                    <option value="{!opt}">{!opt}</option>
+                </aura:iteration>
+            </lightning:select>
+        </div>
+        
+        <!-- Remarks -->
+        <div class="slds-m-bottom_small">
+            <lightning:textarea 
+                aura:id="followupRemark" 
+                label="Remarks" 
+                required="true" 
+                value=""
+            />
+        </div>
+        
+    </div>
+</aura:if>
+                    
+                    
+                </div>
+
+                <!-- Modal Footer -->
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="neutral" label="Cancel" onclick="{!c.closeModel}" />
+                    <lightning:button variant="brand" type="submit" label="Save" onclick="{!c.handleSuccess}" disabled="{!or(v.isSubmitting, and(v.recordTypeName == 'Sales', or(v.status == 'Site Visit Scheduled', v.status == 'Site Visit Completed')))}" />
+                </footer>
+            </div>
+        <!--</section>-->
+        </div>
+
+    <!--</lightning:recordEditForm>-->
+
+    <!-- Toast Message Component -->
+    <lightning:messages />
+    
+    <!-- Spinner for submission -->
+    <aura:if isTrue="{!v.isSubmitting}">
+        <lightning:spinner variant="brand" size="small" class="slds-m-left_x-small"/>
+    </aura:if>
+
+</aura:component>

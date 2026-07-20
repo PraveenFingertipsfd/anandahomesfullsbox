@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Floor_Rise_Charge__c</fullName>
+    <formula>Built_up_area__c *( CASE(Floor__c ,&quot;1&quot;,1,&quot;2&quot;,2,&quot;3&quot;,3,&quot;4&quot;,4,&quot;5&quot;,5,&quot;6&quot;,6,&quot;7&quot;,7,&quot;8&quot;,8,&quot;9&quot;,9,&quot;10&quot;,10,&quot;11&quot;,11,&quot;12&quot;,12,&quot;13&quot;,13,&quot;14&quot;,14,&quot;15&quot;,15,&quot;16&quot;,16,&quot;17&quot;,17,
+&quot;18&quot;,18,&quot;19&quot;,19,&quot;20&quot;,20,&quot;20&quot;,20,&quot;21&quot;,21,&quot;22&quot;,22,&quot;23&quot;,23,&quot;24&quot;,24,&quot;24&quot;,24,0)-1)* Floor_Rise__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Floor Rise Charge</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

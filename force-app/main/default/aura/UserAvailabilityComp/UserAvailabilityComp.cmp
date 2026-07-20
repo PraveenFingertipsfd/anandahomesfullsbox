@@ -1,0 +1,52 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="UserStatusController">
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="usr" type="User"/>
+    <aura:attribute name="isFalse" type="boolean" default="false"/>
+    <aura:attribute name="reasone" type="string" default=""/>
+    <aura:attribute name="label" type="string" default="Status-"/>
+    <aura:attribute name="isCti" type="boolean" default="false"/>
+    <div class="slds-box slds-theme_shade">
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col">
+                <div class="slds-grid slds-gutters">
+                    
+                    <div class="slds-col">
+                        
+                        <div class="slds-align_absolute-center">
+                            <aura:if isTrue="{!v.isCti}">
+                                {!v.label}
+                                <lightning:input class="slds-p-right_medium"  type="toggle" name="{!v.usr.id}"  checked="{!v.usr.Availability__c}" value="{!v.usr.Availability__c}" onchange="{!c.selectChange}" messageToggleActive="Available"  messageToggleInactive="Offline"/>
+                                <lightning:icon size="xx-small" iconName="{!v.usr.Availability__c ? 'action:approval' : 'action:close'}"/>  
+                                <aura:set attribute="else">
+                                    {!v.label}
+                                    <lightning:input class="slds-p-right_medium"  type="toggle" name="{!v.usr.id}"  checked="{!v.usr.Availability__c}" value="{!v.usr.Availability__c}" onchange="{!c.selectChange}" messageToggleActive="Available"  messageToggleInactive="Offline"/>
+                                    <lightning:icon size="xx-small" iconName="{!v.usr.Availability__c ? 'action:approval' : 'action:close'}"/>
+                                </aura:set>
+                            </aura:if>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <aura:if isTrue="{!v.isFalse}">
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="turnOffReasonHeading" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close" alternativeText="Close" variant="bare-inverse" class="slds-modal__close" onclick="{!c.closePopUP}"/>
+                    <h2 id="turnOffReasonHeading" class="slds-modal__title slds-hyphenate">Turn Off Reason</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <lightning:textarea aura:id="reasone" name="reasone" label="Reason" required="true" placeholder="Please enter a reason for turning off your availability" messageWhenValueMissing="Reason is required."/>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning:button label="Cancel" onclick="{!c.closePopUP}"/>
+                    <lightning:button label="Save" variant="brand" onclick="{!c.submitDetails}"/>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+</aura:component>

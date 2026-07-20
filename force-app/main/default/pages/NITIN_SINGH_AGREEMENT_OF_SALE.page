@@ -1,0 +1,713 @@
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false"
+           applyHtmlTag="false" applyBodyTag="false"
+           renderAs="pdf" title="Agreement of Sale - THE LEGACEY">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <style type="text/css">
+        @page {
+            size: A4;
+            margin: 1.4cm 1.3cm 1.8cm 1.3cm;
+            @bottom-center {
+                content: "Page " counter(page) " of " counter(pages);
+                font-family: Arial, sans-serif;
+                font-size: 10px;
+                color: #000;
+            }
+        }
+        body {
+            font-family: "Times New Roman", serif;
+            font-size: 12px;
+            line-height: 1.5;
+            color: #000;
+            margin: 0;
+            padding: 0;
+        }
+        .document { padding: 0; }
+        h1.doc-title {
+            text-align: center; font-size: 19px;
+            text-decoration: underline; margin: 0 0 16px 0;
+        }
+        h2.section {
+            font-size: 13px; font-weight: bold; text-transform: uppercase;
+            border-bottom: 1px solid #000; padding-bottom: 3px; margin: 18px 0 8px 0;
+        }
+        h3.schedule {
+            text-align: center; font-size: 14px; font-weight: bold;
+            text-decoration: underline; margin: 22px 0 10px 0;
+        }
+        p { text-align: justify; margin: 7px 0; }
+        .center { text-align: center; }
+        .bold { font-weight: bold; }
+        .clause-num { font-weight: bold; }
+        /* keep a block (and its tables) together on one page */
+        .keep { page-break-inside: avoid; }
+        table.bordered { border-collapse: collapse; width: 100%; margin: 10px 0; }
+        table.bordered th, table.bordered td {
+            border: 1px solid #000; padding: 5px 7px; vertical-align: top; text-align: left;
+        }
+        table.bordered th { background-color: #e8e8e8; font-weight: bold; text-align: center; }
+        table.bordered td.num { text-align: center; }
+        table.bordered td.amt { text-align: right; }
+        /* compact variant so a long table fits on a single page */
+        table.compact th, table.compact td { padding: 3px 6px; font-size: 11px; line-height: 1.25; }
+        .box { border: 1px solid #000; padding: 10px 13px; margin: 10px 0; }
+        ul.plain { margin: 6px 0 6px 20px; }
+        ul.plain li { margin: 3px 0; }
+    </style>
+</head>
+<body>
+
+    <div class="document">
+
+        <h1 class="doc-title">AGREEMENT OF SALE</h1>
+
+        <p>This AGREEMENT OF SALE is made and executed on this the ______ day of MAY 2025,
+        at Ranga Reddy District, Telangana State, by and between: -</p>
+
+        <div class="box">
+            <p><span class="bold">SRI NITHIN SINGH</span>, S/O. SRI K. SARDAR SINGH, Aged about 40 years,
+            Occupation: Private Employee, Resident of H.No.12-1-325/B, Dattatreya Nagar, Asif Nagar,
+            Hyderabad (Aadhar No.6711 7964 6904 &amp; PAN No. AWMPK3101C).</p>
+            <p>Hereinafter called the <span class="bold">VENDOR</span> which term shall mean and include
+            their legal heirs, executors, successors, representatives&#8217; administrators and assignees etc.,</p>
+
+            <p class="bold">REPRESENTED BY THEIR AGREEMENT OF SALE-CUM-G.P.A. HOLDER: -</p>
+            <p><span class="bold">M/s. ANANDA HOMES</span>, (pan No. ABFFA6591E), having its Registered
+            Office at Flat No. A1, Vista Residency, Road No.4, Plot Nos.81 &amp; 82, Block-D, Sector-I,
+            Alkapoor Township, Manikonda Village, Gandipet Mandal, Ranga Reddy District, Telangana State-500089,
+            Represented by its Managing Partner: Sri. P.V. Sreenivasulu, S/o. Sri. P. C. V. Ramanaiah,
+            aged about 51 years, Occupation: Business, Resident of Neknampur Village, Gandipet Mandal,
+            Ranga Reddy District, Telangana State-500 089 (AADHAAR No.7420 0525 3319, PAN No. ACNPP9239K).</p>
+            <p>(Vide A.G.P.A. Registered as Document No. 6959 of 2025, dated: 16/04/2025, Registered at
+            S.R.O. Gandipet, Ranga Reddy District, Telangana State).</p>
+            <p>Hereinafter called the <span class="bold">(DEVELOPER/AGPA HOLDER)</span> which term shall
+            mean and include their legal heirs, executors, successors, representatives&#8217; administrators
+            and assignees etc., of the <span class="bold">ONE PART</span>.</p>
+
+            <p class="center bold">IN FAVOUR OF</p>
+            <p><span class="bold">SRI. PILLA SATYAPRASAD</span>, S/O. SRI. PILLA POLAYYA, aged about 33 years
+            Occupation: Private Employee, Resident of 3-2-32, Ragampeta Puntha, Peddapuram, East Godavari,
+            Andhra Pradesh &#8211; 533437. (AADHAAR No.4992 4999 6860 &amp; PAN No. CFIPP1182D)</p>
+            <p><span class="bold">SMT. MOHITHA PRIYANKA</span>, W/O. SRI. PILLA SATYAPRASAD, aged about 31 years
+            Occupation: Private Employee, Resident of 3-2-32, Ragampeta Puntha, Peddapuram, East Godavari,
+            Andhra Pradesh &#8211; 533437. (AADHAAR No. 2103 4542 6430 &amp; PAN No. BLIPD7182A)</p>
+            <p>Hereinafter called the <span class="bold">&#8220;VENDEE(S)/ PURCHASER(S)&#8221;</span>, which
+            term shall mean and include all his/her heirs, executors, administrators, legal representatives,
+            nominees and assignees etc., of the <span class="bold">OTHER PART</span>.</p>
+        </div>
+
+        <h2 class="section">Recitals (WHEREAS)</h2>
+
+        <p>WHEREAS the father of the Vendor is son of late Satyanarayana Singh having share in the land in
+        Sy.No.127, 129, 130, 133, 134, 145, 147, 148 &amp; 149 total admeasuring Ac.21: 19 guntas, situated
+        at Puppalguda Village, Rajendra Nagar Mandal, presently in Gandipet Mandal, Ranga Reddy District,
+        Telangana State.</p>
+
+        <p>WHEREAS the brother of late Satyanarayana Singh namely Dhan Singh during his life time filed a suit
+        for partition and separate possession in respect of land in Sy.127, 129, 130, 133, 134, 145, 147, 148
+        &amp; 149 admeasuring Ac.21 : 19 guntas, situated at Puppalguda Village, presently in Gandipet Mandal,
+        Ranga Reddy District, vide O.S.No.473 of 2000 on the file of Hon'ble IV Additional Senior Civil Judge
+        (FTC), Ranga Reddy District at L.B. Nagar against the Satyanarayana Singh and Ramesh Singh and after
+        contest the said suit was dismissed in the year 2009. Aggrieved by the said Judgment Dhan Singh
+        preferred appeal before the Hon&#8217;ble High Court of Telangana vide A.S.No.552 of 2009.</p>
+
+        <p>During pending of the appeal Dhan Singh, Satyanarayana Singh and Ramesh Singh were died and their
+        legal heirs have brought on record and thereafter due to the intervention of the family elders and
+        well-wishers the matter has been settled between the parties amicably and accordingly all the parties
+        entered into a memorandum of compromise dated 14-08-2020 and the same has been filed in A.S.No.552 of
+        2009 before the Hon&#8217;ble High Court of Telangana and after recording the compromise the
+        Hon&#8217;ble High Court pleased to disposed the appeal in terms of the compromise vide orders dated
+        23-09-2020.</p>
+
+        <p>WHEREAS late Satyanarayana Singh during the pending of the partition suit vide O.S.No.473 of 2000
+        entered into a registered deed of exchange vide doc.no.9130 of 2004 dated 29-11-2004 with Mr.B.Vijay
+        and four others &#8230; by giving the land admeasuring Ac.00 : 15.5 guntas, out of his share of land
+        admeasuring Ac.00 : 18 guntas in Sy.No.127 &#8230; by taking the land admeasuring Ac.00 : 15.5 guntas,
+        out of Ac.01:02 guntas, in Sy.No.128/1, situated at Puppalguda Village, Gandipet Mandal, Ranga Reddy
+        District with the distinct boundaries.</p>
+
+        <p>WHEREAS late Satyanarayana Singh also entered into another deed of exchange vide Doc.No.57 of 2006
+        dated 02-01-2006 with one K.Rama Krishna Reddy S/o. K.Ram Reddy by exchanging the land by giving 597
+        Sq.yards of land in Sy.No.127, 129 and 130 &#8230; by taking the land admeasuring 600 Sq.yards, in
+        Sy.No.128/3, situated at Puppalguda Village, Gandipet Mandal, Ranga Reddy District with the distinct
+        boundaries.</p>
+
+        <div class="keep">
+            <p class="bold">The Total extent of land is as follows.</p>
+            <table class="bordered">
+                <tr><th>S.No.</th><th>Survey Number</th><th>Extent</th></tr>
+                <tr><td class="num">1</td><td>127</td><td>Ac. 0: 38.5 Gts</td></tr>
+                <tr><td class="num">2</td><td>128/1</td><td>Ac. 0: 15.5 Gts</td></tr>
+                <tr><td class="num">3</td><td>128/3</td><td>Ac. 0: 05 Gts</td></tr>
+                <tr><td class="num">4</td><td>129</td><td>Ac. 0 : 18 Gts</td></tr>
+                <tr><td class="num">5</td><td>130</td><td>Ac. 1 : 38 Gts</td></tr>
+                <tr><td class="num">6</td><td>133</td><td>Ac. 1 : 17 Gts</td></tr>
+                <tr><td class="num">7</td><td>134</td><td>Ac. 0 : 04 Gts</td></tr>
+                <tr><td class="num">8</td><td>145</td><td>Ac. 1 : 33 Gts</td></tr>
+                <tr><td class="num">8</td><td>147</td><td>Ac. 0 : 23 Gts</td></tr>
+                <tr><td class="num">9</td><td>148</td><td>Ac. 6 : 39 Gts</td></tr>
+                <tr><td class="num">10</td><td>149</td><td>Ac. 6 : 28 Gts</td></tr>
+                <tr><td class="bold" colspan="2">Total Extent</td><td class="bold">Ac.21 : 19 Gts</td></tr>
+            </table>
+        </div>
+
+        <p>WHEREAS in the compromise entered by the parties in A.S.No.552 of 2009, the Vendors Father along
+        with his brothers Ravi Singh, Magan Singh and Rajkumar Singh herein got the land admeasuring
+        Ac.11: 30 guntas out of the total extent of land admeasuring Ac.21: 19 guntas &#8230; The shares
+        allotted to the respective parties mentioned as follows:</p>
+
+        <table class="bordered keep">
+            <tr>
+                <th>S.No.</th><th>Name of the Succession Holder</th>
+                <th>Survey Numbers</th><th>Ac.- Gts.</th>
+            </tr>
+            <tr>
+                <td class="num">1.</td><td>Sri. Ravi Singh, S/o. Late Satyanarayana Singh</td>
+                <td>130, 145, 147, 148, 149</td>
+                <td>0-08, 0-13, 0-03, 0-31, 1-00<br/><span class="bold">Ac.2-15 gts.</span></td>
+            </tr>
+            <tr>
+                <td class="num">2.</td><td>Sri. Magan Singh, S/o. Late Satyanarayana Singh</td>
+                <td>130, 145, 147, 148, 149</td>
+                <td>0-07, 0-13, 0-03, 0-30, 3-12<br/><span class="bold">Ac.4-25 gts.</span></td>
+            </tr>
+            <tr>
+                <td class="num">3.</td><td>Sri. Sardar Singh, S/o. Late Satyanarayana Singh</td>
+                <td>130, 145, 147, 148, 149</td>
+                <td>0-07, 0-14, 0-03, 0-31, 1-00<br/><span class="bold">Ac.2-15 gts.</span></td>
+            </tr>
+            <tr>
+                <td class="num">4.</td><td>Sri. Raj Kumar Singh, S/o. Late Satyanarayana Singh</td>
+                <td>130, 145, 147, 148, 149</td>
+                <td>0-07, 0-13, 0-03, 0-31, 1-01<br/><span class="bold">Ac.2-15 gts.</span></td>
+            </tr>
+        </table>
+
+        <p>WHEREAS the VENDORS father herein as per mutation process got share in the land in Sy.No.130, 145,
+        147, 148 &amp; 149 admeasuring Ac.02.15 guntas by virtue of succession from ancestral family property
+        &#8230; vide proceedings No: B/387/2020 Dated: 27-08-2020 by the Tahsildar, Gandipet Mandal, Ranga
+        Reddy District.</p>
+
+        <p>WHEREAS the VENDORS father obtained Pattedar Pass Book vide No. T05070070204, Khata No.60188 for an
+        extent of Ac.02-15Gts., situated in Puppalguda Village, Gandipet Mandal, Ranga Reddy District,
+        Telangana State as per the details given in the below table.</p>
+
+        <table class="bordered keep">
+            <tr>
+                <th>S.No.</th><th>Name of the Succession Holder</th>
+                <th>Survey Numbers</th><th>Ac.- Gts.</th>
+            </tr>
+            <tr>
+                <td class="num">1</td><td>Sri. Sardar Singh, S/o. Late Satyanarayana Singh</td>
+                <td>130, 145, 147, 148, 149</td>
+                <td>0-07, 0-14, 0-03, 0-31, 1-00<br/><span class="bold">Ac.2-15 gts.</span></td>
+            </tr>
+        </table>
+
+        <p>WHEREAS the VENDORS father has obtained NALA permission vide Proceedings No.2300787784,
+        Dated:17/10/2023 &#8230; in respect of land bearing Survey No. 147/A/3, 147/AA,148/A/3 &amp; 149/3,
+        admeasuring Ac. 01.34 gts.</p>
+
+        <p>WHEREAS the VENDORS father &#8230; entered into Registered Development Agreement-cum-GPA, vide
+        Document No.111/2021, Dated:04/08/2021, with the Developer &#8230; pertaining to the land bearing
+        Survey No.147/A/3, 147/AA,148/A/3 &amp; 149/3, to an extent of Ac.01.34 gts.</p>
+
+        <p>WHEREAS as per the Registered Development Agreement-cum-GPA, Document No.111/2021, Dated: 04/08/2021,
+        the VENDORs father is entitled for 35.5% of the constructed area and the AGPA Holder herein is entitled
+        for 64.5% of the constructed area.</p>
+
+        <p>WHEREAS the Vendors Father entered into a Registered Supplementary Agreement &#8230; vide Document
+        No.14269 of 2023, Dated:06/11/2023 &#8230; wherein the vendors father got an extent of 1,28,715 Sq.
+        feet developed area in various floors.</p>
+
+        <p>WHEREAS the vendors father desired to effect the partition and allot the shares to his 2 sons
+        SRI NITHIN SINGH, SRI NAVEEN SINGH and Daughter SMT. THAKUR NAMRATA SINGH &#8230; vide document
+        No. 6958 / 2025 dated 16-04-2025. As per the family settlement and partition deed, the vendor is
+        entitled to the flat mentioned in Schedule &#8220;B&#8221; property.</p>
+
+        <p>WHEREAS the AGPA Holder &#8230; has obtained HMDA approved plan for 11 Blocks with 3 basements +
+        Ground + 22 floors and 12th Block with 3 cellars + Ground + 5 upper floors, Amenities Block-1, 3
+        Cellars + Ground + 4 upper floors and Amenities Block-2 with 3 Cellars + Ground+3 upper floors &#8230;
+        by virtue of Permission No. 01722/SKP/PLG/HMDA/2022, Dated:25/06/2024, and the project was named as
+        &#8220;THE LEGACEY&#8221;. M/s. Ananda Homes &amp; Others is developing the project in the extent of
+        67479.02 Sq. Meters Equivalent to 80704.23 Sq. Yards (Total Property, described in Schedule A).</p>
+
+        <p>AND WHEREAS, The Developer/AGPA Holder had registered the Project THE LEGACEY &#8230; with the
+        Telangana Real Estate Regulatory Authority (TSRERA) at Hyderabad and has been granted registration
+        No. P02400008615, dated:07/08/2024.</p>
+
+        <p>AND WHEREAS, the AGPA Holder hereby agrees to sell and the VENDEE/S hereby agree to purchase the
+        Flat which is more specifically demarcated as per the Schedule below.</p>
+
+        <table class="bordered keep">
+            <tr><th style="width:200px;">PROJECT</th><td>THE LEGACEY</td></tr>
+            <tr><th>TOWER</th><td>2</td></tr>
+            <tr><th>FLAT NO.</th><td>T2-708</td></tr>
+            <tr><th>FLOOR</th><td>7th Floor</td></tr>
+            <tr><th>FLAT TYPE</th><td>3 BHK</td></tr>
+            <tr><th>FACING</th><td>EAST</td></tr>
+            <tr><th>CARPET AREA</th><td>1137 SQ. FT</td></tr>
+            <tr><th>BALCONY &amp; UTILITY AREA</th><td>173 SQ. FT</td></tr>
+            <tr><th>WALL AREA</th><td>92 SQ. FT</td></tr>
+            <tr><th>PLINTH AREA</th><td>1402 SQ. FT</td></tr>
+            <tr><th>COMMON AREA</th><td>423 SQ. FT</td></tr>
+            <tr><th>FLAT SIZE</th><td>1825 SQ. FT</td></tr>
+            <tr><th>CAR PARKING</th><td>ONE</td></tr>
+            <tr><th>UDS</th><td>38.3 SQ. YDS</td></tr>
+        </table>
+
+        <p>AND WHEREAS, this agreement shall be governed by the laws applicable in India. The courts at
+        Hyderabad shall have the sole and exclusive jurisdiction.</p>
+
+        <p class="bold">NOW THEREFORE THIS AGREEMENT WITNESSES AND IT IS HEREBY AGREED TO BY THE PARTIES
+        HERETO AS FOLLOWS:</p>
+
+        <h2 class="section">1. Definitions and Interpretation</h2>
+        <p>Unless the context otherwise requires, the following capitalized terms shall have the meaning set
+        forth below:</p>
+        <ul class="plain">
+            <li><span class="bold">&#8220;Act&#8221;</span> means the Real Estate (Regulation and Development)
+            Act, 2016 (16 of 2016) and includes Telangana Real Estates (Regulation and Development) Rules, 2017.</li>
+            <li><span class="bold">&#8220;Agreement&#8221;</span> shall mean this agreement to sell a flat
+            bearing No. T2-708, Tower no. 2, square feet 1825, including the schedule hereto.</li>
+            <li><span class="bold">&#8220;Applicable Law&#8221;</span> means all laws, statutes, regulations,
+            codes, bye-laws, ordinances, treaties, judgments, decrees, directives, rules, guidelines, orders,
+            policies and other requirements of any statutory authority having jurisdiction.</li>
+            <li><span class="bold">&#8220;Association of Owners&#8221;</span> being the Association of Owners
+            in Ananda Homes to be formed by the Owners in accordance with law.</li>
+            <li><span class="bold">&#8220;Appropriate Government&#8221;</span> means the Government of Telangana.</li>
+            <li><span class="bold">&#8220;Carpet Area&#8221;</span> shall mean the net useable floor area of
+            the flat, excluding external walls, service shafts, exclusive balcony/verandah and open terrace
+            area, but includes internal partition walls.</li>
+            <li><span class="bold">&#8220;Commencement Certificate&#8221;</span> vide letter No.
+            01722/SKP/Plg/HMDA/2022 dated:25/06/2024.</li>
+            <li><span class="bold">&#8220;Force Majeure&#8221;</span> War, flood, drought, fire, cyclone,
+            earthquake, any other calamity caused by nature or any court stay or government order affecting
+            the regular development of the Project.</li>
+            <li><span class="bold">&#8220;Interest&#8221;</span> calculated at prevailing interest rate of
+            State Bank of India highest marginal cost of lending rate (MCLR) plus 2 %.</li>
+            <li><span class="bold">&#8220;Project&#8221;</span> means the multi-storied residential buildings
+            registered under the Act as &#8220;THE LEGACEY&#8221;.</li>
+            <li><span class="bold">&#8220;Developer/AGPA holder&#8221;</span> shall mean M/s. Ananda Homes
+            represented by its Managing Partner: SRI. P.V. SREENIVASULU.</li>
+            <li><span class="bold">&#8220;Sale Deed&#8221;</span> shall mean the Deed of Sale to be executed
+            by the Developer for legally conveying absolute right, title and interest in the Schedule Property.</li>
+            <li><span class="bold">&#8220;Schedule B&#8221;</span> the floor plan of the flat;
+            <span class="bold">&#8220;Schedule C&#8221;</span> the Payment plan;
+            <span class="bold">&#8220;Saleable Area&#8221;</span> carpet area plus balcony/terrace plus
+            proportionate share of common area.</li>
+            <li><span class="bold">&#8220;Booking Amount&#8221;</span> the amount paid upon execution of the
+            Agreement of Sale; <span class="bold">&#8220;Date of Booking&#8221;</span> the date reflected
+            under the Booking Form.</li>
+        </ul>
+        <p><span class="clause-num">1.2 Interpretation</span> &#8212; defined words carry their assigned
+        meaning throughout; substantive provisions in Clause 1.1 take effect as such; &#8220;including&#8221;
+        is not limiting; schedules and annexures form an integral part; headings are for convenience only;
+        singular includes plural and vice-versa.</p>
+
+        <h2 class="section">Terms</h2>
+        <p>Subject to the terms of this Agreement, the DEVELOPER agrees to sell and the VENDEE/S agrees to
+        purchase Flat No. T2-708, Tower No. 2, Area 1825 sq. ft (including common area) for a total
+        consideration of <span class="bold">Rs. 1,27,51,175/-</span> (Rupees One Crore Twenty Seven Lakh
+        Fifty One Thousand One Hundred Seventy Five Only) which includes amenities and excludes GST.</p>
+
+        <table class="bordered keep">
+            <tr><th>Particulars</th><th>Rate Per SFT (Rs.)</th><th>Total Price (Rs.)</th></tr>
+            <tr><td>Basic Price</td><td class="amt">6439</td><td class="amt">1,17,51,175</td></tr>
+            <tr><td>Amenities including One car parking &amp; Infrastructure charges</td>
+                <td class="amt">&#8212;</td><td class="amt">10,00,000</td></tr>
+            <tr><td class="bold">Total</td><td class="amt">&#160;</td>
+                <td class="amt bold">1,27,51,175/-</td></tr>
+        </table>
+        <p><span class="bold">GST:</span> 1. 5% on Sale Consideration &nbsp;|&nbsp; 2. 18% on Maintenance,
+        Move in, legal &amp; documentation charges.</p>
+
+        <p>The Total Price includes the booking amount, taxes up to handover, undivided share price of land,
+        construction of the Flat and Common areas, internal/external development charges, electrical, lift,
+        plumbing, paint, doors, windows, fire-fighting equipment, maintenance charges as per para 11, etc.
+        The VENDEE/S agree to contribute Rs.4/- per sft maintenance with 18% GST for 2 years and Corpus fund
+        Rs.50/- per sft. The Total Price is escalation-free save for statutory development charges.</p>
+
+        <p>VENDEE/S has paid a sum of <span class="bold">Rs. 12,75,118/-</span> as booking amount (excluding
+        GST), receipt of which the DEVELOPER acknowledges in the table below:</p>
+
+        <table class="bordered keep">
+            <tr><th>Date</th><th>Mode</th><th>Reference ID</th><th>Amount (Rs.)</th></tr>
+            <tr><td>07-Nov-24</td><td>Cheque</td><td>584551</td><td class="amt">5,00,000</td></tr>
+            <tr><td>23-Nov-24</td><td>Online</td><td>AXOMB32816562539</td><td class="amt">7,62,366</td></tr>
+            <tr><td>&#160;</td><td>TDS Challan</td><td>Pending</td><td class="amt">12,752</td></tr>
+            <tr><td colspan="3" class="bold">Total payments</td>
+                <td class="amt bold">12,75,118</td></tr>
+        </table>
+        <p>Balance <span class="bold">Rs. 1,14,76,057/-</span> (Rupees One Crore Fourteen Lakh Seventy-Six
+        Thousand Fifty-Seven Only) availing by way of loan from BHFL. The VENDEE/S shall pay installments
+        within 15 days from the date of notice, failing which interest at 24% applies.</p>
+
+        <h2 class="section">2. Mode of Payment</h2>
+        <p>The VENDEE/S shall make all payments, on written demand, through A/c Payee cheque/demand
+        draft/banker&#8217;s cheque or online payment in account A/c. No. 322205002425 in favour of
+        M/s. ANANDA HOMES, Bank: ICICI BANK, Branch: MANIKONDA, IFSC: ICIC0003222.</p>
+
+        <h2 class="section">3. Compliance of Laws Relating to Remittances</h2>
+        <p>3.1 The VENDEE/S, if residents outside India, shall be solely responsible for complying with the
+        Foreign Exchange Management Act, 1999, Reserve Bank of India Act, 1934 and the rules thereunder.</p>
+        <p>3.2 The DEVELOPER accepts no responsibility in regard to matters specified in Para 3.1. The
+        VENDEE/S shall keep the DEVELOPER fully indemnified and harmless in this regard.</p>
+
+        <h2 class="section">4. Adjustment / Appropriation of Payments</h2>
+        <p>The VENDEE/S authorizes the DEVELOPER to adjust/appropriate all payments made under any head of
+        dues against lawful outstanding of the VENDEE/S against the Flat.</p>
+
+        <h2 class="section">5. Time is Essence</h2>
+        <p>The DEVELOPER shall abide by the time schedule for completing the project as disclosed at the time
+        of registration, subject to the VENDEE/S making payments as per schedule.</p>
+
+        <h2 class="section">6. Construction of the Flat</h2>
+        <p>The VENDEE/S have seen and accepted the sanction plan, specifications, amenities, floor plan and
+        payment plan approved by the competent authority. The DEVELOPER shall develop the Project in
+        accordance with the said sanction plan.</p>
+
+        <h2 class="section">7. Possession of the Flat</h2>
+        <p>7.1 The DEVELOPER assures to hand over possession of the Schedule B property by
+        <span class="bold">June-2028</span> with a grace period of 6 months, subject to Force Majeure. On
+        Force Majeure making the contract impossible, the agreement stands terminated and the DEVELOPER shall
+        refund the entire amount received within 90 days.</p>
+        <p>7.2 Procedure for taking possession &#8212; on/after obtaining the Occupancy Certificate, the
+        Developer shall offer possession in writing; the Vendee shall take possession within two months.</p>
+        <p>7.3 / 7.4 Failure to take possession; handover of documents &amp; common areas to the Association
+        within thirty days after completion certificate. House-warming subject to clearance of all dues and
+        NOC from Developer.</p>
+        <p>7.5 Cancellation by VENDEE/S &#8212; where the Vendee cancels without fault of the Developer, the
+        Developer may deduct 10% of Total Sale Consideration; balance returned within three months or on
+        resale, whichever is later.</p>
+        <p>7.6 Transfer rights &#8212; not allowed to sell/transfer till Two years from the date of Agreement
+        or project completion (whichever later); one-time nomination of a blood relative permitted; resale not
+        below prevailing base price and Rs.150/- per SFT to be paid with NOC.</p>
+        <p>7.7 If the Developer fails to deliver possession by the date in Clause 7.1, it shall compensate at
+        Rs.5/- per sq. ft of super built-up area per month of delay.</p>
+
+        <h2 class="section">8. Representations and Warranties of the Developer</h2>
+        <p>8.1 The DEVELOPER represents and warrants: (i) absolute, clear and marketable title; (ii) lawful
+        rights and requisite approvals; (iii) Project Finance obtained from &#8220;CAPRI GLOBAL CAPITAL
+        LIMITED&#8221;; (iv) no pending litigation except disclosed in title report; (v) valid approvals,
+        licenses and permits; (vi)-(viii) right to enter into this Agreement, no conflicting agreements, not
+        restricted from selling; (ix) handover of vacant peaceful possession at sale deed; (x)-(xi) discharge
+        of governmental dues and no acquisition notice.</p>
+        <p>The VENDEE/S covenants to maintain the Flat in good repair; not store hazardous goods; not
+        demolish/alter structure; not alter elevation/colour scheme; not throw refuse; pay security deposits
+        and local taxes; observe Society rules and pay taxes/outgoings punctually; permit the Promoter to
+        inspect; and pay applicable Property Tax from registration date.</p>
+
+        <h2 class="section">9. Events of Defaults and Consequences</h2>
+        <p>9.1 The DEVELOPER is in default if it fails to provide ready-to-move-in possession within Para 7.1
+        time or discontinues business due to suspension/revocation of registration.</p>
+        <p>9.2 On Developer default, the VENDEE/S may stop further payments until milestones are corrected, or
+        terminate and obtain full refund with interest within ninety days; if not withdrawing, receive
+        interest for each month of delay.</p>
+        <p>9.3 The VENDEE/S is in default on failure to pay 1 consecutive demand; continued default beyond 1
+        month after notice allows cancellation and refund after deducting booking amount and interest, with
+        30 days&#8217; prior intimation; repayment within ninety days or on resale, whichever later.</p>
+
+        <h2 class="section">10. Conveyance of the Said Flat</h2>
+        <p>The DEVELOPER, on receipt of the total price, shall execute a conveyance/sale deed and convey title
+        with proportionate undivided share within 3 months from issuance of occupancy/completion certificate.
+        Stamp duty and registration charges to be paid by the VENDEE/S.</p>
+
+        <h2 class="section">11. Maintenance of the Said Building / Flat</h2>
+        <p>11.1&#8211;11.9 The DEVELOPER provides essential services till takeover by the Association; may
+        appoint a Property Management Company (PMC). Club house and common service connections maintained by
+        the Developer; AMCs and insurance for lifts, STP, etc. form part of maintenance charges. User charges
+        apply for Club House, Gym, Swimming Pool. The DEVELOPER reserves the right to maintain common areas
+        for initial two years from commencement of pre-paid maintenance; VENDEE/S to pay Rs.4/- per sft for
+        2 years as maintenance and corpus charges (club house excluded), payable normally 1 month before
+        handover.</p>
+
+        <h2 class="section">12. Defect Liability</h2>
+        <p>12.1 Structural/workmanship defects notified within 5 years from handover shall be rectified
+        without charge within 30 days, failing which the VENDEE/S receives compensation under the Act.</p>
+        <p>12.2 Exclusions: equipment with manufacturer guarantees (lifts, generator, motors, STP,
+        transformers, gym equipment, windows); plumbing/sanitary/electrical fittings with natural wear and
+        tear; allowable structural deformations; painting and similar wear-and-tear works.</p>
+        <p>12.3 The VENDEE/S / Association shall maintain flats and services in good condition with AMC and
+        insurance.</p>
+
+        <h2 class="section">13. Right to Enter the Flat for Repairs</h2>
+        <p>The DEVELOPER / maintenance agency / Association shall have unrestricted access to common areas,
+        garages and parking for maintenance, and may enter the Schedule B property after due notice during
+        normal working hours.</p>
+
+        <h2 class="section">14. Usage</h2>
+        <p>Basements and service areas are earmarked for parking and services (electric sub-station,
+        transformer, DG set rooms, water tanks, pump rooms, firefighting, etc.) and shall not be used by the
+        VENDEE/S for any other purpose.</p>
+
+        <h2 class="section">15. General Compliance with Respect to the Flat</h2>
+        <p>15.1&#8211;15.15 The VENDEE/S shall maintain the Schedule B property at own cost; not put signage,
+        neon lights or advertisements on the building exterior; not change exterior colour/elevation; plan
+        electrical load per installed systems; pay user charges for Clubhouse/Gym/Swimming pool; no structural
+        modifications (Shear Wall Technology); not demolish or enclose balconies/parking with grills; keep
+        drains and pipes in good condition; share common over-head tank and pay water charges by meter; fix
+        AC units only at designated locations; dry clothes only in Utility areas; keep common areas clear;
+        not modify sit-outs/corridors/main door; name boards per Developer design; use the Flat for
+        residential purposes only. The exclusive Verandah &#8220;Sit-Out&#8221; area shall not be
+        covered/barricaded except on payment of not less than Rs.20,00,000/- to the Association into the
+        Corpus Account. Planter boxes and windows fixed per architectural elevation; plants as defined by the
+        DEVELOPER.</p>
+
+        <h2 class="section">16. Compliance of Laws, Notifications etc. by Parties</h2>
+        <p>The Parties enter into this Agreement with full knowledge of all laws, rules, regulations and
+        notifications applicable to the project.</p>
+
+        <h2 class="section">17. Additional Constructions</h2>
+        <p>The DEVELOPER undertakes not to make additions or additional structures after the approved plans,
+        except as provided in the Act and as set out in this Agreement.</p>
+
+        <h2 class="section">18. Mortgage or Create a Charge</h2>
+        <p>The VENDEE/S authorizes the DEVELOPER to raise finance by charge/mortgage of the Flat/Project,
+        provided the Flat shall be free from encumbrances at the time of Sale Deed execution.</p>
+
+        <h2 class="section">19. Miscellaneous</h2>
+        <p>19.1 Tri-partite Agreement where the VENDEE/S avails a housing loan; the VENDEE/S obligation to pay
+        the total sale consideration is independent of the bank loan.</p>
+        <p>19.2 The building is named &#8220;THE LEGACEY&#8221;; the DEVELOPER may erect display/name boards
+        permanently.</p>
+        <p>19.3 The Vendee acknowledges the Developer has applied for two additional floors (23rd and 24th)
+        using TDR; such floors are the exclusive property of the Developer and the Vendee shall have no right
+        or claim therein and shall sign required documents without objection.</p>
+        <p>19.4 Interior works allowed only after handover; permitted between 8:00 AM and 7:00 PM; penalty for
+        interiors beyond 4 months of handover.</p>
+        <p>19.5 The purchaser agrees to pay Rs.96/- per Sq. Ft. plus 18% GST as 2-year maintenance; one-time
+        Move-in charges Rs.25,000/- plus 18% GST; fixed electricity for 3 months; interim maintenance Rs.2/-
+        per Sq. Ft. plus 18% GST per month; and Rs.25,000/- plus 18% GST towards legal and documentation
+        charges at Sale Deed registration. Bore-well deepening expenses to be shared proportionately by all
+        Flat Owners.</p>
+        <p>19.6 Parking places allotted by lottery method. 19.7 CCTV only for drive-ways, entry &amp; exit
+        ramps (no individual parking slots). 19.8 Vehicles to be parked only in allotted parking lots.</p>
+
+        <h2 class="section">20. Formation of Association of VENDEE/S</h2>
+        <p>The DEVELOPER shall apply to the Registrar for registration of the Association as a society under
+        the Telangana Societies Registration Act, 2001, within two months from issue of the occupation
+        certificate where at least sixty per cent of VENDEE/S have taken possession and paid full
+        consideration. After conveying title, the DEVELOPER may continue to market and sell unsold units.</p>
+
+        <h2 class="section">21&#8211;34. General Provisions</h2>
+        <p><span class="bold">21. Entire Agreement</span> &#8212; this Agreement with its schedules
+        constitutes the entire agreement and supersedes all prior understandings.</p>
+        <p><span class="bold">22. Right to Amend</span> &#8212; only through written consent of both Parties.</p>
+        <p><span class="bold">23. Provisions Applicable on Subsequent VENDEE/S</span> &#8212; all provisions
+        bind any subsequent VENDEE/S.</p>
+        <p><span class="bold">24. Waiver Not a Limitation to Enforce</span> &#8212; waiver in one case is not
+        a precedent; failure to enforce is not a waiver.</p>
+        <p><span class="bold">25. Severability</span> &#8212; void/unenforceable provisions are deemed amended
+        or deleted, remaining provisions stay valid.</p>
+        <p><span class="bold">26. Method of Calculation of Proportionate Share</span> &#8212; in proportion to
+        built-up, balcony, verandah, common and parking areas to the total built-up area.</p>
+        <p><span class="bold">27. Further Assurances</span> &#8212; parties shall execute additional
+        instruments as reasonably required.</p>
+        <p><span class="bold">28. Place of Execution</span> &#8212; deemed executed at Hyderabad; registered
+        at the office of the Sub-Registrar, Gandipet, Ranga Reddy.</p>
+        <p><span class="bold">29. Notices</span> &#8212; served by registered post to the addresses below.</p>
+
+        <table class="bordered keep">
+            <tr><th colspan="2">Notice to the Developer / AGPA Holder</th></tr>
+            <tr><td class="bold" style="width:120px;">Attention</td><td>M/S. ANANDA HOMES</td></tr>
+            <tr><td class="bold">Address</td><td>Flat No. A1, Vista Residency, on Plot No.81 and 82, Block-D,
+                Sector-I, Alkapoor Township, Manikonda, Hyderabad, Telangana State &#8211; 500089.</td></tr>
+            <tr><td class="bold">E mail</td><td>info@anandahomes.co.in</td></tr>
+        </table>
+        <table class="bordered keep">
+            <tr><th colspan="2">Notice to the VENDEE(S)</th></tr>
+            <tr><td class="bold" style="width:120px;">Attention</td>
+                <td>SRI. PILLA SATYAPRASAD &amp; SMT. MOHITHA PRIYANKA</td></tr>
+            <tr><td class="bold">Address</td><td>&#160;</td></tr>
+            <tr><td class="bold">E mail</td><td>&#160;</td></tr>
+        </table>
+
+        <p><span class="bold">30. Joint Vendee</span> &#8212; communications sent to the first-named VENDEE.
+        <span class="bold">31. Savings</span> &#8212; prior documents do not limit the VENDEE/S rights.
+        <span class="bold">32. Governing Law</span> &#8212; the Act and Rules and applicable laws of India.
+        <span class="bold">33. Dispute Resolution</span> &#8212; amicable settlement, failing which through
+        the adjudicating officer under the Act.
+        <span class="bold">34. Other Terms</span> &#8212; all payments subject to actual realization in the
+        DEVELOPER&#8217;s account.</p>
+
+        <div class="keep">
+            <h2 class="section">Execution</h2>
+            <p>In WITNESS WHEREOF, the parties named above have set their respective hands and signed this
+            Agreement for Sale at Hyderabad in the presence of attesting witnesses on the day first written above.</p>
+            <table class="bordered">
+                <tr><th colspan="2">SIGNED AND DELIVERED BY THE VENDEE/S</th></tr>
+                <tr><td>Signature: &#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;.</td>
+                    <td>Name: &#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;.</td></tr>
+                <tr><td>Signature: &#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;.</td>
+                    <td>Name: &#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;.</td></tr>
+                <tr><th colspan="2">SIGNED AND DELIVERED BY THE AGPA HOLDER (on behalf of all 5 Vendors)</th></tr>
+                <tr><td colspan="2">Signature (AGPA HOLDER): &#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;.</td></tr>
+                <tr><th colspan="2">WITNESSES</th></tr>
+                <tr><td>1) &#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;.</td>
+                    <td>2) &#8230;&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;.</td></tr>
+            </table>
+        </div>
+
+        <div class="keep">
+            <h3 class="schedule">SCHEDULE &#8216;A&#8217; PROPERTY</h3>
+            <div class="box">
+                <p>All that the property bearing premises the Land in Sy.Nos. 128/1A/2/2, 129/A/1, 129/A/2,
+                129/AA/1, 129/AA/2, 129/AA/3, 129/E/1, 130/A/1, 130/A/2, 130/A/3/1, 130/A/3/2, 130/A/4, 130/AA/1,
+                130/AA/2, 130/AA/3, 130/E/1, 130/E/2, 145/1/2, 145/1/1/7, 145/1/1/1/2, 145/1/1/1/1/2,
+                145/1/1/1/1/1/1, 145/1/1/1/1/1/2, 145/2, 147/A/1, 147/A/2, 147/A/3, 147/AA/1, 147/AA/2, 147/AA/3,
+                147/E/1, 147/E/2, 148/A/1, 148/A/2, 148/A/3, 148/A/4, 148/AA/1, 148/AA/2, 148/AA/3, 148/E/1,
+                148/E/2, 148/E/3, 148/E/5, 149/1, 149/2, 149/3, 149/4, 149/5, 149/6, 149/7, total admeasuring
+                80704.23 Square yards or equivalent to 67479.02 Square Meters, situated at Puppalguda Village,
+                under Manikonda Municipality, Gandipet Mandal, Ranga Reddy District, Telangana State and bounded
+                as follows:</p>
+                <table class="bordered">
+                    <tr><th style="width:120px;">NORTH</th><td>Road and Neighbors Properties</td></tr>
+                    <tr><th>SOUTH</th><td>80&#8217;-0&#8217; feet Road</td></tr>
+                    <tr><th>EAST</th><td>Existing Nala</td></tr>
+                    <tr><th>WEST</th><td>30&#8217;-0&#8217; feet Road</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="keep">
+            <h3 class="schedule">SCHEDULE &#8216;B&#8217; PROPERTY</h3>
+            <div class="box">
+                <p>All that the 3 BHK Flat No.T2-708 (EAST Facing) on 7th Floor, of Tower-2, the High Rise
+                Residential Flats known as &#8220;THE LEGACEY&#8221;, with saleable area of 1825 Square Feet
+                (including common areas and One Car Parking), along with proportionate undivided share of land
+                equivalent to 38.3 Square Yards (out of total land admeasuring 80704.23 Square yards), in the
+                Survey Numbers of Schedule A, situated at PUPPALGUDA VILLAGE, under Manikonda Municipality,
+                Gandipet Mandal, Ranga Reddy District, Telangana State and bounded as follows:</p>
+                <table class="bordered">
+                    <tr><th style="width:120px;">NORTH</th><td>OPEN TO SKY</td></tr>
+                    <tr><th>SOUTH</th><td>OPEN TO SKY</td></tr>
+                    <tr><th>EAST</th><td>CORRIDOR</td></tr>
+                    <tr><th>WEST</th><td>OPEN TO SKY</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="keep">
+            <h3 class="schedule">SCHEDULE &#8216;C&#8217; PAYMENT SCHEDULE</h3>
+            <table class="bordered compact">
+                <tr><th>INSTALLMENT NAME</th><th>STAGE</th><th>FLAT COST</th><th>NET AMOUNT</th></tr>
+                <tr><td>Booking Amount</td><td class="num">20%</td><td class="amt">Rs. 5,00,000</td><td class="amt">Rs. 5,25,000</td></tr>
+                <tr><td>Within 15 Days From The Date Of Booking</td><td class="num">&#160;</td><td class="amt">Rs. 20,50,235</td><td class="amt">Rs. 21,52,747</td></tr>
+                <tr><td>On Completion Of Excavation Of Respective Tower</td><td class="num">10%</td><td class="amt">Rs. 12,75,118</td><td class="amt">Rs. 13,38,873</td></tr>
+                <tr><td>On Completion Of Footing Works Of Respective Tower</td><td class="num">6%</td><td class="amt">Rs. 7,65,071</td><td class="amt">Rs. 8,03,324</td></tr>
+                <tr><td>On Completion Transfer Slab Of 1 &amp; 2 Towers</td><td class="num">5%</td><td class="amt">Rs. 6,37,559</td><td class="amt">Rs. 6,69,437</td></tr>
+                <tr><td>On Completion Transfer Slab Of 6 &amp; 8 Towers</td><td class="num">5%</td><td class="amt">Rs. 6,37,559</td><td class="amt">Rs. 6,69,437</td></tr>
+                <tr><td>On Completion 7th Floor Slab Of 1 &amp; 2 Towers</td><td class="num">7%</td><td class="amt">Rs. 8,92,582</td><td class="amt">Rs. 9,37,211</td></tr>
+                <tr><td>On Completion 14th Floor Slab Of 1 &amp; 2 Towers</td><td class="num">5%</td><td class="amt">Rs. 6,37,559</td><td class="amt">Rs. 6,69,437</td></tr>
+                <tr><td>On Completion 22nd Floor Slab Of 1 &amp; 2 Towers</td><td class="num">5%</td><td class="amt">Rs. 6,37,559</td><td class="amt">Rs. 6,69,437</td></tr>
+                <tr><td>On Completion 7th Floor Slab Of 8 &amp; 6 Towers</td><td class="num">7%</td><td class="amt">Rs. 8,92,582</td><td class="amt">Rs. 9,37,211</td></tr>
+                <tr><td>On Completion 14th Floor Slab Of 8 &amp; 6 Towers</td><td class="num">5%</td><td class="amt">Rs. 6,37,559</td><td class="amt">Rs. 6,69,437</td></tr>
+                <tr><td>On Completion 22nd Floor Slab Of 8 &amp; 6 Tower</td><td class="num">5%</td><td class="amt">Rs. 6,37,559</td><td class="amt">Rs. 6,69,437</td></tr>
+                <tr><td>On Completion 7th Floor Slab Of 5th Tower</td><td class="num">7%</td><td class="amt">Rs. 8,92,582</td><td class="amt">Rs. 9,37,211</td></tr>
+                <tr><td>On Completion 14th Floor Slab Of 5th Tower</td><td class="num">5%</td><td class="amt">Rs. 6,37,559</td><td class="amt">Rs. 6,69,437</td></tr>
+                <tr><td>On Completion 22nd Floor Slab Of 5th Tower</td><td class="num">5%</td><td class="amt">Rs. 6,37,559</td><td class="amt">Rs. 6,69,437</td></tr>
+                <tr><td>Handover Or Registration Whichever Is Earlier</td><td class="num">3%</td><td class="amt">Rs. 3,82,535</td><td class="amt">Rs. 4,01,662</td></tr>
+                <tr><td class="bold">TOTAL FLAT COST INCLUDING</td><td class="num bold">100%</td><td class="amt bold">Rs. 1,27,51,175</td><td class="amt bold">Rs. 1,33,88,734</td></tr>
+            </table>
+        </div>
+
+        <div class="keep">
+            <h3 class="schedule">SCHEDULE &#8216;D&#8217; SPECIFICATIONS</h3>
+            <table class="bordered compact">
+                <tr><th style="width:185px;">Foundation Structure</th><td>Earthquake resistant RCC Framed Structure</td></tr>
+                <tr><th>Super Structure</th><td>A load bearing structure constructed of reinforced cement concrete
+                    and aluminum form work with high strength RCC wall (Except Tower-12). TOWER-12: AAC Block
+                    Masonry in cement mortar.</td></tr>
+                <tr><th>Flooring</th><td>Drawing, living, dining, all bedrooms: Premium Double Charged Vitrified Tiles.</td></tr>
+                <tr><th>Corridor / Common Area</th><td>Vitrified tiles of matt finish</td></tr>
+                <tr><th>Lift Lobby</th><td>Polished GRANITE / MARBLE / TILE Dadoing</td></tr>
+                <tr><th>Utilities / Wash areas</th><td>Anti-skid tile flooring and dado up to 3' height and Power
+                    Point for washing Machine.</td></tr>
+                <tr><th>Toilet</th><td>Anti-skid tile flooring and designed glazed tiles cladding up to lintel level.</td></tr>
+                <tr><th>Waterproofing</th><td>Provided for bath rooms, roof terrace and utility area.</td></tr>
+                <tr><th>Doors</th><td>a.) Main Door: Teak Wood solid decorative panel design, teak veneer, melamine
+                    polish, long hinges. b.) Internal Doors: flush door shutter solid core with thick laminate.</td></tr>
+                <tr><th>Windows</th><td>UPVC for all windows with clear glass and Safety Grills.</td></tr>
+                <tr><th>Painting</th><td>External: Texture / two coats acrylic exterior / weather shield paint.
+                    Internal: Two coats emulsion paint over putty-finished / primer-coated surface.</td></tr>
+                <tr><th>Gas Pipe line</th><td>Centralized piped gas to all flats through digital/prepaid meters
+                    with ISI standards.</td></tr>
+                <tr><th>Plumbing</th><td>Concealed best quality PVC/CPVC pipes.</td></tr>
+                <tr><th>CP Fittings &amp; Sanitary Ware</th><td>Toto / Delta / Roca / Schell or equivalent makes
+                    for all toilets.</td></tr>
+                <tr><th>Electrical &amp; Communication</th><td>Concealed copper wiring (HPL/RR/KEI), PVC conduits
+                    (Sudhakar), modular switches (Le Grand); TV &amp; DTH provision, broadband, power points,
+                    geyser points, kitchen power provisions.</td></tr>
+                <tr><th>Fire Fighting</th><td>Fire Fighting System at Common Area &amp; Fire Sprinklers at every
+                    room of each flat.</td></tr>
+                <tr><th>Security Network</th><td>a. CCTV cameras at each block&#8217;s main entrance, common areas
+                    and club house with security-room monitoring/recording. b. Boom barriers with long-range
+                    readers. c. Solar powered security fence on compound wall.</td></tr>
+                <tr><th>Lifts</th><td>Mitsubishi / Johnson / Kone or equivalent make with automatic door.</td></tr>
+                <tr><th>Rain Water</th><td>Rain water collected and discharged into rainwater harvesting pits to
+                    recharge groundwater.</td></tr>
+                <tr><th>Water Supply</th><td>Provision for Municipal Water.</td></tr>
+                <tr><th>STP</th><td>Sewage Treatment Plant of adequate capacity; treated sewage used for
+                    landscaping and flushing.</td></tr>
+                <tr><th>Generator</th><td>Sound-proof generator providing 100% power backup for common areas plus
+                    light &amp; fan points in hall, bedrooms &amp; kitchen.</td></tr>
+            </table>
+        </div>
+
+        <div class="keep">
+            <h3 class="schedule">AMENITIES</h3>
+            <div class="box">
+                <ul class="plain">
+                    <li>GRAND ENTRANCE LOBBY</li><li>BANQUET HALL</li><li>GYM LADIES &amp; GENTS</li>
+                    <li>YOGA</li><li>INDOOR GAMES</li><li>CLINIC AND PHARMACY</li><li>PREVIEW THEATRES</li>
+                    <li>UNI SEX HAIR &amp; BEAUTY SALOON</li><li>SUPERMARKET PROVISION</li><li>CONFERENCE HALL</li>
+                    <li>GUEST ROOMS</li><li>ASSOCIATION OFFICE</li><li>RESTAURANT PROVISION</li>
+                    <li>ENTRANCE AND EXIT PLAZA</li><li>V.D.F DRIVEWAY FLOORING</li><li>FIRE DRIVEWAY</li>
+                    <li>STEPPED PLANTER</li><li>CRICKET PRACTICE NETS</li><li>EPDM CHILDREN PLAY AREA</li>
+                    <li>PARTY LAWN</li><li>AMPHITHEATER WITH STAGE</li><li>SEATING UNDER PERGOLA</li>
+                    <li>SWIMMING POOL</li><li>BADMINTON COURT</li><li>BASKET BALL COURT</li>
+                    <li>VOLLEY BALL COURT</li><li>SEATING PLAZA</li><li>LAWN</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="keep">
+            <h3 class="schedule">SCHEDULE &#8216;E&#8217; SCOPE OF MAINTENANCE</h3>
+            <div class="box">
+                <ul class="plain">
+                    <li>Security Services.</li>
+                    <li>Housekeeping and upkeep of all Common Areas (club house excluded).</li>
+                    <li>Daily Collection and Disposal of Garbage.</li>
+                    <li>Supply &amp; Distribution of Water (cost of water consumed payable as per meters monthly).</li>
+                    <li>Attending to Plumbing complaints.</li>
+                    <li>Attending to Electrical complaints.</li>
+                    <li>Operation and Maintenance of Prepaid Electricity supply system.</li>
+                    <li>Electricity Charges for common amenities, utilities and services (club house excluded).</li>
+                    <li>Lighting of Common Areas.</li>
+                    <li>Maintenance of Landscaping.</li>
+                    <li>Operation and Maintenance of Water Softening Plant.</li>
+                    <li>Operation and Maintenance of Sewerage Treatment Plant.</li>
+                    <li>Operation and Maintenance of DG Sets (diesel borne by residents per meters).</li>
+                    <li>Operation and Maintenance of lifts.</li>
+                    <li>Operation and Maintenance of Electrical Transformers, Switchgear Panels, MV Panels, VCBs,
+                        ACBs, Earth Pits, Common supply Panels, Lighting Panels and Cable Network.</li>
+                    <li>Operation and Maintenance of Lightning Arresters and Aviation Lamps.</li>
+                    <li>Operation and Maintenance of Solar Fencing.</li>
+                    <li>Operation and Maintenance of Solar Power panels.</li>
+                    <li>Operation and Maintenance of CCTV systems.</li>
+                    <li>Operation and Maintenance of Fire-fighting system.</li>
+                    <li>Operation and Maintenance of Fire Alarm, PA system.</li>
+                    <li>Operation and Maintenance of water bodies and fountains.</li>
+                    <li>Maintenance of rainwater harvesting pits.</li>
+                    <li>Operation and Maintenance of Intercom system (Instruments excluded).</li>
+                    <li>Operation and Maintenance of Boom Barriers.</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
+</apex:page>

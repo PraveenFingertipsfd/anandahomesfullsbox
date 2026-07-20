@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Premium_Location_Charge__c</fullName>
+    <formula>IF(ISPICKVAL( Corner__c ,&apos;Corner&apos;),0.1,IF(ISPICKVAL( Corner__c ,&apos;Premium&apos;),0.125,IF(ISPICKVAL( Corner__c ,&apos;Ultra Premium&apos;),0.125,IF(ISPICKVAL( Unit_Facing_Direction__c ,&apos;East&apos;),0.05,0))))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Premium Location Charge</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

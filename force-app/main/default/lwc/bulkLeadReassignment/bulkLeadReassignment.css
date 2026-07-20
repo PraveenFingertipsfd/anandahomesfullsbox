@@ -1,0 +1,14 @@
+.table-container {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #d8dde6;
+    border-radius: 4px;
+}
+
+.expiring-soon {
+    background-color: #fef3cd !important;
+}
+
+:host {
+    display: block;
+}

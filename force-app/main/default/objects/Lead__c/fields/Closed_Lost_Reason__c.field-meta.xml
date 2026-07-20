@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Closed_Lost_Reason__c</fullName>
+    <label>Closed Lost Reason</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Booked with Competitor</fullName>
+                <default>false</default>
+                <label>Booked with Competitor</label>
+            </value>
+            <value>
+                <fullName>Inventory Mismatch</fullName>
+                <default>false</default>
+                <label>Inventory Mismatch</label>
+            </value>
+            <value>
+                <fullName>Looking for Larger Size Flats</fullName>
+                <default>false</default>
+                <label>Looking for Larger Size Flats</label>
+            </value>
+            <value>
+                <fullName>Looking for Small Size Flats</fullName>
+                <default>false</default>
+                <label>Looking for Small Size Flats</label>
+            </value>
+            <value>
+                <fullName>False Enquiry</fullName>
+                <default>false</default>
+                <label>False Enquiry</label>
+            </value>
+            <value>
+                <fullName>Possession Date Mismatch</fullName>
+                <default>false</default>
+                <label>Possession Date Mismatch</label>
+            </value>
+            <value>
+                <fullName>Channel Partner</fullName>
+                <default>false</default>
+                <label>Channel Partner</label>
+            </value>
+            <value>
+                <fullName>No Activity</fullName>
+                <default>false</default>
+                <label>No Activity</label>
+            </value>
+            <value>
+                <fullName>Price is High</fullName>
+                <default>false</default>
+                <label>Price is High</label>
+            </value>
+            <value>
+                <fullName>AGREEMENT STAGE</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>AGREEMENT STAGE</label>
+            </value>
+            <value>
+                <fullName>Already Purchased</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Already Purchased</label>
+            </value>
+            <value>
+                <fullName>Bigger Dimension</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Bigger Dimension</label>
+            </value>
+            <value>
+                <fullName>Budget Issue</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Budget Issue</label>
+            </value>
+            <value>
+                <fullName>Budget Mismatch</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Budget Mismatch</label>
+            </value>
+            <value>
+                <fullName>Business Promotion</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Business Promotion</label>
+            </value>
+            <value>
+                <fullName>Cancellation</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Cancellation</label>
+            </value>
+            <value>
+                <fullName>Casual Enquiry</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Casual Enquiry</label>
+            </value>
+            <value>
+                <fullName>DND</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>DND</label>
+            </value>
+            <value>
+                <fullName>Dimension</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Dimension</label>
+            </value>
+            <value>
+                <fullName>Dimension not matching</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Dimension not matching</label>
+            </value>
+            <value>
+                <fullName>Duplicate Lead</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Duplicate Lead</label>
+            </value>
+            <value>
+                <fullName>Ecity Phase-I</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Ecity Phase-I</label>
+            </value>
+            <value>
+                <fullName>Employee / Vendor / Competitor</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Employee / Vendor / Competitor</label>
+            </value>
+            <value>
+                <fullName>Floor Plan/Layout Not Liked</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Floor Plan/Layout Not Liked</label>
+            </value>
+            <value>
+                <fullName>GENERAL ENQUIRY</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>GENERAL ENQUIRY</label>
+            </value>
+            <value>
+                <fullName>Handover timeline</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Handover timeline</label>
+            </value>
+            <value>
+                <fullName>Interest Dropped Midway</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Interest Dropped Midway</label>
+            </value>
+            <value>
+                <fullName>Interested</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Interested</label>
+            </value>
+            <value>
+                <fullName>Invalid / Incomplete Details</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Invalid / Incomplete Details</label>
+            </value>
+            <value>
+                <fullName>Invalid Number</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Invalid Number</label>
+            </value>
+            <value>
+                <fullName>Job Seeker</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Job Seeker</label>
+            </value>
+            <value>
+                <fullName>Junk</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Junk</label>
+            </value>
+            <value>
+                <fullName>LOAN DISBURSEMENT STAGE</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>LOAN DISBURSEMENT STAGE</label>
+            </value>
+            <value>
+                <fullName>Lack of loan eligibility</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Lack of loan eligibility</label>
+            </value>
+            <value>
+                <fullName>Loan Eligibility</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Loan Eligibility</label>
+            </value>
+            <value>
+                <fullName>Location</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Location</label>
+            </value>
+            <value>
+                <fullName>Location Issue</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Location Issue</label>
+            </value>
+            <value>
+                <fullName>Location Mismatch</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Location Mismatch</label>
+            </value>
+            <value>
+                <fullName>Location Not Preferred</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Location Not Preferred</label>
+            </value>
+            <value>
+                <fullName>Looking for Ready to Move</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Looking for Ready to Move</label>
+            </value>
+            <value>
+                <fullName>Low Budget</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Low Budget</label>
+            </value>
+            <value>
+                <fullName>Mktg. Call</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Mktg. Call</label>
+            </value>
+            <value>
+                <fullName>NOT IN BUDGET</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>NOT IN BUDGET</label>
+            </value>
+            <value>
+                <fullName>NOT TO CHASE(NTC)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>NOT TO CHASE(NTC)</label>
+            </value>
+            <value>
+                <fullName>Never Enquired</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Never Enquired</label>
+            </value>
+            <value>
+                <fullName>No Requirement</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>No Requirement</label>
+            </value>
+            <value>
+                <fullName>Non-contactable</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Non-contactable</label>
+            </value>
+            <value>
+                <fullName>Not Looking to Buy / Just Browsing</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Not Looking to Buy / Just Browsing</label>
+            </value>
+            <value>
+                <fullName>Other Project</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Other Project</label>
+            </value>
+            <value>
+                <fullName>Others</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Others</label>
+            </value>
+            <value>
+                <fullName>Out of Station</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Out of Station</label>
+            </value>
+            <value>
+                <fullName>Plan Dropped</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Plan Dropped</label>
+            </value>
+            <value>
+                <fullName>Rejected Offer</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Rejected Offer</label>
+            </value>
+            <value>
+                <fullName>SPAM</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>SPAM</label>
+            </value>
+            <value>
+                <fullName>Site Visit Done</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Site Visit Done</label>
+            </value>
+            <value>
+                <fullName>Site is far</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Site is far</label>
+            </value>
+            <value>
+                <fullName>Spam / Junk Lead</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Spam / Junk Lead</label>
+            </value>
+            <value>
+                <fullName>Test</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Test</label>
+            </value>
+            <value>
+                <fullName>Unit Availability</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Unit Availability</label>
+            </value>
+            <value>
+                <fullName>Vaastu Concern</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Vaastu Concern</label>
+            </value>
+            <value>
+                <fullName>Vastu concern</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Vastu concern</label>
+            </value>
+            <value>
+                <fullName>Villa, Plot and Independent House</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Villa, Plot and Independent House</label>
+            </value>
+            <value>
+                <fullName>Wrong Number / Invalid</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Wrong Number / Invalid</label>
+            </value>
+            <value>
+                <fullName>number switched off</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>number switched off</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

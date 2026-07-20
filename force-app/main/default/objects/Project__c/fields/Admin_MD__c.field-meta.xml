@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Admin_MD__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>System Admin / MD for the project. Approver for Cancellation, Swap, and First Applicant Change at Level 3 / Level 2.</description>
+    <label>Admin / MD</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>Projects_As_Admin_MD</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

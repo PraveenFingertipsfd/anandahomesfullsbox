@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Mobile_Numeric_Only</fullName>
+    <active>true</active>
+    <description>QA BUG-0470: Primary Applicant Mobile number must contain numeric values only. Only fires when the value is being added or changed, so existing records are not blocked.</description>
+    <errorConditionFormula>AND(
+  OR(ISNEW(), ISCHANGED(Mobile__c)),
+  NOT(ISBLANK(Mobile__c)),
+  NOT(REGEX(Mobile__c, &quot;[0-9]+&quot;))
+)</errorConditionFormula>
+    <errorDisplayField>Mobile__c</errorDisplayField>
+    <errorMessage>Mobile number can contain numeric values only.</errorMessage>
+</ValidationRule>

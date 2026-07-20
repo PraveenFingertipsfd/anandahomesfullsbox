@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Disable_Demand_Reminders__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>When checked, all demand reminder emails (1st/2nd/3rd/4th reminder, termination and auto unit-unblocking) are suppressed for every demand on this booking. Use to opt a booking out of automated demand chasing.</description>
+    <inlineHelpText>Check to stop all demand reminder mails for this booking.</inlineHelpText>
+    <label>Disable Demand Reminders</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

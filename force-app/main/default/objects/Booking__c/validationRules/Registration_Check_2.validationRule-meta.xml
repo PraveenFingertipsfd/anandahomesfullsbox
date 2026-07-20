@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Registration_Check_2</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+ISPICKVAL(Stage__c, &apos;Possession&apos;),
+NOT(All_Payment_Cleared__c)
+
+)</errorConditionFormula>
+    <errorDisplayField>All_Payment_Cleared__c</errorDisplayField>
+    <errorMessage>All Payment Cleared ?</errorMessage>
+</ValidationRule>

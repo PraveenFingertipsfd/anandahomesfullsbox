@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lock_Booking_Record_at_Cancelled_Stage</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR(
+    AND(ISCHANGED(Stage__c), ISPICKVAL(PRIORVALUE(Stage__c), &apos;Cancellation&apos;)),
+    AND(NOT(ISCHANGED(Stage__c)), ISPICKVAL(Stage__c, &apos;Cancellation&apos;))
+)</errorConditionFormula>
+    <errorMessage>You Cannot Edit Cancelled Booking.</errorMessage>
+</ValidationRule>

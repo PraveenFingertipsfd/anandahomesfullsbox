@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Corpus_fund__c</fullName>
+    <label>Corpus fund</label>
+    <summarizedField>Additional_Charges__c.Amount__c</summarizedField>
+    <summaryFilterItems>
+        <field>Additional_Charges__c.Additional_Charge_Type__c</field>
+        <operation>equals</operation>
+        <value>Corpus Fund</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Additional_Charges__c.Booking__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

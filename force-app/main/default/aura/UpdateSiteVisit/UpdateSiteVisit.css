@@ -1,0 +1,45 @@
+/* Section titles */
+.THIS .usv-section-title {
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+    color: #080707 !important;
+    margin-bottom: 0.25rem !important;
+    padding-top: 0.25rem !important;
+}
+
+/* Thin line under section title */
+.THIS .usv-divider {
+    border-bottom: 1px solid #d8dde6 !important;
+    margin-bottom: 1rem !important;
+}
+
+/* Bold group labels */
+.THIS .usv-field-group-label {
+    font-size: 0.8125rem !important;
+    font-weight: 700 !important;
+    color: #3e3e3c !important;
+    margin-bottom: 0.35rem !important;
+}
+
+/* Half-width fields */
+.THIS .usv-half-width {
+    width: calc(50% - 0.5rem) !important;
+}
+
+/* Two-column row for Remark & Description */
+.THIS .usv-two-col {
+    display: flex !important;
+    gap: 1rem !important;
+}
+.THIS .usv-two-col__item {
+    flex: 1 !important;
+    min-width: 0 !important;
+}
+
+/* Collapse hidden label space in lightning:select */
+.THIS .usv-select-no-gap .slds-form-element__label {
+    display: none !important;
+}
+.THIS .usv-select-no-gap .slds-form-element__control {
+    padding-top: 0 !important;
+}

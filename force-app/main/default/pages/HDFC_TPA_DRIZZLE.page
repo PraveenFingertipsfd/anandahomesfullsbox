@@ -1,0 +1,431 @@
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false"
+           applyHtmlTag="false" applyBodyTag="false" renderAs="pdf">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<style type="text/css">
+    @page {
+        size: A4;
+        margin: 0.8in 0.7in 1in 0.7in;
+        @bottom-center {
+            content: "Page " counter(page) " of " counter(pages);
+            font-family: "Times New Roman", serif;
+            font-size: 10px;
+            color: #000000;
+        }
+    }
+
+    body {
+        font-family: "Times New Roman", serif;
+        font-size: 12px;
+        line-height: 1.5;
+        color: #000000;
+        text-align: justify;
+    }
+
+    /* Underlined headings */
+    h1.doc-title {
+        text-align: center;
+        font-size: 16px;
+        font-weight: bold;
+        text-decoration: underline;
+        margin: 0 0 18px 0;
+    }
+    h2.section-heading {
+        text-align: center;
+        font-size: 14px;
+        font-weight: bold;
+        text-decoration: underline;
+        margin: 18px 0 6px 0;
+    }
+    .sub-heading {
+        text-align: center;
+        font-weight: bold;
+        margin: 0 0 12px 0;
+    }
+
+    p { margin: 0 0 10px 0; }
+
+    /* Bordered tables that are never split across pages */
+    table.doc-table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid #000000;
+        page-break-inside: avoid;
+        margin: 10px 0;
+    }
+    table.doc-table th,
+    table.doc-table td {
+        border: 1px solid #000000;
+        padding: 5px 6px;
+        font-size: 11px;
+        vertical-align: top;
+        text-align: left;
+    }
+    table.doc-table th {
+        font-weight: bold;
+        text-align: center;
+        background-color: #f0f0f0;
+    }
+    table.doc-table tr { page-break-inside: avoid; }
+
+    table.sign-table { margin-top: 25px; }
+    table.sign-table td { height: 40px; }
+</style>
+</head>
+<body>
+
+    <h1 class="doc-title">TRIPARTITE AGREEMENT</h1>
+
+    <p>THIS TRIPARTITE AGREEMENT ("Agreement") is made and executed at the PLACE and on the
+    DATE mentioned in Item No. 1 and in Item No. 2 respectively of SCHEDULE I hereunder written</p>
+
+    <p class="sub-heading">BETWEEN</p>
+
+    <p>The person/s specified in Item No. 3 of SCHEDULE I hereunder written, (hereinafter referred
+    to / collectively referred to as the "Borrower" which expression shall, unless it be repugnant
+    to the subject, context or meaning thereof, mean and include, his/her/its/their respective legal
+    heirs, legal representatives, executors, administrators, successors and assignee (where the/a
+    Borrower is an individual/Sole Proprietor); its/their successors and assignee (where the/a
+    Borrower is a company incorporated under the Companies Act, 1956/2013 or a Limited Liability
+    Partnership incorporated under the Limited Liability Partnership Act, 2008, or any other body
+    corporate); all the partner(s) for the time being or from time to time of the firm, the
+    survivor(s) of them and the legal heirs, legal representatives, executors, administrators,
+    successors and assignee of the partners (where the/a Borrower is a partnership firm); all the
+    members / co-parceners or a member / co-parcener for the time being or from time to time of the
+    Hindu Undivided Family and their respective legal heirs, legal representatives, executors,
+    administrators, successors and assignee (where the /a Borrower is a Hindu Undivided Family); all
+    the constituents for the time being or from time to time of the Association of Persons or Body of
+    Individuals and his/her/its/ their respective legal heirs, legal representatives, executors,
+    administrators, successors and assignees (where the/a Borrower is an Association of Persons or a
+    Body of Individuals); its / their successors and assignee (where the/a Borrower is a co-operative
+    society formed / incorporated under the laws applicable to co-operative societies); all the
+    trustees for the time being or from time to time, its/their executors, administrators, successors
+    and assignee (where the/a Borrower is a Trust), of the ONE PART;</p>
+
+    <p class="sub-heading">AND</p>
+
+    <p>The person/s specified in Item No. 4 of SCHEDULE I hereunder written, (hereinafter referred
+    to / collectively referred to as the "Builder" which expression shall, unless it be repugnant to
+    the subject, context or meaning thereof, mean and include, his/her/its/their respective legal
+    heirs, legal representatives, executors, administrators, successors and assignee (where the/a
+    Borrower is an individual/Sole Proprietor); its/their successors and assignee (where the/a
+    Borrower is a company incorporated under the Companies Act, 1956/2013 or a Limited Liability
+    Partnership incorporated under the Limited Liability Partnership Act, 2008, or any other body
+    corporate); all the partner(s) for the time being or from time to time of the firm, the
+    survivor(s) of them and the legal heirs, legal representatives, executors, administrators,
+    successors and assignee of the partners (where the/a Borrower is a partnership firm); all the
+    members / co-parceners or a member / co-parcener for the time being or from time to time of the
+    Hindu Undivided Family and their respective legal heirs, legal representatives, executors,
+    administrators, successors and assignee (where the /a Borrower is a Hindu Undivided Family); all
+    the constituents for the time being or from time to time of the Association of Persons or Body of
+    Individuals and his/her/its/ their respective legal heirs, legal representatives, executors,
+    administrators, successors and assignee (where the/a Borrower is an Association of Persons or a
+    Body of Individuals); its / their successors and assignee (where the/a Borrower is a co-operative
+    society formed / incorporated under the laws applicable to co-operative societies); all the
+    trustees for the time being or from time to time, its/their executors, administrators, successors
+    and assignee (where the/a Borrower is a Trust), of the SECOND PART;</p>
+
+    <p class="sub-heading">AND</p>
+
+    <p>HOUSING DEVELOPMENT FINANCE CORPORATION LIMITED, a company registered under the Companies
+    Act, 1956 and having its registered office at Raman House, 169 Backbay Reclamation, Mumbai-400
+    020, and having its branch office at HDFC limited, HDFC House, 3-6-310, Hyderguda Road,
+    Basheerbagh, Hyderabad - 500 029 (hereinafter called "HDFC" which term so far as the context
+    admits, shall mean and include their successors and assignee hereinafter referred to as "HDFC"
+    (which expression shall unless the context otherwise requires, include its successors and
+    permitted assignee). of the THIRD PART</p>
+
+    <p>The Borrower, Builder and the HDFC, wherever the context permits, shall be collectively
+    referred to as the "Parties" and individually as the "Party"</p>
+
+    <p class="sub-heading">WHEREAS</p>
+
+    <p>a) As part of its business activity, builder has undertaken to develop the land more
+    specifically described in the Item No. 5 of SCHEDULE I (hereinafter referred to as the
+    "PROJECT");</p>
+
+    <p>b) The Borrower has represented that the Builder is of his choice and that he has satisfied
+    himself with regard to integrity, capability for quality construction of the Builder and the
+    Builder's ability for timely completion and on time delivery of the Project;</p>
+
+    <p>c) The Borrower have entered into an Agreement of Sale of such date as specified in Item No. 6
+    of SCHEDULE I with the Builder whereby the builder has agreed to sell unit / flat and the
+    Borrower has agreed to buy the unit / flat, which is more specifically described in the Item No. 7
+    of SCHEDULE I herein (hereinafter referred to as "the Unit");</p>
+
+    <p>d) The Borrower has approached HDFC for a Loan, towards payment of the sale / purchase
+    consideration of the residential flat/ unit in the Project;</p>
+
+    <p>e) The Borrower has agreed to secure with HDFC the said unit under finance as and by way of
+    mortgage of all the rights, title, benefits that would accrue from the said residential apartment
+    till the currency and term of the said loan to be advanced/advanced. The Builder also agrees and
+    confirms that they shall take note of the said mortgage created by the Borrower and undertake not
+    to create any third party rights or security interest of any sort whatsoever on the said flat
+    without the prior written consent of HDFC hereinafter;</p>
+
+    <p>f) The borrower have represented that the final sale deed with respect to the Unit will be
+    executed only at the time of possession, which fact is also confirmed by the builder, as such,
+    the said Agreement is the best available, initial and only title document with respect to the
+    Unit as on date of execution of this deed.</p>
+
+    <p>g) HDFC has considered the said request with a clear understanding and an irrevocable
+    undertaking by the Borrower that subsequent to the disbursement, if any, as requested by the
+    Borrower, there would be no repayment default for any reason whatsoever including but not limited
+    to any concern/issues by and between the Borrower and the Builder/Developer.</p>
+
+    <p>h) Based on several representations made by the Borrower, the HDFC granted a loan as more
+    particularly detailed in Item No. 8 of SCHEDULE I ("said loan") to the Borrower, in terms of the
+    Loan Agreement and other documents (hereinafter referred to as the "Loan Agreement") duly
+    executed by the Borrower;</p>
+
+    <p>i) The Builder and the borrower agree that they shall inform HDFC in advance the date, time
+    and venue of the registration of the Sale Deed and shall directly forward the duly registered
+    Sale Deed to HDFC as the title document for the security interest created in favour of HDFC.</p>
+
+    <p>j) The Borrower has represented, and such representation being a continuing representation,
+    that Borrower's obligation to repay the Loan shall be a distinct and independent obligation more
+    particularly independent of any issues/concern/dispute of whatsoever nature between the Borrower
+    and Builder. The Borrower and Builder agree and undertake to Indemnify HDFC at all times for all
+    / any loss that may be a direct or remote consequence of and / or arising out of any dispute
+    between the Borrower and Builder subsequent to HDFC disbursing full / part the said loan amount
+    to the builder.</p>
+
+    <p>k) One of the conditions for HDFC sanctioning the said Loan to the Borrower was that the
+    understanding as stipulated in the recitals above shall be reduce and recorded in writing with an
+    understanding and intent of making the same irrevocable, binding and enforceable by and between
+    the Borrower and the Builder such time this formality is complied with to the satisfaction of the
+    HDFC and documents in evidence thereof are delivered/furnished to the HDFC there will be no
+    disbursement pursuant to the Loan Agreement;</p>
+
+    <p>l) In consideration of HDFC agreeing to give loan to the Borrower, all the Parties have agreed
+    as under.</p>
+
+    <p class="sub-heading">NOW THEREFORE IT IS HEREBY AGREED BY AND BETWEEN THE PARTIES THAT:</p>
+
+    <p>1. The foregoing recitals as mentioned above are incorporated herein by this reference and
+    constitute an integral part of this Agreement.</p>
+
+    <p>2. In consideration of the parties performing their part of obligations, HDFC has agreed to
+    advance the said loan to the borrower in terms and in accordance with the Loan Agreement.</p>
+
+    <p>3. The loan advanced to the borrower by HDFC shall be subject to the borrower's repayment
+    capacity as assessed by HDFC and shall be secured against the first and exclusive mortgage of the
+    Unit to be acquired in the Project in favour of HDFC, including but not limited to any additional
+    security as may be demanded by HDFC.</p>
+
+    <p>4. The Borrower irrevocably and unconditionally instructs HDFC to disburse the said loan
+    directly to the builder herein and such disbursements made to the builder shall be deemed to have
+    been done directly to the borrower.</p>
+
+    <p>5. That irrespective of the stage of construction of the Project and irrespective of the date
+    of handing over the possession of the residential apartment to the Borrower by the Builder the
+    Borrower shall be liable to pay to HDFC regularly each month the EMIs / Pre-EMIs as laid down in
+    the Loan Agreement. The Borrower shall execute an indemnity and such other documents as may be
+    required by HDFC in favour of HDFC in this regard.</p>
+
+    <p>6. The Borrower agrees and undertakes that he or she shall not raise any dispute or claim
+    against HDFC on the ground that the builder committed any deficiency of service either with the
+    progress of the construction or with the quality of the construction and it is the sole
+    responsibility of the borrower to look after the progress and the quality of the construction of
+    the flat and it is his responsibility to intimate from time to time about the progress of the
+    construction to HDFC. All the parties to the agreement specifically understand that the role of
+    HDFC is limited to advance the loan amount on behalf of the borrower as a creditor.</p>
+
+    <p>7. In case of any default and / or breach in the terms of the Loan Agreement by the borrower,
+    HDFC shall intimate the builder for cancellation of Agreement and upon such request from HDFC,
+    the builder agrees to refund the amounts received from HDFC as per the clause 14 of the
+    tripartite agreement. Further the builder agrees to stand guarantee to the amounts received from
+    the HDFC on behalf of the borrower till the deposit of the title deeds relating to the said unit
+    validly creating an equitable mortgage in favor of HDFC.</p>
+
+    <p>8. The borrower shall forward all the Original Documents executed by and between the borrower
+    and the builder evidencing the sale and purchase of the Unit to HDFC with immediate effect and
+    also agree to forward any other deeds and / or documents that may be executed subsequently
+    relating to the Unit to HDFC.</p>
+
+    <p>9. The Builder and the Borrower has assured and represents that it has a clear and marketable
+    title to the said flat / Unit and the same can be freely transferred / registered, and the same
+    is free from any lien and / or any encumbrance and the Builder further state that they have
+    obtained all the required approval, sanctions for developing and selling the said flat/ unit. The
+    Borrower further confirms that he has independently verified the said legal and technical
+    evaluation of the said flat / unit before entering into the agreement with the builder.</p>
+
+    <p>10. The Borrower shall ensure to pay to the Builder his own contribution in full i.e.,' the
+    cost of the flat minus the loan amount being disbursed by HDFC before availing of the
+    disbursement from HDFC.</p>
+
+    <p>11. The Borrower agrees that if any escalation of the cost to the said flat / unit, he
+    undertakes to pay the same to the builder with intimation to HDFC.</p>
+
+    <p>12. That the Builder shall not hand over the actual and physical possession of the said
+    flat/residential apartment to the Borrower without obtaining NOC from the HDFC, before execution
+    and registration of the said deed.</p>
+
+    <p>13. That the original registered sale deed shall be submitted to HDFC directly by the Builder
+    to be kept by HDFC towards security for the said loan. The Builder also agrees that it will
+    submit the sale deed on or before 15 working days from the date of such registration.</p>
+
+    <p>14. That if the Borrower fails to pay the balance amount representing the difference between
+    the loan sanctioned by HDFC and the actual purchase price of the unit, or in the event of death
+    of the Borrower or in the event of cancellation / termination of the unit / Agreement for any
+    reason whatsoever or then the entire amount advanced by HDFC will be refunded by the Builder to
+    HDFC to the Loan Account of the Borrower with HDFC as specified in Item No. 9 of SCHEDULE I within
+    30 (Thirty) days from the date of such cancellation / termination after deducting the
+    cancellation charges, which charges shall not exceed the borrowers contribution. The Borrower
+    hereby subrogates all his rights for refund with respect to the said residential apartment in
+    favor of HDFC</p>
+
+    <p>15. Notwithstanding anything to the contrary contained in any letter, document or agreement,
+    under any circumstances should there be any payment i.e., refund / discount / interest subsidy /
+    reduction of price etc., by the builder to borrower, the same shall be paid to the Loan Account of
+    the Borrower with HDFC as specified in Item No. 9 of SCHEDULE I and at no circumstances be paid to
+    borrower directly. Any such refund given directly to the borrower and not to the Loan account of
+    the Borrower shall be treated as breach of this agreement.</p>
+
+    <p>16. Further if the Borrower commits a breach of any of the terms and conditions of this
+    Tripartite Agreement and any other terms and condition of the loan, the Borrower hereby authorize
+    HDFC to approach the builder for cancellation of Tripartite Agreement. Upon receipt of such
+    intimation from HDFC, builder shall pay in the manner stipulated in clause 14 hereinabove directly
+    to HDFC for which borrower have no objection.</p>
+
+    <p>17. However, it is further agreed between the Parties that such payment made by the Builder
+    directly to HDFC shall not absolve the Borrower from his liability to pay the residual amount, if
+    any, from the outstanding under the Loan.</p>
+
+    <p>That the Borrower agrees that it unconditionally and irrevocable subrogates its right to
+    receive any amount payable by the Builder to the Borrower in the event of cancellation in favour
+    of HDFC and that the act of payment by the Builder to HDFC under this clause shall amount to a
+    valid discharge of the Builder of its obligation to pay the Borrower such cancellation amount.</p>
+
+    <p>Further that the parties agree that the Builder shall in no circumstances forfeit any amount
+    over and above the amount equivalent to the Borrowers contribution towards the purchase
+    consideration paid to the Builder. Borrower's contribution for the purposes of this clause shall
+    mean and include the difference between the total cost of the residential apartment and the Loan
+    amount as mentioned above.</p>
+
+    <p>18. Further, the Builder, in the event of default of repayment by the borrower, shall on
+    intimation by HDFC cancel the allotment of the unit in favour of the borrower and refund all
+    monies to HDFC directly as specified in the clause 14 of this agreement under intimation to the
+    borrower. Although the Buyers Agreement allows forfeiture of the earnest money if any, it is
+    agreed by and between the parties here that irrespective of what is mentioned in the Buyers
+    agreement or other agreement at no point in time the amount funded through HDFC shall be subject
+    to such forfeiture and builder has right to forfeit only such amount which is paid by the
+    purchaser(s) only.</p>
+
+    <p>19. The Builder also confirms and undertakes that it shall submit to HDFC all documents for
+    the Project as requested by HDFC and shall keep HDFC informed of the progress of the project and
+    shall obtain a clearance from HDFC before handing over possession of the respective apartment to
+    the borrower.</p>
+
+    <p>20. The Courts at Hyderabad alone, to the exclusion of all others Courts, shall have the
+    jurisdiction to try and entertain any matter or dispute arising out of or in relation to this
+    agreement.</p>
+
+    <h2 class="section-heading">SCHEDULE I</h2>
+    <p class="sub-heading">(Terms of Agreement)</p>
+
+    <table class="doc-table">
+        <thead>
+            <tr>
+                <th style="width:8%;">S.No.</th>
+                <th style="width:22%;">Particulars</th>
+                <th style="width:70%;">Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1.</td>
+                <td>Place</td>
+                <td>&#160;</td>
+            </tr>
+            <tr>
+                <td>2.</td>
+                <td>Date</td>
+                <td>&#160;</td>
+            </tr>
+            <tr>
+                <td>3.</td>
+                <td>Name and Address of Borrower(s)</td>
+                <td>
+                  
+                    MR. AVANTSA ANIRUDH SAI, S/O. MR. MRUTYUM JAYA RAO AVANTSA, aged about 34 years;
+                    Occupation: IT professional; R/O: Flat No. D-802, D-Block, Aditya Imperial
+                    Heights, Hafeezpet, Miyapur, K V Ranga Reddy, Telangana - 500049.
+                    (AADHAR NO: 3111 0685 9287; PAN NO: BEZPA5405D)<br/><br/>
+                    MRS. MANAPRAGADA SWARNA GAYATHRI, W/O. MR. AVANTSA ANIRUDH SAI, aged about 30
+                    years; Occupation: IT professional; R/O: Flat No. D-802, D-Block, Aditya Imperial
+                    Heights, Hafeezpet, Miyapur, K V Ranga Reddy, Telangana - 500049.
+                    (AADHAR NO: 8892 6065 6682; PAN NO: BCJPM6074N)
+                </td>
+            </tr>
+            <tr>
+                <td>4.</td>
+                <td>Name and Address of Builder(s)</td>
+                <td>
+                    "THE DRIZZLE JV" (GST No: 36AALAT5115B1ZP) having registered office at 4TH FLOOR,
+                    THE 9TH, PLOT NO 131 &amp; 132, PRASHANTHI HILLS, RAIDURGAM, HYDERABAD, RANGAREDDY,
+                    TELANGANA, 500008. Represented by its authorized signatory SRI. P.V. SREENIVASULU
+                    S/O. LATE P.C.V. RAMANAIAH, Resident of Flat No.201 of "Aryamitra Pearl Castle",
+                    Road No.4, Alkapoor Township, Neknampur Village, Gandipet Mandal, Ranga Reddy
+                    District, Telangana State.
+                </td>
+            </tr>
+            <tr>
+                <td>5.</td>
+                <td>Description of the Project</td>
+                <td>
+                    Residential Apartment known as "ANANDA THE DRIZZLE", in Survey No.325/AA/3,
+                    327/A/2, 327/AA/1 327/AA/2, 328/A, 328/AA, 328/E, of Narsingi Village, and
+                    Sy.No.91A, 91AA, 93/AA, 93A/1/2, Situated at: Narsingi, Narsingi Municipality,
+                    Gandipet Mandal, Ranga Reddy District, Telangana State,
+                </td>
+            </tr>
+            <tr>
+                <td>6.</td>
+                <td>Date of Agreement of Sale</td>
+                <td>&#160;</td>
+            </tr>
+            <tr>
+                <td>7.</td>
+                <td>Unit details</td>
+                <td>
+                    All That The 3 BHK Flat No. F-1613 (West Facing) in 16th Floor in "F" Block in the
+                    Residential Apartment known as "ANANDA THE DRIZZLE", with an area of 1945 Square
+                    Feet (including Common Areas and One Car Parking), along with a proportionate
+                    undivided share of land admeasuring 46.11 Square Yards, All that land admeasuring
+                    Ac. 7-71 cents,
+                </td>
+            </tr>
+            <tr>
+                <td>8.</td>
+                <td>Loan Amount</td>
+                <td>&#160;</td>
+            </tr>
+            <tr>
+                <td>9.</td>
+                <td>Payment in favour of</td>
+                <td>HDFC BANK LIMITED Loan account No.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="doc-table sign-table">
+        <tbody>
+            <tr><td>Signed and Delivered by the within-named Borrower</td></tr>
+            <tr><td>&#160;</td></tr>
+            <tr><td>Signed and Delivered by the within-named Builder<br/>By the hand of</td></tr>
+            <tr><td>&#160;</td></tr>
+            <tr>
+                <td>
+                    Signed and delivered by the within-named Housing Development Finance Corporation
+                    Limited by the hand of<br/><br/>
+                    Mr./Ms._____________________________<br/><br/>
+                    Its ________________________________
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>
+</apex:page>

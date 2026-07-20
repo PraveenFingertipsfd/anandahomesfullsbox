@@ -1,0 +1,77 @@
+<template>
+    <lightning-card title="First Applicant Change" icon-name="standard:user">
+        <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Working..." size="small"></lightning-spinner>
+            </template>
+
+            <template if:true={ctx}>
+                <lightning-input label="Current First Applicant" value={currentApplicant} read-only
+                    class="slds-m-bottom_small">
+                </lightning-input>
+
+                <div class="slds-grid slds-wrap slds-gutters_x-small">
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                        <lightning-input label="New First Applicant Name" value={newApplicant}
+                            required onchange={handleNewApplicant}>
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                        <lightning-input type="email" label="New Email" value={newEmail}
+                            onchange={handleNewEmail}>
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                        <lightning-input type="tel" label="New Mobile" value={newMobile}
+                            onchange={handleNewMobile}>
+                        </lightning-input>
+                    </div>
+                </div>
+
+                <lightning-textarea label="Reason" value={reason} onchange={handleReason}
+                    class="slds-m-top_x-small">
+                </lightning-textarea>
+
+                <div class="slds-m-top_medium slds-text-align_right">
+                    <lightning-button label="Cancel" variant="neutral" class="slds-m-right_x-small"
+                        onclick={handleClose}>
+                    </lightning-button>
+                    <lightning-button variant="brand" label="Submit for Approval"
+                        onclick={handleSubmit} disabled={submitDisabled}>
+                    </lightning-button>
+                </div>
+
+                <template if:true={hasChanges}>
+                    <div class="slds-m-top_large">
+                        <h3 class="slds-text-title_caps slds-m-bottom_x-small">Change Requests</h3>
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th>Name</th>
+                                    <th>Old</th>
+                                    <th>New</th>
+                                    <th>Approval</th>
+                                    <th>New Form Uploaded</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={changes} for:item="c">
+                                    <tr key={c.id}>
+                                        <td>{c.name}</td>
+                                        <td>{c.oldApplicant}</td>
+                                        <td>{c.newApplicant}</td>
+                                        <td>{c.approvalStatus}</td>
+                                        <td>
+                                            <template if:true={c.newFormUploaded}>Yes</template>
+                                            <template if:false={c.newFormUploaded}>No</template>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+</template>

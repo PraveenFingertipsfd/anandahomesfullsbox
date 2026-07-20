@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Related_Swap_History__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Reference to a swap history record where this unit changed hands. Captured on the NOC.</description>
+    <label>Related Swap</label>
+    <referenceTo>Swap_History__c</referenceTo>
+    <relationshipLabel>NOCs</relationshipLabel>
+    <relationshipName>NOCs</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

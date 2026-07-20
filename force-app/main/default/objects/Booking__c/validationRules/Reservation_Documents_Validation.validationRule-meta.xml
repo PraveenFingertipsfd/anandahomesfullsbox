@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reservation_Documents_Validation</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    ISPICKVAL(Stage__c, &apos;Agreement&apos;),
+    OR(
+        NOT(Booking_Form__c),
+        NOT(KycUploaded__c),
+        NOT(Applicant_Photo_Uploded__c),
+        NOT(Co_Applicant_Photo_Uploaded__c)
+    )
+)</errorConditionFormula>
+    <errorDisplayField>KycUploaded__c</errorDisplayField>
+    <errorMessage>Please fill all the mandatory checkboxes Booking stages.</errorMessage>
+</ValidationRule>

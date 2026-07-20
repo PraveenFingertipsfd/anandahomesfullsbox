@@ -1,0 +1,114 @@
+<template>
+    <lightning-card title="Generate NOC" icon-name="custom:custom63">
+        <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Working..." size="small"></lightning-spinner>
+            </template>
+
+            <template if:true={ctx}>
+                <div class="slds-grid slds-gutters slds-wrap">
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-combobox
+                            label="NOC Type"
+                            value={nocType}
+                            options={nocTypeOptions}
+                            onchange={handleTypeChange}>
+                        </lightning-combobox>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning-input
+                            label="Unit"
+                            value={ctx.unitName}
+                            read-only>
+                        </lightning-input>
+                    </div>
+                </div>
+
+                <lightning-textarea
+                    class="slds-m-top_small"
+                    label="Mail Body"
+                    value={mailBody}
+                    onchange={handleBodyChange}>
+                </lightning-textarea>
+
+                <template if:true={hasCancellations}>
+                    <div class="slds-m-top_small">
+                        <lightning-dual-listbox
+                            label="Related Cancellations (this unit)"
+                            source-label="Available"
+                            selected-label="Selected"
+                            options={cancellationOptions}
+                            value={selectedCancellations}
+                            onchange={handleCancellationChange}>
+                        </lightning-dual-listbox>
+                    </div>
+                </template>
+
+                <template if:true={hasSwaps}>
+                    <div class="slds-m-top_small">
+                        <lightning-dual-listbox
+                            label="Related Swaps (this unit)"
+                            source-label="Available"
+                            selected-label="Selected"
+                            options={swapOptions}
+                            value={selectedSwaps}
+                            onchange={handleSwapChange}>
+                        </lightning-dual-listbox>
+                    </div>
+                </template>
+
+                <div class="slds-m-top_medium">
+                    <lightning-button
+                        variant="brand"
+                        label="Generate &amp; Submit for Approval"
+                        onclick={handleGenerate}
+                        disabled={isLoading}>
+                    </lightning-button>
+                </div>
+
+                <template if:true={hasExistingNOCs}>
+                    <div class="slds-m-top_large">
+                        <h3 class="slds-text-title_caps slds-m-bottom_x-small">Existing NOCs</h3>
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Approval</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={existingNOCs} for:item="n">
+                                    <tr key={n.id}>
+                                        <td>{n.name}</td>
+                                        <td>{n.nocType}</td>
+                                        <td>{n.approvalStatus}</td>
+                                        <td>
+                                            <template if:true={n._canSend}>
+                                                <lightning-button
+                                                    label="Send"
+                                                    variant="brand"
+                                                    data-id={n.id}
+                                                    onclick={handleSend}
+                                                    disabled={isLoading}>
+                                                </lightning-button>
+                                            </template>
+                                            <template if:true={n._pending}>
+                                                <span class="slds-text-color_weak">Awaiting approval</span>
+                                            </template>
+                                            <template if:true={n.sent}>
+                                                <span class="slds-text-color_success">Sent</span>
+                                            </template>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+</template>

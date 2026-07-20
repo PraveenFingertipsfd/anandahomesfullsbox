@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>Approval_Notification_Type</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DeveloperName for Approval Custom Notification Type</shortDescription>
+        <value>Approval_Notification</value>
+    </labels>
+    <labels>
+        <fullName>BookingTriggerActive</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BookingTriggerActive</shortDescription>
+        <value>True</value>
+    </labels>
+    <labels>
+        <fullName>CP_Lead_Expiry_Days</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CP Lead Expiry Days</shortDescription>
+        <value>90</value>
+    </labels>
+    <labels>
+        <fullName>CRM_Number</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CRM Number</shortDescription>
+        <value>8914563449,8914563450</value>
+    </labels>
+    <labels>
+        <fullName>Enable_FollowUp_Trigger</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Enable_FollowUp_Trigger</shortDescription>
+        <value>TRUE</value>
+    </labels>
+    <labels>
+        <fullName>Enable_Quote_Trigger</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Enable_Quote_Trigger</shortDescription>
+        <value>TRUE</value>
+    </labels>
+    <labels>
+        <fullName>Enable_Trigger</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Enable_Trigger</shortDescription>
+        <value>TRUE</value>
+    </labels>
+    <labels>
+        <fullName>Excess_Payment_Remark</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Remark for excess payment advance creation</shortDescription>
+        <value>Excess payment from Receipt</value>
+    </labels>
+    <labels>
+        <fullName>Org_Wide_Address</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Org Wide Address</shortDescription>
+        <value>pattusudar@gmail.com</value>
+    </labels>
+    <labels>
+        <fullName>Privileged_Profiles</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Privileged_Profiles</shortDescription>
+        <value>System Administrator,Feedback Team,Quality Analyst,Team Lead</value>
+    </labels>
+    <labels>
+        <fullName>intergrationType</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>intergrationType</shortDescription>
+        <value>salesforce</value>
+    </labels>
+</CustomLabels>

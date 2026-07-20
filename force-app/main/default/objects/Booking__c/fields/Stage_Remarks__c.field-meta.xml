@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Stage_Remarks__c</fullName>
+    <description>Free-text remarks entered for the current booking stage. When the booking Stage (Status) changes, the value here is snapshotted into a Booking Stage Remark history record against the stage it belonged to.</description>
+    <inlineHelpText>Enter remarks for the current stage. These are captured into stage history when the stage changes.</inlineHelpText>
+    <label>Stage Remarks</label>
+    <length>32768</length>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>4</visibleLines>
+</CustomField>

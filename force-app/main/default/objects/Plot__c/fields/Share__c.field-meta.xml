@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Share__c</fullName>
+    <label>Company Share and Landowner Share</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>MHPL</fullName>
+                <default>false</default>
+                <label>MHPL</label>
+            </value>
+            <value>
+                <fullName>LAND OWNER</fullName>
+                <default>false</default>
+                <label>LAND OWNER</label>
+            </value>
+            <value>
+                <fullName>Ananth</fullName>
+                <default>false</default>
+                <label>Ananth</label>
+            </value>
+            <value>
+                <fullName>BTN</fullName>
+                <default>false</default>
+                <label>BTN</label>
+            </value>
+            <value>
+                <fullName>MA</fullName>
+                <default>false</default>
+                <label>MA</label>
+            </value>
+            <value>
+                <fullName>Company</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Company</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

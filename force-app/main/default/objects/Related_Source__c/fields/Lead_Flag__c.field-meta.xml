@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lead_Flag__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(TEXT(Lead_Type__c) == &apos;Re-Engaged&apos; ,   
+  IMAGE(&quot;/img/samples/flag_red.gif&quot;, &quot;Red Flag&quot;),&apos;&apos;
+ )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Lead Flag</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

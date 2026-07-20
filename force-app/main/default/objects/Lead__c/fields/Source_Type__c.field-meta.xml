@@ -1,0 +1,947 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Source_Type__c</fullName>
+    <label>Source Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Medium__c</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>WEBSITE</fullName>
+                <default>false</default>
+                <label>WEBSITE</label>
+            </value>
+            <value>
+                <fullName>MICROSITE</fullName>
+                <default>false</default>
+                <label>MICROSITE</label>
+            </value>
+            <value>
+                <fullName>WEBSITE CHAT</fullName>
+                <default>false</default>
+                <label>WEBSITE CHAT</label>
+            </value>
+            <value>
+                <fullName>WEBSITE - OTHERS</fullName>
+                <default>false</default>
+                <label>WEBSITE - OTHERS</label>
+            </value>
+            <value>
+                <fullName>EMAIL</fullName>
+                <default>false</default>
+                <label>EMAIL</label>
+            </value>
+            <value>
+                <fullName>SMS</fullName>
+                <default>false</default>
+                <label>SMS</label>
+            </value>
+            <value>
+                <fullName>WHATSAPP</fullName>
+                <default>false</default>
+                <label>WHATSAPP</label>
+            </value>
+            <value>
+                <fullName>RCS</fullName>
+                <default>false</default>
+                <label>RCS</label>
+            </value>
+            <value>
+                <fullName>OM - OTHERS</fullName>
+                <default>false</default>
+                <label>OM - OTHERS</label>
+            </value>
+            <value>
+                <fullName>PRAJAVANI</fullName>
+                <default>false</default>
+                <label>PRAJAVANI</label>
+            </value>
+            <value>
+                <fullName>THE TIMES OF INDIA</fullName>
+                <default>false</default>
+                <label>THE TIMES OF INDIA</label>
+            </value>
+            <value>
+                <fullName>DECCAN HERALD</fullName>
+                <default>false</default>
+                <label>DECCAN HERALD</label>
+            </value>
+            <value>
+                <fullName>VIJAYAVANI</fullName>
+                <default>false</default>
+                <label>VIJAYAVANI</label>
+            </value>
+            <value>
+                <fullName>VIJAYA KARNATAKA</fullName>
+                <default>false</default>
+                <label>VIJAYA KARNATAKA</label>
+            </value>
+            <value>
+                <fullName>DECCAN CHRONICLE</fullName>
+                <default>false</default>
+                <label>DECCAN CHRONICLE</label>
+            </value>
+            <value>
+                <fullName>THE HINDU</fullName>
+                <default>false</default>
+                <label>THE HINDU</label>
+            </value>
+            <value>
+                <fullName>ECONOMIC TIMES</fullName>
+                <default>false</default>
+                <label>ECONOMIC TIMES</label>
+            </value>
+            <value>
+                <fullName>DNA</fullName>
+                <default>false</default>
+                <label>DNA</label>
+            </value>
+            <value>
+                <fullName>NEW INDIAN EXPRESS</fullName>
+                <default>false</default>
+                <label>NEW INDIAN EXPRESS</label>
+            </value>
+            <value>
+                <fullName>RAJASTHAN PATRIKA</fullName>
+                <default>false</default>
+                <label>RAJASTHAN PATRIKA</label>
+            </value>
+            <value>
+                <fullName>BUSINESS LINE</fullName>
+                <default>false</default>
+                <label>BUSINESS LINE</label>
+            </value>
+            <value>
+                <fullName>RECOVERY - SALES</fullName>
+                <default>false</default>
+                <label>RECOVERY - SALES</label>
+            </value>
+            <value>
+                <fullName>RECOVERY - PRESALES</fullName>
+                <default>false</default>
+                <label>RECOVERY - PRESALES</label>
+            </value>
+            <value>
+                <fullName>RECOVERY - DB</fullName>
+                <default>false</default>
+                <label>RECOVERY - DB</label>
+            </value>
+            <value>
+                <fullName>RECOVERY - OTHERS</fullName>
+                <default>false</default>
+                <label>RECOVERY - OTHERS</label>
+            </value>
+            <value>
+                <fullName>IVR - DIGITAL</fullName>
+                <default>false</default>
+                <label>IVR - DIGITAL</label>
+            </value>
+            <value>
+                <fullName>IVR - WEBSITE</fullName>
+                <default>false</default>
+                <label>IVR - WEBSITE</label>
+            </value>
+            <value>
+                <fullName>IVR - BTL</fullName>
+                <default>false</default>
+                <label>IVR - BTL</label>
+            </value>
+            <value>
+                <fullName>IVR - CP</fullName>
+                <default>false</default>
+                <label>IVR - CP</label>
+            </value>
+            <value>
+                <fullName>IVR - OOH</fullName>
+                <default>false</default>
+                <label>IVR - OOH</label>
+            </value>
+            <value>
+                <fullName>IVR - PRINT</fullName>
+                <default>false</default>
+                <label>IVR - PRINT</label>
+            </value>
+            <value>
+                <fullName>IVR - RADIO</fullName>
+                <default>false</default>
+                <label>IVR - RADIO</label>
+            </value>
+            <value>
+                <fullName>IVR - TVC</fullName>
+                <default>false</default>
+                <label>IVR - TVC</label>
+            </value>
+            <value>
+                <fullName>IVR - REFERRAL</fullName>
+                <default>false</default>
+                <label>IVR - REFERRAL</label>
+            </value>
+            <value>
+                <fullName>IVR - OTHERS</fullName>
+                <default>false</default>
+                <label>IVR - OTHERS</label>
+            </value>
+            <value>
+                <fullName>DIRECT WALKIN</fullName>
+                <default>false</default>
+                <label>DIRECT WALKIN</label>
+            </value>
+            <value>
+                <fullName>WALKIN - PRINT</fullName>
+                <default>false</default>
+                <label>WALKIN - PRINT</label>
+            </value>
+            <value>
+                <fullName>WALKIN - RADIO</fullName>
+                <default>false</default>
+                <label>WALKIN - RADIO</label>
+            </value>
+            <value>
+                <fullName>WALKIN - TVC</fullName>
+                <default>false</default>
+                <label>WALKIN - TVC</label>
+            </value>
+            <value>
+                <fullName>WALKIN - PROPERTY PORTAL</fullName>
+                <default>false</default>
+                <label>WALKIN - PROPERTY PORTAL</label>
+            </value>
+            <value>
+                <fullName>WALKIN - AFFILIATES</fullName>
+                <default>false</default>
+                <label>WALKIN - AFFILIATES</label>
+            </value>
+            <value>
+                <fullName>WALKIN - CP</fullName>
+                <default>false</default>
+                <label>WALKIN - CP</label>
+            </value>
+            <value>
+                <fullName>WALKIN - BTL</fullName>
+                <default>false</default>
+                <label>WALKIN - BTL</label>
+            </value>
+            <value>
+                <fullName>WALKIN - DIGITAL MARKETING</fullName>
+                <default>false</default>
+                <label>WALKIN - DIGITAL MARKETING</label>
+            </value>
+            <value>
+                <fullName>WALKIN - CUSTOMER REFERRAL</fullName>
+                <default>false</default>
+                <label>WALKIN - CUSTOMER REFERRAL</label>
+            </value>
+            <value>
+                <fullName>WALKIN - EMPLOYEE REFERRAL</fullName>
+                <default>false</default>
+                <label>WALKIN - EMPLOYEE REFERRAL</label>
+            </value>
+            <value>
+                <fullName>WALKIN - MANAGEMENT REFERRAL</fullName>
+                <default>false</default>
+                <label>WALKIN - MANAGEMENT REFERRAL</label>
+            </value>
+            <value>
+                <fullName>WALKIN - OOH</fullName>
+                <default>false</default>
+                <label>WALKIN - OOH</label>
+            </value>
+            <value>
+                <fullName>WALKIN - OTHERS</fullName>
+                <default>false</default>
+                <label>WALKIN - OTHERS</label>
+            </value>
+            <value>
+                <fullName>99 ACRES</fullName>
+                <default>false</default>
+                <label>99 ACRES</label>
+            </value>
+            <value>
+                <fullName>CHENNAI PROPERTIES</fullName>
+                <default>false</default>
+                <label>CHENNAI PROPERTIES</label>
+            </value>
+            <value>
+                <fullName>COMMON FLOOR</fullName>
+                <default>false</default>
+                <label>COMMON FLOOR</label>
+            </value>
+            <value>
+                <fullName>HOUSING</fullName>
+                <default>false</default>
+                <label>HOUSING</label>
+            </value>
+            <value>
+                <fullName>INDIAPROPERTY</fullName>
+                <default>false</default>
+                <label>INDIAPROPERTY</label>
+            </value>
+            <value>
+                <fullName>INDIAN MAKAAN</fullName>
+                <default>false</default>
+                <label>INDIAN MAKAAN</label>
+            </value>
+            <value>
+                <fullName>JUSTDIAL</fullName>
+                <default>false</default>
+                <label>JUSTDIAL</label>
+            </value>
+            <value>
+                <fullName>MAGICBRICKS</fullName>
+                <default>false</default>
+                <label>MAGICBRICKS</label>
+            </value>
+            <value>
+                <fullName>OTHER PORTALS</fullName>
+                <default>false</default>
+                <label>OTHER PORTALS</label>
+            </value>
+            <value>
+                <fullName>PROPERTY WALA</fullName>
+                <default>false</default>
+                <label>PROPERTY WALA</label>
+            </value>
+            <value>
+                <fullName>QUIKR</fullName>
+                <default>false</default>
+                <label>QUIKR</label>
+            </value>
+            <value>
+                <fullName>ROOF AND FLOOR</fullName>
+                <default>false</default>
+                <label>ROOF AND FLOOR</label>
+            </value>
+            <value>
+                <fullName>SULEKHA</fullName>
+                <default>false</default>
+                <label>SULEKHA</label>
+            </value>
+            <value>
+                <fullName>TAKTAK INDIA</fullName>
+                <default>false</default>
+                <label>TAKTAK INDIA</label>
+            </value>
+            <value>
+                <fullName>PP - OTHERS</fullName>
+                <default>false</default>
+                <label>PP - OTHERS</label>
+            </value>
+            <value>
+                <fullName>BLACKCOFFEE</fullName>
+                <default>false</default>
+                <label>BLACKCOFFEE</label>
+            </value>
+            <value>
+                <fullName>HASSNET</fullName>
+                <default>false</default>
+                <label>HASSNET</label>
+            </value>
+            <value>
+                <fullName>IDEAGEN</fullName>
+                <default>false</default>
+                <label>IDEAGEN</label>
+            </value>
+            <value>
+                <fullName>NARROWSTRIKES</fullName>
+                <default>false</default>
+                <label>NARROWSTRIKES</label>
+            </value>
+            <value>
+                <fullName>RWA ACTIVITY</fullName>
+                <default>false</default>
+                <label>RWA ACTIVITY</label>
+            </value>
+            <value>
+                <fullName>BANK ACTIVITY</fullName>
+                <default>false</default>
+                <label>BANK ACTIVITY</label>
+            </value>
+            <value>
+                <fullName>CORPORATE ACTIVITY</fullName>
+                <default>false</default>
+                <label>CORPORATE ACTIVITY</label>
+            </value>
+            <value>
+                <fullName>EXPO</fullName>
+                <default>false</default>
+                <label>EXPO</label>
+            </value>
+            <value>
+                <fullName>FLUTE BOARD</fullName>
+                <default>false</default>
+                <label>FLUTE BOARD</label>
+            </value>
+            <value>
+                <fullName>FLYER DISTRIBUTION ACTIVITY</fullName>
+                <default>false</default>
+                <label>FLYER DISTRIBUTION ACTIVITY</label>
+            </value>
+            <value>
+                <fullName>MALL ACTIVITY</fullName>
+                <default>false</default>
+                <label>MALL ACTIVITY</label>
+            </value>
+            <value>
+                <fullName>STALL ACTIVITY</fullName>
+                <default>false</default>
+                <label>STALL ACTIVITY</label>
+            </value>
+            <value>
+                <fullName>STORE ACTIVITY</fullName>
+                <default>false</default>
+                <label>STORE ACTIVITY</label>
+            </value>
+            <value>
+                <fullName>THEATRE PROMOTION</fullName>
+                <default>false</default>
+                <label>THEATRE PROMOTION</label>
+            </value>
+            <value>
+                <fullName>BTL - OTHERS</fullName>
+                <default>false</default>
+                <label>BTL - OTHERS</label>
+            </value>
+            <value>
+                <fullName>GOOGLE ADS</fullName>
+                <default>false</default>
+                <label>GOOGLE ADS</label>
+            </value>
+            <value>
+                <fullName>META ADS</fullName>
+                <default>false</default>
+                <label>META ADS</label>
+            </value>
+            <value>
+                <fullName>LINKEDIN ADS</fullName>
+                <default>false</default>
+                <label>LINKEDIN ADS</label>
+            </value>
+            <value>
+                <fullName>PROGRAMMATIC ADS</fullName>
+                <default>false</default>
+                <label>PROGRAMMATIC ADS</label>
+            </value>
+            <value>
+                <fullName>NATIVE ADS</fullName>
+                <default>false</default>
+                <label>NATIVE ADS</label>
+            </value>
+            <value>
+                <fullName>INFLUENCER MARKETING</fullName>
+                <default>false</default>
+                <label>INFLUENCER MARKETING</label>
+            </value>
+            <value>
+                <fullName>OTT</fullName>
+                <default>false</default>
+                <label>OTT</label>
+            </value>
+            <value>
+                <fullName>DM - OTHERS</fullName>
+                <default>false</default>
+                <label>DM - OTHERS</label>
+            </value>
+            <value>
+                <fullName>EMPLOYEE REFERRAL</fullName>
+                <default>false</default>
+                <label>EMPLOYEE REFERRAL</label>
+            </value>
+            <value>
+                <fullName>CUSTOMER REFERRAL</fullName>
+                <default>false</default>
+                <label>CUSTOMER REFERRAL</label>
+            </value>
+            <value>
+                <fullName>MANAGEMENT REFERRAL</fullName>
+                <default>false</default>
+                <label>MANAGEMENT REFERRAL</label>
+            </value>
+            <value>
+                <fullName>REFERRAL - OTHERS</fullName>
+                <default>false</default>
+                <label>REFERRAL - OTHERS</label>
+            </value>
+            <value>
+                <fullName>STATIC BILLBOARDS</fullName>
+                <default>false</default>
+                <label>STATIC BILLBOARDS</label>
+            </value>
+            <value>
+                <fullName>TRANSIT BILLBOARDS</fullName>
+                <default>false</default>
+                <label>TRANSIT BILLBOARDS</label>
+            </value>
+            <value>
+                <fullName>MALL BILLBOARDS</fullName>
+                <default>false</default>
+                <label>MALL BILLBOARDS</label>
+            </value>
+            <value>
+                <fullName>OOH - OTHERS</fullName>
+                <default>false</default>
+                <label>OOH - OTHERS</label>
+            </value>
+            <value>
+                <fullName>CHANNEL PARTNERS</fullName>
+                <default>false</default>
+                <label>CHANNEL PARTNERS</label>
+            </value>
+            <value>
+                <fullName>DIRECT  WALKIN</fullName>
+                <default>false</default>
+                <label>DIRECT  WALKIN</label>
+            </value>
+            <value>
+                <fullName>Dealer</fullName>
+                <default>false</default>
+                <label>Dealer</label>
+            </value>
+            <value>
+                <fullName>NOBROKER</fullName>
+                <default>false</default>
+                <label>NOBROKER</label>
+            </value>
+            <value>
+                <fullName>VENDOR REFERRAL</fullName>
+                <default>false</default>
+                <label>VENDOR REFERRAL</label>
+            </value>
+            <value>
+                <fullName>Employee Self-Referral</fullName>
+                <default>false</default>
+                <label>Employee Self-Referral</label>
+            </value>
+            <value>
+                <fullName>Existing Customer</fullName>
+                <default>false</default>
+                <label>Existing Customer</label>
+            </value>
+            <value>
+                <fullName>Vendor Self Referral</fullName>
+                <default>false</default>
+                <label>Vendor Self Referral</label>
+            </value>
+            <value>
+                <fullName>M5ECITY</fullName>
+                <default>false</default>
+                <label>M5ECITY</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>WALKIN</controllingFieldValue>
+            <valueName>DIRECT WALKIN</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>WALKIN</controllingFieldValue>
+            <valueName>WALKIN - PRINT</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>WALKIN</controllingFieldValue>
+            <valueName>WALKIN - RADIO</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>WALKIN</controllingFieldValue>
+            <valueName>WALKIN - TVC</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>WALKIN</controllingFieldValue>
+            <valueName>WALKIN - PROPERTY PORTAL</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>WALKIN</controllingFieldValue>
+            <valueName>WALKIN - AFFILIATES</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>WALKIN</controllingFieldValue>
+            <valueName>WALKIN - CP</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>WALKIN</controllingFieldValue>
+            <valueName>WALKIN - BTL</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>WALKIN</controllingFieldValue>
+            <valueName>WALKIN - DIGITAL MARKETING</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>WALKIN</controllingFieldValue>
+            <valueName>WALKIN - CUSTOMER REFERRAL</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>WALKIN</controllingFieldValue>
+            <valueName>WALKIN - EMPLOYEE REFERRAL</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>WALKIN</controllingFieldValue>
+            <valueName>WALKIN - MANAGEMENT REFERRAL</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>WALKIN</controllingFieldValue>
+            <valueName>WALKIN - OOH</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>WALKIN</controllingFieldValue>
+            <valueName>WALKIN - OTHERS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>BTL</controllingFieldValue>
+            <valueName>RWA ACTIVITY</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>BTL</controllingFieldValue>
+            <valueName>BANK ACTIVITY</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>BTL</controllingFieldValue>
+            <valueName>CORPORATE ACTIVITY</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>BTL</controllingFieldValue>
+            <valueName>EXPO</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>BTL</controllingFieldValue>
+            <valueName>FLUTE BOARD</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>BTL</controllingFieldValue>
+            <valueName>FLYER DISTRIBUTION ACTIVITY</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>BTL</controllingFieldValue>
+            <valueName>MALL ACTIVITY</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>BTL</controllingFieldValue>
+            <valueName>STALL ACTIVITY</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>BTL</controllingFieldValue>
+            <valueName>STORE ACTIVITY</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>BTL</controllingFieldValue>
+            <valueName>THEATRE PROMOTION</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>BTL</controllingFieldValue>
+            <valueName>BTL - OTHERS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>OOH</controllingFieldValue>
+            <valueName>STATIC BILLBOARDS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>OOH</controllingFieldValue>
+            <valueName>TRANSIT BILLBOARDS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>OOH</controllingFieldValue>
+            <valueName>MALL BILLBOARDS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>OOH</controllingFieldValue>
+            <valueName>OOH - OTHERS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>OTHER MEDIUMS (EMAIL, SMS, WA, RCS)</controllingFieldValue>
+            <valueName>EMAIL</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>OTHER MEDIUMS (EMAIL, SMS, WA, RCS)</controllingFieldValue>
+            <valueName>SMS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>OTHER MEDIUMS (EMAIL, SMS, WA, RCS)</controllingFieldValue>
+            <valueName>WHATSAPP</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>OTHER MEDIUMS (EMAIL, SMS, WA, RCS)</controllingFieldValue>
+            <valueName>RCS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>OTHER MEDIUMS (EMAIL, SMS, WA, RCS)</controllingFieldValue>
+            <valueName>OM - OTHERS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>OTHER MEDIUMS (EMAIL, SMS, WA, RCS)</controllingFieldValue>
+            <valueName>Dealer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IVR</controllingFieldValue>
+            <valueName>IVR - DIGITAL</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IVR</controllingFieldValue>
+            <valueName>IVR - WEBSITE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IVR</controllingFieldValue>
+            <valueName>IVR - BTL</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IVR</controllingFieldValue>
+            <valueName>IVR - CP</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IVR</controllingFieldValue>
+            <valueName>IVR - OOH</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IVR</controllingFieldValue>
+            <valueName>IVR - PRINT</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IVR</controllingFieldValue>
+            <valueName>IVR - RADIO</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IVR</controllingFieldValue>
+            <valueName>IVR - TVC</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IVR</controllingFieldValue>
+            <valueName>IVR - REFERRAL</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IVR</controllingFieldValue>
+            <valueName>IVR - OTHERS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>WEBSITE</controllingFieldValue>
+            <valueName>WEBSITE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>WEBSITE</controllingFieldValue>
+            <valueName>MICROSITE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>WEBSITE</controllingFieldValue>
+            <valueName>WEBSITE CHAT</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>WEBSITE</controllingFieldValue>
+            <valueName>WEBSITE - OTHERS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PROPERTY PORTALS</controllingFieldValue>
+            <valueName>99 ACRES</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PROPERTY PORTALS</controllingFieldValue>
+            <valueName>CHENNAI PROPERTIES</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PROPERTY PORTALS</controllingFieldValue>
+            <valueName>COMMON FLOOR</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PROPERTY PORTALS</controllingFieldValue>
+            <valueName>HOUSING</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PROPERTY PORTALS</controllingFieldValue>
+            <valueName>INDIAPROPERTY</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PROPERTY PORTALS</controllingFieldValue>
+            <valueName>INDIAN MAKAAN</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PROPERTY PORTALS</controllingFieldValue>
+            <valueName>JUSTDIAL</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PROPERTY PORTALS</controllingFieldValue>
+            <valueName>MAGICBRICKS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PROPERTY PORTALS</controllingFieldValue>
+            <valueName>OTHER PORTALS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PROPERTY PORTALS</controllingFieldValue>
+            <valueName>PROPERTY WALA</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PROPERTY PORTALS</controllingFieldValue>
+            <valueName>QUIKR</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PROPERTY PORTALS</controllingFieldValue>
+            <valueName>ROOF AND FLOOR</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PROPERTY PORTALS</controllingFieldValue>
+            <valueName>SULEKHA</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PROPERTY PORTALS</controllingFieldValue>
+            <valueName>TAKTAK INDIA</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PROPERTY PORTALS</controllingFieldValue>
+            <valueName>PP - OTHERS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PROPERTY PORTALS</controllingFieldValue>
+            <valueName>NOBROKER</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>AFFILIATES</controllingFieldValue>
+            <valueName>BLACKCOFFEE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>AFFILIATES</controllingFieldValue>
+            <valueName>HASSNET</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>AFFILIATES</controllingFieldValue>
+            <valueName>IDEAGEN</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>AFFILIATES</controllingFieldValue>
+            <valueName>NARROWSTRIKES</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>AFFILIATES</controllingFieldValue>
+            <valueName>M5ECITY</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CHANNEL PARTNERS</controllingFieldValue>
+            <valueName>CHANNEL PARTNERS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>DIGITAL MARKETING</controllingFieldValue>
+            <valueName>GOOGLE ADS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>DIGITAL MARKETING</controllingFieldValue>
+            <valueName>META ADS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>DIGITAL MARKETING</controllingFieldValue>
+            <valueName>LINKEDIN ADS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>DIGITAL MARKETING</controllingFieldValue>
+            <valueName>PROGRAMMATIC ADS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>DIGITAL MARKETING</controllingFieldValue>
+            <valueName>NATIVE ADS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>DIGITAL MARKETING</controllingFieldValue>
+            <valueName>INFLUENCER MARKETING</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>DIGITAL MARKETING</controllingFieldValue>
+            <valueName>OTT</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>DIGITAL MARKETING</controllingFieldValue>
+            <valueName>DM - OTHERS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>RECOVERY</controllingFieldValue>
+            <valueName>RECOVERY - SALES</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>RECOVERY</controllingFieldValue>
+            <valueName>RECOVERY - PRESALES</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>RECOVERY</controllingFieldValue>
+            <valueName>RECOVERY - DB</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>RECOVERY</controllingFieldValue>
+            <valueName>RECOVERY - OTHERS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRINT</controllingFieldValue>
+            <valueName>PRAJAVANI</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRINT</controllingFieldValue>
+            <valueName>THE TIMES OF INDIA</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRINT</controllingFieldValue>
+            <valueName>DECCAN HERALD</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRINT</controllingFieldValue>
+            <valueName>VIJAYAVANI</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRINT</controllingFieldValue>
+            <valueName>VIJAYA KARNATAKA</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRINT</controllingFieldValue>
+            <valueName>DECCAN CHRONICLE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRINT</controllingFieldValue>
+            <valueName>THE HINDU</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRINT</controllingFieldValue>
+            <valueName>ECONOMIC TIMES</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRINT</controllingFieldValue>
+            <valueName>DNA</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRINT</controllingFieldValue>
+            <valueName>NEW INDIAN EXPRESS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRINT</controllingFieldValue>
+            <valueName>RAJASTHAN PATRIKA</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>PRINT</controllingFieldValue>
+            <valueName>BUSINESS LINE</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>REFERRAL</controllingFieldValue>
+            <valueName>EMPLOYEE REFERRAL</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>REFERRAL</controllingFieldValue>
+            <valueName>CUSTOMER REFERRAL</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>REFERRAL</controllingFieldValue>
+            <valueName>MANAGEMENT REFERRAL</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>REFERRAL</controllingFieldValue>
+            <valueName>REFERRAL - OTHERS</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>REFERRAL</controllingFieldValue>
+            <valueName>VENDOR REFERRAL</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>REFERRAL</controllingFieldValue>
+            <valueName>Employee Self-Referral</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>REFERRAL</controllingFieldValue>
+            <valueName>Existing Customer</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>REFERRAL</controllingFieldValue>
+            <valueName>Vendor Self Referral</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

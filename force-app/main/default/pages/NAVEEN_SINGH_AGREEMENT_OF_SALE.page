@@ -1,0 +1,791 @@
+<apex:page renderAs="pdf" showHeader="false" sidebar="false" standardStylesheets="false" applyHtmlTag="false" applyBodyTag="false">
+<html>
+<head>
+<style type="text/css">
+    @page {
+        size: A4;
+        margin: 2.2cm 1.8cm 2.4cm 1.8cm;
+        @bottom-center {
+            content: "Page " counter(page) " of " counter(pages);
+            font-family: "Times New Roman", serif;
+            font-size: 10px;
+            color: #000;
+        }
+    }
+    body {
+        font-family: "Times New Roman", serif;
+        font-size: 11px;
+        line-height: 1.5;
+        color: #000;
+        text-align: justify;
+    }
+    p { margin: 0 0 8px 0; }
+    .title {
+        text-align: center;
+        font-size: 16px;
+        font-weight: bold;
+        text-decoration: underline;
+        margin-bottom: 14px;
+    }
+    .center { text-align: center; }
+    .bold { font-weight: bold; }
+    .heading {
+        font-weight: bold;
+        text-decoration: underline;
+        margin: 12px 0 6px 0;
+    }
+    .sched {
+        font-weight: bold;
+        text-decoration: underline;
+        text-align: center;
+        margin: 14px 0 8px 0;
+    }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 8px 0 12px 0;
+        page-break-inside: avoid;
+    }
+    th, td {
+        border: 1px solid #000;
+        padding: 4px 6px;
+        vertical-align: top;
+        font-size: 11px;
+    }
+    th { font-weight: bold; text-align: center; }
+    ol.lower { list-style-type: lower-alpha; }
+    ul { margin: 0 0 8px 18px; }
+    .sig { margin: 4px 0; }
+</style>
+</head>
+<body>
+
+    <p class="title">AGREEMENT OF SALE</p>
+
+    <p>This AGREEMENT OF SALE is made and executed on this the ______ day of ____________ 2026, at Ranga Reddy District, Telangana State, by and between: -</p>
+
+    <p><span class="bold">SRI NAVEEN SINGH, S/O. SRI K. SARDAR SINGH,</span> Aged about 37 years, Occupation: Private Employee, Resident of H.No.12-1-325/B, Dattatreya Nagar, Asif Nagar, Hyderabad (Aadhar No. 2894 1416 4069 &amp; PAN No. BBVPK7729M).</p>
+
+    <p>Hereinafter called the VENDOR which term shall mean and include their legal heirs, executors, successors, representatives' administrators and assignees etc.,</p>
+
+    <p class="bold">REPRESENTED BY THEIR AGREEMENT OF SALE-CUM-G.P.A. HOLDER: -</p>
+
+    <p><span class="bold">M/s. ANANDA HOMES,</span> (pan No. ABFFA6591E), having its Registered Office at Flat No. A1, Vista Residency, Road No.4, Plot Nos.81 &amp; 82, Block-D, Sector-I, Alkapoor Township, Manikonda Village, Gandipet Mandal, Ranga Reddy District, Telangana State-500089, Represented by its Managing Partner: Sri. P.V. Sreenivasulu, S/o. Sri. P. C. V. Ramanaiah, aged about 51 years, Occupation: Business, Resident of Neknampur Village, Gandipet Mandal, Ranga Reddy District, Telangana State-500 089 (AADHAAR No.7420 0525 3319, PAN No. ACNPP9239K).</p>
+
+    <p>(Vide A.G.P.A. Registered as Document No. 17298 of 2025, dated: 06/10/2025, Registered at S.R.O. Gandipet, Ranga Reddy District, Telangana State).</p>
+
+    <p>Hereinafter called the (DEVELOPER/AGPA HOLDER) which term shall mean and include their legal heirs, executors, successors, representatives' administrators and assignees etc., of the ONE PART.</p>
+
+    <p class="center bold">IN FAVOUR OF</p>
+
+    <p><span class="bold">SRI. PAMULAPATI MAHESH, S/O. SRI. VENKATESWARARAO PAMULAPATI,</span> aged about 30 years Occupation: Private Employee, Resident of H.No-1-121, CENTER, CENTER, PERECHERLA, GUNTUR DIST, ANDHRA PRADESH-522005. (AADHAAR No. 6236 7871 6036 &amp; PAN No. CSGPP7659L)</p>
+
+    <p><span class="bold">SMT. YARRA THIREESHA, W/O. SRI. PAMULAPATI MAHESH,</span> aged about 28 years Occupation: Private Employee, Resident of H.No-1-121, CENTER, CENTER, PERECHERLA, GUNTUR DIST, ANDHRA PRADESH-522005. (AADHAAR No. 2303 0148 6240 &amp; PAN No. AVJPY2857K)</p>
+
+    <p>Hereinafter called the "VENDEE(S)/ PURCHASER(S)", which term shall mean and include all his/her heirs, executors, administrators, legal representatives, nominees and assignees etc., of the OTHER PART.</p>
+
+    <p>WHEREAS the father of the Vendor is son of late Satyanarayana Singh having share in the land in Sy.No.127, 129, 130, 133, 134, 145, 147, 148 &amp; 149 total admeasuring Ac.21: 19 guntas, situated at Puppalguda Village, Rajendra Nagar Mandal, presently in Gandipet Mandal, Ranga Reddy District, Telangana State.</p>
+
+    <p>WHEREAS the brother of late Satyanarayana Singh namely Dhan Singh during his life time filed a suit for partition and separate possession in respect of land in Sy.127, 129, 130, 133, 134, 145, 147, 148 &amp; 149 admeasuring Ac.21 : 19 guntas, situated at Puppalguda Village, presently in Gandipet Mandal, Ranga Reddy District, vide O.S.No.473 of 2000 on the file of Hon'ble IV Additional Senior Civil Judge (FTC), Ranga Reddy District at L.B. Nagar against the Satyanarayana Singh and Ramesh Singh and after contest the said suit was dismissed in the year 2009. Aggrieved by the said Judgment Dhan Singh preferred appeal before the Hon'ble High Court of Telangana vide A.S.No.552 of 2009.</p>
+
+    <p>During pending of the appeal Dhan Singh, Satyanarayana Singh and Ramesh Singh were died and their legal heirs have brought on record and thereafter due to the intervention of the family elders and well-wishers the matter has been settled between the parties amicably and accordingly all the parties entered into a memorandum of compromise dated 14-08-2020 and the same has been filed in A.S.No.552 of 2009 before the Hon'ble High Court of Telangana and after recording the compromise the Hon'ble High Court pleased to disposed the appeal in terms of the compromise vide orders dated 23-09-2020.</p>
+
+    <p>WHEREAS late Satyanarayana Singh during the pending of the partition suit vide O.S.No.473 of 2000 entered into a registered deed of exchange vide doc.no.9130 of 2004 dated 29-11-2004 with Mr.B.Vijay and four others, who are the owners of the land in Sy.No.128/1, admeasuring Ac.1 : 02 guntas, situated at Puppalguda Village, Rajendra Nagar Mandal, presently in Gandipet Mandal, Ranga Reddy District, purchased the said land in the Auction conducted by the Government vide proceedings no.LC2/7279/2003 dated 20-09-2003. In the said exchange deed late Satyanarayana Singh had exchanged the land by giving the land admeasuring Ac.00 : 15.5 guntas, out of his share of land admeasuring Ac.00 : 18 guntas in Sy.No.127, situated at Puppalguda Village, Rajendra Nagar Mandal, presently in Gandipet Mandal, Ranga Reddy District, by taking the land admeasuring Ac.00 : 15.5 guntas, out of Ac.01:02 guntas, in Sy.No.128/1, situated at Puppalguda Village, Gandipet Mandal, Ranga Reddy District with the distinct boundaries.</p>
+
+    <p>WHEREAS late Satyanarayana Singh also entered into another deed of exchange vide Doc.No.57 of 2006 dated 02-01-2006 with one K.Rama Krishna Reddy S/o. K.Ram Reddy by exchanging the land by giving 597 Sq.yards of land in Sy.No.127, 129 and 130 situated at Puppalguda Village, Rajendra Nagar Mandal, presently in Gandipet Mandal, Ranga Reddy District by taking the land admeasuring 600 Sq.yards, in Sy.No.128/3, situated at Puppalguda Village, Gandipet Mandal, Ranga Reddy District with the distinct boundaries.</p>
+
+    <p>The Total extent of land is as follows.</p>
+
+    <table>
+        <tr><th>S.No.</th><th>Survey Number</th><th>Extent</th></tr>
+        <tr><td>1</td><td>127</td><td>Ac. 0: 38.5 Gts</td></tr>
+        <tr><td>2</td><td>128/1</td><td>Ac. 0: 15.5 Gts</td></tr>
+        <tr><td>3</td><td>128/3</td><td>Ac. 0: 05 Gts</td></tr>
+        <tr><td>4</td><td>129</td><td>Ac. 0 : 18 Gts</td></tr>
+        <tr><td>5</td><td>130</td><td>Ac. 1 : 38 Gts</td></tr>
+        <tr><td>6</td><td>133</td><td>Ac. 1 : 17 Gts</td></tr>
+        <tr><td>7</td><td>134</td><td>Ac. 0 : 04 Gts</td></tr>
+        <tr><td>8</td><td>145</td><td>Ac. 1 : 33 Gts</td></tr>
+        <tr><td>8</td><td>147</td><td>Ac. 0 : 23 Gts</td></tr>
+        <tr><td>9</td><td>148</td><td>Ac. 6 : 39 Gts</td></tr>
+        <tr><td>10</td><td>149</td><td>Ac. 6 : 28 Gts</td></tr>
+        <tr><td></td><td class="bold">Total Extent</td><td class="bold">Ac.21 : 19 Gts</td></tr>
+    </table>
+
+    <p>WHEREAS in the compromise entered by the parties in A.S.No.552 of 2009, the Vendors Father along with his brothers Ravi Singh, Magan Singh and Rajkumar Singh herein got the land admeasuring Ac.11: 30 guntas out of the total extent of land admeasuring Ac.21: 19 guntas, in Sy. 127, 129, 130, 133, 134, 145, 147, 148 &amp; 149 situated at Puppalguda Village, in Gandipet Mandal Ranga Reddy District.</p>
+
+    <p>WHEREAS in view of the compromise between the parties in the appeal suit vide A.S.No.552 of 2009 before the Hon'ble High Court and as per the Memorandum of Understanding-cum-Family Settlement deed dated 17-08-2020 entered between the parties for division of lands by dividing the survey numbers and its extent of the land by all the shareholders.</p>
+
+    <p>WHEREAS in the said Memorandum of Understanding-cum-Family Settlement deed dated 17-08-2020, the VENDORS father along with his brothers Ravi Singh, Magan Singh and Rajkumar Singh got the land in Sy.No.130 admeasuring Ac.00 : 29 gts, in Sy.No.145 admeasuring Ac.01 : 13 gts, in Sy.No.147 admeasuring Ac.00 : 12 gts, in Sy.No.148 admeasuring Ac.03 : 03 gts and in Sy.No.149 admeasuring Ac.06 : 13 gts, total admeasuring Ac.11: 30 gts, situated at Puppalguda Village, Gandipet Mandal, Ranga Reddy District.</p>
+
+    <p>WHEREAS as per the terms of compromise all the families therein got applied for mutation of land before the Tahsildar, Gandipet Mandal, R.R. District and the Tahsildar by following due procedure issued mutation proceedings in file No: B/387/2020 Dated: 27-08-2020 to all concerned.</p>
+
+    <p>WHEREAS, the VENDORS father along with his brothers who are the other sons of late Satyanarayana Singh become the absolute owners and peaceful possessors of the property of land in Survey No.130, 145, 147, 148 &amp; 149, total extent of land admeasuring Ac.11 : 30 Guntas, situated at Puppalguda Village, Under Manikonda Municipality, Gandipet Mandal, Ranga Reddy District, Telangana State, by virtue of Memorandum of compromise decree passed in A.S.No.552 of 2009 before the Hon'ble High Court of Telangana, at Hyderabad and subsequently got mutated their names in the revenue records vide proceedings No: B/387/2020 Dated: 27-08-2020 by the Tahsildar, Gandipet Mandal, Ranga Reddy District. The shares allotted to the respective parties mentioned as follows:</p>
+
+    <table>
+        <tr><th>S.No.</th><th>Name of the Succession Holder</th><th>Survey Numbers</th><th>Ac.- Gts.</th></tr>
+        <tr><td>1.</td><td>Sri. Ravi Singh, S/o. Late Satyanarayana Singh</td><td>130, 145, 147, 148, 149</td><td>0-08, 0-13, 0-03, 0-31, 1-00 &#8212; Ac.2-15 gts.</td></tr>
+        <tr><td>2.</td><td>Sri. Magan Singh, S/o. Late Satyanarayana Singh</td><td>130, 145, 147, 148, 149</td><td>0-07, 0-13, 0-03, 0-30, 3-12 &#8212; Ac.4-25 gts.</td></tr>
+        <tr><td>3.</td><td>Sri. Sardar Singh, S/o. Late Satyanarayana Singh</td><td>130, 145, 147, 148, 149</td><td>0-07, 0-14, 0-03, 0-31, 1-00 &#8212; Ac.2-15 gts.</td></tr>
+        <tr><td>4.</td><td>Sri. Raj Kumar Singh, S/o. Late Satyanarayana Singh</td><td>130, 145, 147, 148, 149</td><td>0-07, 0-13, 0-03, 0-31, 1-01 &#8212; Ac.2-15 gts.</td></tr>
+    </table>
+
+    <p>WHEREAS the VENDORS father herein as per mutation process got share in the land in Sy.No.130, 145, 147, 148 &amp; 149 admeasuring Ac.02.15 guntas by virtue of succession from ancestral family property, situated at Puppalguda Village, Gandipet Mandal, Rangareddy District, Telangana State and as per Memorandum of compromise decree passed in A.S.No.552 of 2009 before the Hon'ble High Court of Telangana, at Hyderabad and subsequently got mutated their names in the revenue records vide proceedings No: B/387/2020 Dated: 27-08-2020 by the Tahsildar, Gandipet Mandal, Ranga Reddy District.</p>
+
+    <p>WHEREAS the VENDORS father obtained Pattedar Pass Book vide No. T05070070204, Khata No.60188 for an extent of Ac.02-15Gts., situated in Puppalguda Village, Gandipet Mandal, Ranga Reddy District, Telangana State as per the details given in the below table.</p>
+
+    <table>
+        <tr><th>S.No.</th><th>Name of the Succession Holder</th><th>Survey Numbers</th><th>Ac.- Gts.</th></tr>
+        <tr><td>1</td><td>Sri. Sardar Singh, S/o. Late Satyanarayana Singh</td><td>130, 145, 147, 148, 149</td><td>0-07, 0-14, 0-03, 0-31, 1-00 &#8212; Ac.2-15 gts.</td></tr>
+    </table>
+
+    <p>WHEREAS the VENDORS father has obtained NALA permission vide Proceedings No.2300787784, Dated:17/10/2023 for conversion of land from agriculture to non-agriculture in respect of land bearing Survey No. 147/A/3, 147/AA, 148/A/3 &amp; 149/3, admeasuring Ac. 01.34 gts., situated at Puppalguda Village, Gandipet Mandal, Ranga Reddy District from the Tahsildar, Gandipet Mandal, Rangareddy District.</p>
+
+    <p>WHEREAS the VENDORS father by consenting all his family members for more advantage and comfort, with an intention to derive a better advantage approached the Developer i.e., M/s. Ananda Homes is a well experienced builder, for development of a Residential Complex in the locality and the VENDORS father entered into Registered Development Agreement-cum-GPA, vide Document No.111/2021, Dated:04/08/2021, with the Developer, in the office of the Tashildhar &amp; Joint Sub Registrar, Gandipet, Ranga Reddy District, pertaining to the land bearing Survey No.147/A/3, 147/AA, 148/A/3 &amp; 149/3, to an extent of Ac.01.34 gts., situated at Puppalguda Village, Gandipet Mandal, Ranga Reddy District.</p>
+
+    <p>WHEREAS as per the Registered Development Agreement-cum-GPA, Document No.111/2021, Dated: 04/08/2021, the VENDORs father is entitled for 35.5% of the constructed area and the AGPA Holder herein is entitled for 64.5% of the constructed area.</p>
+
+    <p>WHEREAS the Vendors Father entered into a Registered Supplementary Agreement by allotting the developed area vide Document No.14269 of 2023, Dated:06/11/2023, Registered office of the Sub-Registrar, Gandipet, Ranga Reddy District, Telangana State. wherein the vendors father got an extent of 1,28,715 Sq. feet developed area in various floors as mentioned in the supplementary agreement.</p>
+
+    <p>WHEREAS the vendors father desired to effect the partition and allot the shares to his 2 sons SRI NITHIN SINGH, SRI NAVEEN SINGH and Daughter SMT. THAKUR NAMRATA SINGH with the mutual consent in the developed area to avoid any future dispute between the son's and daughter and accordingly they have arrived into an amicable family partition and agreed to reduce the same into writing by entering into this deed of partition by dividing their individual shares to avoid any future endeavours between them through this deed vide document No. 6958 / 2025 dated 16-04-2025 and for the better adjudication.</p>
+
+    <p>That as per the family settlement and partition deed vide document No. 6960 of 2025 dated 16-04-2025, the vendor is entitled to the flat mentioned in Schedule "B" property.</p>
+
+    <p>WHEREAS the AGPA Holder herein has also entered several Development Agreements-cum-GPAs in respect of adjacent lands belongs to other owners. The AGPA Holder being the Developer of the land has obtained HMDA approved plan for 11 Blocks with 3 basements + Ground + 22floors and 12th Block with 3 cellars + Ground + 5 upper floors, Amenities Block-1, 3 Cellars + Ground + 4 upper floors and Amenities Block-2 with 3 Cellars + Ground+3 upper floors in Survey No.128/P, 129, 130/P, 145, 147, 147/P, 148 and 149, to an extent of 73,240.67 Sq. Meters or Ac: 18.04 gts, situated at Puppalguda Village, Gandipet Mandal, Rangareddy District, by virtue of Permission No. 01722/SKP/PLG/HMDA/2022, Dated:25/06/2024, and the project was named as "THE LEGACEY" In the process of getting the above HMDA permissions, an area to the extent of 5761.65 Sq. Meters equivalent to 6890.88 Square Yards, out of the entire extent of 73240.67 Sq. Meters equivalent to 87595.11 Sq. Yards is gifted for widening of Road, which is registered in favor of The Commissioner, Manikonda Municipality vide Registered Gift Deed Document No: 16083/2023 Dated 29-12-2023 registered at S.R.O., Gandipet. Hence, M/s. Ananda Homes &amp; Others is developing the project in the extent of 67479.02 Sq. Meters Equivalent to 80704.23 Sq. Yards (after adjusting the area under road widening and considering the physical availability) referred to as the Total Property and is described in details in the Schedule A hereto and the same is accepted by all the Land Owners in this project including the VENDORs father.</p>
+
+    <p>AND WHEREAS, The Developer/AGPA Holder had registered the Project THE LEGACEY for 11 (eleven) Blocks, with 3 Basements, and Ground Floor, and 22 Upper Floors, 12th Block with 3 Cellars, Ground Floor and 5 Upper Floors, Amenities Block-I, 3 Cellars and Ground Floor, 4 Upper Floors, and Amenities Block-II, with 3 Cellars, Ground Floor and 3 Upper Floors, under the provisions of the Act with the Telangana Real Estate Regulatory Authority(TSRERA) at Hyderabad and has been granted registration No. P02400008615, dated:07/08/2024.</p>
+
+    <p>AND WHEREAS, in accordance with the terms and conditions set out in this Agreement and as mutually agreed upon by and between the Parties, the AGPA Holder hereby agrees to sell and the VENDEE/S hereby agree to purchase the Flat Which is more specifically demarcated as per the Schedule below.</p>
+
+    <table>
+        <tr><td class="bold">PROJECT</td><td>THE LEGACEY</td></tr>
+        <tr><td class="bold">TOWER</td><td>1</td></tr>
+        <tr><td class="bold">FLAT NO.</td><td>T1-707</td></tr>
+        <tr><td class="bold">FLOOR</td><td>7th Floor</td></tr>
+        <tr><td class="bold">FLAT TYPE</td><td>3 BHK</td></tr>
+        <tr><td class="bold">FACING</td><td>EAST</td></tr>
+        <tr><td class="bold">CARPET AREA</td><td>942 SQ. FT</td></tr>
+        <tr><td class="bold">BALCONY &amp; UTILITY AREA</td><td>146 SQ. FT</td></tr>
+        <tr><td class="bold">WALL AREA</td><td>85 SQ. FT</td></tr>
+        <tr><td class="bold">PLINTH AREA</td><td>1173 SQ. FT</td></tr>
+        <tr><td class="bold">COMMON AREA</td><td>347 SQ. FT</td></tr>
+        <tr><td class="bold">FLAT SIZE</td><td>1520 SQ. FT</td></tr>
+        <tr><td class="bold">CAR PARKING</td><td>ONE</td></tr>
+        <tr><td class="bold">UDS</td><td>31.9 SQ. YDS</td></tr>
+    </table>
+
+    <p>AND WHEREAS, this agreement shall be construed, interpreted and applied in accordance with, and shall be governed by the laws applicable in India. The courts at Hyderabad shall have the sole and exclusive jurisdiction to entertain any dispute or suit arising out of or in relation to this agreement.</p>
+
+    <p class="bold">NOW THEREFORE THIS AGREEMENT WITNESSES AND IT IS HEREBY AGREED TO BY THE PARTIES HERETO AS FOLLOWS:</p>
+
+    <p class="heading">DEFINITIONS AND INTERPRETATION:</p>
+
+    <p>Definitions: Unless the context otherwise requires, the following capitalized terms shall have the meaning set forth below:</p>
+
+    <p>"Act" means the Real Estate (Regulation and Development) Act, 2016 (16 of 2016) and includes Telangana Real Estates (Regulation and Development) Rules, 2017, wherever, the context so requires:</p>
+
+    <p>"Agreement" shall mean this agreement to sell a flat bearing No. T1-707, Tower no. 1, square feet 1520, including the schedule hereto, as may be amended from time to time;</p>
+
+    <p>"Applicable Law" means all laws, statutes, regulations, codes, bye-laws, ordinances, treaties, judgments, decrees, directives, rules, guidelines, orders, policies and other requirements of any statutory authority having jurisdiction over the Schedule property which are in effect or as may be amended, modified, enacted or revoked from time-to-time hereafter;</p>
+
+    <p>"Association or Association of Owners Association" shall all mean the same, being the Association of Owners in Ananda Homes to be formed by the Owners, in respect of the Project in accordance with law;</p>
+
+    <p>"Appropriate Government" means the Government of Telangana;</p>
+
+    <p>"Carpet Area" shall mean the net useable floor area of the flat, excluding the area covered by the external walls, areas under services shafts, exclusive balcony or verandah area and exclusive open terrace area, but includes the area covered by the internal partition walls of the flat;</p>
+
+    <p>"Commencement Certificate" shall mean the licensee and building plan sanctioned by the Commissioner HMDA, Hyderabad for construction of the flats on the Schedule Property vide letter No. 01722/SKP/Plg/HMDA/2022 dated:25/06/2024.</p>
+
+    <p>"Common Areas and Common Amenities and Facilities of the Project" shall mean the entire Schedule Property and all other areas as defined in Section 2(n) of the Act and the common amenities and facilities being provided in the Project, to this Agreement;</p>
+
+    <p>"Development" means the development of the Schedule property undertaken by the Developer;</p>
+
+    <p>"Force Majeure" shall mean the occurrence of one or more of the following events: War, flood, drought, fire, cyclone, earthquake, any other calamity caused by nature or any court stay or government order or any other reason affecting the regular development of the Project;</p>
+
+    <p>"Interest" means the rate of interest payable by the Vendee/s and or the Developer, as the case may be in terms of this Agreement which is to be calculated at prevailing interest rate of State Bank of India highest marginal cost of lending rate (MCLR) plus 2 %.</p>
+
+    <p>"Rules" means the Telangana Real Estate (Regulation and Development) (General) Rules, 2017, made under the Real Estate (Regulation and Development) Act, 2016;</p>
+
+    <p>"Regulations" means the regulations made under the Real Estate (Regulation and Development Act, 2016;</p>
+
+    <p>"Section" means a Section of the Act.</p>
+
+    <p>"Project" means the multi-storied residential buildings, being 11 (eleven) Towers/Blocks, with 3 Basements, and Ground Floor, and 22 Upper Floors, 12th Tower/Block with 3 Cellars, Ground Floor and 5 Upper Floors, Amenities Tower/Block-I, 3 Cellars and Ground Floor, 4 Upper Floors, and Amenities Tower/Block-II, with 3 Cellars, Ground Floor and 3 Upper Floors, being constructed on the Schedule Property and registered under the Act before the Telangana Real Estate Regulatory Authority as project, namely, "THE LEGACEY"</p>
+
+    <p>"Developer/AGPA holder" shall mean M/s. Ananda Homes Represented by its Managing Partner: SRI. P.V. SREENIVASULU;</p>
+
+    <p>"Owners" shall mean any owner or owners of flats in the Project;</p>
+
+    <p>"Sale Deed" shall mean the Deed of Sale to be executed by the Developer, for legally conveying the absolute right, title and interest in the Schedule Property on the terms and conditions contained therein under the Scheme;</p>
+
+    <p>"Schedule B" shall mean the floor plan of the flat agreed to be sold to the Vendee/s;</p>
+
+    <p>"Schedule C" is the Payment plan according to which the Vendee/s shall make the payment towards the purchase of Schedule B Property;</p>
+
+    <p>"Statutory Payments" shall mean statutory charges including goods and service tax ('GST') as applicable from time to time, which will be payable by the Vendee/s in addition to the Sale consideration, cost of construction and other cost charges and expenses, under this Agreement;</p>
+
+    <p>"Saleable Area" of any residential Flat shall mean the carpet area plus Verandah/balcony/terrace area which are exclusively meant for the Vendee plus proportionate share of common area and any other area as agreed between the Developer and the Vendee in this Agreement of Sale for which the proportionate cost will be collected from the Vendee/s; and</p>
+
+    <p>"Total Price" means the price of the flat on the saleable area of the Flat and as agreed between the Parties;</p>
+
+    <p>"Booking Amount" the amount paid prior to upon execution of the Agreement of Sale;</p>
+
+    <p>"Date of Booking" means the date as reflected under the Booking Form.</p>
+
+    <p class="heading">1.2 Interpretation</p>
+
+    <p>a) Any word or phrase defined in the body of this Agreement as opposed to being defined in Clause 1.1 above shall have the meaning assigned to it in such definition throughout this Agreement, unless the contrary is expressly stated or the contrary clearly appears from the context.</p>
+
+    <p>b) If any provision in Clause 1.1 is a substantive provision conferring any rights or imposing obligations on any Party, effect shall be given to it as if it were a substantive provision in the body of this Agreement.</p>
+
+    <p>c) The use of the word "including" followed by a specific example(s) in this Agreement, shall not be construed as limiting the meaning of the general wording preceding it.</p>
+
+    <p>d) The rule of construction, if any, that a contract should be interpreted against the parties responsible for the drafting and preparation thereof, shall not apply.</p>
+
+    <p>e) The Schedules and the Annexures to this Agreement shall be deemed to be incorporated in, and shall form an integral part of this Agreement.</p>
+
+    <p>f) Reference to any agreement, deed, document, instrument, rule, regulation, notification, statute or the like shall mean a reference to the same as may be have been duly amended, modified or replaced. For the avoidance of doubt, a document shall be construed as amended, modified or replaced. For the avoidance of doubt, a document shall be construed as amended, modified or replaced only if such amendment, modification or replacement is executed in compliance with the provisions of such document(s).</p>
+
+    <p>g) Reference to any section or clause shall mean a reference to a section, clause of this Agreement unless specified otherwise;</p>
+
+    <p>h) Reference to the terms "herein", "hereto"," hereunder" and words of similar purport refer to this Agreement as a whole.</p>
+
+    <p>i) Headings in this Agreement are inserted for convenience only and shall not be used in its interpretation.</p>
+
+    <p>In this Agreement, (including the Recitals above) unless the context clearly indicates a contrary intention, a word or an expression, which denotes a natural person shall include an artificial person (and vice versa) any one gender shall include the other genders, the singular shall include the plural (and vice versa).</p>
+
+    <p class="bold">THEREFORE, IN CONSIDERATION OF THE MUTUAL REPRESENTATIONS, COVENANTS, ASSURANCES, PROMISES, AND AGREEMENTS CONTAINED HEREIN AND OTHER GOOD AND VALUABLE CONSIDERATION, THE PARTIES AGREE AS FOLLOWS:</p>
+
+    <p class="heading">TERMS:</p>
+
+    <p>Subject to the terms and conditions as detailed in this Agreement, the DEVELOPER agrees to sell to the VENDEE/S and the VENDEE/S hereby agrees to purchase the Flat No. T1-707, Tower No. 1, Area 1520 sq. ft (including common area) for a total consideration of Rs. 1,05,13,680/- (Rupees One Crore Five Lakh Thirteen Thousand Six Hundred Eighty Only) Which includes amenities and excludes GST, constructed on Schedule A property, Puppalguda Village, Gandipet Mandal, Ranga Reddy District, Telangana State:</p>
+
+    <table>
+        <tr><th>Particulars</th><th>Rate Per SFT (In Rupees)</th><th>Total Price (In Rupees)</th></tr>
+        <tr><td>Basic Price</td><td>6,259</td><td>95,13,680</td></tr>
+        <tr><td>Amenities including One car parking &amp; Infrastructure charges</td><td></td><td>10,00,000</td></tr>
+        <tr><td class="bold">Total</td><td></td><td class="bold">1,05,13,680/-</td></tr>
+    </table>
+
+    <p class="bold">GST:</p>
+    <p>1. 5% on Sale Consideration</p>
+    <p>2. 18% on Maintenance, Move in, legal &amp; documentation charges</p>
+
+    <p class="bold">Explanation:</p>
+
+    <p>The Total Price above includes the booking amount paid by the VENDEE/S to the DEVELOPER towards the Flat;</p>
+
+    <p>The Total Price above includes taxes( consisting of tax paid or payable by the DEVELOPER by way of Cess or any other similar taxes which may be levied, in connection with the construction of the Project payable by the DEVELOPER, by whatever name called up to the date of handing over the possession of the flat to the Association and the project or the competent authority, as the case may be, after obtaining the completion certificate: Provided that in case there is any change/modification in taxes, the subsequent amount payable by the VENDEE to the DEVELOPER shall be increased/reduced based on such change/modification: Provided further that if there is any increase in the taxes after the expiry of the scheduled date of completion of the project as per registration with the Authority, which shall include the extension of registration, if any, granted to the said project by the Authority, as per the Act, the same shall not be charged from the VENDEE/S provided that Stamp Duty, Registration fee, mutation charges, shall be paid by the VENDEE/S as per actual over and above the total price.</p>
+
+    <p>The DEVELOPER shall periodically intimate in writing to the VENDEE/S, the amount payable as mentioned in Schedule C and the VENDEE/S shall make payment demanded by the DEVELOPER within the time and in the manner specified therein.</p>
+
+    <p>The Total price of Flat includes undivided share price of land, construction of not only the Flat but also the Common areas, internal development charges, external development charges, taxes, cost of providing electric wiring, electrical connectivity to the flat, lift, Internal water line and plumbing, finishing with paint, doors, flooring, windows, fire detection and firefighting equipment (as per law) in the common areas, maintenance charges as per para 11, etc. and includes cost for providing all other facilities, amenities and specifications to be provided as per the agreement within the Flat and the Project;</p>
+
+    <p>The VENDEE/S hereby agree to become a member of the Society or Association so formed by all the tenement owners of THE LEGACEY Project and the VENDEE/S agree to contribute 4/-. per sft for maintenance charges with 18% GST to the DEVELOPER and for Association for period of 2 years and which can be extendable and for Corpus fund 50/- per sft</p>
+
+    <p>The Total Price is escalation-free, however, in case the VENDEE/S agree to pay the escalation charges is due to increase on account of development charges payable to the competent authority and/or any other increase in charges which may be levied or imposed by the competent authority from time to time. The DEVELOPER undertakes and agrees that while raising a demand on the VENDEE/S for increase in development charges, cost/charges, imposed by the competent authorities, the DEVELOPER shall enclose the said notification/order/charges imposed by the competent authorities, the DEVELOPER shall enclose the said notification/order/rule/regulation to that effect along with the demand letter being issued to the VENDEE/S.</p>
+
+    <p>The VENDEE/S shall make the payment as per the payment plan as set out hereunder shall be as per Schedule "C" plan.</p>
+
+    <p>The DEVELOPER may allow, in its sole discretion, a rebate for early payments of installments payable by the VENDEE/S by discounting such early payments 12% per annum for the period by which the respective installment has been prepone. The provision for allowing rebate and such rate of rebate shall not be subject to any revision/withdrawal, once granted to VENDEE/S by the DEVELOPER.</p>
+
+    <p>It is agreed that the DEVELOPER shall not make any additions and alterations in the sanctioned plans and specifications, with such modifications as may be been made by the Developer as may be deemed fit and in the nature of the Project and the nature of fixtures, fittings and amenities described herein in Schedule 'D' in respect of the flat as the case may be, without the previous written consent of the VENDEE/S as per the provisions of the Act. Provided that the DEVELOPER may make such minor additions/deductions or alterations as may be required by the VENDEE/S, or such minor changes or alterations as per the provisions of the Act, on such terms as may be agreed without any deduction in the sales receivables to the DEVELOPER by the VENDEE/S. The DEVELOPER shall not be liable for any manufacturing or other defects of any branded inputs or fixtures or services of any third party mentioned in the schedule/annexure to this Agreement, unless it results in structural defects. The Association of VENDEE/S shall take responsibility for proper safety, maintenance (including continuance of annual maintenance/insurance contracts/agreements) and upkeep of all the fixtures, equipment and machinery provided by the DEVELOPER for which the DEVELOPER shall not be liable after handing over.</p>
+
+    <p>It is agreed between the parties that in the event of there being any modifications to the Floor Plan attached to this Agreement, the same shall be duly intimated to the Vendee by the Developer and the Vendee shall raise any objections to the same, within a period of 7 days from the date of such intimation after which period, it shall be deemed that the Vendee has accepted the modifications proposed.</p>
+
+    <p>The DEVELOPER shall confirm to the final carpet and saleable area that has been allotted to the VENDEE/S after the construction of the Building is complete and the occupancy certificate is granted by the competent authority, by furnishing details of the changes, if any, in the built-up area or the Saleable area. The total price payable for the built up or saleable area shall be recalculated upon confirmation by the DEVELOPER. If there is reduction in the built-up area or the Saleable area then the DEVELOPER shall refund the excess money paid by the VENDEE/S within forty-five days with annual interest at the rate prescribed in the Rules, from the date when such an excess amount was paid by the VENDEE/S. If there is any increase in the built-up area or the Saleable area, which is not more than three percent of the built-up area of the flat, allotted to the VENDEE/S as per the next milestone of the Payment plan as provided in Schedule C. All these monetary adjustments shall be made at the same rate per square feet as agreed in para 1.1 of this Agreement.</p>
+
+    <p>Subject to para 9.3, the VENDEE/S agree and acknowledge, the VENDEE/S shall have the right to the Flat Schedule B Property as mentioned below subject the VENDEE/S making the payments as per schedule and on payment of total sale consideration.</p>
+
+    <p>The VENDEE/S shall have exclusive ownership of their respective schedule flat.</p>
+
+    <p>The VENDEE/S shall also have undivided proportionate share in the common areas. Since the share of the VENDEE/S in the common areas is undivided and cannot be divided or separated, the VENDEE/S shall use the common areas along with other occupants, maintenance staff, etc. without causing any inconvenience or hindrance to them. It is clarified that the DEVELOPER shall hand over the common areas to the Association of VENDEE/S after duly obtaining the completion certificate from the competent authority as provided in the Act;</p>
+
+    <p>That the computation of the price of the flat includes recovery of price of land, construction of [not only the flat but also] the Common areas, internal development charges, external development charges, taxes, cost of providing electric wiring, electrical connectivity to the flat, lift, Internal water line and plumbing, finishing with paint, granite, tiles, doors, windows, fire detection and firefighting equipment (as per law) in the common areas, maintenance charges as per the agreement within the [Flat].</p>
+
+    <p>The VENDEE/S have the right to visit their Flat on prior intimation of at least 3 working days to the DEVELPOR / Authorized person to assess the extent of development of his /her Flat. It is made clear by the DEVELOPER and the VENDEE/S agree that the Flat Schedule B Property along with parking space treated as a single indivisible unit for all purposes. It is agreed that the Project is an independent, self-contained Project covering the said Land and is not a part of any other project or zone and shall not form a part of and/or linked/combined with any other project in its vicinity or otherwise except for the purpose of integration of infrastructure for the benefit of the VENDEE/S. It is clarified that Project's facilities and amenities shall be available only for the use and enjoyment of the VENDEE/S of the Project.</p>
+
+    <p>The DEVELOPER agrees to pay all outgoings before transferring the physical possession or transfer of Scheduled Property whichever is earlier, of the flat to the VENDEE/S, which it has collected from the VENDEE/S, for the payment of outgoings (including land cost [either directly or by way of share in the project, ground rent, municipal or other local taxes, charges for water or electricity, maintenance charges, including mortgage loan and interest on mortgages or other encumbrances and such other liabilities payable to competent authorities, banks and financial institutions, which are related to the project). If DEVELOPER fails to pay all or any of the outgoings collected by it from the VENDEE/S or any liability, mortgage loan and interest thereon before transferring the flat to the VENDEE/S or any liability, mortgage loan and interest thereon before transferring the flat to the VENDEE/S, the DEVELOPER agrees to be liable, even after the transfer of the property, to pay such outgoings and penal charges, if any, to the authority or person to whom they are payable and be liable for the cost of any legal proceedings which may be taken there for by such authority or persons.</p>
+
+    <p>VENDEE/S has paid a sum of Rs. 21,02,736/- (Rupees Twenty One Lakh Two Thousand Seven Hundred Thirty Six Only) as booking amount, excluding GST being part payment towards the total price of the flat at the time of entering this Agreement, the receipt of which the DEVELOPER hereby acknowledges in the table below and the VENDEE/S hereby agrees to pay the remaining price of the flat as prescribed in the Payment Plan (Schedule C) as may be demanded by the DEVELOPER within the time and in the manner specified therein.</p>
+
+    <table>
+        <tr><th>Date</th><th>Mode</th><th>Reference ID</th><th>Amount</th></tr>
+        <tr><td>24-Sep-24</td><td>Cheque</td><td>"000004"</td><td>5,00,000</td></tr>
+        <tr><td>11-Nov-24</td><td>Online</td><td>301069395</td><td>15,81,709</td></tr>
+        <tr><td>04-Jul-25</td><td>TDS Challan</td><td>Challan No-12378</td><td>21,027</td></tr>
+        <tr><td class="bold">Total payments</td><td></td><td></td><td class="bold">21,02,736/-</td></tr>
+    </table>
+
+    <p>Balance Rs. 84,10,944 /- (Rupees Eighty Four Lakh Ten Thousand Nine Hundred Forty Four Only) availing by the way of loan from INDIAN BANK.</p>
+
+    <p>The VENDEE/S shall pay the installments as stipulated above within 15 days from the date of notice issued by the DEVELOPER, failing which it shall carry interest at the rate of 24% prescribed in the Rules.</p>
+
+    <p>The VENDEE/S shall issue post-dated cheques for all installments as per the payment schedule given above irrespective of mode of funding, i.e. self/bank finance. The VENDEE/S unconditionally agree to sign the disbursement forms of respective banks in advance along with this agreement and handover such papers to the DEVELOPER enabling the DEVELOPER to submit with respective banks for release of payments avoiding delay in releasing installment amounts without any hindrance and the DEVELOPER hereby undertakes and confirms to the VENDEE/S that the said disbursal from the Demand Letter from the DEVELOPER will be submitted with respective banks of prior intimation of at least 7 days from the date of attaining such milestone/landmark of construction progress.</p>
+
+    <p class="heading">MODE OF PAYMENT</p>
+
+    <p>Subject to the terms of the Agreement and the DEVELOPER abiding by the construction milestones, the VENDEE/S shall make all payments, on written demand by the DEVELOPER, within the stipulated time as mentioned in the payment plan through A/c Payee cheque/demand draft/banker's cheque or online payment in below mentioned account Account bearing A/c. Nos 322205002425 in favor of M/s. ANANDA HOMES, Bank: ICICI BANK, Branch: MANIKONDA, IFSC: ICIC0003222.</p>
+
+    <p class="heading">COMPLAINCE OF LAWS RELATING TO REMITTANCES</p>
+
+    <p>3.1 The VENDEE/S, if residents outside India, shall be solely responsible for complying with necessary formalities as laid down in Foreign Exchange Management Act, 1999, Reserve Bank of India Act, 1934, and the Rules and Regulations made there-under or any statutory amendment(s) modification(s) made thereof and all other applicable laws including that of remittance of payment acquisition/sale/transfer of immovable properties in India, etc. and provide the DEVELOPER with such permission, approvals which would enable the DEVELOPER to fulfill its obligations under this Agreement. Any refund, transfer of security, if provided in terms of the Agreement shall be made in accordance with the provisions of Foreign Exchange Management Act, 1999, or statutory enactments or amendments thereof and the Rules and Regulations of the Reserve Bank of India or any other applicable law. The VENDEE/S understand and agree that in the event of any failure on his/her part to comply with the applicable guidelines issued by the Reserve Bank of India, he/she may be liable for any action under the Foreign Exchange Management Act, 1999, or other laws as applicable, as amended from time to time.</p>
+
+    <p>3.2 The DEVELOPER accepts no responsibility in regard to matters specified in Para 3.1, above. The VENDEE/S shall keep the DEVELOPER fully indemnified and harmless in this regard. Whenever there is any change in the residential status of the VENDEE/S subsequent to the signing of this Agreement, it shall be the sole responsibility of the VENDEE/S to intimate the same in writing to the DEVELOPER immediately and comply with necessary formalities if any under the applicable laws. The DEVELOPER shall not be responsible towards any third-party making payment/remittances on behalf of any VENDEE/S and such third party shall not have any right in the application/allotment of the said flat applied herein in any way and the DEVELOPER shall be issuing the payment receipts in favor of the VENDEE/S only.</p>
+
+    <p class="heading">ADJUSTMENT/APPROPRIATION OF PAYMENTS:</p>
+
+    <p>The VENDEE/S authorizes the DEVELOPER to adjust/appropriate all payments made by him/her under any head(s) of dues against lawful outstanding of the VENDEE/S against the [Flat], if any, in his/her name and the VENDEE/S undertakes not to object/demand/direct the DEVELOPER to adjust his payments in any manner.</p>
+
+    <p class="heading">TIME IS ESSENCE:</p>
+
+    <p>The DEVELOPER shall abide by the time schedule for completing the project as disclosed at the time of registration of the project with the Authority and towards handing over the [Flats] to the VENDEE/S and the common areas to the association of VENDEE/S or the competent authority, as the case may be subject to the VENDEE/S make the payments as per the schedule mentioned above.</p>
+
+    <p class="heading">CONSTRUCTION OF THE FLAT:</p>
+
+    <p>The VENDEE/S have seen the sanction plan, specifications, amenities and facilities of the Schedule B Property and accepted floor plan, payment plan and the specifications, amenities and facilities (annexed along with this Agreement) which has been approved by the competent authority, as represented by the DEVELOPER. The DEVELOPER shall develop the Project in accordance with the said sanction plan or the modified plan, floor plans and specifications, amenities and facilities.</p>
+
+    <p class="heading">POSSESSION OF THE FLAT/PLOT:</p>
+
+    <p>7.1 Schedule for possession of the said [Flat]: The DEVELOPER agrees and understands that timely delivery of possession of the Schedule B property to the VENDEE/S and the common areas to the Association of VENDEE/S or competent authority, as the case may be, is the essence of the Agreement. The DEVELOPER assures to hand over possession of the Schedule B property of the project by June-2028' and with a grace period of 6 months unless there is a delay or failure due to war, flood, drought, fire, cyclone, earthquake, or any other calamity caused by nature or any Court stay or government order affecting the regular development of the real estate project ("Force Majeure"). If, however, the completion of the Project is delayed due to Force Majeure conditions then the VENDEE/S agree that the DEVELOPER shall be entitled to the extension of time and delivery of possession of the Schedule B property, provided that such Force Majeure conditions are not of nature which make it impossible for the contract to be implemented. The VENDEE/S agree and confirm that, in the event it becomes impossible for the DEVELOPER to implement the project due to Force Majeure conditions, then this agreement shall stand terminated and the DEVELOPER shall refund to the VENDEE, the entire amount received by the DEVELOPER from this agreement within 90 days from that date. The DEVELOPER shall intimate the VENDEE/S about such termination at least thirty days prior to such termination. After refund of the money paid to the VENDEE/S, the VENDEE/S agree that he/she shall not have any rights, claims, etc. against the DEVELOPER and that the DEVELOPER shall be released and discharged from all its obligations and liabilities under this Agreement.</p>
+
+    <p>7.2 Procedure for taking possession &#8212; The Developers/Promoters (i) upon applying for and upon the completion of the period prescribed for issuing the Occupancy Certificate under applicable building laws; or (ii) after obtaining the Occupancy Certificate from the competent authority, shall offer in writing the possession of the Apartment, to the Vendee, who has paid all the amounts in terms of this Agreement. The Vendee shall take possession within two months from the date of the said notice. The Vendee shall be liable to pay property tax from the date of the Registration of the Sale Deed in favour of the Vendee or Occupancy Certificate whichever is earlier.</p>
+
+    <p>If the Vendee fails to take delivery within the time specified in the notice referred to in Clause 7.2 above, he shall be liable for payment of all on goings including maintenance charges, water and electricity charges, Corpus Fund etc. from the date of notice. The Vendee, after taking possession or in accordance with Clause 7.2, agrees to pay the maintenance charges as determined by the Developers/Association of Vendees.</p>
+
+    <p>7.3 Failure of VENDEE/S to take possession of Flat/Schedule B property &#8212; Upon receiving a written intimation from the DEVELOPER as per Para 7.2, the VENDEE/S shall take possession of the Flat from the documentation as prescribed in this Agreement, and the DEVELOPER shall give possession of the flat to the VENDEE/S. In case, the VENDEE/S fails to take possession within the time provided in para 7.2, such VENDEE/S shall continue to be liable to pay maintenance charges as specified in para 7.2.</p>
+
+    <p>7.4 Possession by the VENDEE/S- After obtaining the occupancy certificate and handing over physical possession of the flat to the VENDEE/S, it shall be the responsibility of the DEVELOPER to hand over the necessary documents and plans, including common areas, to the Association of VENDEE/S or the competent authority, as the case may be, as per the local laws. [Provided that, in absence of any local law, the DEVELOPER shall handover the necessary documents and plans, including common areas, to the Association of VENDEE/S or the competent authority, as the case may be, within thirty days after obtaining the completion certificate]. Whereas it is made clear, that the VENDEE(S) / Purchaser shall be permitted for house-warming of his/her Flat subject to the payment/clearance of all the pending amounts due to the Developer and after obtaining No-Objection Certificate from Developer/Builder only.</p>
+
+    <p>7.5 Cancellation by VENDEE/S &#8212; The Vendee shall have the right to cancel/withdraw his allotment in the Project only as provided in the Act.</p>
+
+    <p>Provided that, where the Vendee proposes to cancel/withdraw from the Project without any fault of the Developer/AGPA holder, the Developer/AGPA holder herein is entitled to deduct an amount of 10% of Total Sale Consideration towards penal charges or compensation/ damages from the amount collected by Developers /Promoters.</p>
+
+    <p>The balance amount of money paid by the Vendee shall be returned by the Developer/AGPA holder to the Vendee within three months of such cancellation or at the time that the Developer/AGPA holder are able to resell the said Apartment to another purchaser, whichever is later.</p>
+
+    <p>7.6 Transfer rights by Vendee(s)/Purchaser(s):</p>
+
+    <p>The Vendee(s)/Purchaser(s) is/are not allowed to sell / re-sell /transfer/ alienate his rights or assign or otherwise nominate a third party in any manner whatsoever till Two years from the date of Agreement of sale or the project is completed in full, whichever is later.</p>
+
+    <p>The Vendee shall have the right to nominate one blood relative in whose name the Sale Deed for the Apartment can be registered instead of the Vendee, prior to the registration of the Sale Deed. This is limited to only a one-time nomination.</p>
+
+    <p>The Vendee hereby declares that he/she/they will not be entering into any kind of conveyances with third parties with respect to their apartment before the expiry of 24 months from the date of Agreement of Sale. In the event that, the Vendee seeks to transfer his rights concerning the Apartment at any time prior to the registration of the Sale Deed, he can only do so after the stipulated period of 24 months as mentioned here. The Vendee shall not sell the Apartment at any price lower than the prevailing base price of the Developer/AGPA holder for such Apartment and pay an amount of Rs. 150/- per SFT to the Developer/AGPA holder and obtain a No-objection Certificate from the Developer/AGPA holder with respect to such sale by executing required documentation between the Developer/AGPA holder, the Vendee and the third party. Any third party will be bound by the same condition in the event he intends to sell the Apartment. The third party that steps in as a result of such sale shall execute the relevant agreements in the same format as were executed by the Vendees with the Company and shall have all the obligations towards the Developer/AGPA holder as the Vendee had in the first instance.</p>
+
+    <p>The transfer of rights as described above is subject to the following conditions: (i) the Vendee having paid at least 20% of the total consideration from their own capital, and (ii) the Vendee has fulfilled and will full fill, until actual transfer of rights, all their contractual obligations as stipulated in this Agreement.</p>
+
+    <p>7.7 In the event the Developer fails to complete the construction of the Apartment and/or is unable to offer or deliver possession of the Apartment, duly completed in all respects, on or before the date stipulated in Clause 7.1, the Developer shall be liable to compensate the Allottee for such delay. The Developer shall pay compensation at the rate of Rs. 5/- (Rupees Five only) per square foot of the super built-up area per month of delay, calculated from the due date of possession until the actual date on which possession of the Apartment is handed over to the Allottee.</p>
+
+    <p class="heading">8. REPRESENTATIONS AND WARRANTIES OF THE DEVELOPER</p>
+
+    <p>8.1. The DEVELOPER hereby represents and warrant to the VENDEE/S as follows:</p>
+
+    <p>(i) The DEVELOPER has absolute, clear and marketable title with respect to the said Land and the DEVELOPER has the requisite rights to carry out the development upon the said land and absolute, actual, physical and legal possession of the said Land for the Project.</p>
+
+    <p>(ii) The DEVELOPER has lawful rights and requisite approvals from the competent authorities to carry out the development of the Project.</p>
+
+    <p>(iii) The DEVELOPER has obtained Project Finance from "CAPRI GLOBAL CAPITAL LIMITED" Bank to carry out the development of the Project, by creating a charge on his share of the Constructed area in the Project, and it shall be the responsibility of the DEVELOPER to discharge the same.</p>
+
+    <p>(iv) There is no litigations pending before any Court of law or Authority with respect to the said land or Project except those disclosed in the title report.</p>
+
+    <p>(v) All approvals, licenses and permits issued by the competent authorities with respect to the Project, said Land and Schedule B Property are valid and subsisting and have been obtained by the following due process of law. Further, the DEVELOPER has been and shall, at all times, remain to be in compliance with all applicable laws in relation to the Project, said Land, Building and Schedule B property and common areas;</p>
+
+    <p>(vi) The DEVELOPER has the right to enter into this Agreement and has not committed or omitted to perform any act or thing, whereby the right, title and interest of the VENDEE/S created herein, may be prejudicially affected.</p>
+
+    <p>(vii) The DEVELOPER has not entered into any agreement for sale and/or development agreement or any other agreement/arrangement with any person or party with respect to the said Land, including the Project and the said Schedule B Property which will, in any manner, affect the rights of VENDEE/S under this Agreement.</p>
+
+    <p>(viii) The DEVELOPER confirms that it is not restricted in any manner whatsoever from selling the said Schedule B Property to the VENDEE/S in the manner contemplated in this Agreement;</p>
+
+    <p>(ix) At the time of execution of the Sale deed the DEVELOPER shall handover lawful, vacant, peaceful, physical possession of the Schedule B Property to the VENDEE/S and the common areas to the Association of VENDEE/S or the competent authority, as the case may be;</p>
+
+    <p>(x) The Developers/Promoters has duly paid and shall continue to pay and discharge all governmental dues, rates, charges and taxes and other monies, levies, impositions, premiums, damages and/or penalties and other outgoings, whatsoever, payable with respect to the said Project to the competent Authorities till the completion certificate has been issued and possession of Total Apartment Complex or building Complex, as the case may be, along with Common Areas (equipped with all the specifications, amenities and facilities) has been handed over to the Association of Vendees or the competent authority, as the case may be. However, any property tax attracted to the Vendee shall be borne by the Vendee only</p>
+
+    <p>(xi) No notice from the Government or any other local body or authority or any legislative enactment, government ordinance, order, notification (including any notice for acquisition or requisition of the said property) has been received by or served upon the DEVELOPER in respect of the said Land and/or the Project except those disclosed on the title report.</p>
+
+    <p>The VENDEE/S with intention to bring all persons into whatsoever hands the Flat may come, hereby covenants with the DEVELOPER as follows:</p>
+
+    <p>To maintain the Flat as the VENDEE/S own cost in good and tenantable repair and condition from the date that of possession of the Flat is taken and shall not suffer to be done anything in or to the building in which the Flat is taken and shall not do or suffer to be done anything in or to the building in which the Flat is situated which may be against the rules, regulations or bye-laws or change/alter or make addition in or to the building in which the Flat is situated and the Flat itself or any part thereof without the consent of the local authorities, if required.</p>
+
+    <p>Not to store in the Flat, any goods, which are hazardous, combustible or dangerous nature or are so heavy as to damage the construction or structure of the building in which the Flat is situated or storing of which goods is objected to by the concerned local or other authority and shall take care while carrying heavy packages which may damage or likely to damage the staircases, common passages or any other structure of the building in which the Flat is situated, including the entrances of the building in which the Flat is situated and in case any damage is caused to the building in which the Flat is situated or the Flat on account of negligence or default of the VENDEE/S in this behalf, the VENDEE/S shall be liable for the consequences of the breach.</p>
+
+    <p>To carry out at his own cost all internal repairs to the said Flat/Flat and maintain the Flat in the same condition, state and order in which it was delivered by the DEVELOPER to the VENDEE/S and shall not do or suffer to be done anything in or to the building in which the Flat is situated or the Flat which may be contrary to the rules and regulations and bye-laws of the concerned local authority or other public authority. In the event of the VENDEE/S committing any act in contravention of the above provision, the VENDEE/S shall be responsible and liable for the consequences thereof to the concerned local authority and/or other public authority.</p>
+
+    <p>Not to demolish or cause to be demolished the Flat or any part thereof, not at any time make or cause to be made any addition or alteration of whatever nature in or to the Flat or any part thereof, nor any alteration in the elevation and outside color scheme of the building in which the Flat is situated and shall keep the portion, sewers, drains and pipes in the Flat and the appurtenances thereto in good tenantable repair and condition, and in particular, so as to support shelter and protect the other parts of the building in which the Flat is situated and shall not chisel or in any other manner cause damage to columns, beams, walls, slabs or RCC Pardi or other structural members in the Flat without the prior written permission of the DEVELOPER and/or the Society or the Limited Company.</p>
+
+    <p>Not to make any additional modifications to the Flat that may be visible from the outside which shall include without limitation putting of any Grills, walls or temporary structures and it is specifically agreed that in the event of any default by the Vendee, the Developer or the Society, as the case may be whoever are managing the common areas shall be entitled to remove the same and recover the costs from the Vendee.</p>
+
+    <p>Not to do or permit to be done any act or thing which may render void or voidable any insurance of the project land and the building in which the Flat is situated or any part thereof or whereby any increased premium shall become payable in respect of the insurance.</p>
+
+    <p>Not to throw dirt, rubbish, rags, garbage or other refuse or permit the same to be thrown from the said Flat in the compound or any portion of the project land and the building in which the Flat is situated.</p>
+
+    <p>Pay to the DEVELOPER within fifteen days of demand by the DEVELOPER, his share of security deposit demanded by the concerned local authority or Government for giving water, electricity, or any other service connection to the building in which the Flat is situated.</p>
+
+    <p>To bear and pay increase in the local taxes, water charges, insurance and such other levies, if any, which are imposed by the concerned local authority and/or Government and/or other public authority, on account of change of user of the Flat by the VENDEE/S for any purposes other than for the purpose for which it is sold.</p>
+
+    <p>The VENDEE/S shall observe and perform all the rules and regulations which the Society or the Limited Company or Apex Body or Federation or Association may adopt at its inception and the additions, alterations or amendments thereof that may be made from time to time for protection and maintenance of the said building and the Flats therein and for the observance and performance of the Building rules, regulations and Bye-laws for the time being of the concerned local authority and of Government and other public bodies. The VENDEE/S shall also observe and perform all the stipulations and conditions laid down by the Society/Limited Company/Apex Body/Federation/Association regarding the occupancy and use of the Flat in the Building and shall pay and contribute regularly and punctually towards the taxes, expenses or other out-goings in accordance with the terms of this Agreement.</p>
+
+    <p>Till a conveyance of the common areas, services and amenities of the building/project in which the Flat is situated is executed in favour of Society/Association and till all the total built-up area/units are sold off, the VENDEE/S shall permit the PROMOTER and their surveyors and agents, with or without workmen and others, at all reasonable times, to enter into and upon the said buildings or any part thereof to view and examine the state and condition thereof.</p>
+
+    <p>To pay the applicable Property Tax to GHMC / HMDA / such other statutory authority as may be applicable from, the date of registration of the Flat by the Developer to the Vendee, within the period specified.</p>
+
+    <p class="heading">9. EVENTS OF DEFAULTS AND CONSEQUENCES</p>
+
+    <p>9.1 Subject to the Force Majeure clause, the DEVELOPER shall be considered under a condition of default, in the following events:</p>
+
+    <p>(i) DEVELOPER fails to provide ready to move in possession of the flat to the VENDEE/S within the time period specified in para 7.1 or fails to complete the project within the stipulated time disclosed at the time of registration of the project with the Authority. For the purpose of this Para, ready to move in possession' shall mean that the flat shall be in a habitable condition which is complete in all respects including the provision of all specifications, and facilities, as agreed to between the parties, and for which occupation certificate as the case may be, has been issued by the competent authority.</p>
+
+    <p>(ii) Discontinuance of the DEVELOPER business as a developer on account of suspension or revocation of his registration under the provisions of the Act or the rules and regulations made there under.</p>
+
+    <p>9.2 In case of Default by the DEVELOPER under the conditions listed above, VENDEE/S are entitled to the following:</p>
+
+    <p>(i) Stop making further payments to the DEVELOPER as demanded by the DEVELOPER. If the VENDEE/S stop making payments, the DEVELOPER shall correct the situation by completing the construction milestones and only thereafter the VENDEE/S be required to make the next payment without any interest, or</p>
+
+    <p>(ii) The VENDEE/S shall have the option of terminating the Agreement in which case the DEVELOPER shall be liable to refund the entire money paid by the VENDEE/S under any head whatsoever towards the purchase of the flat, along with interest at the rate prescribed in the rules within ninety days of receiving the termination: Provided that where an VENDEE/S does not intend to withdraw from the project or terminate the Agreement, he shall be paid, by the DEVELOPER, interest at the rate prescribed in the Rules, for every month of delay till the handing over of the possession of the Flat, which shall be paid by the DEVELOPER to the VENDEE/S within ninety days of it becoming due.</p>
+
+    <p>9.3 The VENDEE/S shall be considered under a condition of Default, on the occurrence of the following events:</p>
+
+    <p>(i) In case the VENDEE fails to make payments for 1(One) consecutive demands made by the DEVELOPER as per the Payment Plan annexed hereto, despite having been issued notice in that regard the VENDEE shall be liable to pay interest to the DEVELOPER on the unpaid amount at the rate prescribed in the Rules;</p>
+
+    <p>(ii) In case of default by VENDEE/S under the condition listed above continues for a period beyond 1 (one) consecutive month after notice from the DEVELOPER in this regard, the DEVELOPER may cancel the allotment of Schedule B property in favor of the VENDEE/S and refund the money paid to him by the VENDEE/S by deducting the booking amount and the interest liabilities and this Agreement shall thereupon stand terminated. Provided that the DEVELOPER shall intimate the VENDEE/S about such termination at least thirty days prior to such termination. The amount shall be repaid by the DEVELOPER within a period of ninety days after termination or the date on which the DEVELOPER able to resell the Schedule B Property to other VENDEE/S, whichever is later.</p>
+
+    <p class="heading">10. CONVEYANCE OF THE SAID FLAT:</p>
+
+    <p>The DEVELOPER, on receipt of total price of the Flat per para 1.1 under the Agreement from the VENDEE/S, shall execute a conveyance deed / sale Deed and convey title of the flat together with proportionate indivisible share in the common areas within 3 months from the date of issuance of the occupancy certificate and the completion certificate, as the case may be, to the VENDEE/S. However, in case the VENDEE/S fails to deposit the stamp duty and/or registration charges within the period mentioned in the notice, the DEVELOPER shall hold the registration till the payment of stamp duty and registration charges to the DEVELOPER is made by the VENDEE/S.</p>
+
+    <p class="heading">11. MAINTENANCE OF THE SAID BUILDING/FLAT:</p>
+
+    <p>11.1 The DEVELOPER shall be responsible to provide and maintain essential service in the Project till the taking over or the maintenance of the Project by the Association of VENDEE/S and the cost of maintenance shall be borne by the DEVELOPER and the VENDEE/S, proportionate to the Flats in their respective occupation, provided that the Promoter shall exclusively provide the maintenance services for the Flat till the date on which the Flat is handed over to the VENDEE. After such period, the Association of VENDEE/S shall be responsible for the maintenance of the Flat and Project. The VENDEE/S further agree that the Developer shall be permitted to appoint a Property Management Company ("PMC") for the maintenance. The VENDEE/S agree to enter into a Property Management Agreement with the PMC in the form prescribed by the DEVELOPER/PMC in relation to the provision of such services as and when asked by the DEVELOPER.</p>
+
+    <p>11.2 The facilities like club house and service connections, like water and sewerage supply, which are common shall be maintained by the DEVEOPER till the entire project is completed. The club house and its services shall be subject to user charges as may be fixed by the DEVELOPER of the club house or as the case may be the service provider, from time to time.</p>
+
+    <p>11.3 All other infrastructural facilities, including the equipment like lift, mechanical, electrical or electronic equipment, STP, etc shall be covered by appropriate annual maintenance agreements and insurance agreements with the authorized service providers and the costs of such annual maintenance charges and insurance shall be part of the maintenance charges payable by the occupants. Unless the possession is delivered to the VENDEE, the DEVELOPER shall be the occupant in respect of the flats/buildings in the project.</p>
+
+    <p>11.4 The DEVELPOR/maintenance agency/Association or VENDEE/S shall have right of unrestricted access of all Common areas, covered parking and other parking spaces for providing necessary maintenance services and the VENDEE/S agree to permit the Association of VENDEE/S and/or maintenance agency to enter into the Flat or any part thereof, after due notice and during the normal working hours, unless the circumstances warrant otherwise, with a view to set right any defect.</p>
+
+    <p>11.5 VENDEE/S shall have to pay monthly subscriptions as user charges for various facilities such as Club House, Gym, Swimming Pool, and other specific facilities, etc. to be decided by the DEVELOPER at the time of commencement of Maintenance period.</p>
+
+    <p>11.6 DEVELOPER reserves the right to appoint the various service providers for the given amenities including the duration of such appointments, in the interest of the community. The VENDEE/S hereby agree to abide by the bye-laws of the society, club rules and regulations and shall be liable for all such rules and regulations mentioned in the bye-laws, scope of maintenance and shall support all such amendments to the bye-laws from time to time. Scope of Maintenance as per Schedule E</p>
+
+    <p>11.7 It is agreed by the VENDEE/S that he/she/they shall alone be liable to pay the maintenance charges, irrespective of whether the Flat is occupied or not or occupied by a tenant or any other person. THE Society shall have charge on every Flat for all amounts including the maintenance charges, due from the VENDEE/S or other occupants.</p>
+
+    <p>11.8 During the execution of interiors, the VENDEE/S hereby agree to pay charges towards Debris for a single clearance, fixed electricity charges and also agree to pay towards expenses for maintenance of common areas, till the commencement of pre-paid maintenance. All these payments shall be made either in the name of the DEVELOPER or its nominee.</p>
+
+    <p>11.9 The DEVELOPER reserves the right to maintain the common areas of the community for initial two years from the date of commencement of pre-paid maintenance. The commencement date will be intimated and informed either by the company or its nominee. The VENDEE/S hereby agree to pay an amount of Rs. 4/- per Sft for a period of 2 years on the saleable area of his flat as maintenance and corpus fund charges for common areas and all other facilities (the club house maintenance charges are excluded), payable on demand made by the DEVELOPER, normally '1' months before handing over of the flat. The DEVELOPER is also free to increase the charges if the above-mentioned amount does not cover the maintenance expenses of the building.</p>
+
+    <p class="heading">12. DEFECT LIABILITY</p>
+
+    <p>12.1 It is agreed that in case any structural defect or any other defect in workmanship, quality or provision of services or any other obligations (excluding the under-mentioned in clause no.2) of the DEVELOPER as per the agreement for sale relating to such development is brought to the notice of the DEVELOPER within a period of 5 (five) years by the VENDEE/S from the date of handing over possession, it shall be the duty of the DEVELOPER to rectify such defects without further charge, within 30 (thirty) days, and in the event of DEVELOPER failure to rectify such defects within such time, the aggrieved VENDEE/S shall be entitled to receive appropriate compensation in the manner as provided under the Act.</p>
+
+    <p>12.2. Notwithstanding anything contained in the above clause the following exclusions are made</p>
+
+    <p>a. Equipment (passenger/goods, lifts, generator, motors, STP, transformers, gym equipment, windows, etc.) which carry manufacturer's guarantees for a limited period. Thereafter, the welfare association/society shall take annual maintenance contract with the suppliers. The DEVELOPER shall transfer manufacturer's guarantees/warrantees to the VENDEE/S or association of VENDEE/S as the case may be.</p>
+
+    <p>b. Fittings related to plumbing, sanitary, electrical switches, public bath fitting, door hardware, etc. having natural wear and tear.</p>
+
+    <p>c. Allowable structural and other deformations including expansion quotient (Tiles, granite, railing, wood doors and Kitchen sink).</p>
+
+    <p>d. The terms of work like painting etc. which are subject to wear and tear.</p>
+
+    <p>12.3. The VENDEE/S shall maintain the flats in good tenantable conditions and carry out the internal repairs for the upkeep of the flats. The association of the VENDEE/S or its assigns shall maintain the services and amenities in good condition and covered with proper AMC and insurance. The obligation of the promoter shall be subject to proper maintenance and upkeep of the flats/services and amenities by the VENDEE/S or the association of VENDEE/S as the case may be.</p>
+
+    <p class="heading">13. RIGHT TO ENTER THE FLAT FOR REPAIRS:</p>
+
+    <p>The DEVELOPER/maintenance agency/association of VENDEE/S shall have rights of unrestricted access of all common areas, garages/covered parking and parking spaces for providing necessary maintenance services and the VENDEE/S agree to permit the association of VENDEE/S and/or maintenance agency to enter into the Schedule B property or any part thereof, after due notice and during the normal working hours, unless the circumstances warrant otherwise, with a view to set right any defect.</p>
+
+    <p class="heading">14. USAGE:</p>
+
+    <p>Use of Basement and Service Areas: The basement(s) and service areas, if any, as located within the flats shall be earmarked for purposes such as parking spaces and services including but not limited to electric sub-station, transformer, DG set rooms, underground water tanks, pump rooms, maintenance and service rooms, firefighting and equipment's etc and other permitted uses as per plans. The VENDEE/S shall not be permitted to use the services areas and the basements in any manner whatsoever, other than those earmarked as parking formed by the VENDEE/S for rendering maintenance services.</p>
+
+    <p class="heading">15. GENERAL COMPLAINCE WITH RESPECT TO THE FLAT:</p>
+
+    <p>15.1 Subject to Para 12 above, the VENDEE/S shall, after taking possession, be solely responsible to maintain the Schedule B property at his/her/its own cost, in good repair and condition and shall not do or suffer to be done anything in or to the Building, or the Schedule B property or the staircases, lifts, common passages, corridors, circulation areas, atrium or the compound which may be in violation of any laws or rules of any authority or change or alter or make additions to the Schedule B property and keep the Schedule B property, its walls and partitions, sewers, drains, pipe and appurtenances thereto or belonging thereto, in good and tenantable repair and maintain the same in a fit and proper condition and ensure that the support, shelter, etc. of the Building is not in any way damaged or jeopardized.</p>
+
+    <p>15.2 The VENDEE/S further undertake, assure and guarantee that he/she would not put any sign-based/name play, neon light, publicity material or advertisement material etc. on the face/facade of the building or anywhere on the exterior of the Project, buildings therein or common areas. The VENDEE/S shall also not change the color scheme of the outer walls or painting of the exterior side of the window or carry out any change in the exterior elevation or design. Further, the VENDEE/S shall not store any hazardous or combustible goods in Schedule B property or place any heavy material in the common passages or staircase of the building. The VENDEE/S shall also not remove any wall, including the outer and load bearing wall of the Schedule B property.</p>
+
+    <p>15.3 The VENDEE/S shall plan and distribute its electrical load in conformity with the electrical systems installed by the DEVELOPER and thereafter the Association of VENDEE/S and/or maintenance agency appointed by Association of VENDEE/S. The VENDEE/S shall be responsible for any loss or damages arising out of breach of any of the aforesaid conditions.</p>
+
+    <p>15.4 The VENDEE/S shall pay user charges in respect of the Clubhouse, Gym, Swimming pool and all other facilities mentioned in Schedule-D annexed hereto provided by the DEVELOPER or to its nominee or to the Society as per the usage under the Clubhouse rules and regulations and other notices given from time to time. Such user charges shall be paid to the DEVELOPER or its nominees who are the core service providers.</p>
+
+    <p>15.5 Any type of modifications, changes, variations and alterations to the structural, elevation and architectural features shall not be permitted as the construction has been done using Shear Wall Technology and changes shall cause structural damage.</p>
+
+    <p>15.6 The VENDEE/S shall not, at any time, demolish or be a cause to demolish their Flat or any part of the building including the common areas such as staircase, Verandah, parking places, etc. which are likely to cause injury or damage to the structure of the building. The VENDEE/S shall not make or be a cause to make any additions or alterations or any new connections of any nature, whatsoever, contrary to the plan for their Flat or to any part of the building. The VENDEE/S shall not close the balconies and parking with grills or any other partitions or fix sliding/fixed windows to the balconies/service areas or make any additions and alterations in the elevation and shall not alter the exterior of the building, including color scheme without the unanimous approval of the Association.</p>
+
+    <p>15.7 The VENDEE/S shall keep their Flat as well as partition walls, drains, drainpipes, water pipelines and the appurtenances thereto in good tenable condition so as to support shelter and protect all parts of the building and also for good utility and occupation.</p>
+
+    <p>15.8 The VENDEE/S shall use the common over-head tank provided for, along with other Flat owners of the building, and agree to pay the water charges as and when levied, proportionately as per the reading of water meter. The VENDEE/S agree to fix the air conditioner units, both the outdoor and indoor units at the designated location as shown/earmarked in the flat only. The VENDEE/S cannot request for the same to be shifted for any reason.</p>
+
+    <p>15.9 The VENDEE/S also covenants that they will not throw dust, rubbish, rags, waste, spit or permit the same to be thrown in the compound or in any portion of the said building which may cause damage or inconvenience to other occupants of the building. It is hereby specifically agreed by the VENDEE/S that will dry their clothes only in the Utility areas. The VENDEE/S will not dry any clothes on the parapet walls of Utility area or utilize common areas such as the terrace to dry their clothes and are required to use specifically designed stand/apparatus/pulley systems for the same. The VENDEE/S shall not keep door mats, shoe racks, footwear or any kind of personal material or their belongings in any of the common areas including the corridors, parking areas, terrace areas, etc.</p>
+
+    <p>15.10. The VENDEE/S and Association of VENDEE/S agree not to dry clothes in the Sit out, place pots, clad the walls in any material, paint the walls in a different colour, install false ceiling in Balcony, fix cupboard/racks or make any modifications to the Sit outs. The DEVELOPER reserves the right to remove any such installations/modifications at any point of time till the complete hand over of the project to the Association.</p>
+
+    <p>15.11. The VENDEE/S or Association of VENDEE/S agree that corridor area will not be used fix cupboards, shoe rack, racks, place pots or undertake any modification to the way it was handed over. Further, the VENDEE/S and Association of ALLOTTES agree that no changes to the main door including change in color, height and width, installation of additional screen door over the main door will be undertaken by them. The VENDEE/S and Association of ALLOTTES also agree that corridor walls including those next to the main door will not be painted in a different color, cladded with material or make any necessary changes to the way it is handed over at time of completion.</p>
+
+    <p>15.12. The VENDEE/S and Association of ALLOTTES agree that their name board outside their flat will be in accordance to the design provided by the DEVELOPER. Further they agree that no light fixtures or signages can be installed outside the main door or corridor.</p>
+
+    <p>15.13. The VENDEE/S hereby agree that they will use the said Flat for residential purposes only and shall not use for commercial purposes such as office space, clinics, consultancies, display centers, service flats. or permit the same to be used for any other purpose which may likely to cause inconvenience to the neighboring occupants of the building nor shall it be used for any illegal or immoral purposes but strictly for residential use and if it is let out, should be utilized for the residential purpose only.</p>
+
+    <p>15.14. It is agreed between the parties that the Area shown in the Schedule B as a Verandah area attached to the entrance of the Flat shall be for the exclusive utilization of the VENDEE/S and no third parties shall be allowed to utilize the same without the express authorization of the VENDEE/S. However, it is specifically agreed by the VENDEES that this "Sit-Out" area shall not be covered or barricaded in any manner. Provided that, in the event that the VENDEE/S are particularly of the intent to cover / barricade the area, the same may be permitted by the Owners' Association that is in charge of the maintenance of the Project, on collection of a sum of not less than Rs. 20,00,000/- (Rupees Twenty Lakhs only), as may be stipulated by the Association and all and any such amounts received shall be remitted into the Corpus Account of the Project, for being utilized as such, for such purposes that the Corpus amounts may be utilized.</p>
+
+    <p>Planter boxes and windows are staggered and positioned differently for each Flat and they will be fixed as per the architectural elevation design.</p>
+
+    <p>15.15 Plants to be planted in the planted box will be defined by the DEVELOPER and has to be strictly followed by the VENDEE/S.</p>
+
+    <p class="heading">16. COMPLIANCE OF LAWS, NOTIFICATIONS ETC. BY PARTIES:</p>
+
+    <p>The Parties are entering into this Agreement for the allotment of a Schedule B Property with the full knowledge of all laws, rules, regulations, notifications applicable to the project.</p>
+
+    <p class="heading">17. ADDITIONAL CONSTRUCTIONS:</p>
+
+    <p>The DEVELOPER undertake that they have no right to make additions or to out up additional structure(s) anywhere in the Project after the building plan, layout plan, sanction plan and specifications, amenities and facilities have been approved by the competent authority(ies) and disclosed, except for as provided in the Act, except as already informed to the VENDEE/S and set out in this Agreement.</p>
+
+    <p class="heading">18. MORTGAGE OR CREATE A CHARGE:</p>
+
+    <p>Notwithstanding any other term of this Agreement, the VENDEE/S hereby authorizes and permits the DEVELOPER to raise finance/loan from bank, by way of charge/mortgage/securitization of the Flat/Project/Building or the land underneath or the receivables, subject to the condition that the Flat shall be made free from all encumbrances at the time of execution of Sale deed shall be done in favor of the VENDEE/S or shall seek No Objection from "Bank" before execution of Agreement in respect the Schedule B property in favor of the VENDEE/S shall be informed about the same at the time of the agreement.</p>
+
+    <p class="heading">19. MISCELLANEOUS:</p>
+
+    <p>19.1 The Parties hereby agree that in case the VENDEE/S are availing a housing loan/loan from any bank/Financial institution/Non-Banking Financial Corporation Financier (the "Bank"), a Tri-partite Agreement, as per the draft provided by the Bank and agreed by the DEVELOPER shall be executed by and between the Bank, the DEVELOPER and the VENDEE/S. In any event, the VENDEE/S will finance the margin money, and the loan will be paid directly from the Bank to the DEVELOPER. The VENDEE/S acknowledge that the VENDEE/S obligation to pay the total sale consideration as mentioned in this Agreement shall be independent and exclusive liability, which is independent of the bank loan obtained by the VENDEE/S, such that, if the VENDEE/S are unable to obtain a bank loan or having obtained a bank loan, the Bank is not disbursing the money, the VENDEE/S SHALL be independently liable to pay the sale consideration to the DEVELOPER. The DEVELOPER shall not be responsible in any way if the VENDEE/S do not succeed in receiving a loan from the Bank.</p>
+
+    <p>19.2. The building is named and called as "THE LEGACEY" and the DEVELOPER can erect display boards/name boards as per their commercial and branding requirements on a permanent basis. The name board of the builders will be displayed permanently at the site and the VENDEE/S have no objection to the same.</p>
+
+    <p>19.3 Whereas the Vendee was clearly informed and acknowledges that the Developer has applied for permission to construct two additional floors, i.e., the 23rd and 24th floors, above the sanctioned Ground + 22 floors, by utilizing Transferable Development Rights (TDR) purchased by the Developer. The Vendee agrees that the said additional floors (23rd and 24th floors), shall be the exclusive property of the Developer, and the Vendee shall have no right, title, interest, or claim of any nature whatsoever in respect thereof. The Vendee further has no objection to the allocation and distribution of the proportionate undivided share of land among the purchasers/owners of the sanctioned Ground + 22 floors, as may be finalized upon approval of the revised plan by the competent authority. The Vendee undertakes to sign and furnish all documents required by competent authorities, for obtaining approvals, sanctions, for the said additional floors, without objection to the developer.</p>
+
+    <p>19.4 The VENDEE/S will not be allowed to start interior works until the construction of flat is totally constructed and completed. Once, the flat is handed over to the VENDEE/S for interiors means and includes that the flat is fully finished and formalities of handover is complete, irrespective of whether or not the flat is ready for living. Interiors will be allowed only after handing over/taking over of the Flat. The Interiors shall be done between 8.00 AM to 7.00 PM only. THE VENDEE/S has to pay a penalty to the society for interiors done beyond 4 months of handing over.</p>
+
+    <p>19.5 The Developer/Promoter reserves the right to maintain the common areas of the community for initial two years from the date of commencement of pre-paid maintenance. The commencement date will be notified either by the Developer or its nominee at an appropriate time. The purchaser hereby agrees to pay an amount of Rs.96/- per Sq. Ft. Plus 18% GST for the saleable area as maintenance charges for maintenance of common areas for the period of two (2) years. The Water charges are NOT included in the said maintenance charges. (payable on demand made by the developer, normally '3' months before handing over). During the execution of interiors, the purchaser/s hereby agree/s to pay the fixed one-time Move in charges @ Rs.25,000/- Plus 18% GST; towards clearance of debris, Fixed Electricity charges during for 3 Months from the date of Possession, thereafter the charges for Electricity shall be applicable based on units consumed as per the electric meter reading. The Vendee(s)/Purchaser(s) also agrees to pay Rs. 2/- per Sq. Ft. plus 18% GST of the saleable area per month, on monthly basis, towards interim maintenance of common areas and utilities, till such time of commencement of pre-paid maintenance for two years. This interim maintenance is payable irrespective of completion of interior works and all these payments shall be made either in the name of developer or its nominee. The VENDEE/S shall pay an amount of Rs. 25,000/- plus 18% GST towards legal and documentation charges plus applicable taxes at the time of execution of Sale Deed Registration.</p>
+
+    <p>If any water problem arises due to insufficient depth of the present bore well, the VENDEE(S) hereby agreed to share proportionately the expenses/cost incurred for increasing the depth of the present Bore-well or for digging new Bore-well. The Developer will not be responsible for the same and all the Flat Owners of the building shall collectively bear the same.</p>
+
+    <p>19.6 It is agreed that the parking places will be allotted to the VENDEE/S through the lottery method.</p>
+
+    <p>19.7 It is agreed by both the parties that the Developer will provide CCTV surveillance only for drive ways, entry &amp; exit ramps of parking area. No individual parking slots will be covered by CCTV.</p>
+
+    <p>19.8 All the owners/residents must park their vehicles in the parking lots allotted to them and they must not park their vehicles in any of the open areas of the building, setbacks, or in the parking lots of other owners/residents.</p>
+
+    <p class="heading">20. FORMATION OF ASSOCIATION:</p>
+
+    <p>The DEVELOPER shall take the following steps to enable formation of an Association of VENDEE/S under S.11(4)(e) of the Act:</p>
+
+    <p>With respect to a real estate project, the DEVELOPER shall submit an application to the Registrar for registration of the Association of VENDEE/S as a society under the Telangana/A.P Societies Registration Act, 2001 (as applicable to the state of Telangana), within two months from the date on which the occupation certificate in respect of such project is issued and a minimum of sixty per cent of the total VENDEE/S in such a project have taken possession and the DEVELOPER has received the full consideration from such VENDEE/S. All the VENDEE/S on payment of full consideration shall become members of such Association of VENDEE/S formed by the DEVELOPER applications, petitions, for forming an association.</p>
+
+    <p>The Association will have to be formed as per the above clause, however, the decision with regard to continuation of maintenance by the PROMOTER/DEVELOPER, will be at that point of time vest with the Association. If the DEVELOPER fails to form the Association of VENDEE/S, the Authority shall by an order direct the DEVELOPER to apply for formation of such Association or may authorize the VENDEE/S to apply for the formation of the said Association.</p>
+
+    <p>Notwithstanding any other rule, after conveying the title to the Association of VENDEE/S under S.17, the DEVELOPER shall continue to have the rights and entitlement to advertise, market, book, sell or offer to sell or allot to person to purchase any flat or building or plot which is still not sold or allotted and shall be deemed to have been allowed to do so by the Association of DEVELOPER without any restriction or entry of the building and development of common areas.</p>
+
+    <p class="heading">21. ENTIRE AGREEMENT:</p>
+
+    <p>This Agreement along with its schedules, constitutes the entire Agreement between the parties with respect to the subject-matter hereof and supersedes any and all understandings, any other agreements, allotment letter, correspondences, arrangements, whether written or oral, if any, between the Parties in regard to the said Schedule B Property, as the case may be.</p>
+
+    <p class="heading">22. RIGHT TO AMEND:</p>
+
+    <p>This Agreement may only be amended through written consent of Both the Parties.</p>
+
+    <p class="heading">23. PROVISIONS OF THIS AGREEMENT APPLICABLE ON VENDEE/S/SUBSEQUENT VENDEE/S:</p>
+
+    <p>It is clearly understood and so agreed by and between the Parties hereto that all the provisions contained herein and the obligations arising hereunder in respect of the Schedule B property and the Project shall equally be applicable to and enforceable against and by any subsequent VENDEE/S of Schedule B property, in case of a transfer, as the said obligations go along with the Schedule B Property for all intents and purposes.</p>
+
+    <p class="heading">24. WAIVER NOT A LIMITATION TO ENFORCE:</p>
+
+    <p>24.1 The DEVELOPER may, at its sole option and discretion, without prejudice to its rights as set out in this Agreement, waive the breach by the VENDEE/S in not making the payments as per the Payment Plan [Schedule C] including waiving the payment of interest for delayed payment. It is made clear and so agreed by the VENDEE/S that exercise of discretion by the DEVELOPER in the case of one VENDEE shall not be construed to be a precedent and/or binding on the DEVELOPER to exercise such discretion in the case of other VENDEE/S.</p>
+
+    <p>24.2 Failure on the part of the Parties to enforce at any time or for any period of time the provisions hereof shall not be construed to be a waiver of any provisions or of the right thereafter to enforce each and every provision.</p>
+
+    <p class="heading">25. SEVERABILITY:</p>
+
+    <p>If any provision of this Agreement, shall be determined to be void or unenforceable under the Act or the Rules and Regulations made there under or under other applicable laws, such provisions of this Agreement shall be deemed amended or deleted in so fat as reasonably inconsistent with the purpose of this Agreement and to the extent necessary to confirm to Act or the Rules and Regulations made thereunder or the applicable law, as the case may be, and the remaining provisions of this Agreement shall remain valid and enforceable as applicable at the time of execution of this Agreement.</p>
+
+    <p class="heading">26. METHOD OF CALCULATION OF PROPORTIONATE SHARE WHEREVER REFERRED TO IN THE AGREEMENT:</p>
+
+    <p>Wherever in this Agreement, it is stipulated that the VENDEE/S have to make any payment, in common with other VENDEE/S in Project, the same shall be the proportion with the built-up area, balcony area, verandah area, common areas and parking areas of the Schedule B Property, bears to the total built-up area of all the Schedule B property.</p>
+
+    <p class="heading">27. FURTHER ASSURANCES:</p>
+
+    <p>Both Parties agree that they shall execute, acknowledge and deliver to the other such instruments and take such other actions, in additions to the instruments and actions specifically provided for herein, as may be reasonable required in order to effectuate the provisions of this Agreement or of any transaction contemplated herein or to confirm or perfect any right to be created or transferred hereunder or pursuant to any such transaction.</p>
+
+    <p class="heading">28. PLACE OF EXECUTION:</p>
+
+    <p>The execution of this Agreement shall be complete only upon its execution by the DEVELOPER through its authorized signatory at the DEVELOPER's office, or at some other place, which may be mutually agreed between the DEVELOPER and the VENDEE/S, in Hyderabad, after the Agreement is duly executed by the VENDEE/S and the DEVELOPER or simultaneously with the execution the said Agreement shall be registered at the office of the Sub-Registrar, Gandipet, Ranga Reddy. Hence, this Agreement shall be deemed to have been executed at Hyderabad.</p>
+
+    <p class="heading">29. NOTICES:</p>
+
+    <p>That all notices to be served on the VENDEE/S and the DEVELOPER as contemplated by this Agreement shall be deemed to have been duly served if sent to the VENDEE/S or the DEVELOPER by registered post at their respective addresses specified below:</p>
+
+    <p>In the case of notice to the /Developers/AGPA Holder:</p>
+
+    <table>
+        <tr><td class="bold">Attention</td><td>:</td><td>M/S. ANANDA HOMES</td></tr>
+        <tr><td class="bold">Address</td><td>:</td><td>Flat No. A1, Vista Residency, on Plot No.81 and 82, Block-D, Sector-I, Alkapoor Township, Manikonda, Hyderabad, Telangana State &#8212; 500089.</td></tr>
+        <tr><td class="bold">E mail</td><td>:</td><td>info@anandahomes.co.in</td></tr>
+    </table>
+
+    <p>In the case of notice to the VENDEE (S), to:</p>
+
+    <table>
+        <tr><td class="bold">Attention</td><td>:</td><td>SRI. PAMULAPATI MAHESH &amp; SMT. YARRA THIREESHA</td></tr>
+        <tr><td class="bold">Address</td><td>:</td><td>H.No-1-121, CENTER, CENTER, PERECHERLA, GUNTUR DIST, ANDHRA PRADESH-522005.</td></tr>
+        <tr><td class="bold">E mail</td><td>:</td><td>maheshpmlpt@gmail.com</td></tr>
+    </table>
+
+    <p>It shall be the duty of the VENDEE/S and the DEVELOPER to inform each other of any change in address subsequent to the execution of this Agreement in the above address by Registered post failing which all communication and letters posted at the above address shall be deemed to have been received by the DEVELOPER or the VENDEE/S, as the case may be.</p>
+
+    <p class="heading">30. JOINT VENDEE:</p>
+
+    <p>In case, there are Joint VENDEE/S, all communications shall be sent by the DEVELOPER to the VENDEE/S, whose name appears first and at the address given by him/her which shall for all intents and purposes to consider as properly served on all the VENDEE/S.</p>
+
+    <p class="heading">31. SAVINGS:</p>
+
+    <p>Any application letter, allotment letter, agreement, or any other document signed by the VENDEE/S, in respect of the flat, plot or building, as the case may be, prior to the execution and registration of this Agreement for Sale for such flat, plot or building, as the case may be, shall not be construed to limit the rights and interests of the VENDEE/S under the Agreement for Sale or under the Act or the rules or the regulations made thereunder.</p>
+
+    <p class="heading">32. GOVERNING LAW:</p>
+
+    <p>That the right and obligations of the parties under or arising out of this Agreement shall be construed and enforced in accordance with the Act and the Rules and Regulations made thereunder including other applicable laws of India for the time being in force.</p>
+
+    <p class="heading">33. DISPUTE RESOLUTION:</p>
+
+    <p>All or any disputes arising out or touching upon or in relation to the terms and conditions of this Agreement, including the interpretation and validity of the terms thereof and the respective rights and obligations of the Parties, shall be settled amicably by mutual discussion, failing which the same shall be settled through the adjudicating officer appointed under the Act.</p>
+
+    <p class="heading">34. OTHER TERMS AND CONDITIONS:</p>
+
+    <p>Realization of Payments: All payments shall be subject to their actual realization in the DEVELOPER's account. The date of credit into the aforesaid account or the DEVELOPER shall be deemed to be the date of payment of an installment by the VENDEE/S.</p>
+
+    <p>In WITNESS WHEREOF, parties herein above named have set their respective hands and signed this Agreement for Sale at Hyderabad in the presence of attesting witness, signing as such on the day, first written above.</p>
+
+    <p class="bold">SIGNED AND DELIVERED BY:</p>
+
+    <p class="bold">VENDEE/S:</p>
+    <p class="sig">Signature: ……………………………….</p>
+    <p class="sig">Name: ……………………………….</p>
+    <p class="sig">Signature: ……………………………….</p>
+    <p class="sig">Name: ……………………………….</p>
+
+    <p class="bold">SIGNED AND DELIVERED BY THE NAMED AGREEMENT OF SALE CUM POWER OF ATTORNEY HOLDER ON BEHALF OF ALL THE 5 VENDORS NAMED HEREIN:</p>
+    <p class="sig">Signature: (AGPA HOLDER): ……………………………….</p>
+    <p class="sig">At …………………………on………………………in the presence of:</p>
+
+    <p class="bold">WITNESSES:</p>
+    <p class="sig">1)</p>
+    <p class="sig">2)</p>
+
+    <p class="sched">SCHEDULE 'A' PROPERTY</p>
+
+    <p>All that the property bearing premises the Land in Sy.Nos. 128/1A/2/2, 129/A/1, 129/A/2, 129/AA/1, 129/AA/2, 129/AA/3, 129/E/1, 130/A/1, 130/A/2, 130/A/3/1, 130/A/3/2, 130/A/4, 130/AA/1, 130/AA/2, 130/AA/3, 130/E/1, 130/E/2, 145/1/2, 145/1/1/7, 145/1/1/1/2, 145/1/1/1/1/2, 145/1/1/1/1/1/1, 145/1/1/1/1/1/2, 145/2, 147/A/1, 147/A/2, 147/A/3, 147/AA/1, 147/AA/2, 147/AA/3, 147/E/1, 147/E/2, 148/A/1, 148/A/2, 148/A/3, 148/A/4, 148/AA/1, 148/AA/2, 148/AA/3, 148/E/1, 148/E/2, 148/E/3, 148/E/5, 149/1, 149/2, 149/3, 149/4, 149/5, 149/6, 149/7,, total admeasuring 80704.23 Square yards or equivalent to 67479.02 Square Meters, situated at Puppalguda Village, under Manikonda Municipality, Gandipet Mandal, Ranga Reddy District, Telangana State and bounded as follows:</p>
+
+    <table>
+        <tr><td class="bold" style="width:25%;">NORTH</td><td>Road and Neighbors Properties</td></tr>
+        <tr><td class="bold">SOUTH</td><td>80'-0' feet Road</td></tr>
+        <tr><td class="bold">EAST</td><td>Existing Nala</td></tr>
+        <tr><td class="bold">WEST</td><td>30'-0' feet Road</td></tr>
+    </table>
+
+    <p class="sched">SCHEDULE 'B' PROPERTY</p>
+
+    <p>All that the 3 BHK Flat No.T1-707 (EAST Facing) on 7th Floor, of Tower-1, the High Rise Residential Flats known as "THE LEGACEY", with saleable area of 1520 Square Feet (including common areas and One Car Parking), along with proportionate undivided share of land equivalent to 31.9 Square Yards, (Out of total land admeasuring 80704.23 Square yards or equivalent to 67479.02 Square Meters), in Sy.Nos. 128/1A/2/2, 129/A/1, 129/A/2, 129/AA/1, 129/AA/2, 129/AA/3, 129/E/1, 130/A/1, 130/A/2, 130/A/3/1, 130/A/3/2, 130/A/4, 130/AA/1, 130/AA/2, 130/AA/3, 130/E/1, 130/E/2, 145/1/2, 145/1/1/7, 145/1/1/1/2, 145/1/1/1/1/2, 145/1/1/1/1/1/1, 145/1/1/1/1/1/2, 145/2, 147/A/1, 147/A/2, 147/A/3, 147/AA/1, 147/AA/2, 147/AA/3, 147/E/1, 147/E/2, 148/A/1, 148/A/2, 148/A/3, 148/A/4, 148/AA/1, 148/AA/2, 148/AA/3, 148/E/1, 148/E/2, 148/E/3, 148/E/5, 149/1, 149/2, 149/3, 149/4, 149/5, 149/6, 149/7, Situated at PUPPALGUDA VILLAGE, under Manikonda Municipality, Gandipet Mandal, Ranga Reddy District, Telangana State and bounded as follows:</p>
+
+    <table>
+        <tr><td class="bold" style="width:25%;">NORTH</td><td>OPEN TO SKY</td></tr>
+        <tr><td class="bold">SOUTH</td><td>OPEN TO SKY</td></tr>
+        <tr><td class="bold">EAST</td><td>CORRIDOR</td></tr>
+        <tr><td class="bold">WEST</td><td>OPEN TO SKY</td></tr>
+    </table>
+
+    <p class="sched">SCHEDULE 'C' PAYMENT SCHEDULE</p>
+
+    <table>
+        <tr><th>INSTALLMENT NAME</th><th>STAGE</th><th>FLAT COST</th><th>NET AMOUNT</th></tr>
+        <tr><td>Booking Amount</td><td>20%</td><td>Rs. 5,00,000</td><td>Rs. 5,25,000</td></tr>
+        <tr><td>Within 15 Days From The Date Of Booking</td><td>20%</td><td>Rs. 16,02,736</td><td>Rs. 16,82,873</td></tr>
+        <tr><td>On Completion Of Excavation Of Respective Tower</td><td>10%</td><td>Rs. 10,51,368</td><td>Rs. 11,03,936</td></tr>
+        <tr><td>On Completion Of Footing Works Of Respective Tower</td><td>6%</td><td>Rs. 6,30,821</td><td>Rs. 6,62,362</td></tr>
+        <tr><td>On Completion Transfer Slab Of 1 &amp; 2 Towers</td><td>5%</td><td>Rs. 5,25,684</td><td>Rs. 5,51,968</td></tr>
+        <tr><td>On Completion Transfer Slab Of 6 &amp; 8 Towers</td><td>5%</td><td>Rs. 5,25,684</td><td>Rs. 5,51,968</td></tr>
+        <tr><td>On Completion 7th Floor Slab Of 1 &amp; 2 Towers</td><td>7%</td><td>Rs. 7,35,958</td><td>Rs. 7,72,755</td></tr>
+        <tr><td>On Completion 14th Floor Slab Of 1 &amp; 2 Towers</td><td>5%</td><td>Rs. 5,25,684</td><td>Rs. 5,51,968</td></tr>
+        <tr><td>On Completion 22nd Floor Slab Of 1 &amp; 2 Towers</td><td>5%</td><td>Rs. 5,25,684</td><td>Rs. 5,51,968</td></tr>
+        <tr><td>On Completion 7th Floor Slab Of 8 &amp; 6 Towers</td><td>7%</td><td>Rs. 7,35,958</td><td>Rs. 7,72,755</td></tr>
+        <tr><td>On Completion 14th Floor Slab Of 8 &amp; 6 Towers</td><td>5%</td><td>Rs. 5,25,684</td><td>Rs. 5,51,968</td></tr>
+        <tr><td>On Completion 22nd Floor Slab Of 8 &amp; 6 Tower</td><td>5%</td><td>Rs. 5,25,684</td><td>Rs. 5,51,968</td></tr>
+        <tr><td>On Completion 7th Floor Slab Of 5th Tower</td><td>7%</td><td>Rs. 7,35,958</td><td>Rs. 7,72,755</td></tr>
+        <tr><td>On Completion 14th Floor Slab Of 5th Tower</td><td>5%</td><td>Rs. 5,25,684</td><td>Rs. 5,51,968</td></tr>
+        <tr><td>On Completion 22nd Floor Slab Of 5th Tower</td><td>5%</td><td>Rs. 5,25,684</td><td>Rs. 5,51,968</td></tr>
+        <tr><td>Handover Or Registration Whichever Is Earlier</td><td>3%</td><td>Rs. 3,15,410</td><td>Rs. 3,31,181</td></tr>
+        <tr><td class="bold">TOTAL FLAT COST INCLUDING</td><td class="bold">100%</td><td class="bold">Rs. 1,05,13,680</td><td class="bold">Rs. 1,10,39,364</td></tr>
+    </table>
+
+    <p class="sched">SCHEDULE 'D' SPECIFICATIONS</p>
+
+    <table>
+        <tr><td class="bold" style="width:28%;">Foundation Structure</td><td>Earthquake resistant RCC Framed Structure</td></tr>
+        <tr><td class="bold">Super Structure</td><td>A load bearing structure constructed of reinforced cement concrete and aluminum form work with high strength RCC wall (Except Tower - 12). TOWER &#8212; 12 : AAC Block Masonry in cement mortar.</td></tr>
+        <tr><td class="bold">Flooring</td><td>Drawing, living, dining, all bedrooms: Premium Double Charged Vitrified Tiles.</td></tr>
+        <tr><td class="bold">Corridor / Common Area</td><td>Vitrified tiles of matt finish</td></tr>
+        <tr><td class="bold">LIFT LOBBY</td><td>Polished GRANITE / MARBLE / TILE Dadoing</td></tr>
+        <tr><td class="bold">Utilities / Wash areas</td><td>Anti-skid tile flooring and dado up to 3' height and Power Point for washing Machine.</td></tr>
+        <tr><td class="bold">Toilet</td><td>Anti-skid tile flooring and designed patterns of glazed tiles will be provided for cladding up to lintel level in bath rooms.</td></tr>
+        <tr><td class="bold">Waterproofing</td><td>Water Proofing shall be provided for bath rooms, roof terrace and utility area.</td></tr>
+        <tr><td class="bold">Doors</td><td>a.) Main Door Frame &amp; Single Leaf Shutter (Teak Wood) consisting of Solid Wood decorative type having Panels Design, teak veneer on both sides including teakwood edging /lipping duly polished in melamine polish to give an even smooth finish with Long Hinges. b.) Internal Door Frame &amp; Single Leaf Shutter of thick flush door shutter solid core decorative type having thick laminate.</td></tr>
+        <tr><td class="bold">Windows</td><td>UPVC for all windows with clear glass and Safety Grills for Windows.</td></tr>
+        <tr><td class="bold">Painting</td><td>External: Texture/Two coats of acrylic exterior paint/ weather shield paint. Internal: Two coats of emulsion paint over the putty-finished/ primer-coated surface.</td></tr>
+        <tr><td class="bold">Gas Pipe line</td><td>Centralized piped gas to all flats through digital/prepaid meters with ISI standards.</td></tr>
+        <tr><td class="bold">Plumbing</td><td>Concealed best quality PVC/CPVC pipes.</td></tr>
+        <tr><td class="bold">CP Fittings &amp; Sanitary Ware</td><td>Toto/ Delta/ Roca/ Schell or equivalent makes will be provided for all toilets.</td></tr>
+        <tr><td class="bold">Electrical &amp; Communication</td><td>Concealed copper wiring in conduits for lights, fans, power plugs etc. HPL/RR/KEI or equivalent make. a. PVC Conduits of Sudhakar or equivalent make. b. Modular Switches of Le Grand or equivalent make. c. TV Provision in all bed rooms and living area with DTH connectivity provision. d. Broadband connectivity to all bed rooms &amp; living area. e. Power points in living, dining and all bedrooms. f. Geyser points in all toilets. g. Power provisions in kitchen.</td></tr>
+        <tr><td class="bold">Fire Fighting</td><td>Provision of Fire Fighting System at Common Area &amp; Fire Sprinklers at Every Room of each Flat.</td></tr>
+        <tr><td class="bold">Security Network</td><td>a. CC TV cameras are placed at each block's, main entrance, common areas and club house with monitoring and recording from security room. b. Boom barriers with long range readers at entry and exit for tenant's unobstructed movement. c. Solar powered security fence on compound wall.</td></tr>
+        <tr><td class="bold">Lifts</td><td>Mitsubishi /Johnson / Kone or Equivalent make LIG provided with automatic door.</td></tr>
+        <tr><td class="bold">Rain Water</td><td>The rain water from the terrace and open area will be collected through rainwater pipes, which will be discharged into the rain water harvesting pits to recharge the underground water level.</td></tr>
+        <tr><td class="bold">Water Supply</td><td>Provision for Municipal Water</td></tr>
+        <tr><td class="bold">STP</td><td>Sewage Treatment Plant of adequate capacity as per norms will be provided inside the project. Treated sewage will be used for landscaping and flushing.</td></tr>
+        <tr><td class="bold">Generator</td><td>A reputed sound proof generator will provide 100% power backup for common areas, as well as Light &amp; Fan points in the hall, bedrooms &amp; Kitchen.</td></tr>
+    </table>
+
+    <p class="sched">AMENITIES</p>
+
+    <table>
+        <tr><td>GRAND ENTRANCE LOBBY</td><td>BANQUET HALL</td></tr>
+        <tr><td>GYM LADIES &amp; GENTS</td><td>YOGA</td></tr>
+        <tr><td>INDOOR GAMES</td><td>CLINIC AND PHARMACY</td></tr>
+        <tr><td>PREVIEW THEATRES</td><td>UNI SEX HAIR &amp; BEAUTY SALOON</td></tr>
+        <tr><td>SUPERMARKET PROVISION</td><td>CONFERENCE HALL</td></tr>
+        <tr><td>GUEST ROOMS</td><td>ASSOCIATION OFFICE</td></tr>
+        <tr><td>RESTAURANT PROVISION</td><td>ENTRANCE AND EXIT PLAZA</td></tr>
+        <tr><td>V.D.F DRIVEWAY FLOORING</td><td>FIRE DRIVEWAY</td></tr>
+        <tr><td>STEPPED PLANTER</td><td>CRICKET PRACTICE NETS</td></tr>
+        <tr><td>EPDM CHILDREN PLAY AREA</td><td>PARTY LAWN</td></tr>
+        <tr><td>AMPHITHEATER WITH STAGE</td><td>SEATING UNDER PERGOLA</td></tr>
+        <tr><td>SWIMMING POOL</td><td>BADMINTON COURT</td></tr>
+        <tr><td>BASKET BALL COURT</td><td>VOLLEY BALL COURT</td></tr>
+        <tr><td>SEATING PLAZA</td><td>LAWN</td></tr>
+    </table>
+
+    <p class="sched">SCHEDULE 'E' SCOPE OF MAINTENANCE</p>
+
+    <ul>
+        <li>Security Services.</li>
+        <li>Housekeeping and upkeep of all Common Areas (club house excluded).</li>
+        <li>Daily Collection and Disposal of Garbage.</li>
+        <li>Supply &amp; Distribution of Water. Cost of water consumed by residents is payable as per meters (or equally in the absence/failure of water meters) by the residents on monthly basis.</li>
+        <li>Attending to Plumbing complaints.</li>
+        <li>Attending to Electrical complaints.</li>
+        <li>Operation and Maintenance of Prepaid Electricity supply system.</li>
+        <li>Electricity Charges for common amenities, utilities and services (club house excluded).</li>
+        <li>Lighting of Common Areas.</li>
+        <li>Maintenance of Landscaping.</li>
+        <li>Operation and Maintenance of Water Softening Plant.</li>
+        <li>Operation and Maintenance of Sewerage Treatment Plant.</li>
+        <li>Operation and Maintenance of DG Sets. (Diesel expenses for running the DG Sets, is to be borne by the individual residents as per meters.)</li>
+        <li>Operation and Maintenance of lifts.</li>
+        <li>Operation and Maintenance of Electrical Transformers, Switchgear Panels, MV Panels, VCBs, ACBs, Earth Pits and Common supply Panels, Lighting Panels and Cable Network.</li>
+        <li>Operation and Maintenance of Lightning Arresters and Aviation Lamps.</li>
+        <li>Operation and Maintenance of Solar Fencing.</li>
+        <li>Operation and Maintenance of Solar Power panels.</li>
+        <li>Operation and Maintenance of CCTV systems.</li>
+        <li>Operation and Maintenance of Fire-fighting system.</li>
+        <li>Operation and Maintenance of Fire Alarm, PA system.</li>
+        <li>Operation and Maintenance of water bodies and fountains.</li>
+        <li>Maintenance of rainwater harvesting pits.</li>
+        <li>Operation and Maintenance of Intercom system (Instruments excluded).</li>
+        <li>Operation and Maintenance of Boom Barriers. The club house and its services shall be subject to user charges as may be fixed by the management of the Club House or as the case may be the service provider, from time to time.</li>
+    </ul>
+
+</body>
+</html>
+</apex:page>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MCube_Sub_Source__c</fullName>
+    <label>MCube Sub Source</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Hoarding</fullName>
+                <default>false</default>
+                <label>Hoarding</label>
+            </value>
+            <value>
+                <fullName>Press-Adds</fullName>
+                <default>false</default>
+                <label>Press-Adds</label>
+            </value>
+            <value>
+                <fullName>Radio</fullName>
+                <default>false</default>
+                <label>Radio</label>
+            </value>
+            <value>
+                <fullName>Website</fullName>
+                <default>false</default>
+                <label>Website</label>
+            </value>
+            <value>
+                <fullName>Expo</fullName>
+                <default>false</default>
+                <label>Expo</label>
+            </value>
+            <value>
+                <fullName>BTL Activities</fullName>
+                <default>false</default>
+                <label>BTL Activities</label>
+            </value>
+            <value>
+                <fullName>Mail / SMS Blast</fullName>
+                <default>false</default>
+                <label>Mail / SMS Blast</label>
+            </value>
+            <value>
+                <fullName>Client Referral</fullName>
+                <default>false</default>
+                <label>Client Referral</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

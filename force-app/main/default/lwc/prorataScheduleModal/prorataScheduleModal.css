@@ -1,0 +1,241 @@
+/* Prorata Schedule Editor modal styling (aligned with paymentScheduleEditor) */
+
+/* ===== Self-built modal: big, fixed header/footer, scrollable body ===== */
+.slds-backdrop,
+.slds-backdrop_open {
+    display: none !important;
+}
+.modal-container {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9001;
+    padding: 16px;
+    box-sizing: border-box;
+}
+.slds-modal {
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: 1180px !important;
+    max-height: calc(100vh - 32px) !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+.custom-modal-container {
+    width: 100%;
+    max-height: calc(100vh - 32px);
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.custom-modal-header {
+    background: linear-gradient(135deg, #1589ee 0%, #0b5cab 100%);
+    color: #fff;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    min-height: 52px;
+    border-radius: 10px 10px 0 0;
+    position: relative;
+}
+.custom-modal-header h2 {
+    color: #fff;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+.custom-close-btn {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.custom-modal-content {
+    overflow-y: auto;
+    flex: 1 1 auto;
+    padding: 20px 24px;
+}
+.custom-modal-footer {
+    background: #f3f2f2;
+    border-top: 1px solid #dddbda;
+    padding: 12px 24px;
+    text-align: right;
+    flex-shrink: 0;
+    border-radius: 0 0 10px 10px;
+}
+
+/* Header context cards — gradient like the payment schedule editor info boxes */
+.psm-cards .slds-box {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+}
+.psm-cards .slds-text-title_caps {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 11px;
+    letter-spacing: 0.5px;
+}
+.psm-cards .slds-text-heading_small {
+    color: #fff;
+    font-weight: 700;
+}
+
+/* Live reconciliation panel */
+.recon-panel {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+/* ===== Milestone cards (the bifurcation is front and centre) ===== */
+.ms-list {
+    padding-right: 2px;
+}
+.biforc-inline-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.ms-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 12px;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+.ms-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.ms-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.ms-seq {
+    background: #eef2ff;
+    color: #3730a3;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 12px;
+}
+.ms-name {
+    font-weight: 700;
+    color: #1b2559;
+    font-size: 14px;
+}
+
+.ms-basics {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(80px, 1fr));
+    gap: 10px;
+    margin-bottom: 12px;
+}
+.ms-field {
+    display: flex;
+    flex-direction: column;
+}
+.ms-field label,
+.biforc-field label {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #6b7280;
+    letter-spacing: 0.3px;
+    margin-bottom: 2px;
+}
+.ms-ro {
+    padding: 5px 0;
+    font-size: 13px;
+    color: #1b2559;
+}
+.psm-total { font-weight: 700; color: #2e844a; }
+.psm-pending { font-weight: 700; color: #c23934; }
+
+/* The Bank vs Customer split */
+.ms-bifurcation {
+    display: grid;
+    grid-template-columns: 1fr 1fr minmax(160px, 0.8fr);
+    gap: 12px;
+}
+.biforc-box {
+    border-radius: 8px;
+    padding: 12px;
+}
+.biforc-bank { background: #eff6ff; border: 1px solid #bfdbfe; }
+.biforc-customer { background: #ecfdf5; border: 1px solid #a7f3d0; }
+.biforc-opts { background: #f9fafb; border: 1px solid #e5e7eb; }
+.biforc-head {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 10px;
+}
+.biforc-bank .biforc-head { color: #1d4ed8; }
+.biforc-customer .biforc-head { color: #047857; }
+.biforc-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+.biforc-field {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Status badges */
+.psm-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+.psm-badge-paid { background: #dcfce7; color: #16a34a; }
+.psm-badge-completed { background: #dbeafe; color: #2563eb; }
+.psm-badge-pending { background: #fee2e2; color: #dc2626; }
+
+/* Validation bar */
+.psm-validation-bar {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    border-radius: 6px;
+    background: #fee2e2;
+    border: 1px solid #fca5a5;
+    color: #b91c1c;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .ms-basics { grid-template-columns: repeat(3, 1fr); }
+    .ms-bifurcation { grid-template-columns: 1fr; }
+}

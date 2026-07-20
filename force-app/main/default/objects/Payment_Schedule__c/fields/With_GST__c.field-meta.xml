@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>With_GST__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Prorata flag: when true, the bank pays flat bundled with GST. When false, customer pays GST separately.</description>
+    <label>With GST</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

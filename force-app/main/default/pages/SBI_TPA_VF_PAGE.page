@@ -1,0 +1,209 @@
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false"
+           applyHtmlTag="false" applyBodyTag="false" renderAs="pdf"
+           title="SBI Tripartite Agreement">
+<head>
+<style type="text/css">
+    @page {
+        size: A4;
+        margin: 25mm 20mm 25mm 20mm;
+        @bottom-center {
+            content: "Page " counter(page) " of " counter(pages);
+            font-family: 'Times New Roman', serif;
+            font-size: 10pt;
+            color: #000000;
+        }
+    }
+
+    body {
+        font-family: 'Times New Roman', serif;
+        font-size: 12pt;
+        line-height: 1.5;
+        text-align: justify;
+        color: #000000;
+    }
+
+    h1.title {
+        text-align: center;
+        text-decoration: underline;
+        font-size: 18pt;
+        font-weight: bold;
+        margin-bottom: 25px;
+    }
+
+    .heading {
+        text-decoration: underline;
+        font-weight: bold;
+    }
+
+    .center {
+        text-align: center;
+        font-weight: bold;
+    }
+
+    p {
+        margin: 0 0 10px 0;
+    }
+
+    /* Bordered tables that never split across a page */
+    table.acct {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 10px 0 15px 0;
+        page-break-inside: avoid;
+    }
+
+    table.acct td {
+        border: 1px solid #000000;
+        padding: 6px 10px;
+        font-size: 12pt;
+        vertical-align: top;
+    }
+
+    table.acct td.label {
+        font-weight: bold;
+        width: 40%;
+    }
+
+    .sign-block {
+        margin-top: 8px;
+    }
+</style>
+</head>
+<body>
+
+    <h1 class="title">Tripartite Agreement</h1>
+
+    <p>This agreement is executed on this ______day of ________________, 2026 Between</p>
+
+    <p><b>SRI. SHAILESH MADHUKAR PACHBHAI S/O. SRI. MADHUKAR PACHBHAI</b>, aged about 36 years, Occupation: Private Employee, Resident of Villa 15, Crown Imperial, Panchaheel Enclave, Bolaram, Secundrabad, hyderabad-500010. (AADHAAR NO. 3523 0722 4815 &amp; PAN NO. BLYPP1267L).</p>
+
+    <p>hereinafter referred to as the &lsquo;Borrower (s)&rsquo;, which term shall unless repugnant to the context shall mean and include his/her heirs, representatives, successors, executors, attorneys, administrators and assigns, of the party at the &lsquo;First Part&rsquo;.</p>
+
+    <p class="center">AND</p>
+
+    <p><b>M/S. ANANDA HOMES (GST No: 36ABFFA6591E1ZE)</b>, a partnership Company incorporated under the provisions of the Companies Act, 1956, having its Registered Office at Plot No. 17 &amp; 18, Dev N Dev Layout, Golden Mile Road, Beside Allu Studios, Kokapet, Hyderabad, Rangareddy, Telangana-500075. by its authorized signatory SRI. P.V. SREENIVASULU S/O. LATE P.C.V. RAMANAIAH, Resident of VillaNo.60, River Edge Villas, Manchirevula, K. V. Ranga Reddy, Telangana &ndash; 500089, which term shall unless repugnant to the context shall mean and include its representatives, successors, administrators and assigns, of the party at the &lsquo;Second Part&rsquo;.</p>
+
+    <p class="center">AND</p>
+
+    <p><b>State Bank of India</b>, a body corporate, constituted under the State Bank of India Act 1955, having amongst others one of its Branch Office at&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;..............</p>
+
+    <p>hereinafter referred as the &lsquo;SBI&rsquo;, which term shall unless repugnant to the context shall mean and include its representatives, successors, administrators and assigns, of the party at the &lsquo;Third Part&rsquo;.</p>
+
+    <p>Whereas, the &lsquo;Builder/Developer&rsquo; is the absolute owner and in peaceful possession of the residential property bearing no. Sy.Nos. 128/1A/2/2, 129/A/1, 129/A/2, 129/AA/1, 129/AA/2, 129/AA/3, 129/E/1, 130/A/1, 130/A/2, 130/A/3/1, 130/A/3/2, 130/A/4, 130/AA/1, 130/AA/2, 130/AA/3, 130/E/1, 130/E/2, 145/1/2, 145/1/1/7, 145/1/1/1/2, 145/1/1/1/1/2, 145/1/1/1/1/1/1, 145/1/1/1/1/1/2, 145/2, 147/A/1, 147/A/2, 147/A/3, 147/AA/1, 147/AA/2, 147/AA/3, 147/E/1, 147/E/2, 148/A/1, 148/A/2, 148/A/3, 148/A/4, 148/AA/1, 148/AA/2, 148/AA/3, 148/E/1, 148/E/2, 148/E/3, 148/E/5, 149/1, 149/2, 149/3, 149/4, 149/5, 149/6, 149/7,, situated at Puppalguda Village, under Manikonda Municipality, Gandipet Mandal, Ranga Reddy District, Telangana State and whereas HMDA has sanctioned building plan vide 01722/SKP/Plg/HMDA/2022 dated:25/06/2024. to construct a residential apartment on the said property. Whereas &lsquo;Builder&rsquo; has taken up construction of residential apartment known as &ldquo;THE LEGACEY&rdquo; on the said property.</p>
+
+    <p>Whereas, the party at the second part has registered the said real estate project namely&rdquo; THE LEGACEY&rdquo; (hereinafter referred to as the Project) with the Real Estate Regulatory Authority (RERA) / Telangana Real Estate Regulatory Authority (TSRERA) of TELANGANA and been granted registration number P02400008615, dated:07/08/2024. which is valid and subsisting as on date.</p>
+
+    <p>Whereas, the Party at the Second Part shall complete the construction of the flats latest by December,2029. And is booking the sale of the unit/apartment. The proposed buyer has to make the payment of the Sale Consideration and other charges, if any, by 31/12/2027 and on the payment of the entire consideration, the Party at the Second Part shall hand over the possession of the flat to the said proposed buyer.</p>
+
+    <p>Whereas, the Party at the First Part has booked a flat bearing No. T2-1508 (EAST Facing) on 15th Floor, of Tower-2, the High-Rise Residential Flats known as &ldquo;THE LEGACEY&rdquo;, with saleable area of 1825 Square Feet (including common areas and One Car Parking), along with proportionate undivided share of land equivalent to 38.3 Square Yards. in the building which the Party at the Second Part shall construct on the above said Flat and the Party at the First Part has to pay the entire consideration amount by Rs. 1,46,55,375/- (Rupeers One Crore Forty-Six Lakh Fifty-Five Thousand Three Hundred and Seventy-Five) Including GST.</p>
+
+    <p>Whereas, the Party at the First Part has approached the Party at the Third Part for availing a Home Loan of Rs....................................... (Rupees &hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;........................................only) to finance the purchase of the said flat. Besides other securities, the Party at the First Part has agreed to create the charge over the said flat along with the proportionate undivided share in the land in favour of the Party at the Third Part. In the absence of proper Conveyance Deed/Sale Deed in its favour, the Party at the First Part is not in a position to create a valid mortgage over the said flat and proportionate share of land in favour of the Party at the Third Part.</p>
+
+    <p>Whereas, the Party at the First Part and the Party at the Second Part have requested SBI to disburse the said loan to the Borrower, notwithstanding the fact that the Conveyance Deed/Sale Deed is not executed in favour of the Party at the First Part at this stage, and in consideration of the SBI sanctioning the loan to the Borrower(s), the Borrower(s) and the Builder/Developer have executed this Agreement on the following terms and conditions.</p>
+
+    <p class="heading">Now therefore it is hereby agreed by and between the parties that:</p>
+
+    <p>1. The SBI has and shall have the first lien over the said flat for the due repayment of the loan which SBI has granted to the Borrower. The Builder shall note in its records the charge and lien of SBI over the said flat. The Builder shall not transfer the said flat to any other person without the prior written consent of the SBI.</p>
+
+    <p>2. The Builder/Developer agrees that it has no objection to the Borrower(s) mortgaging the said flat with proportionate share in land to the SBI as security for the said loan agreed to be advanced by the SBI for the purpose of purchase / construction of the said flat. In the event of default in the repayment of loan and/ or the Borrower(s) committing any other default which makes the Borrower(s) liable for the repayment of the entire amount outstanding in the said loan as per the terms of the Loan Agreement executed between the Borrower(s) and the SBI, the Builder shall at the request of SBI, be under obligation to not deliver possession to the Borrower and/or to cancel the booking. Further, Builder shall pay all amounts received by the Builder from SBI on behalf of the Borrower(s) alongwith accrued interest on home loan account or amount received on behalf of the Borrower(s) including also any amount paid by the Borrower to the Builder whichever is lower within the period of 90 days from the effective date of request by SBI. However, in case the Builder/Developer fails to refund the amount, the Builder/Developer shall be liable to pay the total amount alongwith interest @ EBLR of SBI plus 2% over the said amount. Upon payment of the amounts by the Builder/Developer to SBI as aforesaid, the SBI and the Borrower will not have any claim, charge, lien, mortgage, right, title and interest etc. whatsoever, over the said flat. SBI shall issue a certificate to release any mortgage/charge/lien created on the said flat. Borrower hereby expressly agrees that in the event of default in either repayment of the loan or any other default by the Borrower, SBI shall be entitled to request the Builder to cancel the booking and return the amounts received by the Builder and the Borrower agrees and acknowledges that any such request by SBI and payment made by the Builder under this clause to SBI shall be binding upon the Borrower.</p>
+
+    <p>3. That if for any reason there is any increase/escalation in the cost of the said flat, the increase shall be paid and borne by the Borrower(s) without any reference to the SBI and until such payment is made, the SBI shall have the right to suspend further disbursement of the said loan.</p>
+
+    <p>4. That the agreement for sale is already entered into by the borrower and the Builder/Developer and duly registered or shall be entered into by the borrower and Builder/Developer and duly registered as per standard format of TS RERA (state RERA rules to be mentioned of the state where the project is under progress). The said registered agreement for sale is/shall be delivered to the bank.</p>
+
+    <p>(Wherever registration of agreement for sale is not mandatory under Registration Act as applicable in the State / RERA provisions, this clause will not be applicable. In case registration is not mandatory, the un-registered sale agreement shall be delivered to the Bank).</p>
+
+    <p>5. That the Builder/Developer and borrower agree that they shall comply with the provisions of Real Estate Regulation &amp; Development Act,2016 and TS RERA (state RERA rules to be mentioned of the state where the project is under progress). The Builder/Developer and borrower agree that they shall inform the Bank immediately upon suspension or revocation of registration of the project under the said Act. In the event of the borrower claiming any amount including but not limited to refund of amount paid with interest or compensation or interest for delay from the Builder/Developer under the above Act for any reason, the Builder/Developer shall make payment of such amount directly to the Bank and the borrower agrees that such payment to the Bank shall be binding on him and deemed to be a discharge of his liability to the extent of the money so paid to the Bank. Further, the borrower shall be liable for interest, if any, payable to the Builder/Developer under the above Act for any reason whatsoever.</p>
+
+    <p>6. That in the event of the Builder cancelling the said booking for any default committed by the Borrower(s) or the project is shelved by the Builder or for any other reason whatsoever, the Builder shall pay, all amounts received by the Builder from SBI on behalf of the Borrower(s) along with accrued interest on home loan account OR, any amount received on behalf of the Borrower(s) from the Bank including the amount paid by the Borrower directly to the Builder, whichever is lower, within the period of 90 days from the effective date of request by SBI. However, the builder/developer shall be entitled to recover cancellation and/or any other charges, if any payable by the Borrower under the terms of application form for purchase of the said flat and/or agreement to sell/construction out of the surplus available if any after full recovery of bank&rsquo;s dues only in the instance where the Borrower has cancelled the booking of the flat or has committed any default.</p>
+
+    <p>7. That on the receipt of the entire consideration amount and other dues payable by the borrower/purchaser as per Agreement for sale/allotment letter, the Builder/Developer shall execute a proper Conveyance Deed/Sale Deed/Lease Deed in favour of the Borrower. The Builder undertakes to deliver the same along with original registration fee receipt directly to the SBI and not to the Borrower(s). Before the execution of the Sale Deed/Conveyance Deed/Lease Deed, the builder shall inform the SBI about the same on the completion of the project.</p>
+
+    <p>8. That the builder agrees that the loan amount may be credited to the loan account no.</p>
+
+    <p>That the builder agrees that the loan Flat amount may be credited to the Escrow account</p>
+
+    <table class="acct">
+        <tr><td class="label">NAME OF ACCOUNT HOLDER</td><td>ANANDA HOMES THE LEGACEY MASTER COLLECTION ESCROW ACCOUNT</td></tr>
+        <tr><td class="label">BANK ACCOUNT NUMBER</td><td>57500001468756</td></tr>
+        <tr><td class="label">IFSC CODE</td><td>HDFC0009425</td></tr>
+        <tr><td class="label">ACCOUNT TYPE</td><td>ESCROW ACCOUNT</td></tr>
+        <tr><td class="label">NAME OF BANK</td><td>HDFC BANK Ltd</td></tr>
+        <tr><td class="label">BRANCH</td><td>MANIKONDA BRANCH</td></tr>
+        <tr><td class="label">BRANCH CITY</td><td>HYDERABAD</td></tr>
+    </table>
+
+    <p>That the builder agrees that the loan GST amount may be credited to the below mentioned account</p>
+
+    <table class="acct">
+        <tr><td class="label">NAME OF ACCOUNT HOLDER</td><td>ANANDA HOMES</td></tr>
+        <tr><td class="label">BANK ACCOUNT NUMBER</td><td>322205002425</td></tr>
+        <tr><td class="label">IFSC CODE</td><td>ICIC0003222</td></tr>
+        <tr><td class="label">ACCOUNT TYPE</td><td>CURRENT ACCOUNT</td></tr>
+        <tr><td class="label">NAME OF BANK</td><td>ICICI BANK</td></tr>
+        <tr><td class="label">BRANCH</td><td>MANIKONDA BRANCH</td></tr>
+        <tr><td class="label">BRANCH CITY</td><td>HYDERABAD</td></tr>
+    </table>
+
+    <p>from where the builder have availed financing facility for the project from &ldquo;CAPRI GLOBAL CAPITAL LIMITED&rdquo; .</p>
+
+    <p>9. That the Borrower(s) shall also keep informed the SBI about the developments in the project. The Borrower shall notify the SBI the date of taking over the possession of the said flat. In case the Borrower(s) comes into possession of the Lease Deed/Conveyance Deed/Sale Deed, he/she shall immediately deliver the same to the SBI.</p>
+
+    <p>10. That the Borrower(s) assures that he/she will not avail finance from any other Bank or Financial Institution in respect of the aforesaid flat and/or will not create further mortgage/charge over the said flat (allotted to the borrower) in any manner whatsoever.</p>
+
+    <p>11. That the Borrower(s) shall pay all charges, duties, taxes in respect of the said flat imposed or payable to the Builder/Developer and or to Corporation or any other Government Department/Authority in respect of the said flat and the SBI shall not be liable or responsible in any manner whatsoever or howsoever for the same.</p>
+
+    <p>12. That the Borrower(s) agrees and acknowledges to keep the SBI indemnified against any loss or damage incurred by it in the event of failure of the Borrower(s) to honour or to meet any of its obligations under this Agreement in connection with the sanctioning of the loan in respect of the said flat.</p>
+
+    <p>13. That during the currency of the loan, the Borrower(s) shall not transfer the said flat to any other person, without the prior written consent of the SBI. The Builder/Developer shall not issue the duplicate allotment letter/possession letter to the Borrower(s) without the prior written consent of the SBI.</p>
+
+    <p>14. It is understood that the term &lsquo;loan&rsquo; mentioned herein shall include interest, penal interest and all other sums payable by the borrower(s) to the SBI.</p>
+
+    <p>15. That in the event of any default by the Borrower(s) and on occurrence of such an event if Builder fails to return the amount paid by SBI to the Builder, SBI may at its discretion enforce the security by the sale and the Builder/owner(s) shall accept the Purchaser of the said flat in place of the Borrower(s), after the Purchaser complies with the necessary requirements and fulfils all the obligations of the Builder/Developer in this respect in the place and stead of the Borrower(s). That any payment of the consideration amount, which shall accrue as outstanding dues along with accrued interest on home loan account during such transition period, till the next Borrower/Purchaser is confirmed for purchase of the flat shall be made good by the borrower or the subsequent borrower/Purchaser who shall be stepping into the footsteps of the previous borrower.</p>
+
+    <p>16. In the event of default of repayment of the loan and / or the borrower(s) committing any other default which make the borrower liable for the repayment of the entire amount outstanding in the said loan as per the terms of the loan agreement executed between the borrower and the bank, or if the borrower withdraws from his agreement or builder cancels the booking of the borrower, or in the event of failure of the builder to complete the project, or in the event of death of the borrower, or in any event where the title to the scheduled flat / dwelling unit is not / not being passed on to the borrower or in any other eventualities of the nature by which the loan advanced by the bank is not utilised for the purpose for which it was so advanced or breach of any of the terms and conditions contained in this agreement, the entire amount advanced by the bank on account of the borrower along with up to date interest shall be refunded by the builder to the bank. If the entire amount refunded by the builder is in-sufficient to close the loan account, borrower shall make immediate arrangements for payment of such deficit amount as may be required to close the loan account. If the builder fails to repay the amount as stated under this clause, the borrower shall repay the entire loan amount with interest, expenses, penal charges, etc., in terms of the loan agreement executed by the borrower(s).</p>
+
+    <p>17. That the Builder assures the SBI that the construction shall be completed as per schedule and as per the sanctioned plans and on completion of construction, the title of the flat with proportionate undivided share in the land shall be conveyed in the name of the Borrower(s). Any modification from original sanction plan will be carried out by the builder after obtaining approval from competent authority and the same will be binding upon the borrower. Bank in no way will be responsible for any such modifications.</p>
+
+    <p>18. That it is further made clear and understood by all the parties that the noncompletion of the project or the happening of any event shall not affect the obligations of the Borrower(s) to repay the loan availed from SBI.</p>
+
+    <p>19. That the said flat is free from all encumbrances, charges, lien, attachment, prior agreements, whatsoever or howsoever. The party at first part and second part will not do any act or deed which will affect the security of the flat/ or charge created in favour of SBI in any manner whatsoever. Further, if the Builder/owner creates any encumbrance or raises any loan from any bank or financial institution for funding the construction of the project, then under such circumstances it shall be the responsibility of the Builder/owner to provide necessary NOC to the Bank before disbursement of home loan to the borrower.</p>
+
+    <p>20. That there is no order of attachment by the Income Tax Authorities or any other authority under any law for the time being in force nor any notice of acquisition or requisition has been received in respect of the said property,</p>
+
+    <p>21. That this Agreement shall not affect in any manner whatsoever the duties and obligations of the Borrower(s) and the terms and conditions agreed to by the Borrower(s) in the Loan Agreement and other documents executed in favour of SBI shall remain binding upon the Borrower(s),</p>
+
+    <p>22. That in case of acquisition, forfeiture/resumption of the said property, SBI shall be entitled to get the compensation settled in respect of the said flat and to appear and act before the Collector/Revenue Officer/Estate Officer or any other concerned authorities, to sign any form, to give any statement, affidavit, application on Borrower's behalf, to receive the compensation in its own name and on the Borrower's behalf, to file appeal in any court for the enhancement of the compensation amount, to get the compensation amount enhanced and to receive the same.</p>
+
+    <p>23. That the bank or its officials will not be responsible for merits of the project, such as facilities, amenities, completion period, cost, regulatory and statutory approvals, quality of construction etc., or any attribution to the builders from these projects and expressly disclaim any liability in this regard. Further, the Bank shall under no circumstances be held responsible for any dispute between the Borrower/builder/third party arising out of such involvement/ investment/purchase of units in the project.</p>
+
+    <p>24. The responsibilities of the builders under this tripartite agreement will be extinguished only after delivering the duly registered Conveyance Deed/Sale Deed/Lease Deed directly to the Bank and handing over the possession of the residential unit to the borrower(s) and thereafter the validity of the Tripartite Agreement will come to an end.</p>
+
+    <p style="margin-top:25px;">In witness whereof the parties hereto have signed this Agreement on the day______, month_________ and year_________first herein above written.</p>
+
+    <p class="sign-block">Signed and delivered by the:</p>
+
+    <p class="heading">Named Borrower (s)</p>
+
+    <p class="sign-block">i) Shri/Smt/Ms&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Signature of Borrower (s)</p>
+
+    <p class="sign-block">ii) Shri/Smt/Ms&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Signature of Borrower (s)</p>
+
+    <p class="sign-block">iii) Shri/Smt/Ms&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Signature of Borrower (s)</p>
+
+    <p style="margin-top:25px;" class="heading">Authorized signatory of Builder M/s</p>
+    <p>(Name &amp; Address)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Signature</p>
+
+    <p style="margin-top:25px;" class="heading">State Bank of India,</p>
+    <p>represented by its authorized official</p>
+    <p>(Name &amp; address of office/ Branch)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Signature</p>
+
+    <p style="margin-top:25px;" class="heading">Witness:</p>
+    <p>Name &amp; Address:</p>
+
+    <p class="sign-block">1. Shri/Smt/Ms&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Signature</p>
+
+    <p class="sign-block">2. Shri/Smt/Ms&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Signature</p>
+
+</body>
+</apex:page>

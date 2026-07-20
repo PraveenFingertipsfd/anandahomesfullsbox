@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Criteria_Date__c</fullName>
+    <formula>IF(
+  NOT(ISBLANK(Re_opened_CP_Date__c)) &amp;&amp;
+  (
+    ISBLANK(Re_Engaged_CP_Date__c) ||
+    Re_opened_CP_Date__c &gt;= Re_Engaged_CP_Date__c
+  ),
+  Re_opened_CP_Date__c,
+
+  IF(
+    NOT(ISBLANK(Re_Engaged_CP_Date__c)),
+    Re_Engaged_CP_Date__c,
+    DATEVALUE(CreatedDate)
+  )
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Criteria Date</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

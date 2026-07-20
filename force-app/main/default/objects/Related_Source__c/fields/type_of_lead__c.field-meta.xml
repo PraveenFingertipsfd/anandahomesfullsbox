@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>type_of_lead__c</fullName>
+    <label>type of lead</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Direct Lead</fullName>
+                <default>false</default>
+                <label>Direct Lead</label>
+            </value>
+            <value>
+                <fullName>Transfer Lead</fullName>
+                <default>false</default>
+                <label>Transfer Lead</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

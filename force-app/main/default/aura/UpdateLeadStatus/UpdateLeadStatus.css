@@ -1,0 +1,6 @@
+.THIS .custom-project-border .slds-input {
+    border: 1px solid #555555;
+    border-radius: 10px;
+    width: 200px;          /* 👈 decrease width (change as you like) */
+    padding-left: 6px;     /* 👈 move text little left */
+}

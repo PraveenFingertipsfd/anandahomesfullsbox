@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Agent_Name__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE(
+    Agent_Number__c,
+    &quot;1022&quot;, &quot;Nikhil Joshua&quot;,
+    &quot;1023&quot;, &quot;Muthushree N&quot;,
+    &quot;1024&quot;, &quot;Shridhar Kulal&quot;,
+    &quot;1034&quot;, &quot;Madhaw Kumar&quot;,
+    &quot;1025&quot;, &quot;Sahana V N&quot;,
+    &quot;1009&quot;, &quot;Heena Kouser&quot;,
+    &quot;1026&quot;, &quot;Reshma J&quot;,
+    &quot;1027&quot;, &quot;Kavya S&quot;,
+    &quot;1028&quot;, &quot;Hasritha Bommisetty&quot;,
+    &quot;1029&quot;, &quot;Bhoomika D&quot;,
+    &quot;1030&quot;, &quot;Kushi C&quot;,
+    &quot;1031&quot;, &quot;Shrividya B&quot;,
+    &quot;1032&quot;, &quot;Adithya G&quot;,
+    &quot;1033&quot;, &quot;Jayanth J&quot;,
+    &quot;1010&quot;, &quot;Shah Fahad&quot;,
+    &quot;1011&quot;, &quot;Manjunath P&quot;,
+    &quot;1012&quot;, &quot;Balagonda Sireesha&quot;,
+    &quot;1013&quot;, &quot;Akash J&quot;,
+    &quot;1008&quot;, &quot;Dhanashekar M&quot;,
+    &quot;1014&quot;, &quot;Rizwan BMD&quot;,
+    &quot;1015&quot;, &quot;Sharath Kumar M&quot;,
+    &quot;1016&quot;, &quot;Suhas Partha&quot;,
+    &quot;1017&quot;, &quot;Aman Ahmed&quot;,
+    &quot;1018&quot;, &quot;Antony Stephen R&quot;,
+    &quot;1019&quot;, &quot;Nischal S&quot;,
+    &quot;1020&quot;, &quot;Fathima Banu&quot;,
+    &quot;1021&quot;, &quot;Hemalata Patra&quot;,
+    &quot;1036&quot;, &quot;Sharath Kumar&quot;,
+    &quot;1035&quot;, &quot;Vaideswaran Nallathambi&quot;,
+    &quot;1007&quot;, &quot;Sudarshan&quot;,
+    &quot;1037&quot;, &quot;Hari Pavan&quot;,
+    &quot;1038&quot;, &quot;Kavitha&quot;,
+    &quot;1039&quot;, &quot;Sainath&quot;,
+    &quot;1042&quot;, &quot;Gurupriya K&quot;,
+    &quot;1044&quot;, &quot;Suchithra T&quot;,
+    &quot;1045&quot;, &quot;Janaki SR&quot;,
+    &quot;1046&quot;, &quot;Ankitha K&quot;,
+    &quot;1043&quot;, &quot;Harshitha P&quot;,
+    &quot;1049&quot;, &quot;Nirmal Kumar G S&quot;,
+    &quot;1050&quot;, &quot;Subhan Sharif&quot;,
+    &quot;Unknown User&quot;
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Agent Name</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

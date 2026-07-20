@@ -1,0 +1,132 @@
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false"
+           applyHtmlTag="false" applyBodyTag="false" renderAs="pdf">
+<html>
+<head>
+<style type="text/css">
+    @page {
+        size: A4;
+        margin: 25mm 20mm 25mm 20mm;
+        /* Page number at the bottom: Page 1 of N */
+        @bottom-center {
+            content: "Page " counter(page) " of " counter(pages);
+            font-family: Arial, sans-serif;
+            font-size: 9pt;
+            color: #000000;
+        }
+    }
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 10pt;
+        color: #000000;
+        line-height: 1.4;
+    }
+    .date {
+        text-align: right;
+        font-weight: bold;
+        font-size: 10pt;
+        margin-bottom: 30px;
+    }
+    h1.heading {
+        text-align: center;
+        font-weight: bold;
+        font-size: 16pt;
+        text-decoration: underline;   /* underline for heading */
+        margin: 10px 0 25px 0;
+    }
+    p.body-text {
+        font-weight: bold;
+        font-size: 10pt;
+        text-align: justify;
+        margin: 0 0 15px 0;
+    }
+    table.details {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 10px 0 20px 0;
+        page-break-inside: avoid;     /* keep the whole table together */
+    }
+    table.details th,
+    table.details td {
+        border: 1px solid #000000;    /* borders for the table */
+        padding: 6px 8px;
+        font-size: 10pt;
+        text-align: center;
+    }
+    table.details th {
+        font-weight: bold;
+        background-color: #f2f2f2;
+    }
+    table.details tr { page-break-inside: avoid; }
+    td.total-label { text-align: right; font-weight: bold; }
+    td.total-value { font-weight: bold; }
+    .signoff {
+        font-weight: bold;
+        font-size: 10pt;
+        margin-top: 60px;
+    }
+    .signatory {
+        font-weight: bold;
+        font-size: 10pt;
+        margin-top: 50px;
+    }
+</style>
+</head>
+<body>
+
+    <div class="date">Date: 09/07/2025</div>
+
+    <h1 class="heading">RECEIPT</h1>
+
+    <p class="body-text">
+        Received an amount of Rs. 22,34,760/- (Rupees Twenty-Two Lakh
+        Thirty-Four Thousand Seven Hundred and Sixty Only) (INCLUDING GST),
+        with thanks from SRI. KOTHAPALLI KRISHNA BHARADWAJ &amp; SMT.
+        GOLLANAPALLI DIVYA TEJA, as payment against Flat No: E-504, 5th Floor,
+        Block-E in "ANANDA THE DRIZZLE" project situated at Narsingi Village,
+        and Neknampur Village, both are in Gandipet Mandal, Ranga Reddy
+        District, Telangana State.
+    </p>
+
+    <p class="body-text">Below are the payment details: -</p>
+
+    <table class="details">
+        <tr>
+            <th>Date</th>
+            <th>Bank Name</th>
+            <th>Mode</th>
+            <th>Reference ID / Cheque</th>
+            <th>Amount</th>
+        </tr>
+        <tr>
+            <td>10-04-2025</td><td>HDFC</td><td>Online</td>
+            <td>510023365876</td><td>100</td>
+        </tr>
+        <tr>
+            <td>11-04-2025</td><td>SBI</td><td>Online</td>
+            <td>510112375190</td><td>5,00,000</td>
+        </tr>
+        <tr>
+            <td>21-06-2025</td><td>AXIS</td><td>Online</td>
+            <td>000173610027</td><td>9,00,000</td>
+        </tr>
+        <tr>
+            <td>22-06-2025</td><td>IDBI</td><td>Online</td>
+            <td>000100492233</td><td>8,12,412</td>
+        </tr>
+        <tr>
+            <td>30-06-2025</td><td>HDFC</td><td>TDS Challan</td>
+            <td>Challan No: 05850</td><td>22,348</td>
+        </tr>
+        <tr>
+            <td class="total-label" colspan="4">Total Amount in Rs.</td>
+            <td class="total-value">22,34,760/-</td>
+        </tr>
+    </table>
+
+    <div class="signoff">For M/S. THE DRIZZLE JV</div>
+
+    <div class="signatory">AUTHORISED SIGNATORY</div>
+
+</body>
+</html>
+</apex:page>

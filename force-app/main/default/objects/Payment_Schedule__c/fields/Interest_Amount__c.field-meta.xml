@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Interest_Amount__c</fullName>
+    <formula>/*If( Include_Interest__c ,if(Payment_Due_Date__c &lt; TODAY() &amp;&amp;  ISBLANK(Last_Payment_Date__c),
+			(Pending_Amount__c *  Interest_Percent__c * (TODAY() - Payment_Due_Date__c))/365 ,
+			if(Last_Payment_Date__c &lt; TODAY() &amp;&amp; !ISBLANK(Last_Payment_Date__c),
+						(Pending_Amount__c *  Interest_Percent__c * (TODAY() - Last_Payment_Date__c))/365, 0.0)),0)*/
+
+/*IF(
+				Include_Interest__c,
+				IF(
+								!ISBLANK(Payment_Due_Date__c) &amp;&amp; Payment_Due_Date__c &lt; TODAY(),
+								 MAX(((Pending_Amount__c * Interest_Percent__c * (TODAY() - Payment_Due_Date__c)) / 365),0),0),0) */
+
+								/*IF(
+												ISBLANK(Payment_Due_Date__c) &amp;&amp; !ISBLANK(Demand_Date__c) &amp;&amp; Demand_Date__c,
+												IF(
+																!ISBLANK(Interest_Change_Date__c) &amp;&amp; Interest_Change_Date__c &gt; Last_Payment_Date__c,
+																(Pending_Amount__c * Interest_Percent__c * (TODAY() - Interest_Change_Date__c)) / 365,
+																(Pending_Amount__c * Interest_Percent__c * (TODAY() - Last_Payment_Date__c)) / 365
+												),
+												0.0
+								)
+				),
+				0
+)*/0</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Interest Amount</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

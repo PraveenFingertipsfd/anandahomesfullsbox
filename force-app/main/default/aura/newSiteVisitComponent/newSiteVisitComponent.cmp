@@ -1,0 +1,173 @@
+<aura:component controller="followUpController" implements="force:appHostable,force:hasRecordId,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,forceCommunity:availableForAllPageTypes,force:lightningQuickActionWithoutHeader" access="global">
+    <aura:attribute name="isModalOpen" type="boolean" default="true"/>
+    <aura:attribute name="isSubmitting" type="boolean" default="false"/>
+    <aura:attribute name="recordId" type="string"/>
+    <aura:attribute name="leadProject" type="string"/>
+    <aura:attribute name="leadOwnerId" type="string"/>
+    <aura:attribute name="Subject" type="list"/>
+    <aura:attribute name="projectList" type="List"/>
+    <aura:attribute name="visitTypeList" type="List"/>
+    <aura:attribute name="visitType" type="string" default=""/>
+    <aura:attribute name="visitSourceType" type="string" default=""/>
+    <aura:attribute name="channelPartnerId" type="string" default=""/>
+    <aura:attribute name="siteVisitDateTimeValue" type="String"/>
+    <aura:attribute name="followupDateTimeValue" type="String"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"></aura:handler>
+
+    <aura:if isTrue="{!v.isModalOpen}">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container sv-modal">
+                <!-- Header -->
+                <header class="slds-modal__header sv-header">
+                    <h2 id="modal-heading-01" class="sv-header-title">New Site Visit</h2>
+                    <lightning:buttonIcon iconName="utility:close"
+                                          onclick="{!c.closeModel}"
+                                          alternativeText="close"
+                                          variant="bare-inverse"
+                                          class="slds-modal__close"/>
+                </header>
+
+                <!-- Body -->
+                <div class="slds-modal__content slds-p-vertical_medium sv-body" id="modal-content-id-1">
+
+                    <!-- ===== Site Visit Schedule Section ===== -->
+                    <h3 class="sv-section-title">Site Visit Schedule</h3>
+                    <div class="sv-divider"></div>
+
+                    <!-- Site Visit Scheduled Date & Time -->
+                    <p class="sv-field-group-label"><abbr class="slds-required" title="required">*</abbr> Site Visit Scheduled Date &amp; Time:</p>
+                    <div class="slds-form-element slds-m-bottom_medium">
+                        <lightning:input type="datetime"
+                                        aura:id="siteVisitDateTime"
+                                        required="true"
+                                        value="{!v.siteVisitDateTimeValue}"
+                                        variant="label-hidden"/>
+                    </div>
+
+                    <!-- Project (picklist) -->
+                    <div class="slds-form-element slds-m-bottom_medium sv-project-field">
+                        <lightning:select label="Project"
+                                          aura:id="projectSelect"
+                                          value="{!v.leadProject}"
+                                          variant="label-stacked"
+                                          required="true">
+                            <option value="">-- Select Project --</option>
+                            <aura:iteration items="{!v.projectList}" var="proj">
+                                <option value="{!proj}" selected="{!proj == v.leadProject}">{!proj}</option>
+                            </aura:iteration>
+                        </lightning:select>
+                    </div>
+
+                    <!-- Visit Type (picklist) -->
+                    <div class="slds-form-element slds-m-bottom_medium">
+                        <lightning:select label="Visit Type"
+                                          aura:id="visitType"
+                                          value="{!v.visitType}"
+                                          variant="label-stacked"
+                                          required="true">
+                            <option value="">-- Select Visit Type --</option>
+                            <aura:iteration items="{!v.visitTypeList}" var="vt">
+                                <option value="{!vt}" selected="{!vt == v.visitType}">{!vt}</option>
+                            </aura:iteration>
+                        </lightning:select>
+                    </div>
+
+                    <!-- Visit Type / Visit Source Type / Channel Partner hidden
+                    <div class="slds-form-element slds-m-bottom_medium">
+                        <lightning:select name="visitType" aura:id="visitType" label="Visit Type"
+                                          value="{!v.visitType}" onchange="{!c.visitTypeChange}" required="true">
+                            <option value="">- - Select - -</option>
+                            <option value="Site Visit">Site Visit</option>
+                            <option value="Virtual Visit">Virtual Visit</option>
+                        </lightning:select>
+                    </div>
+
+                    <aura:if isTrue="{!v.visitType == 'Site Visit'}">
+                        <div class="slds-form-element slds-m-bottom_medium">
+                            <lightning:select name="visitSourceType" aura:id="visitSourceType" label="Visit Source Type"
+                                              value="{!v.visitSourceType}" onchange="{!c.visitSourceTypeChange}" required="true">
+                                <option value="">- - Select - -</option>
+                                <option value="Digital (Own)">Digital (Own)</option>
+                                <option value="CP">CP</option>
+                            </lightning:select>
+                        </div>
+
+                        <aura:if isTrue="{!v.visitSourceType == 'CP'}">
+                            <div class="slds-form-element slds-m-bottom_medium">
+                                <c:CustomLookupGlobal objectName="Channel_Partner__c"
+                                                      fieldName="Channel_Partner_Name__c"
+                                                      additionalfield="Mobile_Number_Text__c"
+                                                      label="Channel Partner"
+                                                      iconName="standard:partners"
+                                                      selectedId="{!v.channelPartnerId}"
+                                                      required="true"/>
+                            </div>
+                        </aura:if>
+                    </aura:if>
+                    -->
+
+
+                    <!-- Site Visit Description -->
+                    <div class="slds-form-element slds-m-bottom_medium">
+                        <lightning:textarea aura:id="siteVisitDescription"
+                                           label="Site Visit Description"
+                                           value=""
+                                           variant="label-stacked"/>
+                    </div>
+
+                    <!-- ===== Reminder Details Section ===== -->
+                    <h3 class="sv-section-title slds-m-top_large">Reminder Details</h3>
+                    <div class="sv-divider"></div>
+
+                    <!-- Row 1: Follow-up Date & Time -->
+                    <div class="sv-half-width slds-m-bottom_medium">
+                        <p class="sv-field-group-label"><abbr class="slds-required" title="required">*</abbr> Follow-up Scheduled Date &amp; Time:</p>
+                        <lightning:input type="datetime"
+                                        aura:id="followupDateTime"
+                                        required="true"
+                                        value="{!v.followupDateTimeValue}"
+                                        variant="label-hidden"/>
+                    </div>
+
+                    <!-- Row 2: Subject -->
+                    <div class="sv-half-width slds-m-bottom_medium">
+                        <p class="sv-field-group-label"><abbr class="slds-required" title="required">*</abbr> Subject:</p>
+                        <lightning:select name="subject"
+                                         aura:id="followupSubject"
+                                         class="sv-select-no-gap"
+                                         variant="label-hidden">
+                            <option value="">-- Select Subject --</option>
+                            <aura:iteration items="{!v.Subject}" var="opt">
+                                <option value="{!opt}">{!opt}</option>
+                            </aura:iteration>
+                        </lightning:select>
+                    </div>
+
+                    <!-- Row 3: Remark -->
+                    <div class="sv-two-col slds-m-bottom_small">
+                        <div class="sv-two-col__item">
+                            <lightning:textarea aura:id="followupRemark"
+                                               label="Remark"
+                                               required="true"
+                                               variant="label-stacked"/>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Footer -->
+                <footer class="slds-modal__footer sv-footer">
+                    <lightning:button variant="neutral"
+                                      label="Cancel"
+                                      onclick="{!c.closeModel}"/>
+                    <lightning:button variant="brand"
+                                      label="{!v.isSubmitting ? 'Saving...' : 'Save'}"
+                                      onclick="{!c.handleSuccess}"
+                                      disabled="{!v.isSubmitting}"/>
+                </footer>
+            </div>
+        </section>
+    </aura:if>
+
+    <lightning:messages />
+</aura:component>

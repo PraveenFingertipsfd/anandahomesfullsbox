@@ -1,0 +1,186 @@
+<template>
+    <lightning-card title="Payment Schedule Editor (Prorata-aware)" icon-name="utility:money">
+        <div class="slds-p-around_medium">
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
+            </template>
+
+            <template if:true={hasError}>
+                <div class="slds-text-color_error slds-p-around_small">
+                    <lightning-icon icon-name="utility:error" size="x-small" variant="error"></lightning-icon>
+                    {errorMessage}
+                </div>
+            </template>
+
+            <template if:false={editingEnabled}>
+                <div class="slds-notify slds-notify_alert slds-theme_warning slds-m-bottom_small" role="alert">
+                    <span>Custom schedule editing is not enabled. Contact your administrator.</span>
+                </div>
+            </template>
+
+            <template if:true={isProrata}>
+                <div class="slds-box slds-box_x-small slds-m-bottom_small slds-theme_shade">
+                    <strong>Prorata / Partial booking.</strong>
+                    Bank Flat across milestones must total <strong>{totals.loanSanctioned}</strong> (Loan Sanctioned),
+                    and Customer Flat must total <strong>{totals.deficit}</strong> (Deficit).
+                    Demanded / paid milestones are locked.
+                </div>
+            </template>
+
+            <template if:true={hasSchedules}>
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th class="slds-text-title_caps">Seq</th>
+                            <th class="slds-text-title_caps">Milestone</th>
+                            <th class="slds-text-title_caps">Percentage</th>
+                            <th class="slds-text-title_caps">Base Amount</th>
+                            <th class="slds-text-title_caps">GST</th>
+                            <th class="slds-text-title_caps">TDS</th>
+                            <th class="slds-text-title_caps">Total Amount</th>
+                            <th class="slds-text-title_caps">Paid</th>
+                            <th class="slds-text-title_caps">Pending</th>
+                            <th class="slds-text-title_caps">Status</th>
+                            <template if:true={isProrata}>
+                                <th class="slds-text-title_caps">Bank Flat</th>
+                                <th class="slds-text-title_caps">Cust. Flat</th>
+                                <th class="slds-text-title_caps">Bank GST</th>
+                                <th class="slds-text-title_caps">Cust. GST</th>
+                                <th class="slds-text-title_caps">With GST</th>
+                                <th class="slds-text-title_caps">Forecast</th>
+                            </template>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={schedules} for:item="sch">
+                            <tr key={sch.id}>
+                                <td>
+                                    {sch.sequence}
+                                    <template if:true={sch.cannotEdit}>
+                                        <lightning-icon icon-name="utility:lock" size="xx-small"
+                                            title={sch.lockReason} class="slds-m-left_xx-small">
+                                        </lightning-icon>
+                                    </template>
+                                </td>
+                                <td>{sch.milestoneName}</td>
+
+                                <td>
+                                    <template if:true={sch.canEdit}>
+                                        <lightning-input type="number" value={sch.percentage}
+                                            data-id={sch.id} data-field="percentage"
+                                            onchange={handleFieldChange} variant="label-hidden" step="0.01">
+                                        </lightning-input>
+                                    </template>
+                                    <template if:false={sch.canEdit}>{sch.percentage}</template>
+                                </td>
+
+                                <td>
+                                    <template if:true={sch.canEdit}>
+                                        <lightning-input type="number" value={sch.baseAmount}
+                                            data-id={sch.id} data-field="baseAmount"
+                                            onchange={handleFieldChange} variant="label-hidden" step="0.01">
+                                        </lightning-input>
+                                    </template>
+                                    <template if:false={sch.canEdit}>{sch.baseAmount}</template>
+                                </td>
+
+                                <td>
+                                    <template if:true={sch.canEdit}>
+                                        <lightning-input type="number" value={sch.gstAmount}
+                                            data-id={sch.id} data-field="gstAmount"
+                                            onchange={handleFieldChange} variant="label-hidden" step="0.01">
+                                        </lightning-input>
+                                    </template>
+                                    <template if:false={sch.canEdit}>{sch.gstAmount}</template>
+                                </td>
+
+                                <td>
+                                    <template if:true={sch.canEdit}>
+                                        <lightning-input type="number" value={sch.tdsAmount}
+                                            data-id={sch.id} data-field="tdsAmount"
+                                            onchange={handleFieldChange} variant="label-hidden" step="0.01">
+                                        </lightning-input>
+                                    </template>
+                                    <template if:false={sch.canEdit}>{sch.tdsAmount}</template>
+                                </td>
+
+                                <td>{sch.amount}</td>
+                                <td>{sch.amountPaid}</td>
+                                <td>{sch.pendingAmount}</td>
+                                <td>{sch.status}</td>
+
+                                <template if:true={isProrata}>
+                                    <td>
+                                        <template if:true={sch.canEdit}>
+                                            <lightning-input type="number" value={sch.bankFlat}
+                                                data-id={sch.id} data-field="bankFlat"
+                                                onchange={handleFieldChange} variant="label-hidden" step="0.01">
+                                            </lightning-input>
+                                        </template>
+                                        <template if:false={sch.canEdit}>{sch.bankFlat}</template>
+                                    </td>
+                                    <td>
+                                        <template if:true={sch.canEdit}>
+                                            <lightning-input type="number" value={sch.customerFlat}
+                                                data-id={sch.id} data-field="customerFlat"
+                                                onchange={handleFieldChange} variant="label-hidden" step="0.01">
+                                            </lightning-input>
+                                        </template>
+                                        <template if:false={sch.canEdit}>{sch.customerFlat}</template>
+                                    </td>
+                                    <td>
+                                        <template if:true={sch.canEdit}>
+                                            <lightning-input type="number" value={sch.bankGst}
+                                                data-id={sch.id} data-field="bankGst"
+                                                onchange={handleFieldChange} variant="label-hidden" step="0.01">
+                                            </lightning-input>
+                                        </template>
+                                        <template if:false={sch.canEdit}>{sch.bankGst}</template>
+                                    </td>
+                                    <td>
+                                        <template if:true={sch.canEdit}>
+                                            <lightning-input type="number" value={sch.customerGst}
+                                                data-id={sch.id} data-field="customerGst"
+                                                onchange={handleFieldChange} variant="label-hidden" step="0.01">
+                                            </lightning-input>
+                                        </template>
+                                        <template if:false={sch.canEdit}>{sch.customerGst}</template>
+                                    </td>
+                                    <td>
+                                        <template if:true={sch.canEdit}>
+                                            <lightning-input type="checkbox" checked={sch.withGst}
+                                                data-id={sch.id} data-field="withGst"
+                                                onchange={handleFieldChange} variant="label-hidden">
+                                            </lightning-input>
+                                        </template>
+                                        <template if:false={sch.canEdit}>{sch.withGst}</template>
+                                    </td>
+                                    <td>
+                                        <template if:true={sch.canEdit}>
+                                            <lightning-input type="date" value={sch.forecastDate}
+                                                data-id={sch.id} data-field="forecastDate"
+                                                onchange={handleFieldChange} variant="label-hidden">
+                                            </lightning-input>
+                                        </template>
+                                        <template if:false={sch.canEdit}>{sch.forecastDate}</template>
+                                    </td>
+                                </template>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </template>
+
+            <div class="slds-m-top_medium slds-text-align_right">
+                <lightning-button label="Close" variant="neutral" class="slds-m-right_x-small"
+                    onclick={handleClose}>
+                </lightning-button>
+                <template if:true={hasSchedules}>
+                    <lightning-button label="Save Changes" variant="brand"
+                        onclick={handleSave} disabled={saveDisabled}>
+                    </lightning-button>
+                </template>
+            </div>
+        </div>
+    </lightning-card>
+</template>

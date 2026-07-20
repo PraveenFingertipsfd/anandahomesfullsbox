@@ -1,0 +1,4 @@
+.THIS .force-uppercase input,
+.THIS .force-uppercase .slds-input {
+    text-transform: uppercase;
+}

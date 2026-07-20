@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Bank__c</fullName>
+    <label>Bank</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>SBI</fullName>
+                <default>false</default>
+                <label>SBI</label>
+            </value>
+            <value>
+                <fullName>HDFC</fullName>
+                <default>false</default>
+                <label>HDFC</label>
+            </value>
+            <value>
+                <fullName>Axis Bank</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Axis Bank</label>
+            </value>
+            <value>
+                <fullName>BOB</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>BOB</label>
+            </value>
+            <value>
+                <fullName>Bajaj Housing</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Bajaj Housing</label>
+            </value>
+            <value>
+                <fullName>Bank Of Maharashtra</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Bank Of Maharashtra</label>
+            </value>
+            <value>
+                <fullName>Bank of India (BOI)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Bank of India (BOI)</label>
+            </value>
+            <value>
+                <fullName>Canara Bank</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Canara Bank</label>
+            </value>
+            <value>
+                <fullName>Central Bank Of India</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Central Bank Of India</label>
+            </value>
+            <value>
+                <fullName>Federal Bank</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Federal Bank</label>
+            </value>
+            <value>
+                <fullName>ICICI Bank</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>ICICI Bank</label>
+            </value>
+            <value>
+                <fullName>IDBI Bank</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>IDBI Bank</label>
+            </value>
+            <value>
+                <fullName>IDFC First Bank</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>IDFC First Bank</label>
+            </value>
+            <value>
+                <fullName>Indian Bank</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Indian Bank</label>
+            </value>
+            <value>
+                <fullName>Indian Overseas Bank</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Indian Overseas Bank</label>
+            </value>
+            <value>
+                <fullName>IndusInd Bank</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>IndusInd Bank</label>
+            </value>
+            <value>
+                <fullName>Karnataka Bank Ltd</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Karnataka Bank Ltd</label>
+            </value>
+            <value>
+                <fullName>Kotak Mahindra Bank</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Kotak Mahindra Bank</label>
+            </value>
+            <value>
+                <fullName>NA</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>NA</label>
+            </value>
+            <value>
+                <fullName>Navi FinServ Limited</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Navi FinServ Limited</label>
+            </value>
+            <value>
+                <fullName>Punjab National Bank</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Punjab National Bank</label>
+            </value>
+            <value>
+                <fullName>RBL Bank</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>RBL Bank</label>
+            </value>
+            <value>
+                <fullName>RTGS/Online</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>RTGS/Online</label>
+            </value>
+            <value>
+                <fullName>Self</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Self</label>
+            </value>
+            <value>
+                <fullName>Tata Capital Ltd</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Tata Capital Ltd</label>
+            </value>
+            <value>
+                <fullName>UCO Bank</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>UCO Bank</label>
+            </value>
+            <value>
+                <fullName>Union Bank of India</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Union Bank of India</label>
+            </value>
+            <value>
+                <fullName>Union Bank of India (UBI)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Union Bank of India (UBI)</label>
+            </value>
+            <value>
+                <fullName>Yes Bank</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Yes Bank</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

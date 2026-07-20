@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Received_Amount__c</fullName>
+    <label>Total Received Amount</label>
+    <summarizedField>Additional_Charge_Receipt__c.Amount_received__c</summarizedField>
+    <summaryFilterItems>
+        <field>Additional_Charge_Receipt__c.Approval_Status__c</field>
+        <operation>equals</operation>
+        <value>Approved</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Additional_Charge_Receipt__c.Additional_Charges__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

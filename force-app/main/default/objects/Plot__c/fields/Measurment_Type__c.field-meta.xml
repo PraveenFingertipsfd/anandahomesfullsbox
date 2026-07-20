@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Measurment_Type__c</fullName>
+    <label>Measurment Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Sqft</fullName>
+                <default>false</default>
+                <label>Sqft</label>
+            </value>
+            <value>
+                <fullName>Sqmt</fullName>
+                <default>false</default>
+                <label>Sqmt</label>
+            </value>
+            <value>
+                <fullName>Cent</fullName>
+                <default>false</default>
+                <label>Cent</label>
+            </value>
+            <value>
+                <fullName>Acers</fullName>
+                <default>false</default>
+                <label>Acers</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

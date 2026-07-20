@@ -1,0 +1,369 @@
+<apex:page renderAs="pdf" applyHtmlTag="false" applyBodyTag="false"
+           showHeader="false" sidebar="false" standardStylesheets="false">
+<html>
+<head>
+<style type="text/css">
+    @page {
+        size: A4;
+        margin: 70px 55px 70px 55px;
+        @bottom-center {
+            content: "Page " counter(page) " of " counter(pages);
+            font-family: "Times New Roman", serif;
+            font-size: 10px;
+            color: #000;
+        }
+    }
+    body {
+        font-family: "Times New Roman", serif;
+        font-size: 12px;
+        line-height: 1.5;
+        color: #000;
+        text-align: justify;
+    }
+    h1.title {
+        text-align: center;
+        font-size: 16px;
+        text-decoration: underline;
+        margin-bottom: 18px;
+    }
+    .heading {
+        font-weight: bold;
+        text-decoration: underline;
+    }
+    p { margin: 0 0 10px 0; }
+    .center { text-align: center; }
+    .clause { margin: 0 0 10px 0; }
+    .clause .num { font-weight: bold; }
+    .sig-wrapper { page-break-inside: avoid; }
+    .sig-table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid #000;
+        margin-top: 25px;
+        page-break-inside: avoid;
+    }
+    .sig-table td {
+        border: 1px solid #000;
+        padding: 12px;
+        vertical-align: top;
+        height: 90px;
+    }
+    .sig-label { font-weight: bold; }
+</style>
+</head>
+<body>
+
+    <h1 class="title">TRIPARTITE AGREEMENT</h1>
+
+    <p>Present Agreement is made and executed here at ____________________ On this
+       ________day of ___________. among</p>
+
+    <p>SRI. THATIKONDA RAKESH S/O. SRI. LAXMINARAYANA, aged about 35years,
+       Occupation: Private Employee, Resident of 4th Floor 302, Abhinav Heights,
+       O U Colony, TO Lancho Hills Road, Beside Harivillu Lane, Manikonda,
+       Puppalaguda, K V Ranga Reddy, Telangana - 500075.
+       (AADHAAR No. 4062 7205 7086 &amp; PAN No. ALHPT8733D).</p>
+
+    <p><span class="heading">REPRESENTED BY HIS GPA HOLDER:</span></p>
+
+    <p>SMT. MARAKA BHARGAVI W/O SRI. THATIKONDA RAKESH, aged about 36 years,
+       Resident of Flat No-302-1, Plesent Vally, Beside Harivillu, Puppalaguda,
+       Manikonda, Hyderabad-500089.
+       (AADHAR NO-3660 1035 2163 &amp; PAN NO- BFQPM2069R).</p>
+
+    <p>hereinafter called the &#8220;Borrower&#8221; (which may so far as the context
+       admits shall mean and include his/her heirs, executors, successors,
+       administrators and legal representatives) and/ or the party to the First Part
+       of the present,</p>
+
+    <p class="center">And</p>
+
+    <p>M/S. ANANDA HOMES (GST No: 36ABFFA6591E1ZE) having registered office at
+       Plot No. 17 &amp; 18, Dev n Dev Layout, Beside Allu Studios Kokapet,
+       Ranga Reddy, Telangana, 500075. Represented by its authorized signatory
+       SRI. P.V. SREENIVASULU S/O. LATE P.C.V. RAMANAIAH, Resident of VillaNo.60,
+       River Edge Villas, Manchirevula, K. V. Ranga Reddy, Telangana &#8211; 500089.</p>
+
+    <p>Hereinafter referred to as the &#8220;BUILDER&#8221; (which expression shall
+       unless the context otherwise requires, include its successors and permitted
+       assigns) and/ or party to the Second Part of the present.</p>
+
+    <p class="center">And</p>
+
+    <p>AXIS BANK LIMITED, a Scheduled Commercial Bank and a Company incorporated under
+       the Companies Act, 1956 carrying on its business of Banking and finance as
+       permissible under the Banking Regulations Act, 1949 and having its registered
+       office at &#8216;Trishul&#8217;, 3rd Floor, Opposite Samartheshwar Temple,
+       Law Garden, Ellis Bridge, Ahmedabad-380006, Gujarat, and having its branch
+       office at _________________________________.</p>
+
+    <p>Hereinafter called as &#8220;Bank&#8221; (which expression shall unless the
+       context otherwise requires, include its successors and permitted assigns) and/
+       or the party to the Third Part of the present,</p>
+
+    <p>(That for the sake of brevity and convenience, the Borrower, Builder and Bank
+       shall collectively hereinafter be referred to as the &#8220;Parties&#8221; to
+       the Present)</p>
+
+    <p>WHEREAS the Borrower desires to purchase property at &#8220;THE LEGACEY&#8221;
+       situated at Puppalguda Village, under Manikonda Municipality, Gandipet Mandal,
+       Ranga Reddy District, Telangana State-500089&#8217; (hereinafter referred to as
+       the &#8220;PROJECT&#8221;) from the Builder, which as part of its business
+       activity has been developing the said project. Builder has invited expression
+       of interest by way of application for allotment and subsequent sale on
+       completion of the project.</p>
+
+    <p>AND WHEREAS the Builder and the Borrower have already satisfied themselves with
+       each other&#8217;s credentials and ability to perform in terms of Builder-Buyer
+       Agreement/Apartment Buyer Agreement / Agreement to sell. In consonance with the
+       same, Borrower represented that the Builder is of his own choice and that he has
+       satisfied himself with regard to its integrity, capability for quality
+       construction and its ability for completion and delivery of the Project in
+       time.</p>
+
+    <p>AND WHEREAS the Builder and the Borrower(s) have entered into an agreement dated
+       &#8230;&#8230;&#8230;&#8230;. for the sale-purchase of Flat. No. T8-1402 in
+       14th Floor in TOWER-8 in &#8220;THE LEGACEY&#8221; situated at Puppalguda
+       Village, under Manikonda Municipality, Gandipet Mandal, Ranga Reddy District,
+       Telangana State-500089&#8217;&#8217; being built in Schedule Property and
+       measuring 1520 Sq. Feet of built-up area, hereinafter referred to as the
+       &#8220;subject property&#8221;) in the said Project of the Builder;</p>
+
+    <p>AND WHEREAS the Borrower and the Builder have jointly approached the Bank for a
+       home loan of Rs._ __________________/- (Rupees
+       ________________________________________ only) towards payment of the sale /
+       purchase consideration of the residential apartment in the Project;</p>
+
+    <p>AND WHEREAS based on several representations made by the Borrower and the same
+       being acknowledged and consented to by the Builder, Bank sanctioned a home loan
+       of Rs._________________/-(Rupees
+       _______________________________________________only) to the Borrower, to be
+       disbursed in terms of the Loan Agreement dated ___________ and ancillary
+       documents therewith (hereinafter collectively referred to as the
+       &#8220;Loan Agreement&#8221;) duly executed by the Borrower</p>
+
+    <p>AND WHEREAS the Bank based on such representation agreed to disburse loan in its
+       sole discretion in accordance with &#8216;Disbursement Request Form&#8217; being
+       executed by the Borrower and the fact of such execution of disbursement request
+       form is hereby confirmed and acknowledged by the Borrower herein;</p>
+
+    <p>AND WHEREAS the Parties are executing the present principal to principal
+       Agreement in addition to their respective inter-se Agreements, setting out
+       mutual obligations, constituting consideration for each other, terms whereof are
+       mentioned hereunder: -</p>
+
+    <p class="clause"><span class="num">1.</span> The Bank has agreed to grant a loan
+       of Rs. ________________ /- in terms of the said Loan Agreement and as per
+       disbursement request form signed by Borrower in tranches.</p>
+
+    <p class="clause"><span class="num">2.</span> The Borrower shall ensure to pay to
+       the Builder his own contribution in full i.e., the cost of the subject property
+       minus the loan amount being disbursed by the Bank before availing of the
+       disbursement from the Bank.</p>
+
+    <p class="clause"><span class="num">3.</span> The Borrower has authorized the Bank
+       to pay the loan amount sanctioned by the Bank directly to Builder in the account
+       as mentioned by the Borrower in the disbursement request form. The Borrower
+       unequivocally and expressly acknowledge and consent that payment to the said
+       Builder shall be deemed to have been disbursed directly to the Borrower. Any
+       balance payment or any payment towards escalation of the cost of the subject
+       property shall be made by the Borrower himself to the Builder and the Bank shall
+       not be liable for any amount whatsoever other than that agreed under the Loan
+       Agreement.</p>
+
+    <p class="clause"><span class="num">4.</span> The Borrower has agreed to mortgage
+       the subject property in favour of the Bank on its completion and execution of
+       conveyance deed by way of &#8216;deposit of title deeds&#8217; after due
+       compliance of the process as mandated under the internal policy decision of the
+       Bank in this regard. That security interest in the subject property shall remain
+       as a continuing security till the satisfaction of liabilities under the subject
+       loan Account.</p>
+
+    <p class="clause"><span class="num">5.</span> The Borrower has agreed to discharge
+       his liabilities in terms of Repayment Plan/Amortization Schedule inscribed or
+       being part of the said Loan Agreement. That the Borrower has acknowledged that
+       Borrower&#8217;s obligation to repay the loan shall be a distinct and independent
+       obligation more particularly independent of any issues/concern/dispute of
+       whatsoever nature between the Borrower and Builder. That it is further
+       acknowledged by the Borrower that the Bank shall not be responsible or liable to
+       ensure or ascertain the quality and /or progress of construction. Mere demand
+       for payment on part of Builder will be sufficient for the Bank to effect
+       disbursement as aforesaid. However, the Bank in its discretion may inquire about
+       the status of construction and any other query (if any) relating to the project
+       from the Builder and the Builder in turn shall remain liable to apprise the Bank
+       with regard to the said requisitioned status of construction and any other
+       further query (if made) within a week of service of the said requisition.</p>
+
+    <p class="clause"><span class="num">6.</span> Further, the Borrower authorises the
+       Bank to enforce rights available in favour of the Borrower under Builder-Buyer
+       Agreement /Apartment Buyer Agreement / Agreement to sell, notwithstanding the
+       Present being a principal-to-Principal Agreement.</p>
+
+    <p class="clause"><span class="num">7.</span> That the Builder has acknowledged that
+       in terms of the Present and disbursement request form the Borrower. That Builder
+       hereby acknowledges and undertakes to mark lien and also hereby acknowledges the
+       charge over subject property in favour of the Bank in its records/books of
+       accounts and shall not allow creation of any further encumbrance or interest by
+       way of sale, mortgage or otherwise, in favor of any other person without prior
+       written consent of the Bank.</p>
+
+    <p class="clause"><span class="num">8.</span> That Builder will deliver to the Bank
+       the Sale Deed/Conveyance Deed/Sub-lease/Title Deeds relating to the subject
+       property as and when executed and registered in favour of the borrower, which
+       under no circumstances shall go beyond a year time from the date of completion
+       of the project. Builder shall also inform the Bank in writing at least a week in
+       advance regarding the time, date &amp; Venue of registration so that the Bank
+       can send its representative to collect the original sale deed/Conveyance
+       Deed/Sub-lease Deed /Title Deeds relating to the subject property on
+       registration. The Borrowers expressly and irrevocably authorises the Builder and
+       the Bank in this regard.</p>
+
+    <p class="clause"><span class="num">9.</span> That before execution of Sale
+       Deed/Conveyance Deed/Sub-lease Deed /Title Deeds relating to the subject property
+       in favour of the Borrower, Builder shall seek confirmation from the Bank in
+       writing about the subject loan account being regular and will not proceed with
+       execution of conveyance deed and its registration in case of subject loan account
+       being irregular in the Books of Account of the Bank. Builder further agrees that
+       possession of the subject property as and when completed will not be handed over
+       to the Borrower except on the basis of certificate/letter from the Bank with
+       regard to subject loan A/c being regular.</p>
+
+    <p class="clause"><span class="num">10.</span> That till completion of the property,
+       Builder shall hold the property in trust, under lien of the bank and money that
+       might be payable or become payable under the present shall be secured and be
+       recoverable from the said property at the instance of the bank to the exclusion
+       of all and sundry. It is specifically agreed that Borrower and Builder shall not
+       encumber or create any third party interest over the subject property after the
+       execution of this present.</p>
+
+    <p class="clause"><span class="num">11.</span> That the Builder further acknowledges
+       having issued &#8216;permission to mortgage&#8217; signifying subject property and
+       project being free of any encumbrance, third party interest and its further
+       having no objection in case the subject property is being mortgaged in favour of
+       the Bank on completion by the Borrower.</p>
+
+    <p class="clause"><span class="num">12.</span> That the Builder further acknowledged
+       having extended charge over proportionate portion of the Project Land beneath the
+       subject property. Its goes without saying that the said proportionate portion of
+       the Project Land shall constitute part of the secured asset, being security for
+       repayment of the loan.</p>
+
+    <p class="clause"><span class="num">13.</span> That the Builder further undertakes to
+       procure &#8216;no objection certificate (NOC)&#8217; with regard to the subject
+       property from the Project Financer and deposit the same with the Bank, if the
+       project happens to be a security with any Project Financer. That omission on part
+       of Builder in ensuring to procure NOC from the Project Financer and depositing
+       the same with the Bank shall render Builder liable in person</p>
+
+    <p class="clause"><span class="num">14.</span> That in case of cancellation of
+       allotment of subject property for any reason whatsoever, be it at the instance of
+       Borrower, Builder or Bank, Builder shall be liable to pay in discharge of
+       liabilities under subject loan account to the maximum extent of disbursed loan
+       amount with interest at the applicable rate over period of time, from the date of
+       disbursement till the discharge of liability, within 15 days of the service of
+       such termination notice. It is also acknowledged by all the parties to the
+       present that foreclosure value calculated by the Bank during its usual and
+       ordinary course of day to day business shall be binding on both the Builder and
+       the Borrower and further be taken as the final statement of computation of
+       liabilities under the subject loan account.</p>
+
+    <p class="clause"><span class="num">15.</span> It is further specifically agreed by
+       the Builder and the Borrower that in the event of failure on the part of the
+       Builder in honoring the payment as stated in clause 14 above, the Bank shall have
+       the right to take all such necessary steps to recover the such amounts including
+       filing of necessary suit against the Builder and/or Borrower for recovery of the
+       said amount.</p>
+
+    <p class="clause"><span class="num">16.</span> That the Builder and Borrower have
+       acknowledged Bank&#8217;s rights to sell the subject property, if liability under
+       the subject loan account is not discharged despite service of termination notice
+       by either of the parties namely Borrower and/or Builder. Builder acknowledges
+       bank&#8217;s rights to effect such sale and transfer of subject property as its
+       agent, notwithstanding present being principal to principal agreement, or
+       otherwise.</p>
+
+    <p class="clause"><span class="num">17.</span> That the Borrower and the Builder have
+       further acknowledged that the Bank shall have the rights to appropriate sale
+       proceeds of the subject property towards satisfaction of liabilities under the
+       subject loan A/c. That in case of Sale proceeds being in excess of the
+       liabilities to be discharged under the subject loan A/c, the proceeds in excess
+       shall be refunded back to the Builder to be dealt with in accordance with
+       Builder-Buyer Agreement /Apartment Buyer Agreement / Agreement to sell. In case
+       there is a shortfall in discharge of liabilities under the subject loan account,
+       post appropriation of the sale proceeds of the subject property, then the
+       Borrower shall be personally liable to discharge the same in terms of the said
+       Loan Agreement and the surplus if any, will be dealt with by and between the
+       builder and borrower.</p>
+
+    <p class="clause"><span class="num">18.</span> If any provision of the present is
+       determined to be invalid or unenforceable for any reason, no other provisions of
+       the present shall become invalid or unenforceable, and in such case, the
+       applicable provision shall be interpreted in a manner, to the extent necessary,
+       to make such provision valid and enforceable.</p>
+
+    <p class="clause"><span class="num">19.</span> The Borrower and Builder shall not be
+       entitled to directly or indirectly assign, transfer or novate its rights or
+       obligations under this Agreement in part or in whole to any person.</p>
+
+    <p class="clause"><span class="num">20.</span> In the event of any inconsistency
+       between the terms of the Present and the other Agreements pertaining to the
+       subject property, the terms of the Present shall have over ridding effect over the
+       provisions of other agreements and shall be binding on all the parties.</p>
+
+    <p class="clause"><span class="num">21.</span> Unless the total outstanding dues of
+       the Bank falls within the pecuniary jurisdiction of the Debts Recovery Tribunal
+       established under the Recovery of Debts and Bankruptcy Act, 1993, all disputes,
+       differences and/or claim arising out of or touching upon this Agreement whether
+       during its subsistence or thereafter shall be settled by arbitration in
+       accordance with the provisions of the Arbitration and Conciliation Act, 1996 or
+       any statutory amendments thereof and shall be referred to the sole Arbitrator as
+       appointed jointly by the Bank and the builder and in the event of death,
+       unwillingness, refusal, neglect, inability or incapability of a person so
+       appointed to act as an arbitrator, the Bank and the builder jointly may appoint a
+       new arbitrator to be a sole arbitrator. The award passed by such an Arbitrator
+       shall be final and binding on all the parties concerned. The seat of arbitration
+       shall be selected at Hyderabad, to conduct the Arbitration Proceedings. The
+       arbitral procedure shall be conducted in English.</p>
+
+    <p class="clause"><span class="num">22.</span> This Agreement shall be governed by
+       and construed in accordance with laws of India and Subject to clause 21, Parties
+       hereby agree and confirm that, any suit, action or legal proceedings arising out
+       of or in connection with any disputes, differences and/or claim arising out of or
+       touching upon this Agreement shall be referred to the courts of competent
+       jurisdiction, as may be applicable.</p>
+
+    <div class="sig-wrapper">
+        <table class="sig-table">
+            <tr>
+                <td>
+                    <span class="sig-label">Signed and Delivered by the within-named
+                    Borrower</span>
+                    <br/><br/><br/><br/>
+                    ____________________________
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="sig-label">Signed and Delivered by the within-named
+                    Builder</span><br/>
+                    By the hand of
+                    <br/><br/><br/>
+                    ____________________________
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="sig-label">Signed and delivered by the within-named
+                    Axis Bank Limited by the hand of</span>
+                    <br/><br/>
+                    Mr./Ms. ____________________ Its ____________________
+                    <br/><br/>
+                    ____________________________
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>
+</apex:page>

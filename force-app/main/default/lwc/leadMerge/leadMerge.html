@@ -1,0 +1,164 @@
+<template>
+    <lightning-quick-action-panel header="Merge Lead">
+        <template if:true={isLoading}>
+            <div class="spinner-wrapper">
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </div>
+        </template>
+
+        <!-- Current Lead (Duplicate - will be deleted) -->
+        <template if:true={duplicateDetail}>
+            <div class="lead-card duplicate-card">
+                <div class="card-header">
+                    <lightning-icon icon-name="standard:lead" size="small"></lightning-icon>
+                    <span class="card-title duplicate-title">This Lead (will be merged &amp; deleted)</span>
+                </div>
+                <div class="card-body">
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <span class="detail-label">Lead ID</span>
+                            <span class="detail-value">{duplicateDetail.leadName}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Customer</span>
+                            <span class="detail-value">{duplicateDetail.customerName}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Phone</span>
+                            <span class="detail-value">{duplicateDetail.phone}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Project</span>
+                            <span class="detail-value">{duplicateDetail.project}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Status</span>
+                            <span class="detail-value">{duplicateDetail.status}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Owner</span>
+                            <span class="detail-value">{duplicateDetail.ownerName}</span>
+                        </div>
+                    </div>
+                    <div class="record-badge">
+                        {duplicateRecordSummary}
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- Arrow / instruction -->
+        <div class="merge-arrow">
+            <lightning-icon icon-name="utility:arrowdown" size="x-small"></lightning-icon>
+            <span class="arrow-text">Select the actual lead to keep (records from above will be transferred)</span>
+        </div>
+
+        <!-- Search for Actual Lead -->
+        <template if:false={actualDetail}>
+            <div class="search-section">
+                <lightning-input
+                    label="Search Actual Lead (by Lead ID, Name, or Phone)"
+                    placeholder="Type at least 2 characters to search..."
+                    value={searchTerm}
+                    onchange={handleSearchChange}
+                    type="search">
+                </lightning-input>
+
+                <template if:true={showSearchResults}>
+                    <div class="search-results">
+                        <template if:true={hasSearchResults}>
+                            <table class="results-table">
+                                <thead>
+                                    <tr>
+                                        <th>Lead ID</th>
+                                        <th>Customer</th>
+                                        <th>Phone</th>
+                                        <th>Project</th>
+                                        <th>Owner</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={searchResults} for:item="lead">
+                                        <tr key={lead.leadId} class="result-row" data-id={lead.leadId} onclick={handleSelectLead}>
+                                            <td>{lead.leadName}</td>
+                                            <td>{lead.customerName}</td>
+                                            <td>{lead.phone}</td>
+                                            <td>{lead.project}</td>
+                                            <td>{lead.ownerName}</td>
+                                            <td>
+                                                <lightning-button
+                                                    label="Select"
+                                                    variant="brand"
+                                                    data-id={lead.leadId}
+                                                    onclick={handleSelectLead}>
+                                                </lightning-button>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </template>
+                        <template if:false={hasSearchResults}>
+                            <p class="no-results">No matching leads found.</p>
+                        </template>
+                    </div>
+                </template>
+            </div>
+        </template>
+
+        <!-- Selected Actual Lead Preview -->
+        <template if:true={actualDetail}>
+            <div class="lead-card actual-card">
+                <div class="card-header">
+                    <lightning-icon icon-name="standard:lead" size="small"></lightning-icon>
+                    <span class="card-title actual-title">Actual Lead (will receive all records)</span>
+                    <lightning-button
+                        label="Change Selection"
+                        variant="neutral"
+                        icon-name="utility:refresh"
+                        onclick={handleClearSelection}
+                        class="change-btn">
+                    </lightning-button>
+                </div>
+                <div class="card-body">
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <span class="detail-label">Lead ID</span>
+                            <span class="detail-value">{actualDetail.leadName}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Customer</span>
+                            <span class="detail-value">{actualDetail.customerName}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Phone</span>
+                            <span class="detail-value">{actualDetail.phone}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Project</span>
+                            <span class="detail-value">{actualDetail.project}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Status</span>
+                            <span class="detail-value">{actualDetail.status}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Owner</span>
+                            <span class="detail-value">{actualDetail.ownerName}</span>
+                        </div>
+                    </div>
+                    <div class="record-badge actual-badge">
+                        {actualRecordSummary}
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- Footer -->
+        <div slot="footer">
+            <lightning-button label="Cancel" variant="neutral" onclick={handleCancel} class="slds-m-right_x-small"></lightning-button>
+            <lightning-button label="Merge Lead" variant="brand" onclick={handleMerge} disabled={isMergeDisabled}></lightning-button>
+        </div>
+    </lightning-quick-action-panel>
+</template>

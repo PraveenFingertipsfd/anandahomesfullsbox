@@ -1,0 +1,63 @@
+<apex:page controller="DynamicDocumentPDFController"
+           renderAs="{!renderAsFormat}"
+           contentType="{!contentTypeValue}"
+           showHeader="false"
+           sidebar="false"
+           applyBodyTag="false"
+           applyHtmlTag="false"
+           title="{!documentTitle}">
+<html>
+<head>
+    <style type="text/css">
+        @page {
+            size: {!pageSize} {!pageOrientation};
+            margin: {!marginTop}mm {!marginRight}mm {!marginBottom}mm {!marginLeft}mm;
+
+            @bottom-center {
+                content: "";
+            }
+        }
+
+        body {
+            font-family: {!fontFamily};
+            font-size: 12px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Paragraph spacing is mode-aware (see DynamicDocumentPDFController.getParagraphCss):
+           the HTML view keeps browser-default paragraph margins so it matches the designer
+           preview; the PDF/Word output uses bottom-only margins because that engine does not
+           collapse margins. */
+        {!paragraphCss}
+
+        table {
+            border-collapse: collapse;
+            page-break-inside: auto;
+        }
+
+        tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        .pagenumber:before {
+            content: counter(page);
+        }
+
+        .pagecount:before {
+            content: counter(pages);
+        }
+    </style>
+</head>
+<body style="{!bodyStyle}">
+    <div style="{!pageStyle}">
+        <apex:outputText value="{!renderedHtml}" escape="false" />
+    </div>
+</body>
+</html>
+</apex:page>

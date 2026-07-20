@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Expected_Completion_Date</fullName>
+    <active>true</active>
+    <errorConditionFormula>Expected_Completion_Date__c &lt;  TODAY()</errorConditionFormula>
+    <errorDisplayField>Expected_Completion_Date__c</errorDisplayField>
+    <errorMessage>Please enter today’s date or a future date only.</errorMessage>
+</ValidationRule>

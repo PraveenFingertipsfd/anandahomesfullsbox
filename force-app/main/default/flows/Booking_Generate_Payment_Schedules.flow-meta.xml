@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Generate_Payment_Schedules</name>
+        <label>Generate Payment Schedules</label>
+        <locationX>50</locationX>
+        <locationY>400</locationY>
+        <actionName>PaymentScheduleGeneratorService</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>bookingId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>PaymentScheduleGeneratorService</nameSegment>
+    </actionCalls>
+    <apiVersion>62.0</apiVersion>
+    <decisions>
+        <name>Check_Project_Exists</name>
+        <label>Check Project Exists</label>
+        <locationX>50</locationX>
+        <locationY>200</locationY>
+        <defaultConnector>
+            <targetReference>Generate_Payment_Schedules</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Project Exists</defaultConnectorLabel>
+        <rules>
+            <name>No_Project</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Project__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>No Project</label>
+        </rules>
+    </decisions>
+    <description>Record-Triggered Flow that fires after a Booking is created. Calls PaymentScheduleGeneratorService to auto-create Payment Schedules from Master Payment Schedules and set Total_Payable_Amount on the Booking.</description>
+    <environments>Default</environments>
+    <interviewLabel>Booking - Generate Payment Schedules {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Booking - Generate Payment Schedules</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_Project_Exists</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Project__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Payment_Schedules_Created__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <object>Booking__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Draft</status>
+</Flow>

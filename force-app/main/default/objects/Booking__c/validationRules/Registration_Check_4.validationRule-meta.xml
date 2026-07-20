@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Registration_Check_4</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+ISPICKVAL(Stage__c, &apos;Possession&apos;),
+NOT(Uploaded_Sale_Deed_Signed_Copy__c)
+
+)</errorConditionFormula>
+    <errorDisplayField>Uploaded_Sale_Deed_Signed_Copy__c</errorDisplayField>
+    <errorMessage>All Registration Documents uploaded ?</errorMessage>
+</ValidationRule>

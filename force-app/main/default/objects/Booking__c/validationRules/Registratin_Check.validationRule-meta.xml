@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Registratin_Check</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    ISPICKVAL(Stage__c, &apos;Possession&apos;),
+    NOT(ISPICKVAL(Finance_Approval1__c, &apos;Approved&apos;)),
+    NOT(Print_Form__c)
+)</errorConditionFormula>
+    <errorDisplayField>Print_Form__c</errorDisplayField>
+    <errorMessage>Registration Not Completed, Please Print the form.</errorMessage>
+</ValidationRule>

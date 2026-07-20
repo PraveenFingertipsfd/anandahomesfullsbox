@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Agreement__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Marks this master milestone as the Agreement Amount line. The flag flows to each booking&apos;s generated Payment Schedule, so demands raised against it use the Welcome Mail + 30/40/45 reminder cadence (BRD pointer 5).</description>
+    <label>Is Agreement</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

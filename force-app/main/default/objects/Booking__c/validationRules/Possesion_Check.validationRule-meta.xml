@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Possesion_Check</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+ISPICKVAL(Stage__c, &apos;Possession&apos;),
+NOT(Registration_Done__c)
+)</errorConditionFormula>
+    <errorDisplayField>Registration_Done__c</errorDisplayField>
+    <errorMessage>Please Mark all mandatory Checkbox from Regirstration Section</errorMessage>
+</ValidationRule>

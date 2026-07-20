@@ -1,0 +1,591 @@
+<aura:component controller="BookingController"
+                implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickActionWithoutHeader" access="global" >
+    
+    <aura:attribute name="plot" type="Booking__c" default="{}"/>
+    <!--<aura:attribute name="book" type="Booking__c" default="{}"/>-->
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="showNext" type="boolean" default="false"/>
+    <aura:attribute name="applicantList" type="List[]"/>
+    <aura:attribute name="Quote" type="List[]"/>
+    <aura:attribute name="unitName" type="String" />
+    <aura:attribute name="towerName" type="String" />
+    <aura:attribute name="blockName" type="String" />
+    <aura:attribute name="floorName" type="String" />
+    <aura:attribute name="bookingAmount" type="Decimal" />
+    <aura:attribute name="bookingRecordId" type="String" />
+    <aura:attribute name="paymentTypePicklist" type="String[]" />
+    <aura:attribute name="fundingTypePicklist" type="String[]" />
+    <aura:attribute name="selecteProjectdId" type="String" />
+    <aura:handler name="change" value="{!v.selectedProjectId}" action="{!c.handleSelectedProjectIdChange}" />
+    <aura:handler name="change" value="{!v.selectedUnitId}" action="{!c.handleSelectedUnitIdChange}" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"></aura:handler>
+    
+    <aura:html tag="style">
+        .slds-modal__container{  
+        max-width: 80rem !important;
+        width:80% !important;
+        } 
+        .cuf-content {
+        padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+        padding: 0rem !important;
+        }
+        .slds-modal__content{
+        height:unset !important;
+        max-height:unset !important;
+        }
+        .closeIcon{
+        display:none;
+        }
+        .slds-col{
+        margin-left:5px;
+        }
+    </aura:html >
+    
+    <header class="slds-modal__header">
+        <lightning:buttonIcon iconName="utility:close"
+                              onclick="{! c.closeModel }"
+                              alternativeText="close"
+                              variant="bare-inverse"
+                              class="slds-modal__close"/>
+        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">New Booking</h2>
+    </header>
+    
+    <!-- Updated 2026-04-10: Booking from approved quote -->
+    <aura:if isTrue="{!AND(v.showNext == false)}">
+        <div class="slds-grid slds-wrap slds-grid_pull-padded-x-medium">
+
+            <!-- Unit Info: Tower, Floor, Unit -->
+            <div class="slds-size_1-of-3 slds-p-horizontal_small">
+                <lightning:input name="Tower__c" type="Text" formatter="Text" disabled="true" label="Tower" value="{!v.towerName}" />
+            </div>
+            <div class="slds-size_1-of-3 slds-p-horizontal_small">
+                <lightning:input name="Floor__c" type="Text" formatter="Text" disabled="true" label="Floor" value="{!v.floorName}" />
+            </div>
+            <div class="slds-size_1-of-3 slds-p-horizontal_small">
+                <lightning:input name="Plot__c" type="Text" formatter="Text" disabled="true" label="Unit" value="{!v.unitName}" />
+            </div>
+
+            <!-- Quote Charge Fields -->
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <lightning:input name="Saleable_Area_Sft__c" type="number" formatter="number" disabled="true" label="Saleable Area" value="{!v.plot.Saleable_Area_Sft__c}"/>
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <lightning:input name="Price_per_sqft__c" type="number" formatter="currency" disabled="true" label="Base Price" value="{!v.plot.Price_per_sqft__c}"/>
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <lightning:input name="East_Facing_Charges__c" type="number" formatter="currency" disabled="true" label="East Facing Charges" value="{!v.plot.East_Facing_Charges__c}"/>
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <lightning:input name="Corner_Charges__c" type="number" formatter="currency" disabled="true" label="Corner Charges" value="{!v.plot.Corner_Charges__c}"/>
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <lightning:input name="Floor_Rise_Charges_Rate__c" type="number" formatter="currency" disabled="true" label="Floor Rise Charges" value="{!v.plot.Floor_Rise_Charges_Rate__c}"/>
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <lightning:input name="Central_Court_Yard_Premium__c" type="number" formatter="currency" disabled="true" label="Central Court Yard Premium" value="{!v.plot.Central_Court_Yard_Premium__c}"/>
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <lightning:input name="Meadow_Premium__c" type="number" formatter="currency" disabled="true" label="Meadow Premium" value="{!v.plot.Meadow_Premium__c}"/>
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <lightning:input name="Roadside_Premium__c" type="number" formatter="currency" disabled="true" label="Roadside Premium" value="{!v.plot.Roadside_Premium__c}"/>
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <lightning:input name="Court_Yard_Premium__c" type="number" formatter="currency" disabled="true" label="Court Yard Premium" value="{!v.plot.Court_Yard_Premium__c}"/>
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <lightning:input name="Outer_Premium__c" type="number" formatter="currency" disabled="true" label="Outer Premium" value="{!v.plot.Outer_Premium__c}"/>
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <lightning:input name="Amenities_Car_Parking__c" type="number" formatter="currency" disabled="true" label="Amenities / Car Parking" value="{!v.plot.Amenities_Car_Parking__c}"/>
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <lightning:input name="Infrastructure_Charges__c" type="number" formatter="currency" disabled="true" label="Infrastructure Charges" value="{!v.plot.Infrastructure_Charges__c}"/>
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <lightning:input name="GST__c" type="number" formatter="percent-fixed" step="0.01" disabled="false" label="GST %" value="{!v.plot.GST__c}" />
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <lightning:input name="Booking_Amount1__c" type="number" formatter="currency" step="0.01" disabled="false" label="Booking Amount" value="{!v.plot.Booking_Amount1__c}" />
+            </div>
+            <!--
+            <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                <lightning:select aura:id="field" name="Mode_Of_Payment__c" label="Mode Of Payment" required="false" messageWhenValueMissing="Select fill this field" disabled="false"  value="{!v.plot.Mode_Of_Payment__c}" >
+                   <option value="">choose one...</option>
+                    <aura:iteration items="{!v.paymentTypePicklist}"  var="option">
+                        <option text="{!option}" ></option>
+                    </aura:iteration>
+                </lightning:select>
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                <lightning:select aura:id="field" name="Funding_Type__c" label="Funding Type" required="false" messageWhenValueMissing="Select fill this field" disabled="false"  value="{!v.plot.Funding_Type__c}" >
+                   <option value="">choose one...</option>
+                    <aura:iteration items="{!v.fundingTypePicklist}"  var="option">
+                        <option text="{!option}" ></option>
+                    </aura:iteration>
+                </lightning:select>
+            </div>
+            -->
+            <br/> <br/>
+            
+        </div>
+        <br/>
+        <h3 class="slds-section__title slds-theme_shade">
+            <span class="slds-truncate slds-p-horizontal_small" title="Section Title">Primary Applicant</span>
+        </h3>
+        <br/>
+        <div class="slds-grid slds-wrap slds-grid_pull-padded-x-medium">
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <lightning:select aura:id="field" name="salutation_Applicant1__c" label="salutation" required="true" messageWhenValueMissing="Select fill this field" disabled="false"  value="{!v.plot.salutation_Applicant1__c}" >
+                    <option value="">choose one...</option>
+                    <option value="Mr">Mr.</option>
+                    <option value="Mrs">Mrs.</option>
+                    <option value="Ms">Ms.</option>
+                    <option value="Dr">Dr.</option>
+                </lightning:select>
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <lightning:input aura:id="field" messageWhenValueMissing="Select fill this field" name="First_Applicant_Name__c" type="Text" formatter="Text"  disabled="false" required="true" label="Name"  value="{!v.plot.First_Applicant_Name__c}" />
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                <lightning:input  name="Date_of_Birth1__c" type="Date" formatter="Date" step="0.01" messageWhenValueMissing="Select fill this field" disabled="false" required="true" label="Date of birth" value="{!v.plot.Date_of_Birth1__c}" />
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <!--<lightning:input aura:id="mobile" placeholder="10 digits, starts with 6–9" maxlength="10" pattern="^[6-9]\d{9}$" messageWhenPatternMismatch="Invalid Indian mobile. Enter 10 digits starting with 6–9." messageWhenValueMissing="Select fill this field" name="Mobile_Primary__c"  disabled="false"  type="tel"  required="true" label="Mobile"  value="{!v.plot.Mobile_Primary__c}" onkeyup="{!c.keepDigits10}" onblur="{!c.validateFieldMobile}" />-->
+                <lightning:input aura:id="mobile"
+    name="Mobile_Primary__c" type="tel" label="Mobile"
+    value="{!v.plot.Mobile_Primary__c}"
+    placeholder="10 digits, starts with 6–9"
+    maxlength="10"
+    pattern="^[6-9]\d{9}$"
+    messageWhenPatternMismatch="Invalid Indian mobile. Enter 10 digits starting with 6–9."
+    required="true" messageWhenValueMissing="Select fill this field"
+    onkeyup="{!c.keepDigits10}" onblur="{!c.validateField}"/>
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                <lightning:input aura:id="field" messageWhenValueMissing="Select fill this field" name="Email1__c" type="email" formatter="Text"  disabled="false" required="true" label="Email"  value="{!v.plot.Email1__c}" />
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <!--<lightning:input aura:id="field" messageWhenValueMissing="Select fill this field" name="Nationality__c" type="text" disabled="false"  formatter="text" required="true" label="Nationality"  value="{!v.plot.Nationality__c}" />-->
+                <lightning:select aura:id="field" name="Nationality__c" label="Nationality" required="true" messageWhenValueMissing="Select fill this field" disabled="false"  value="{!v.plot.Nationality__c}" >
+                    <option value="">select</option>
+                    <option value="Resident">Resident</option>
+                    <option value="PIO">PIO</option>
+                    <option value="NRI">NRI</option>
+                    <option value="OCI">OCI</option>
+                </lightning:select>
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <lightning:select aura:id="field" name="Relation_Details_Applicant1__c" label="Relationship" required="true" messageWhenValueMissing="Select fill this field" disabled="false"  value="{!v.plot.Relation_Details_Applicant1__c}" >
+                    <option value="S/o">S/o	</option>
+                    <option value="D/o">D/o</option>
+                    <option value="W/o">W/o</option>
+                    <option value="H/o">H/o</option>
+                </lightning:select>
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <lightning:input aura:id="field" messageWhenValueMissing="Select fill this field" name="Son_Daughter_Wife_of__c" type="text" disabled="false" required="true" label="{!v.plot.Relation_Details_Applicant1__c + ' of'}"  value="{!v.plot.Son_Daughter_Wife_of__c}" />
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                <!--<lightning:input class="force-uppercase" aura:id="passport" placeholder="Format: A1234567" messageWhenValueMissing="Enter a valid passport number (e.g., A1234567)." name="Passport_Aadhar__c" type="Text"   disabled="false" required="false" label="Passport Number" maxlength="8"  pattern="^[A-Z][0-9]{7}$" value="{!v.plot.Passport_Aadhar__c}" onchange="{!c.normalizePassport}" />-->
+                <!-- Passport (A1234567) -->
+                <lightning:input aura:id="passport" class="force-uppercase"
+                                 name="Passport_Aadhar__c" type="text" label="Passport Number"
+                                 value="{!v.plot.Passport_Aadhar__c}"
+                                 placeholder="Format: A1234567" maxlength="8"
+                                 pattern="^[A-Z][0-9]{7}$"
+                                 messageWhenPatternMismatch="Invalid format. Use A1234567."
+                                 onchange="{!c.normalizePassport}" onblur="{!c.validateField}"/>
+            </div>
+             <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                <!--<lightning:input aura:id="aadhar" messageWhenValueMissing="12 digits (no spaces)" name="Aadhaar_Number__c" type="Text"   disabled="false" placeholder="FORMAT: 123456789012" maxlength="12" pattern="^\d{12}$" messageWhenPatternMismatch="Invalid format. Enter 12 digits (e.g., 123456789012)." required="true" label="Aadhar Number"  value="{!v.plot.Aadhaar_Number__c}"  />-->
+                 <!-- Aadhaar (12 digits, no spaces) -->
+                 <lightning:input aura:id="aadhar"
+                                  name="Aadhaar_Number__c" type="text" label="Aadhar Number"
+                                  value="{!v.plot.Aadhaar_Number__c}"
+                                  placeholder="12 digits, no spaces" maxlength="12"
+                                  pattern="^\d{12}$"
+                                  messageWhenPatternMismatch="Invalid format. Enter exactly 12 digits."
+                                  required="true" messageWhenValueMissing="12 digits (no spaces)"
+                                  onkeyup="{!c.keepAadhaarDigits}" onblur="{!c.validateField}"/>
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                <!--<lightning:input aura:id="pan"  class="force-uppercase" maxlength="10" placeholder="Format: ABCDE1234F" pattern="^[A-Z]{5}[0-9]{4}[A-Z]$" messageWhenPatternMismatch="Invalid PAN. Use ABCDE1234F (5 letters, 4 digits, 1 letter)." messageWhenValueMissing="Select fill this field" name="PAN_Number1__c" type="Text"   disabled="false" required="true" label="PAN Number"  value="{!v.plot.PAN_Number1__c}"  onkeyup="{!c.normalizePAN}" onblur="{!c.validateField}" />-->
+                <!-- PAN (ABCDE1234F) -->
+                <lightning:input aura:id="pan" class="force-uppercase"
+                                 name="PAN_Number1__c" type="text" label="PAN Number"
+                                 value="{!v.plot.PAN_Number1__c}"
+                                 placeholder="Format: ABCDE1234F" maxlength="10"
+                                 pattern="^[A-Z]{5}[0-9]{4}[A-Z]$"
+                                 messageWhenPatternMismatch="Invalid PAN. Use ABCDE1234F."
+                                 onkeyup="{!c.normalizePAN}" onblur="{!c.validateField}" required="true"/>
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                <c:CustomPicklistGlobal fieldAPIname="Occupation__c" objAPIName="booking__c" selectedValue="{!v.plot.Occupation__c}" label="Occupation"/>
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                <lightning:input aura:id="field" messageWhenValueMissing="Select fill this field" name="Name_of_Company__c" type="Text" formatter="Text"  disabled="false" required="false" label="Name of Company"  value="{!v.plot.Name_of_Company__c}" />
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                <lightning:input aura:id="field" messageWhenValueMissing="Select fill this field" name="Designation__c" type="Text" formatter="Text"  disabled="false" required="false" label="Designation"  value="{!v.plot.Designation__c}" />
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                <lightning:input  name="Anniverssary_Date__c" type="Date" formatter="Date" step="0.01" messageWhenValueMissing="Select fill this field" disabled="false" required="false" label="Anniversary Date" value="{!v.plot.Anniverssary_Date__c}" />
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                <lightning:textarea  aura:id="field" messageWhenValueMissing="Select fill this field" name="Communication_address__c"  formatter="Text"  disabled="false" required="true" label="Communication Address"  value="{!v.plot.Communication_address__c}" />
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                <lightning:textarea  aura:id="field" messageWhenValueMissing="Select fill this field" name="Address__c"  formatter="Text"  disabled="false" required="true" label="Permanent Address"  value="{!v.plot.Address__c}" />
+            </div>
+            <br/> <br/>
+        </div>
+        <br/>
+
+        <h3 class="slds-section__title slds-theme_shade">
+            <span class="slds-truncate slds-p-horizontal_small" title="Section Title">Additional Information</span>
+        </h3>
+        <br/>
+        <div class="slds-grid slds-wrap slds-grid_pull-padded-x-medium">
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <lightning:select aura:id="field" name="Existing_customer__c" label="Existing Customer?" messageWhenValueMissing="Select fill this field" disabled="false"  value="{!v.plot.Existing_customer__c}" onchange="{!c.handleSelectExisting}">
+                    <option value="">choose one...</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </lightning:select>
+            </div>
+            <aura:if isTrue="{!v.plot.Existing_customer__c == 'Yes'}">
+                <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                    <c:CustomLookupGlobal objectName="Project__c" fieldName="Name" label="Associated Project" iconName="custom:custom63" selectedId="{!v.selectedProjectId}"></c:CustomLookupGlobal>
+                </div>
+                <lightning:input aura:id="field" messageWhenValueMissing="Select fill this field" name="Associated_Project__c"  disabled="false" formatter="text" label="Associated Project"  value="{!v.plot.Associated_Project__c}" class="slds-assistive-text" />
+                <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                    
+                    <c:CustomLookupGlobal objectName="Plot__c" fieldName="Name" label="Associated Unit" iconName="custom:custom32" queryField="Project__c" queryValue="{!v.plot.Associated_Project__c}" selectedId="{!v.selectedUnitId}"></c:CustomLookupGlobal>
+                    <lightning:input aura:id="field" messageWhenValueMissing="Select fill this field" name="Associated_Unit__c"  disabled="false" required="{!v.plot.Existing_customer__c || false}" formatter="text" label="Associated Unit"  value="{!v.plot.Associated_Unit__c}" class="slds-assistive-text" />
+                </div>
+            </aura:if>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <lightning:select aura:id="field" name="Annual_income__c" label="Annual Income" messageWhenValueMissing="Select fill this field" disabled="false"  value="{!v.plot.Annual_income__c}">
+                    <option value="">choose one...</option>
+                    <option value="BELOW 10 LAKHS">BELOW 10 LAKHS</option>
+                    <option value="10 - 20 LAKHS">10 - 20 LAKHS</option>
+                    <option value="20 -30 LAKHS">20 -30 LAKHS</option>
+                    <option value="30 - 50 LAKHS">30 - 50 LAKHS</option>
+                    <option value="50 LAKHS - 1 CR">50 LAKHS - 1 CR</option>
+                    <option value="1 CR ABOVE">1 CR &amp; ABOVE</option>
+                    
+                </lightning:select>
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                <lightning:select aura:id="field" name="Newspaper_Read__c" label="Newspaper Read" messageWhenValueMissing="Select fill this field" disabled="false"  value="{!v.plot.Newspaper_Read__c}">
+                    <option value="">choose one...</option>
+                    <option value="TIMES OF INDIA">TIMES OF INDIA</option>
+                    <option value="THE HINDU">THE HINDU</option>
+                    <option value="DECCAN HERALD">DECCAN HERALD</option>
+                    <option value="BUSINESS STANDARD">BUSINESS STANDARD</option>
+                    <option value="ECONOMIC TIMES">ECONOMIC TIMES</option>
+                    <option value="OTHERS">OTHERS</option>
+                </lightning:select>
+            </div>
+            <!--<div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                <lightning:select aura:id="field" name="Source_of_refferal__c" label="Source Of Refferal" messageWhenValueMissing="Select fill this field" disabled="false"  value="{!v.plot.Source_of_refferal__c}">
+                    <option value="">choose one...</option>
+                    <option value="COMPANY WEBISTE">COMPANY WEBISTE</option>
+                    <option value="REFERRAL">REFERRAL</option>
+                    <option value="AGENT">AGENT</option>
+                    <option value="WALK-IN">WALK-IN</option>
+                    <option value="DIGITAL MEDIA">DIGITAL MEDIA</option>
+                    <option value="HOARDINGS">HOARDINGS</option>
+                    <option value="OTHERS">OTHERS</option>
+                </lightning:select>
+            </div>-->
+            <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                <lightning:select aura:id="field" name="Social_Media_Use__c" label="Social Media Use" messageWhenValueMissing="Select fill this field" disabled="false"  value="{!v.plot.Social_Media_Use__c}">
+                    <option value="">choose one...</option>
+                    <option value="FACEBOOK">FACEBOOK</option>
+                    <option value="INSTAGRAM">INSTAGRAM</option>
+                    <option value="LINKEDIN">LINKEDIN</option>
+                    <option value="TWITTER">TWITTER</option>
+                </lightning:select>
+            </div>
+        </div>
+        <br/> <br/>
+        <!-- Source Of Booking section - hidden for quote-based booking (2026-04-10) -->
+        <!--
+        <h3 class="slds-section__title slds-theme_shade">
+            <span class="slds-truncate slds-p-horizontal_small" title="Section Title">Source Of Booking</span>
+        </h3>
+        <br/>
+        <div class="slds-grid slds-wrap slds-grid_pull-padded-x-medium">
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <lightning:input name="Leads_source__c" type="text" required="true" label="Lead Source" disabled="true" value="{!v.plot.Leads_source__c}" />
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <lightning:input name="Relationship_Manager__c" type="text" required="true" label="Relationship Manager" disabled="true" value="{!v.plot.Relationship_Manager__c}" />
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <lightning:textarea aura:id="field" name="Remarks__c" required="true" label="Remarks" value="{!v.plot.Remarks__c}" />
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <lightning:input name="Pre_Sales_User_Name__c" type="text" required="true" label="Pre Sale User" disabled="true" value="{!v.plot.Pre_Sales_User_Name__c}" />
+            </div>
+        </div>
+        -->
+        <br/>
+         <h3 class="slds-section__title slds-theme_shade">
+            <span class="slds-truncate slds-p-horizontal_small" title="Section Title">Secondary Applicant</span>
+        </h3>
+        <br/>
+        <div class="slds-grid slds-wrap slds-grid_pull-padded-x-medium">
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <lightning:select aura:id="field" name="salutation_Applicant2__c" label="salutation" messageWhenValueMissing="Select fill this field" disabled="false"  value="{!v.plot.salutation_Applicant2__c}" >
+                    <option value="">choose one...</option>
+                    <option value="Mr">Mr.</option>
+                    <option value="Mrs">Mrs.</option>
+                    <option value="Ms">Ms.</option>
+                    <option value="Dr">Dr.</option>
+                </lightning:select>
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <lightning:input aura:id="field" messageWhenValueMissing="Select fill this field" name="Second_Applicant_Name__c" type="Text" formatter="Text"  disabled="false" label="Applicant Name"  value="{!v.plot.Second_Applicant_Name__c}" />
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                <lightning:input  name="Date_of_birth_Applicant2__c" type="Date" formatter="Date" step="0.01" messageWhenValueMissing="Select fill this field" disabled="false" label="Date of birth" value="{!v.plot.Date_of_birth_Applicant2__c}" />
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <!--<lightning:input aura:id="field" messageWhenValueMissing="Select fill this field" name="Mobile_Primary1__c" type="text" disabled="false"  formatter="text" label="Mobile"  value="{!v.plot.Mobile_Primary1__c}" />-->
+                <lightning:input aura:id="mobile2"
+                                 name="Mobile_Primary1__c" type="tel" label="Mobile"
+                                 value="{!v.plot.Mobile_Primary1__c}"
+                                 placeholder="10 digits, starts with 6–9" maxlength="10"
+                                 pattern="^[6-9]\d{9}$"
+                                 messageWhenPatternMismatch="Invalid Indian mobile. Enter 10 digits starting with 6–9."
+                                 onkeyup="{!c.keepDigits10}" onblur="{!c.validateField}"/>
+            </div>
+            
+            <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                <lightning:input aura:id="field" messageWhenValueMissing="Select fill this field" name="Email2__c" type="email" formatter="Text"  disabled="false" label="Email"  value="{!v.plot.Email2__c}" />
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+               <!-- <lightning:input aura:id="field" messageWhenValueMissing="Select fill this field" name="Nationality_Applicant2__c" type="text" disabled="false"  formatter="text" label="Nationality"  value="{!v.plot.Nationality_Applicant2__c}" /> -->
+            	<lightning:select aura:id="field" name="Nationality_Applicant2__c" label="Nationality" required="false" messageWhenValueMissing="Select fill this field" disabled="false"  value="{!v.plot.Nationality_Applicant2__c}" >
+                    <option value="">select</option>
+                    <option value="Resident">Resident</option>
+                    <option value="PIO">PIO</option>
+                    <option value="NRI">NRI</option>
+                    <option value="OCI">OCI</option>
+                </lightning:select>
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <lightning:select aura:id="field" name="Relation_Details_Applicant2__c" label="Relationship"  messageWhenValueMissing="Select fill this field" disabled="false"  value="{!v.plot.Relation_Details_Applicant2__c}" >
+                    <option value="S/o">S/o</option>
+                    <option value="D/o">D/o</option>
+                    <option value="W/o">W/o</option>
+                    <option value="H/o">H/o</option>
+                </lightning:select>
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                <lightning:input aura:id="field" messageWhenValueMissing="Select fill this field" name="Son_Daughter_Wife_of1__c" type="text" disabled="false" required="false" label="{!v.plot.Relation_Details_Applicant2__c + ' of'}"  value="{!v.plot.Son_Daughter_Wife_of1__c}" />
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                <!--<lightning:input aura:id="field" messageWhenValueMissing="Select fill this field" name="Passport_Aadhar_1__c" type="Text" formatter="Text"  disabled="false" required="false" label="Passport Number"  value="{!v.plot.Passport_Aadhar_1__c}" />-->
+                <!-- Passport -->
+                <lightning:input aura:id="passport2" class="force-uppercase"
+                                 name="Passport_Aadhar_1__c" type="text" label="Passport Number"
+                                 value="{!v.plot.Passport_Aadhar_1__c}"
+                                 placeholder="Format: A1234567" maxlength="8"
+                                 pattern="^[A-Z][0-9]{7}$"
+                                 messageWhenPatternMismatch="Invalid format. Use A1234567."
+                                 onchange="{!c.normalizePassport}" onblur="{!c.validateField}"/>
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                <!--<lightning:input aura:id="field" messageWhenValueMissing="Select fill this field" name="Aadhaar_Number1__c" type="Text" formatter="Text"  disabled="false" required="false" label="Aadhar number"  value="{!v.plot.Aadhaar_Number1__c}" />-->
+                <!-- Aadhaar -->
+                <lightning:input aura:id="aadhar2"
+                                 name="Aadhaar_Number1__c" type="text" label="Aadhar number"
+                                 value="{!v.plot.Aadhaar_Number1__c}"
+                                 placeholder="12 digits, no spaces" maxlength="12"
+                                 pattern="^\d{12}$"
+                                 messageWhenPatternMismatch="Invalid format. Enter exactly 12 digits."
+                                 onkeyup="{!c.keepAadhaarDigits}" onblur="{!c.validateField}"/>
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                <!--<lightning:input aura:id="field" messageWhenValueMissing="Select fill this field" name="Pan_Number_Applicant2__c" type="Text" formatter="Text"  disabled="false" required="false" label="PAN Number"  value="{!v.plot.Pan_Number_Applicant2__c}" />-->
+                <!-- PAN -->
+                <lightning:input aura:id="pan2" class="force-uppercase"
+                                 name="Pan_Number_Applicant2__c" type="text" label="PAN Number"
+                                 value="{!v.plot.Pan_Number_Applicant2__c}"
+                                 placeholder="Format: ABCDE1234F" maxlength="10"
+                                 pattern="^[A-Z]{5}[0-9]{4}[A-Z]$"
+                                 messageWhenPatternMismatch="Invalid PAN. Use ABCDE1234F."
+                                 onkeyup="{!c.normalizePAN}" onblur="{!c.validateField}"/>
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                <c:CustomPicklistGlobal fieldAPIname="Occupation1__c" objAPIName="booking__c" selectedValue="{!v.plot.Occupation1__c}" label="Occupation"/>
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                <lightning:input aura:id="field" messageWhenValueMissing="Select fill this field" name="Name_of_Company1__c" type="Text" formatter="Text"  disabled="false" required="false" label="Name of Company"  value="{!v.plot.Name_of_Company1__c}" />
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                <lightning:input aura:id="field" messageWhenValueMissing="Select fill this field" name="Designation1__c" type="Text" formatter="Text"  disabled="false" required="false" label="Designation"  value="{!v.plot.Designation1__c}" />
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                <lightning:input  name="Anniverssary_Date1__c" type="Date" formatter="Date" step="0.01" messageWhenValueMissing="Select fill this field" disabled="{!v.plot.Relation_Details_Applicant2__c != 'H/o'}" required="false" label="Anniversary Date" value="{!v.plot.Anniverssary_Date1__c}" />
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                <lightning:textarea  aura:id="field" messageWhenValueMissing="Select fill this field" name="Communication_address1__c"  formatter="Text"  disabled="false" required="false" label="Communication Address"  value="{!v.plot.Communication_address1__c}" />
+            </div>
+            <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                <lightning:textarea  aura:id="field" messageWhenValueMissing="Select fill this field" name="Permanent_Address1__c"  formatter="Text"  disabled="false" required="false" label="Permanent Address"  value="{!v.plot.Permanent_Address1__c}" />
+            </div>
+            <br/> <br/>
+        </div>
+        <br/>
+        <h3 class="slds-section__title slds-theme_shade">
+            <span class="slds-truncate slds-p-horizontal_small" title="Section Title">Co-Applicants</span>
+        </h3>
+        <br/>
+        <table>
+            <tbody>
+                <div style="text-align: right;">
+                    <a onclick="{!c.removeRow}" data-record="{!index}">
+                        <lightning:buttonIcon iconName="utility:delete" iconClass="red"  size="x-large" variant="destructive" alternativeText="Delete" />
+                    </a>
+                    <lightning:buttonIcon iconName="utility:add" iconClass="green"  size="x-large" variant="success" alternativeText="Add" onclick="{!c.addRow}"/>
+                </div>
+                
+                <aura:iteration items="{!v.applicantList}" var="prd" indexVar="index">
+                    <h3 class="slds-section__title slds-theme_shade">
+                        <span class="slds-truncate slds-p-horizontal_small" title="Section Title">Co-Applicant {!index+3}</span>
+                    </h3>
+                    <tr>
+                        <td>
+                            <div class="slds-grid slds-wrap slds-grid_pull-padded-x-medium">
+                                <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                                    <lightning:select aura:id="field" name="Salutation__c" label="salutation" required="true" messageWhenValueMissing="Select fill this field" disabled="false"  value="{!prd.Salutation__c}" >
+                                        <option value="">choose one...</option>
+                                        <option value="Mr">Mr.</option>
+                                        <option value="Mrs">Mrs.</option>
+                                        <option value="Ms">Ms.</option>
+                                        <option value="Dr">Dr.</option>
+                                    </lightning:select>
+                                </div>
+                                <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                                    <lightning:input name="Name" type="Text" formatter="Text"  disabled="false" label="Co-Applicant Name" aura:id="pro" value="{!prd.Name}" />
+                                </div>
+                                <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                                    <lightning:select aura:id="field" name="Relalation_Details__c" label="Relation Details" required="true" messageWhenValueMissing="Select fill this field" disabled="false"  value="{!prd.Relalation_Details__c}" >
+                                        <option value="">select</option>
+                                        <option value="S/o">S/o</option>
+                                        <option value="D/o">D/o</option>
+                                        <option value="W/o">W/o</option>
+                                        <option value="H/o">H/o</option>
+                                    </lightning:select>
+                                </div>
+                                <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                                    <lightning:input name="W_o_S_o_C_o_c__c" type="Text" formatter="Text"  disabled="false" label="{!prd.Relalation_Details__c+' of'}" aura:id="pro" value="{!prd.W_o_S_o_C_o_c__c}" />
+                                </div>
+                                <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                                    <!--<lightning:input name="Contact_Number__c" type="phone" formatter="Text"  disabled="false" label="Mobile" aura:id="pro" value="{!prd.Contact_Number__c}" />-->
+                                    <!-- Mobile -->
+                                    <lightning:input name="Contact_Number__c" type="tel" label="Mobile"
+                                                     value="{!prd.Contact_Number__c}"
+                                                     placeholder="10 digits, starts with 6–9" maxlength="10"
+                                                     pattern="^[6-9]\d{9}$"
+                                                     messageWhenPatternMismatch="Invalid Indian mobile."
+                                                     onkeyup="{!c.keepDigits10}" onblur="{!c.validateField}"/>
+                                </div> 
+                                <div class="slds-size_4-of-8 slds-p-horizontal_small">
+                                   <!-- <lightning:input name="Country__c" type="text" disabled="false"  formatter="currency" label="Nationality"  value="{!prd.Country__c}" /> -->
+                                    <lightning:select aura:id="field" name="Country__c" label="Nationality" required="true" messageWhenValueMissing="Select fill this field" disabled="false"  value="{!prd.Country__c}" >
+                                        <option value="">select</option>
+                                        <option value="Resident">Resident</option>
+                                        <option value="PIO">PIO</option>
+                                        <option value="NRI">NRI</option>
+                                        <option value="OCI">OCI</option>
+                                    </lightning:select>
+                                </div>
+                                <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                                    <lightning:input name="Date_of_Birth__c" type="Date" formatter="Date" step="0.01" disabled="false" label="Date of birth" value="{!prd.Date_of_Birth__c}" />
+                                </div>
+                                <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                                    <lightning:input name="Email__c" type="email" formatter="Text"  disabled="false" label="Email"  value="{!prd.Email__c}" />
+                                </div>
+                                <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                                    <!--<lightning:input name="PAN_Number__c" type="Text" formatter="Text"  disabled="false" label="PAN Number"  value="{!prd.PAN_Number__c}" />-->
+                                    <!-- PAN -->
+                                    <lightning:input class="force-uppercase" name="PAN_Number__c" type="text" label="PAN Number"
+                                                     value="{!prd.PAN_Number__c}" maxlength="10"
+                                                     placeholder="ABCDE1234F"
+                                                     pattern="^[A-Z]{5}[0-9]{4}[A-Z]$"
+                                                     messageWhenPatternMismatch="Invalid PAN."
+                                                     onkeyup="{!c.normalizePAN}" onblur="{!c.validateField}"/>
+                                </div>
+                               <!-- <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                                    <lightning:input name="Aadhar_Number__c" type="Text" formatter="Text"  disabled="false" label="Aadhar Number"  value="{!prd.Aadhar_Number__c}" />
+                                </div>-->
+                                <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                                    <!--<lightning:input aura:id="field" messageWhenValueMissing="Select fill this field" name="Passport_Aadhar_number__c" type="Text" formatter="Text"  disabled="false" required="false" label="Passport Number"  value="{!prd.Passport_Aadhar_number__c}" />-->
+                                    <!-- Passport -->
+                                    <lightning:input class="force-uppercase" name="Passport_Aadhar_number__c" type="text" label="Passport Number"
+                                                     value="{!prd.Passport_Aadhar_number__c}" maxlength="8"
+                                                     placeholder="A1234567"
+                                                     pattern="^[A-Z][0-9]{7}$"
+                                                     messageWhenPatternMismatch="Invalid passport."
+                                                     onchange="{!c.normalizePassport}" onblur="{!c.validateField}"/>
+                                </div>
+                                 <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                                    <!--<lightning:input aura:id="field" messageWhenValueMissing="Select fill this field" name="Aadhar_Number__c" type="Text" formatter="Text"  disabled="false" required="true" label="Aadhar Number"  value="{!prd.Aadhar_Number__c}" />-->
+                                     <!-- Aadhaar -->
+                                     <lightning:input name="Aadhar_Number__c" type="text" label="Aadhar Number"
+                                                      value="{!prd.Aadhar_Number__c}" maxlength="12"
+                                                      placeholder="12 digits"
+                                                      pattern="^\d{12}$"
+                                                      messageWhenPatternMismatch="Invalid Aadhaar (12 digits)."
+                                                      onkeyup="{!c.keepAadhaarDigits}" onblur="{!c.validateField}"/>
+                                </div>
+                                <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                                    <c:CustomPicklistGlobal fieldAPIname="Occupation__c" objAPIName="Co_Applicant__c" selectedValue="{!prd.Occupation__c}" label="Occupation"/>
+                                </div>
+                                <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                                    <lightning:input aura:id="field" messageWhenValueMissing="Select fill this field" name="Designation__c" type="Text" formatter="Text"  disabled="false" required="false" label="Designation"  value="{!prd.Designation__c}" />
+                                </div>
+                                <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                                    <lightning:input aura:id="field" messageWhenValueMissing="Select fill this field" name="Name_of_Company__c" type="Text" formatter="Text"  disabled="false" required="false" label="Name of Company"  value="{!prd.Name_of_Company__c}" />
+                                </div>
+                                <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                                    <lightning:input  name="Anniverssary_Date__c" type="Date" formatter="Date" step="0.01" messageWhenValueMissing="Select fill this field" disabled="false" required="false" label="Anniversary Date" value="{!prd.Anniverssary_Date__c}" />
+                                </div>
+                                <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                                    <lightning:textarea  aura:id="field" messageWhenValueMissing="Select fill this field" name="Permenent_Address__c"  formatter="Text"  disabled="false" required="true" label="Permanent Address"  value="{!prd.Permenent_Address__c}" />
+                                </div>
+                                 <div class="slds-size_4-of-8 slds-p-horizontal_small"  >
+                                    <lightning:input name="Address__c" type="Text" formatter="Text"  disabled="false" label="Communication address"  value="{!prd.Address__c}" />
+                                </div>
+                            </div>
+                            <aura:set attribute="actions" >
+                                <a onclick="{!c.removeRow}" data-record="{!index}">
+                                    <lightning:buttonIcon iconName="utility:delete" iconClass="red"  size="x-large" variant="destructive" alternativeText="Delete" />
+                                </a>
+                                <lightning:buttonIcon iconName="utility:add" iconClass="green"  size="x-large" variant="success" alternativeText="Add" onclick="{!c.addRow}"/>
+                                
+                            </aura:set>
+                        </td>
+                    </tr>
+                </aura:iteration>
+                
+                <div class="modal-footer slds-modal__footer slds-size_1-of-1">
+                    <aura:if isTrue="{!v.showNext == false}">  
+                        <button class="slds-button slds-button_brand" onclick="{!c.closeModel}">Cancel</button>
+                        <lightning:button class="slds-button slds-button_brand" variant="brand"  label="Save"  onclick="{!c.saveBooking}"/>  
+                    </aura:if>
+                </div>
+                
+            </tbody>
+        </table>
+    </aura:if>
+</aura:component>

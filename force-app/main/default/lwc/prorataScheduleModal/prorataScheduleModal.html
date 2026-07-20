@@ -1,0 +1,282 @@
+<template>
+    <div class="modal-container">
+        <section role="dialog" tabindex="-1" aria-modal="true"
+                 class="slds-modal slds-fade-in-open slds-modal_large">
+            <div class="slds-modal__container custom-modal-container">
+
+                <!-- Fixed header -->
+                <header class="slds-modal__header custom-modal-header">
+                    <button class="slds-button slds-button_icon slds-modal__close custom-close-btn"
+                            title="Close" onclick={handleClose}>
+                        <lightning-icon icon-name="utility:close" alternative-text="Close"
+                                        variant="inverse" size="small"></lightning-icon>
+                    </button>
+                    <h2 class="slds-modal__title slds-text-heading_medium">
+                        <lightning-icon icon-name="utility:money" variant="inverse" size="small"
+                            class="slds-m-right_x-small"></lightning-icon>
+                        Payment Schedule Editor (Bank / Customer split)
+                    </h2>
+                </header>
+
+                <!-- Scrollable content -->
+                <div class="slds-modal__content custom-modal-content">
+                    <template if:true={isLoading}>
+                        <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
+                    </template>
+
+                    <template if:true={hasError}>
+                        <div class="slds-text-color_error slds-p-around_small">
+                            <lightning-icon icon-name="utility:error" size="x-small" variant="error"></lightning-icon>
+                            {errorMessage}
+                        </div>
+                    </template>
+
+                    <template if:false={editingEnabled}>
+                        <div class="slds-notify slds-notify_alert slds-theme_warning slds-m-bottom_small" role="alert">
+                            <span>Custom schedule editing is not enabled. Contact your administrator.</span>
+                        </div>
+                    </template>
+
+                    <!-- Booking context -->
+                    <template if:true={hasSchedules}>
+                        <div class="slds-grid slds-wrap slds-gutters_x-small slds-m-bottom_small psm-cards">
+                            <div class="slds-col">
+                                <div class="slds-box slds-box_x-small slds-theme_shade">
+                                    <p class="slds-text-title_caps">Funding Type</p>
+                                    <p class="slds-text-heading_small">{fundingType}</p>
+                                </div>
+                            </div>
+                            <div class="slds-col">
+                                <div class="slds-box slds-box_x-small slds-theme_shade">
+                                    <p class="slds-text-title_caps">Total Payable</p>
+                                    <p class="slds-text-heading_small">{totalPayableText}</p>
+                                </div>
+                            </div>
+                            <template if:true={isProrata}>
+                                <div class="slds-col">
+                                    <div class="slds-box slds-box_x-small slds-theme_shade">
+                                        <p class="slds-text-title_caps">Loan Sanctioned (Bank)</p>
+                                        <p class="slds-text-heading_small">{loanSanctionedText}</p>
+                                    </div>
+                                </div>
+                                <div class="slds-col">
+                                    <div class="slds-box slds-box_x-small slds-theme_shade">
+                                        <p class="slds-text-title_caps">Deficit (Customer)</p>
+                                        <p class="slds-text-heading_small">{deficitText}</p>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+
+                        <!-- Live reconciliation -->
+                        <div class="slds-box slds-box_x-small slds-m-bottom_small recon-panel">
+                            <div class="slds-grid slds-wrap slds-gutters_xx-small">
+                                <div class="slds-col slds-size_1-of-2 slds-large-size_1-of-4">
+                                    Percentages total:
+                                    <span class={pctClass}>{sumPercentageText}%</span> / 100%
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-large-size_1-of-4">
+                                    Grand total:
+                                    <span class={totalClass}>{sumTotalText}</span> / {originalTotalText}
+                                </div>
+                                <template if:true={isProrata}>
+                                    <div class="slds-col slds-size_1-of-2 slds-large-size_1-of-4">
+                                        Bank Payable total:
+                                        <span class={bankFlatClass}>{sumBankFlatText}</span> / {loanSanctionedText}
+                                    </div>
+                                </template>
+                                <template if:true={isStrictProrata}>
+                                    <div class="slds-col slds-size_1-of-2 slds-large-size_1-of-4">
+                                        Customer Payable total:
+                                        <span class={custFlatClass}>{sumCustomerFlatText}</span> / {effectiveDeficitText}
+                                    </div>
+                                </template>
+                            </div>
+                            <template if:true={hasLockedUnsplit}>
+                                <div class="slds-m-top_x-small slds-text-body_small slds-text-color_weak">
+                                    Deficit target of {deficitText} reduced by {lockedUnsplitTotalText} already
+                                    settled by locked milestone(s) not eligible for a split → target
+                                    {effectiveDeficitText}.
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+
+                    <!-- One card per milestone -->
+                    <template if:true={hasSchedules}>
+                        <div class="ms-list">
+                            <template for:each={schedules} for:item="sch">
+                                <div key={sch.id} class="ms-card">
+                                    <div class="ms-card-head">
+                                        <div class="ms-title">
+                                            <span class="ms-seq">{sch.sequence}</span>
+                                            <span class="ms-name">{sch.milestoneName}</span>
+                                            <template if:true={sch.cannotEdit}>
+                                                <lightning-icon icon-name="utility:lock" size="xx-small"
+                                                    title={sch.lockReason} class="slds-m-left_xx-small"></lightning-icon>
+                                            </template>
+                                        </div>
+                                        <span class={sch.statusClass}>{sch.status}</span>
+                                    </div>
+
+                                    <div class="ms-basics">
+                                        <div class="ms-field">
+                                            <label>Percentage</label>
+                                            <template if:true={sch.canEdit}>
+                                                <lightning-input type="number" value={sch.percentage}
+                                                    data-id={sch.id} data-field="percentage"
+                                                    onchange={handleFieldChange} variant="label-hidden" step="0.01">
+                                                </lightning-input>
+                                            </template>
+                                            <template if:false={sch.canEdit}><span class="ms-ro">{sch.percentage}%</span></template>
+                                        </div>
+                                        <div class="ms-field">
+                                            <label>Base (Flat)</label>
+                                            <template if:true={sch.canEdit}>
+                                                <lightning-input type="number" value={sch.baseAmount}
+                                                    data-id={sch.id} data-field="baseAmount"
+                                                    onchange={handleFieldChange} variant="label-hidden" step="0.01">
+                                                </lightning-input>
+                                            </template>
+                                            <template if:false={sch.canEdit}><span class="ms-ro">{sch.baseAmount}</span></template>
+                                        </div>
+                                        <div class="ms-field">
+                                            <label>GST</label>
+                                            <template if:true={sch.canEdit}>
+                                                <lightning-input type="number" value={sch.gstAmount}
+                                                    data-id={sch.id} data-field="gstAmount"
+                                                    onchange={handleFieldChange} variant="label-hidden" step="0.01">
+                                                </lightning-input>
+                                            </template>
+                                            <template if:false={sch.canEdit}><span class="ms-ro">{sch.gstAmount}</span></template>
+                                        </div>
+                                        <div class="ms-field">
+                                            <label>TDS</label>
+                                            <template if:true={sch.canEdit}>
+                                                <lightning-input type="number" value={sch.tdsAmount}
+                                                    data-id={sch.id} data-field="tdsAmount"
+                                                    onchange={handleFieldChange} variant="label-hidden" step="0.01">
+                                                </lightning-input>
+                                            </template>
+                                            <template if:false={sch.canEdit}><span class="ms-ro">{sch.tdsAmount}</span></template>
+                                        </div>
+                                        <div class="ms-field">
+                                            <label>Total</label>
+                                            <span class="ms-ro psm-total">{sch.liveTotal}</span>
+                                        </div>
+                                        <div class="ms-field">
+                                            <label>Pending</label>
+                                            <span class="ms-ro psm-pending">{sch.pendingAmount}</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Bank vs Customer bifurcation — locked rows show whatever is actually
+                                         stored (blank if never split); nothing is inferred or displayed here.
+                                         Any locked/unsplit amount is only accounted for in the Deficit target
+                                         shown in the reconciliation panel above. -->
+                                    <template if:true={isProrata}>
+                                        <div class="ms-bifurcation">
+                                            <div class="biforc-box biforc-bank">
+                                                <div class="biforc-head">
+                                                    <lightning-icon icon-name="utility:company" size="x-small"></lightning-icon>
+                                                    Bank Payable
+                                                </div>
+                                                <div class="biforc-fields">
+                                                    <div class="biforc-field">
+                                                        <label>Flat</label>
+                                                        <template if:true={sch.canEdit}>
+                                                            <lightning-input type="number" value={sch.bankFlat}
+                                                                data-id={sch.id} data-field="bankFlat"
+                                                                onchange={handleFieldChange} variant="label-hidden" step="0.01">
+                                                            </lightning-input>
+                                                        </template>
+                                                        <template if:false={sch.canEdit}><span class="ms-ro">{sch.bankFlat}</span></template>
+                                                    </div>
+                                                    <div class="biforc-field">
+                                                        <label>GST</label>
+                                                        <template if:true={sch.canEdit}>
+                                                            <lightning-input type="number" value={sch.bankGst}
+                                                                data-id={sch.id} data-field="bankGst"
+                                                                onchange={handleFieldChange} variant="label-hidden" step="0.01">
+                                                            </lightning-input>
+                                                        </template>
+                                                        <template if:false={sch.canEdit}><span class="ms-ro">{sch.bankGst}</span></template>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="biforc-box biforc-customer">
+                                                <div class="biforc-head">
+                                                    <lightning-icon icon-name="utility:user" size="x-small"></lightning-icon>
+                                                    Customer Payable
+                                                </div>
+                                                <div class="biforc-fields">
+                                                    <div class="biforc-field">
+                                                        <label>Flat</label>
+                                                        <template if:true={sch.canEdit}>
+                                                            <lightning-input type="number" value={sch.customerFlat}
+                                                                data-id={sch.id} data-field="customerFlat"
+                                                                onchange={handleFieldChange} variant="label-hidden" step="0.01">
+                                                            </lightning-input>
+                                                        </template>
+                                                        <template if:false={sch.canEdit}><span class="ms-ro">{sch.customerFlat}</span></template>
+                                                    </div>
+                                                    <div class="biforc-field">
+                                                        <label>GST</label>
+                                                        <template if:true={sch.canEdit}>
+                                                            <lightning-input type="number" value={sch.customerGst}
+                                                                data-id={sch.id} data-field="customerGst"
+                                                                onchange={handleFieldChange} variant="label-hidden" step="0.01">
+                                                            </lightning-input>
+                                                        </template>
+                                                        <template if:false={sch.canEdit}><span class="ms-ro">{sch.customerGst}</span></template>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="biforc-box biforc-opts">
+                                                <div class="biforc-field">
+                                                    <label>Forecast Date</label>
+                                                    <template if:true={sch.canEdit}>
+                                                        <lightning-input type="date" value={sch.forecastDate}
+                                                            data-id={sch.id} data-field="forecastDate"
+                                                            onchange={handleFieldChange} variant="label-hidden">
+                                                        </lightning-input>
+                                                    </template>
+                                                    <template if:false={sch.canEdit}><span class="ms-ro">{sch.forecastDate}</span></template>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+
+                    <template if:true={showBalanceHint}>
+                        <div class="psm-validation-bar slds-m-top_small">
+                            <lightning-icon icon-name="utility:warning" size="x-small" variant="error"
+                                class="slds-m-right_x-small"></lightning-icon>
+                            Percentages must total 100%, the grand total must stay
+                            <strong>&nbsp;{originalTotalText}&nbsp;</strong><template if:true={isProrata}>, Bank Payable (Flat + GST) must total the
+                            Loan Sanctioned</template><template if:true={isStrictProrata}> and Customer Payable (Flat + GST) must total the
+                            Deficit (adjusted for milestones already settled by locked rows)</template>. Save is enabled once these match.
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Fixed footer -->
+                <footer class="slds-modal__footer custom-modal-footer">
+                    <lightning-button label="Close" variant="neutral" class="slds-m-right_x-small"
+                        onclick={handleClose}>
+                    </lightning-button>
+                    <template if:true={hasSchedules}>
+                        <lightning-button label="Save Changes" variant="brand"
+                            onclick={handleSave} disabled={saveDisabled}>
+                        </lightning-button>
+                    </template>
+                </footer>
+            </div>
+        </section>
+    </div>
+</template>

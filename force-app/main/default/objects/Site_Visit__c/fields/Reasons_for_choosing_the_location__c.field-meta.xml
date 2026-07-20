@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reasons_for_choosing_the_location__c</fullName>
+    <label>Reasons for choosing the location</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Developing area in the city</fullName>
+                <default>false</default>
+                <label>Developing area in the city</label>
+            </value>
+            <value>
+                <fullName>Easy commute to other prime locations</fullName>
+                <default>false</default>
+                <label>Easy commute to other prime locations</label>
+            </value>
+            <value>
+                <fullName>Close to my work place</fullName>
+                <default>false</default>
+                <label>Close to my work place</label>
+            </value>
+            <value>
+                <fullName>Close to my friend&apos;s/relative&apos;s place</fullName>
+                <default>false</default>
+                <label>Close to my friend&apos;s/relative&apos;s place</label>
+            </value>
+            <value>
+                <fullName>Close to kid&apos;s school</fullName>
+                <default>false</default>
+                <label>Close to kid&apos;s school</label>
+            </value>
+            <value>
+                <fullName>Relocating 1n same location</fullName>
+                <default>false</default>
+                <label>Relocating 1n same location</label>
+            </value>
+            <value>
+                <fullName>Good for 1nvetment</fullName>
+                <default>false</default>
+                <label>Good for 1nvetment</label>
+            </value>
+            <value>
+                <fullName>Others</fullName>
+                <default>false</default>
+                <label>Others</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Relationship_Manager__c</fullName>
+    <label>Relationship Manager</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Mr. Abdullah Qazi</fullName>
+                <default>false</default>
+                <label>Mr. Abdullah Qazi</label>
+            </value>
+            <value>
+                <fullName>Mr. Abhishek Kumar Singh</fullName>
+                <default>false</default>
+                <label>Mr. Abhishek Kumar Singh</label>
+            </value>
+            <value>
+                <fullName>Mr. Akash J</fullName>
+                <default>false</default>
+                <label>Mr. Akash J</label>
+            </value>
+            <value>
+                <fullName>Mr. Akbar Basha</fullName>
+                <default>false</default>
+                <label>Mr. Akbar Basha</label>
+            </value>
+            <value>
+                <fullName>Mr. Akshay S</fullName>
+                <default>false</default>
+                <label>Mr. Akshay S</label>
+            </value>
+            <value>
+                <fullName>Mr. Anand Rajgopalan</fullName>
+                <default>false</default>
+                <label>Mr. Anand Rajgopalan</label>
+            </value>
+            <value>
+                <fullName>Mr. Aravind Kumar</fullName>
+                <default>false</default>
+                <label>Mr. Aravind Kumar</label>
+            </value>
+            <value>
+                <fullName>Mr. Arjun Naga Vinay</fullName>
+                <default>false</default>
+                <label>Mr. Arjun Naga Vinay</label>
+            </value>
+            <value>
+                <fullName>Mr. Avinash Reddy</fullName>
+                <default>false</default>
+                <label>Mr. Avinash Reddy</label>
+            </value>
+            <value>
+                <fullName>Mr. Bharath Babu</fullName>
+                <default>false</default>
+                <label>Mr. Bharath Babu</label>
+            </value>
+            <value>
+                <fullName>Mr. Bharath bs</fullName>
+                <default>false</default>
+                <label>Mr. Bharath bs</label>
+            </value>
+            <value>
+                <fullName>Mr. Chaithanya Reddy</fullName>
+                <default>false</default>
+                <label>Mr. Chaithanya Reddy</label>
+            </value>
+            <value>
+                <fullName>Mr. Chetan Yallur</fullName>
+                <default>false</default>
+                <label>Mr. Chetan Yallur</label>
+            </value>
+            <value>
+                <fullName>Mr. Dhanashekar M</fullName>
+                <default>false</default>
+                <label>Mr. Dhanashekar M</label>
+            </value>
+            <value>
+                <fullName>Mr. Ghouse M</fullName>
+                <default>false</default>
+                <label>Mr. Ghouse M</label>
+            </value>
+            <value>
+                <fullName>Mr. Gurudutt K</fullName>
+                <default>false</default>
+                <label>Mr. Gurudutt K</label>
+            </value>
+            <value>
+                <fullName>Mr. Habeeb Pasha</fullName>
+                <default>false</default>
+                <label>Mr. Habeeb Pasha</label>
+            </value>
+            <value>
+                <fullName>Mr. Harish P</fullName>
+                <default>false</default>
+                <label>Mr. Harish P</label>
+            </value>
+            <value>
+                <fullName>Mr. Karthik N</fullName>
+                <default>false</default>
+                <label>Mr. Karthik N</label>
+            </value>
+            <value>
+                <fullName>Mr. Kashyap Vadapalli</fullName>
+                <default>false</default>
+                <label>Mr. Kashyap Vadapalli</label>
+            </value>
+            <value>
+                <fullName>Mr. Kenneth Bruce Coelho</fullName>
+                <default>false</default>
+                <label>Mr. Kenneth Bruce Coelho</label>
+            </value>
+            <value>
+                <fullName>Mr. Kishore SV</fullName>
+                <default>false</default>
+                <label>Mr. Kishore SV</label>
+            </value>
+            <value>
+                <fullName>Mr. Lam Subba Rao</fullName>
+                <default>false</default>
+                <label>Mr. Lam Subba Rao</label>
+            </value>
+            <value>
+                <fullName>Mr. Mahendran Krishna Moorthi</fullName>
+                <default>false</default>
+                <label>Mr. Mahendran Krishna Moorthi</label>
+            </value>
+            <value>
+                <fullName>Mr. Monisha K</fullName>
+                <default>false</default>
+                <label>Mr. Monisha K</label>
+            </value>
+            <value>
+                <fullName>Mr. Mujeeb Alam</fullName>
+                <default>false</default>
+                <label>Mr. Mujeeb Alam</label>
+            </value>
+            <value>
+                <fullName>Mr. Murali K</fullName>
+                <default>false</default>
+                <label>Mr. Murali K</label>
+            </value>
+            <value>
+                <fullName>Mr. Nagathej BG</fullName>
+                <default>false</default>
+                <label>Mr. Nagathej BG</label>
+            </value>
+            <value>
+                <fullName>Mr. Nagesh M G</fullName>
+                <default>false</default>
+                <label>Mr. Nagesh M G</label>
+            </value>
+            <value>
+                <fullName>Mr. Nandish S</fullName>
+                <default>false</default>
+                <label>Mr. Nandish S</label>
+            </value>
+            <value>
+                <fullName>Mr. Naveen Kumar</fullName>
+                <default>false</default>
+                <label>Mr. Naveen Kumar</label>
+            </value>
+            <value>
+                <fullName>Mr. Pranav Kumar</fullName>
+                <default>false</default>
+                <label>Mr. Pranav Kumar</label>
+            </value>
+            <value>
+                <fullName>Mr. Pranav S</fullName>
+                <default>false</default>
+                <label>Mr. Pranav S</label>
+            </value>
+            <value>
+                <fullName>Mr. Prashanth Kumar</fullName>
+                <default>false</default>
+                <label>Mr. Prashanth Kumar</label>
+            </value>
+            <value>
+                <fullName>Mr. Praveen Kumar Arto</fullName>
+                <default>false</default>
+                <label>Mr. Praveen Kumar Arto</label>
+            </value>
+            <value>
+                <fullName>Mr. Praveen Kumar KP</fullName>
+                <default>false</default>
+                <label>Mr. Praveen Kumar KP</label>
+            </value>
+            <value>
+                <fullName>Mr. Praveen M</fullName>
+                <default>false</default>
+                <label>Mr. Praveen M</label>
+            </value>
+            <value>
+                <fullName>Mr. Ranjith PJ</fullName>
+                <default>false</default>
+                <label>Mr. Ranjith PJ</label>
+            </value>
+            <value>
+                <fullName>Mr. Ratan Yadav</fullName>
+                <default>false</default>
+                <label>Mr. Ratan Yadav</label>
+            </value>
+            <value>
+                <fullName>Mr. Rekha B</fullName>
+                <default>false</default>
+                <label>Mr. Rekha B</label>
+            </value>
+            <value>
+                <fullName>Mr. Robert Paul</fullName>
+                <default>false</default>
+                <label>Mr. Robert Paul</label>
+            </value>
+            <value>
+                <fullName>Mr. Saddam Hossain</fullName>
+                <default>false</default>
+                <label>Mr. Saddam Hossain</label>
+            </value>
+            <value>
+                <fullName>Mr. Sanjay T</fullName>
+                <default>false</default>
+                <label>Mr. Sanjay T</label>
+            </value>
+            <value>
+                <fullName>Mr. Santhosh G</fullName>
+                <default>false</default>
+                <label>Mr. Santhosh G</label>
+            </value>
+            <value>
+                <fullName>Mr. Sasidhar B</fullName>
+                <default>false</default>
+                <label>Mr. Sasidhar B</label>
+            </value>
+            <value>
+                <fullName>Mr. Shahid Khan</fullName>
+                <default>false</default>
+                <label>Mr. Shahid Khan</label>
+            </value>
+            <value>
+                <fullName>Mr. Sharath Kumar</fullName>
+                <default>false</default>
+                <label>Mr. Sharath Kumar</label>
+            </value>
+            <value>
+                <fullName>Mr. Shivamani Alwar</fullName>
+                <default>false</default>
+                <label>Mr. Shivamani Alwar</label>
+            </value>
+            <value>
+                <fullName>Mr. Shrinidhi Patil</fullName>
+                <default>false</default>
+                <label>Mr. Shrinidhi Patil</label>
+            </value>
+            <value>
+                <fullName>Mr. Srujan Kumar</fullName>
+                <default>false</default>
+                <label>Mr. Srujan Kumar</label>
+            </value>
+            <value>
+                <fullName>Mr. Sunil Kumar</fullName>
+                <default>false</default>
+                <label>Mr. Sunil Kumar</label>
+            </value>
+            <value>
+                <fullName>Mr. Syed Rasheed Hassan</fullName>
+                <default>false</default>
+                <label>Mr. Syed Rasheed Hassan</label>
+            </value>
+            <value>
+                <fullName>Mr. V Sandeep</fullName>
+                <default>false</default>
+                <label>Mr. V Sandeep</label>
+            </value>
+            <value>
+                <fullName>Mr. Vijay A</fullName>
+                <default>false</default>
+                <label>Mr. Vijay A</label>
+            </value>
+            <value>
+                <fullName>Mr. Vinod Kumar</fullName>
+                <default>false</default>
+                <label>Mr. Vinod Kumar</label>
+            </value>
+            <value>
+                <fullName>Mr. Vinod Kumar G</fullName>
+                <default>false</default>
+                <label>Mr. Vinod Kumar G</label>
+            </value>
+            <value>
+                <fullName>Mr. Vishva Sree V</fullName>
+                <default>false</default>
+                <label>Mr. Vishva Sree V</label>
+            </value>
+            <value>
+                <fullName>Mrs. Divya Anuroop</fullName>
+                <default>false</default>
+                <label>Mrs. Divya Anuroop</label>
+            </value>
+            <value>
+                <fullName>Ms. Bhavana KM</fullName>
+                <default>false</default>
+                <label>Ms. Bhavana KM</label>
+            </value>
+            <value>
+                <fullName>Ms. Mahalakshmi C</fullName>
+                <default>false</default>
+                <label>Ms. Mahalakshmi C</label>
+            </value>
+            <value>
+                <fullName>Ms. Reena Yadav</fullName>
+                <default>false</default>
+                <label>Ms. Reena Yadav</label>
+            </value>
+            <value>
+                <fullName>Ms. Sreejana Das</fullName>
+                <default>false</default>
+                <label>Ms. Sreejana Das</label>
+            </value>
+            <value>
+                <fullName>Ms. Swetha R</fullName>
+                <default>false</default>
+                <label>Ms. Swetha R</label>
+            </value>
+            <value>
+                <fullName>Suhas</fullName>
+                <default>false</default>
+                <label>Suhas</label>
+            </value>
+            <value>
+                <fullName>Mr. Prasad T</fullName>
+                <default>false</default>
+                <label>Mr. Prasad T</label>
+            </value>
+            <value>
+                <fullName>Ms. Chandana MC</fullName>
+                <default>false</default>
+                <label>Ms. Chandana MC</label>
+            </value>
+            <value>
+                <fullName>Kousalya M</fullName>
+                <default>false</default>
+                <label>Kousalya M</label>
+            </value>
+            <value>
+                <fullName>Ricky Kirtikumar Mistry</fullName>
+                <default>false</default>
+                <label>Ricky Kirtikumar Mistry</label>
+            </value>
+            <value>
+                <fullName>Nischal S</fullName>
+                <default>false</default>
+                <label>Nischal S</label>
+            </value>
+            <value>
+                <fullName>Aman Ahmed</fullName>
+                <default>false</default>
+                <label>Aman Ahmed</label>
+            </value>
+            <value>
+                <fullName>Srikanth R</fullName>
+                <default>false</default>
+                <label>Srikanth R</label>
+            </value>
+            <value>
+                <fullName>Manjuunath</fullName>
+                <default>false</default>
+                <label>Manjuunath</label>
+            </value>
+            <value>
+                <fullName>Sharath Kumar M</fullName>
+                <default>false</default>
+                <label>Sharath Kumar M</label>
+            </value>
+            <value>
+                <fullName>Shah Fahad</fullName>
+                <default>false</default>
+                <label>Shah Fahad</label>
+            </value>
+            <value>
+                <fullName>Fathima</fullName>
+                <default>false</default>
+                <label>Fathima</label>
+            </value>
+            <value>
+                <fullName>Rizwan</fullName>
+                <default>false</default>
+                <label>Rizwan</label>
+            </value>
+            <value>
+                <fullName>Antony Stephen R</fullName>
+                <default>false</default>
+                <label>Antony Stephen R</label>
+            </value>
+            <value>
+                <fullName>Akash J</fullName>
+                <default>false</default>
+                <label>Akash J</label>
+            </value>
+            <value>
+                <fullName>STM1</fullName>
+                <default>false</default>
+                <label>STM1</label>
+            </value>
+            <value>
+                <fullName>Sainath R Shetty</fullName>
+                <default>false</default>
+                <label>Sainath R Shetty</label>
+            </value>
+            <value>
+                <fullName>Relationship Manager 2</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Relationship Manager 2</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

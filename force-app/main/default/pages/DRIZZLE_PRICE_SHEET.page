@@ -1,0 +1,170 @@
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false"
+           applyHtmlTag="false" applyBodyTag="false" renderAs="pdf" title="Cost Estimation">
+<html>
+<head>
+<style type="text/css">
+    @page {
+        size: A4 portrait;
+        margin: 0.5in 0.5in 0.7in 0.5in;
+        @bottom-center {
+            content: "Page " counter(page) " of " counter(pages);
+            font-size: 9px;
+            color: #333333;
+        }
+    }
+    body { font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: #000000; }
+
+
+    /* ===== Logo banner ===== */
+    .logo-table { width: 100%; border-collapse: collapse; margin-bottom: 0; page-break-inside: avoid; }
+    .logo-table td { border: none; text-align: center; padding: 6px; }
+    .logo-table img { width: 100%; height: auto; }
+    /* ===== Title (bordered + italic to match reference) ===== */
+    .doc-title {
+        text-align: center; font-size: 15px; font-weight: bold; font-style: italic;
+        text-decoration: underline; border: 1px solid #000000;
+        padding: 6px; margin: 0 0 10px 0;
+    }
+    .section-title {
+        font-size: 11px; font-weight: bold; text-decoration: underline;
+        margin: 12px 0 4px 0;
+    }
+    table {
+        width: 100%; border-collapse: collapse; margin-bottom: 10px;
+        page-break-inside: avoid;            /* keep each table together */
+    }
+    th, td {
+        border: 1px solid #000000; padding: 4px 6px; vertical-align: top;
+    }
+    th { background-color: #e6e6e6; text-align: left; }
+    .amt   { text-align: right; white-space: nowrap; }
+    .pct   { text-align: center; white-space: nowrap; }
+    .label { font-weight: bold; background-color: #f2f2f2; }
+    .total-row td { font-weight: bold; background-color: #f2f2f2; }
+    .notes-table td { border: 1px solid #000000; }
+    .notes { font-size: 9px; }
+    .sign-table td { border: none; padding-top: 25px; }
+</style>
+</head>
+<body>
+
+    <!-- ===== Logo banner (from Static Resource) ===== -->
+    <table class="logo-table">
+        <tr>
+            <td>
+                <apex:image url="{!$Resource.LOGO_PRICE_SHEET}" alt="The Drizzle - Ananda Homes - Prosper"/>
+            </td>
+        </tr>
+    </table>
+
+    <div class="doc-title">COST ESTIMATION</div>
+
+    <!-- ===== Unit / Header details ===== -->
+    <table>
+        <tr>
+            <td class="label">Tower</td><td>E</td>
+            <td class="label">Unit No.</td><td>E-504</td>
+        </tr>
+        <tr>
+            <td class="label">Floor No.</td><td>5</td>
+            <td class="label">Flat Size</td><td>3185</td>
+        </tr>
+        <tr>
+            <td class="label">Flat No.</td><td>4</td>
+            <td class="label">BHK</td><td>3 BHK</td>
+        </tr>
+        <tr>
+            <td class="label">Extra Car Parking</td><td>YES</td>
+            <td class="label">PLC</td><td>West/Corner/LV</td>
+        </tr>
+    </table>
+
+    <!-- ===== Price break-up ===== -->
+    <div class="section-title">Price Break-up</div>
+    <table>
+        <tr><th>Particulars</th><th class="amt">Amount</th></tr>
+        <tr><td>Base Price</td><td class="amt">8,499</td></tr>
+        <tr><td>East/North Facing</td><td class="amt">-</td></tr>
+        <tr><td>Corner</td><td class="amt">50</td></tr>
+        <tr><td>Floor Rise (From 5th 25rs each floor)</td><td class="amt">25</td></tr>
+        <tr><td>Road Premium</td><td class="amt">-</td></tr>
+        <tr><td>Lake Premium</td><td class="amt">300</td></tr>
+        <tr><td>Central Courtyard Premium</td><td class="amt">-</td></tr>
+        <tr><td>Club House + Infra</td><td class="amt">6,00,000</td></tr>
+        <tr><td>Car Parking</td><td class="amt">2,50,000</td></tr>
+        <tr><td>Extra Car Parking</td><td class="amt">2,50,000</td></tr>
+        <tr><td>Gas Pipe line</td><td class="amt">25,000</td></tr>
+        <tr><td class="label">Cost</td><td class="amt label">2,93,88,690</td></tr>
+        <tr><td class="label">GST @5%</td><td class="amt label">14,69,435</td></tr>
+        <tr class="total-row"><td>Total Cost</td><td class="amt">3,08,58,125</td></tr>
+    </table>
+
+    <!-- ===== Payment Schedule ===== -->
+    <div class="section-title">Payment Schedule</div>
+    <table>
+        <tr><th>Milestone</th><th class="pct">%</th><th class="amt">Amount</th></tr>
+        <tr><td>Booking Amount</td><td class="pct"></td><td class="amt">5,00,000</td></tr>
+        <tr><td>Within 15 days from the day of booking (incl. Booking Advance) for AOS</td><td class="pct">20%</td><td class="amt">56,71,625</td></tr>
+        <tr><td>On completion Raft/Footings work of respective tower</td><td class="pct">10%</td><td class="amt">30,85,812</td></tr>
+        <tr><td>On Completion of Basement Slab 3 of F &amp; A</td><td class="pct">10%</td><td class="amt">30,85,812</td></tr>
+        <tr><td>On Completion of Basement Slab 3 of B &amp; C</td><td class="pct">10%</td><td class="amt">30,85,812</td></tr>
+        <tr><td>On Completion of 4 slabs of Block F &amp; A</td><td class="pct">7%</td><td class="amt">21,60,069</td></tr>
+        <tr><td>On Completion of 9 slabs of Block F &amp; A</td><td class="pct">7%</td><td class="amt">21,60,069</td></tr>
+        <tr><td>On Completion of 9 slabs of Block E</td><td class="pct">4%</td><td class="amt">12,34,325</td></tr>
+        <tr><td>On Completion of 16 slabs of Block F &amp; A</td><td class="pct">7%</td><td class="amt">21,60,069</td></tr>
+        <tr><td>On Completion of 16 slabs of Block E</td><td class="pct">4%</td><td class="amt">12,34,325</td></tr>
+        <tr><td>On Completion of 4 slabs of Block B &amp; C</td><td class="pct">5%</td><td class="amt">15,42,906</td></tr>
+        <tr><td>On Completion of 9 slabs of Block B &amp; C</td><td class="pct">5%</td><td class="amt">15,42,906</td></tr>
+        <tr><td>On Completion of 16 slabs of Block D</td><td class="pct">3%</td><td class="amt">9,25,744</td></tr>
+        <tr><td>On Completion of 16 slabs of Block B &amp; C</td><td class="pct">3%</td><td class="amt">9,25,744</td></tr>
+        <tr><td>Against Registration of Respective flat</td><td class="pct">5%</td><td class="amt">15,42,906</td></tr>
+        <tr class="total-row"><td>Total</td><td class="pct">100%</td><td class="amt">3,08,58,125</td></tr>
+    </table>
+
+    <!-- ===== Expenditure at registration ===== -->
+    <div class="section-title">EXPENDITURE TO BE INCURRED AT THE TIME OF REGISTRATION</div>
+    <table>
+        <tr><th>Particulars</th><th class="amt">Amount</th></tr>
+        <tr><td>Registration/Stamp Duty &amp; Mutation charges @ 7.6%</td><td class="amt">22,34,590</td></tr>
+        <tr><td>Corpus Fund @ Rs.50/- SFT</td><td class="amt">1,59,250</td></tr>
+        <tr><td>Advance Maintenance @ 3.5 per SFT for 2 Years</td><td class="amt">2,67,540</td></tr>
+        <tr><td>18% GST on Advance Maintenance</td><td class="amt">48,157.20</td></tr>
+        <tr><td>Documentation Charges &amp; 18% GST</td><td class="amt">29,500</td></tr>
+    </table>
+
+    <!-- ===== Notes ===== -->
+    <table class="notes-table">
+        <tr><td class="notes">
+            <b>NOTE:</b> The above Payment schedule is Tentative &amp; subject to change based on Bank Approvals/Requirement.
+            <ol style="margin:4px 0 0 14px; padding:0;">
+                <li>Applicable GST to be paid along every installment payments.</li>
+                <li>Corpus fund to be paid 15 days ahead of registration date.</li>
+                <li>Advance Maintenance Charges to be paid 15 days ahead of registration date.</li>
+                <li>Stamp Duty &amp; Other Statutory Fees/Taxes to be paid as applicable; 15 days ahead of registration date.</li>
+                <li>T.D.S @1% of the sale Consideration shall be deducted &amp; paid directly to the Govt. through online process on builders PAN.</li>
+                <li>The G.S.T, Stamp Duty etc., is subject to change from time to time based on government norms without any prior notifications.</li>
+                <li>Prices are subject to change without any prior notice.</li>
+                <li>All Cheques/Electronic transfers should be in favour of "THE DRIZZLE JV".</li>
+                <li>Bank charges for realization of out station cheques &amp; cheque return charges will be covered from the customers account.</li>
+                <li>Documentation charges to be paid at the time of Registration.</li>
+                <li>Errors &amp; Omissions Expected.</li>
+                <li>Add this number for future update on Drizzle Project Construction status +91 9281447996.</li>
+            </ol>
+        </td></tr>
+    </table>
+
+    <!-- ===== Signatures ===== -->
+    <table class="sign-table">
+        <tr>
+            <td>Customer Signature:</td>
+            <td style="text-align:right;">Authorized Signature:</td>
+        </tr>
+        <tr>
+            <td>Date:</td>
+            <td style="text-align:right;">Date:</td>
+        </tr>
+    </table>
+
+</body>
+</html>
+</apex:page>

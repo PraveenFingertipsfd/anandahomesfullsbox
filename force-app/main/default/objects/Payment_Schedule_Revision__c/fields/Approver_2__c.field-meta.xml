@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Approver_2__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <label>Approver 2</label>
+    <referenceTo>User</referenceTo>
+    <relationshipLabel>Payment Schedule Revisions (Approver 2)</relationshipLabel>
+    <relationshipName>PSR_Approver_2</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

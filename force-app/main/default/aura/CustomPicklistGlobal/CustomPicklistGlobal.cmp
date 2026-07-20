@@ -1,0 +1,19 @@
+<aura:component controller="CustomPicklistGlobalController" implements="lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,lightning:isUrlAddressable,flexipage:availableForRecordHome,lightning:hasPageReference,force:hasRecordId,force:lightningquickAction"
+                access="global">
+    <aura:attribute name="options" type="Object[]"/>
+    <aura:attribute name="label" type="String" default=""/>
+    <aura:attribute name="fieldAPIname" type="String" default=""/>
+    <aura:attribute name="objAPIName" type="String" default=""/>
+    <aura:attribute name="required" type="boolean" default="false"/>
+    <aura:attribute name="disabled" type="boolean" default="false"/>
+    <aura:attribute name="message" type="String"/>
+    <aura:attribute name="selectedValue" type="String"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <lightning:select name="select1" label="{!v.label}" required="{!v.required}" disabled="{!v.disabled}" value="{!v.selectedValue}">
+        <option value="">choose one...</option>
+        <aura:iteration items="{!v.options}" var="opt">
+            <option value="{!opt.pickListValue}">{!opt.pickListLabel}</option>
+        </aura:iteration>
+    </lightning:select>
+</aura:component>

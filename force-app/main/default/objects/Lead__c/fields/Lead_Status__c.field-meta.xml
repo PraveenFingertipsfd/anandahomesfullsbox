@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lead_Status__c</fullName>
+    <label>Lead status</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>New Enquiry</fullName>
+                <default>true</default>
+                <label>New Enquiry</label>
+            </value>
+            <value>
+                <fullName>Pre Sales RNR</fullName>
+                <default>false</default>
+                <label>Pre Sales RNR</label>
+            </value>
+            <value>
+                <fullName>Pre Sales Follow Up</fullName>
+                <default>false</default>
+                <label>Pre Sales Follow Up</label>
+            </value>
+            <value>
+                <fullName>New Sales Enquiry</fullName>
+                <default>false</default>
+                <label>New Sales Enquiry</label>
+            </value>
+            <value>
+                <fullName>Sales RNR</fullName>
+                <default>false</default>
+                <label>Sales RNR</label>
+            </value>
+            <value>
+                <fullName>Sales Follow up</fullName>
+                <default>false</default>
+                <label>Sales Follow up</label>
+            </value>
+            <value>
+                <fullName>Pre Sales Prospect</fullName>
+                <default>false</default>
+                <label>Pre Sales Prospect</label>
+            </value>
+            <value>
+                <fullName>Sales Prospect</fullName>
+                <default>false</default>
+                <label>Sales Prospect</label>
+            </value>
+            <value>
+                <fullName>Site Visit Scheduled</fullName>
+                <default>false</default>
+                <label>Site Visit Scheduled</label>
+            </value>
+            <value>
+                <fullName>Site Visit Completed</fullName>
+                <default>false</default>
+                <label>Site Visit Completed</label>
+            </value>
+            <value>
+                <fullName>Unqualified</fullName>
+                <default>false</default>
+                <label>Unqualified</label>
+            </value>
+            <value>
+                <fullName>Cost Sheet Preparation</fullName>
+                <default>false</default>
+                <label>Cost Sheet Preparation</label>
+            </value>
+            <value>
+                <fullName>Booked</fullName>
+                <default>false</default>
+                <label>Booked</label>
+            </value>
+            <value>
+                <fullName>Closed Lost</fullName>
+                <default>false</default>
+                <label>Closed Lost</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

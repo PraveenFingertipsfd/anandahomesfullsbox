@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lead_source__c</fullName>
+    <label>Lead source</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Facebook</fullName>
+                <default>false</default>
+                <label>Facebook</label>
+            </value>
+            <value>
+                <fullName>Google</fullName>
+                <default>false</default>
+                <label>Google</label>
+            </value>
+            <value>
+                <fullName>Website</fullName>
+                <default>false</default>
+                <label>Website</label>
+            </value>
+            <value>
+                <fullName>Instagram</fullName>
+                <default>false</default>
+                <label>Instagram</label>
+            </value>
+            <value>
+                <fullName>Taboola</fullName>
+                <default>false</default>
+                <label>Taboola</label>
+            </value>
+            <value>
+                <fullName>Hoardings</fullName>
+                <default>false</default>
+                <label>Hoardings</label>
+            </value>
+            <value>
+                <fullName>News paper</fullName>
+                <default>false</default>
+                <label>News paper</label>
+            </value>
+            <value>
+                <fullName>Radio</fullName>
+                <default>false</default>
+                <label>Radio</label>
+            </value>
+            <value>
+                <fullName>Walk-in</fullName>
+                <default>false</default>
+                <label>Walk-in</label>
+            </value>
+            <value>
+                <fullName>Existing Customer</fullName>
+                <default>false</default>
+                <label>Existing Customer</label>
+            </value>
+            <value>
+                <fullName>Employee Referral</fullName>
+                <default>false</default>
+                <label>Employee Referral</label>
+            </value>
+            <value>
+                <fullName>Referred By Friend</fullName>
+                <default>false</default>
+                <label>Referred By Friend</label>
+            </value>
+            <value>
+                <fullName>Channel Partner</fullName>
+                <default>false</default>
+                <label>Channel Partner</label>
+            </value>
+            <value>
+                <fullName>GoogleDiscovery</fullName>
+                <default>false</default>
+                <label>GoogleDiscovery</label>
+            </value>
+            <value>
+                <fullName>GoogleSearch</fullName>
+                <default>false</default>
+                <label>GoogleSearch</label>
+            </value>
+            <value>
+                <fullName>Friend</fullName>
+                <default>false</default>
+                <label>Friend</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Facebook Leadgen</fullName>
+                <default>false</default>
+                <label>Facebook Leadgen</label>
+            </value>
+            <value>
+                <fullName>Facebook CTW</fullName>
+                <default>false</default>
+                <label>Facebook CTW</label>
+            </value>
+            <value>
+                <fullName>Inbound Call</fullName>
+                <default>false</default>
+                <label>Inbound Call</label>
+            </value>
+            <value>
+                <fullName>Aff-Social Media</fullName>
+                <default>false</default>
+                <label>Aff-Social Media</label>
+            </value>
+            <value>
+                <fullName>OM - OTHERS</fullName>
+                <default>false</default>
+                <label>OM - OTHERS</label>
+            </value>
+            <value>
+                <fullName>CUSTOMER REFERRAL</fullName>
+                <default>false</default>
+                <label>CUSTOMER REFERRAL</label>
+            </value>
+            <value>
+                <fullName>IVR - PRINT</fullName>
+                <default>false</default>
+                <label>IVR - PRINT</label>
+            </value>
+            <value>
+                <fullName>OTHER PORTALS</fullName>
+                <default>false</default>
+                <label>OTHER PORTALS</label>
+            </value>
+            <value>
+                <fullName>GOOGLE ADS</fullName>
+                <default>false</default>
+                <label>GOOGLE ADS</label>
+            </value>
+            <value>
+                <fullName>WhatsApp</fullName>
+                <default>false</default>
+                <label>WhatsApp</label>
+            </value>
+            <value>
+                <fullName>NOBROKER</fullName>
+                <default>false</default>
+                <label>NOBROKER</label>
+            </value>
+            <value>
+                <fullName>ROOF AND FLOOR</fullName>
+                <default>false</default>
+                <label>ROOF AND FLOOR</label>
+            </value>
+            <value>
+                <fullName>META ADS</fullName>
+                <default>false</default>
+                <label>META ADS</label>
+            </value>
+            <value>
+                <fullName>QUIKR</fullName>
+                <default>false</default>
+                <label>QUIKR</label>
+            </value>
+            <value>
+                <fullName>Email</fullName>
+                <default>false</default>
+                <label>Email</label>
+            </value>
+            <value>
+                <fullName>Expo</fullName>
+                <default>false</default>
+                <label>Expo</label>
+            </value>
+            <value>
+                <fullName>REFERRAL - OTHERS</fullName>
+                <default>false</default>
+                <label>REFERRAL - OTHERS</label>
+            </value>
+            <value>
+                <fullName>CORPORATE ACTIVITY</fullName>
+                <default>false</default>
+                <label>CORPORATE ACTIVITY</label>
+            </value>
+            <value>
+                <fullName>COMMON FLOOR</fullName>
+                <default>false</default>
+                <label>COMMON FLOOR</label>
+            </value>
+            <value>
+                <fullName>DIRECT WALKIN</fullName>
+                <default>false</default>
+                <label>DIRECT WALKIN</label>
+            </value>
+            <value>
+                <fullName>Dealer</fullName>
+                <default>false</default>
+                <label>Dealer</label>
+            </value>
+            <value>
+                <fullName>99 ACRES</fullName>
+                <default>false</default>
+                <label>99 ACRES</label>
+            </value>
+            <value>
+                <fullName>WALKIN - PRINT</fullName>
+                <default>false</default>
+                <label>WALKIN - PRINT</label>
+            </value>
+            <value>
+                <fullName>IVR - DIGITAL</fullName>
+                <default>false</default>
+                <label>IVR - DIGITAL</label>
+            </value>
+            <value>
+                <fullName>HOUSING</fullName>
+                <default>false</default>
+                <label>HOUSING</label>
+            </value>
+            <value>
+                <fullName>MAGICBRICKS</fullName>
+                <default>false</default>
+                <label>MAGICBRICKS</label>
+            </value>
+            <value>
+                <fullName>IVR - OTHERS</fullName>
+                <default>false</default>
+                <label>IVR - OTHERS</label>
+            </value>
+            <value>
+                <fullName>BLACKCOFFEE</fullName>
+                <default>false</default>
+                <label>BLACKCOFFEE</label>
+            </value>
+            <value>
+                <fullName>MANAGEMENT REFERRAL</fullName>
+                <default>false</default>
+                <label>MANAGEMENT REFERRAL</label>
+            </value>
+            <value>
+                <fullName>INDIAN MAKAAN</fullName>
+                <default>false</default>
+                <label>INDIAN MAKAAN</label>
+            </value>
+            <value>
+                <fullName>SULEKHA</fullName>
+                <default>false</default>
+                <label>SULEKHA</label>
+            </value>
+            <value>
+                <fullName>WALKIN - CUSTOMER REFERRAL</fullName>
+                <default>false</default>
+                <label>WALKIN - CUSTOMER REFERRAL</label>
+            </value>
+            <value>
+                <fullName>WALKIN - DIGITAL MARKETING</fullName>
+                <default>false</default>
+                <label>WALKIN - DIGITAL MARKETING</label>
+            </value>
+            <value>
+                <fullName>WALKIN - CP</fullName>
+                <default>false</default>
+                <label>WALKIN - CP</label>
+            </value>
+            <value>
+                <fullName>Property Wala</fullName>
+                <default>false</default>
+                <label>Property Wala</label>
+            </value>
+            <value>
+                <fullName>VENDOR REFERRAL</fullName>
+                <default>false</default>
+                <label>VENDOR REFERRAL</label>
+            </value>
+            <value>
+                <fullName>Employee Self-Referral</fullName>
+                <default>false</default>
+                <label>Employee Self-Referral</label>
+            </value>
+            <value>
+                <fullName>Vendor Self Referral</fullName>
+                <default>false</default>
+                <label>Vendor Self Referral</label>
+            </value>
+            <value>
+                <fullName>M5ECITY</fullName>
+                <default>false</default>
+                <label>M5ECITY</label>
+            </value>
+            <value>
+                <fullName>CP Expired Leads</fullName>
+                <default>false</default>
+                <label>CP Expired Leads</label>
+            </value>
+            <value>
+                <fullName>99acres</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>99acres</label>
+            </value>
+            <value>
+                <fullName>CP Old Data</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>CP Old Data</label>
+            </value>
+            <value>
+                <fullName>ChatBot</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>ChatBot</label>
+            </value>
+            <value>
+                <fullName>Client Referrals</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Client Referrals</label>
+            </value>
+            <value>
+                <fullName>DIRECT WALIKIN</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>DIRECT WALIKIN</label>
+            </value>
+            <value>
+                <fullName>Digital</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Digital</label>
+            </value>
+            <value>
+                <fullName>Expo-Event</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Expo-Event</label>
+            </value>
+            <value>
+                <fullName>Housing.com</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Housing.com</label>
+            </value>
+            <value>
+                <fullName>Inbound Phone Call</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Inbound Phone Call</label>
+            </value>
+            <value>
+                <fullName>MagicBrick</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>MagicBrick</label>
+            </value>
+            <value>
+                <fullName>Mcube</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Mcube</label>
+            </value>
+            <value>
+                <fullName>Outdoor</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Outdoor</label>
+            </value>
+            <value>
+                <fullName>Real Estate Portal</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Real Estate Portal</label>
+            </value>
+            <value>
+                <fullName>Referral</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Referral</label>
+            </value>
+            <value>
+                <fullName>Social Media</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Social Media</label>
+            </value>
+            <value>
+                <fullName>US Bay</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>US Bay</label>
+            </value>
+            <value>
+                <fullName>Walk-In Leads</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Walk-In Leads</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

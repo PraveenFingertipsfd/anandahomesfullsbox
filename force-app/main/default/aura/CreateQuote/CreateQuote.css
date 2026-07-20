@@ -1,0 +1,37 @@
+.THIS .slds-dueling-list__options {
+    max-height: 180px;
+}
+
+/* Mobile: give the Payment schedules modal a full-screen view and let the
+   schedule table scroll horizontally so every column is reachable. */
+@media (max-width: 48em) {
+    /* Full-width / full-height modal instead of a cramped centered card */
+    .THIS .slds-modal__container {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        min-height: 100vh;
+        margin: 0;
+    }
+
+    /* Let the modal body and the table wrapper scroll sideways
+       (SLDS .slds-scrollable is overflow-x:hidden by default) */
+    .THIS .slds-modal__content,
+    .THIS .slds-modal__content .slds-scrollable {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Keep columns from collapsing so headers stay readable while swiping */
+    .THIS .slds-modal__content table {
+        min-width: 640px;
+    }
+
+    /* The header's x-large side margins squeeze the Project/Unit row on
+       phones — tighten them so the info wraps cleanly */
+    .THIS .slds-modal__header.slds-modal__header,
+    .THIS .modal-header .slds-m-horizontal_x-large {
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+    }
+}

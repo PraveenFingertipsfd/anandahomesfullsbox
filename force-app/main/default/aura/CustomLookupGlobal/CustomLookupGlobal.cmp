@@ -1,0 +1,105 @@
+<aura:component controller="CustomLookupGlobalController"
+                implements="lightning:actionOverride,force:appHostable,flexipage:availableForAllPageTypes,lightning:isUrlAddressable,flexipage:availableForRecordHome,lightning:hasPageReference,force:hasRecordId,force:lightningquickAction"
+                access="global">
+    
+    <!-- Attributes that can be set while component calling-->
+    <aura:attribute name="selectedId" type="string" />
+    <aura:attribute name="showDropdown" type="boolean" default="false" />
+    <aura:attribute name="ControlMode" type="boolean" default="true" />
+    <aura:attribute name="required" type="boolean" default="false" />
+    <aura:attribute name="queryField" type="string" default="" />
+    <aura:attribute name="queryValue" type="string"/>
+     <aura:attribute name="queryField1" type="string" default="" />
+    <aura:attribute name="queryValue1" type="string"/>
+    <aura:attribute name="objectName" type="string" default="" required="true" />
+    <aura:attribute name="fieldName" type="string" default="" required="true" />
+    <aura:attribute name="additionalfield" type="string" default="" required="true" />
+    <aura:attribute name="value" type="String" default="" description="To pre-populate a value" />
+    <aura:attribute name="recordCount" type="string" default="5" description="Records visible at once" />
+    <aura:attribute name="iconName" type="string" default="standard:drafts"
+                    description="complete icon name eg. standard:account" />
+    <aura:attribute name="label" type="string" default="" description="Label will be displayed above input Box" />
+    <aura:attribute name="placeholder" type="string" default="Search..." description="placeholder for input Box" />
+    <aura:handler name="change" value="{!v.value}" default="" action="{!c.changeValue}" />
+    <aura:handler name="change" value="{!v.spcecialValue}" default="" action="{!c.changeParent}" />
+    
+    <!-- Internal Use Attributes 
+        <aura:handler name="change" value="{!v.spcecialValue}" action="{!c.doInit}"/>
+-->
+    <aura:attribute name="searchString" type="string" access="private" default="" description="String to search" />
+    <aura:attribute name="selectedRecord" type="Object" access="private" default=""
+                    description="selected Record Details" />
+    <aura:attribute name="recordsList" type="List" access="private" description="List of Records having data" />
+    <aura:attribute name="message" type="String" access="private" default="" />
+    
+    <div class="slds-form-element">
+        <aura:if isTrue="{!!empty(v.label)}">
+            <label class="slds-form-element__label">{!v.label}</label>
+        </aura:if>
+        <div class="slds-form-element__control">
+            <div class="slds-combobox_container">
+                <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aura:id="resultsDiv">
+                    <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                        <div aura:id="lookup-pill"
+                             class="{! 'slds-pill-container ' + if(v.selectedRecord == '','slds-hide','') }">
+                            <!-- Selected Value Pill -->
+                            <lightning:pill class="fullWidth" label="{!v.selectedRecord.label}"
+                                            name="{!v.selectedRecord.label}" onremove="{! c.removeItem }">
+                                <aura:set attribute="media">
+                                    <lightning:icon iconName="{!v.iconName}" size="x-small" alternativeText="icon" />
+                                </aura:set>
+                            </lightning:pill>
+                        </div>
+                        <div aura:id="lookupField" class="{! if(v.selectedRecord == '','slds-show','slds-hide') }">
+                            <!--Icon, Search Bar, Search Icon -->
+                            <lightning:icon class="slds-combobox__input-entity-icon" iconName="{!v.iconName}"
+                                            size="large" alternativeText="icon" />
+                            <lightning:input aura:id="inputLookup" class="inputBox" placeholder="{!v.placeholder}"
+                                             onblur="{!c.blurEvent}" onclick="{!c.showRecords}" onkeyup="{!c.searchRecords}"
+                                             value="{!v.searchString}" autoComplete="off" variant="label-hidden"
+                                             disable="{!v.controlMode}" id="combobox-id-1" />
+                            <lightning:icon class="slds-input__icon" iconName="utility:search" size="x-small"
+                                            alternativeText="search" />
+                            <lightning:spinner class="slds-hide" aura:id="Spinner" alternativeText="Loading"
+                                               size="small" variant="brand" />
+                        </div>
+                    </div>
+                    <!--<aura:if isTrue="{!v.showDropdown}">-->
+                    <div id="listbox-id-3" class="slds-dropdown  slds-dropdown_fluid"
+                         role="listbox" aria-label="{{Placeholder for Dropdown Items}}" tabindex="0" aria-busy="false">
+                        <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                            <aura:if isTrue="{!empty(v.message)}">
+                                <!--To display Drop down List -->
+                                <aura:iteration items="{!v.recordsList}" var="rec">
+                                    <li id="{!rec.value}" role="presentation" class="slds-listbox__item"
+                                        onmousedown="{!c.selectItem}">
+                                        <div id="option247"
+                                             class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                             role="option" itemid="{!rec.value}">
+                                            <span class="slds-media__figure slds-listbox__option-icon">
+                                                <span class="slds-icon_container slds-icon-standard-account">
+                                                    <lightning:icon iconName="{!v.iconName}" size="small"
+                                                                    alternativeText="icon" id="{!rec.value}" />
+                                                </span>
+                                            </span>
+                                            <span class="slds-media__body">
+                                                <span class="slds-listbox__option-text slds-listbox__option-text_entity"
+                                                      id="{!rec.value}">{!rec.label}</span>
+                                                <aura:if isTrue="{!not(empty(rec.label2))}">
+                                                    <span class="slds-listbox__option-meta slds-listbox__option-meta_entity" id="{!rec.value}">
+                                                        {!rec.label2}
+                                                    </span>
+                                                </aura:if>
+                                            </span>
+                                        </div>
+                                    </li>
+                                </aura:iteration>
+                            </aura:if>
+                        </ul>
+                    </div>
+                    <!--</aura:if>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

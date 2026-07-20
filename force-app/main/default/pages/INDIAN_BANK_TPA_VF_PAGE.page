@@ -1,0 +1,361 @@
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false"
+           applyHtmlTag="false" applyBodyTag="false" renderAs="pdf"
+           title="Tripartite Agreement - Indian Bank">
+<html>
+<head>
+<style type="text/css">
+    @page {
+        size: A4;
+        margin: 60px 55px 70px 55px;
+        /* Page number: "Page X of Y" at the bottom centre of every page */
+        @bottom-center {
+            content: "Page " counter(page) " of " counter(pages);
+            font-family: "Times New Roman", serif;
+            font-size: 10px;
+            color: #000000;
+        }
+    }
+    body {
+        font-family: "Times New Roman", serif;
+        font-size: 12px;
+        line-height: 1.5;
+        color: #000000;
+        text-align: justify;
+    }
+    h1.doc-title {
+        text-align: center;
+        font-size: 16px;
+        font-weight: bold;
+        text-decoration: underline;   /* underlined heading */
+        margin-bottom: 18px;
+    }
+    h2.section {
+        text-align: center;
+        font-size: 13px;
+        font-weight: bold;
+        text-decoration: underline;   /* underlined heading */
+        margin: 14px 0 10px 0;
+    }
+    h3.section-left {
+        font-size: 13px;
+        font-weight: bold;
+        text-decoration: underline;   /* underlined heading */
+        margin: 14px 0 10px 0;
+    }
+    p { margin: 0 0 10px 0; }
+    .bold { font-weight: bold; }
+    .center { text-align: center; }
+    ol.clauses { padding-left: 22px; }
+    ol.clauses > li { margin-bottom: 10px; text-align: justify; }
+
+    /* Tables: bordered + never split across pages */
+    table.detail {
+        width: 80%;
+        margin: 8px auto 14px auto;
+        border-collapse: collapse;
+        page-break-inside: avoid;     /* do not separate the table */
+    }
+    table.detail, table.detail th, table.detail td {
+        border: 1px solid #000000;    /* borders for the tables */
+    }
+    table.detail td {
+        padding: 5px 8px;
+        font-size: 11px;
+        vertical-align: top;
+    }
+    table.detail td.label { font-weight: bold; width: 38%; }
+
+    /* Signature block rows that recur through the document */
+    table.sign { width: 100%; margin: 22px 0 10px 0; border-collapse: collapse; }
+    table.sign td { text-align: center; font-weight: bold; font-size: 12px; }
+</style>
+</head>
+<body>
+
+    <h1 class="doc-title">TRIPARTITE AGREEMENT</h1>
+
+    <p>This agreement is executed on this ________ day of ____________ 2025,</p>
+
+    <h2 class="section">By and Between</h2>
+
+    <p class="bold">SRI. ABHISHEK REDDY MULUMUDI S/O. SRI. MULUMUDI KRISHNA REDDY,
+    aged about 37 years, Occupation: Private Employee, Resident of
+    46-141-608-203, Sri Krishna Towers, Near Ramachandra Mission, Mangamur Road,
+    Ongole, Prakasham(Dist), Andhra Pradesh-523002. (AADHAAR NO. 4059 0837 2844
+    &amp; PAN NO. AZHPM6476E)</p>
+
+    <p class="bold center">&amp;</p>
+
+    <p class="bold">SMT. BOMMAREDDY RAKSHITHA REDDY W/O. SRI. ABHISHEK REDDY
+    MULUMUDI, aged about 31 years, Occupation: Private Employee, Resident of
+    46-141-608-203, Sri Krishna Towers, Near Ramachandra Mission, Mangamur Road,
+    Ongole, Prakasham(Dist), Andhra Pradesh-523002. (AADHAAR NO. 4972 6602 9027
+    &amp; PAN NO. FNPPB5370F)</p>
+
+    <table class="sign">
+        <tr><td>BORROWER/s</td><td>BUILDER</td><td>Indian Bank</td></tr>
+        <tr><td>&nbsp;</td><td>Authorized Signatory</td><td>Authorized Signatory</td></tr>
+    </table>
+
+    <p>Hereinafter referred to as the &ldquo;Borrower(s)&rdquo;, which term shall
+    unless repugnant to the context shall mean and include his/her heirs,
+    representatives, successors, executors, attorneys, administrators, and assigns,
+    of the party at the First Part&rdquo;</p>
+
+    <h2 class="section">AND</h2>
+
+    <p class="bold">M/S. ANANDA HOMES (GST No: 36ABFFA6591E1ZE) having registered
+    office at First Floor, A1, Vista Residency, Alkapoor Township, Neknappoor,
+    Ranga Reddy, Telangana, 500089. Represented by its authorized signatory
+    SRI. P.V. SREENIVASULU S/O. LATE P.C.V. RAMANAIAH, Resident of Villa No.60,
+    River Edge Villas, Manchirevula, K. V. Ranga Reddy, Telangana &ndash; 500089.</p>
+
+    <p>Hereinafter referred to as the &ldquo;Builder/vendors/Developer&rdquo;,
+    which term shall unless repugnant to the context shall mean and include its
+    representatives, successors, administrators, and assigns, of the party at the
+    &ldquo;Second Part&rdquo;.</p>
+
+    <h2 class="section">AND</h2>
+
+    <p class="bold">Indian Bank, a body corporate, constituted under the Banking
+    Companies (Acquisition and Transfer of Undertakings) Act V of 1970, having
+    amongst others one of its Branch Office at Manikonda Branch hereinafter
+    referred as the &ldquo;INDIAN BANK&rdquo;, which term shall unless repugnant
+    to the context shall mean and include its representatives, successors,
+    administrators and assigns, of the party at the &ldquo;Third Part&rdquo;.</p>
+
+    <p class="bold">Whereas, the &ldquo;Builder/Vendor/Developer&rdquo; is the
+    absolute owner and in peaceful possession of the residential Property, totally
+    admeasuring 1520 Sq. Ft. and land share of 31.9 Sq.Yd. of in the Residential
+    Complex known as &ldquo;THE LEGACEY&rdquo; situated at Puppalguda Village,
+    under Manikonda Municipality, Gandipet Mandal, Ranga Reddy District,
+    Telangana State.</p>
+
+    <p class="bold">Whereas, the Party at the first part has booked a residential
+    property Apartment No.T8-204, totally admeasuring 1520 Sq. Ft. and land share
+    of 31.9 Sq.Yd. in the Residential Apartment Complex known as &ldquo;THE
+    LEGACEY&rdquo; situated at Puppalguda Village, under Manikonda Municipality,
+    Gandipet Mandal, Ranga Reddy District, Telangana State (hereinafter referred to
+    as the said Apartment) in the building which the Party at the Second Part shall
+    construct on the above said Apartment and the Party at the First Part has to pay
+    the entire consideration including GST amount of Rs. 1,30,20,000/- (Rupees One
+    Crore Thirty Lakh Twenty Thousand Only) as per the agreement of sale
+    dated: - _____________</p>
+
+    <p class="bold">Whereas, the Party at the First Part has approached the Party at
+    the Third Part for availing a Home Loan of Rs. ______________/- (Rupees
+    ___________________________________ Only) to finance the purchase of the said
+    Residential Flat.</p>
+
+    <p>Besides other securities, the Party at the First Part has agreed to create
+    the charge over the said Apartment along with the proportionate land share in
+    the land in favour of the Party at the Third Part. In the absence of proper
+    Conveyance Deed/Sale Deed in its favour, the Party at the First Part is not in a
+    position to create a valid mortgage over the said Apartment and proportionate
+    share of land in favour of the Party at the Third Part.</p>
+
+    <table class="sign">
+        <tr><td>BORROWER/s</td><td>BUILDER</td><td>Indian Bank</td></tr>
+        <tr><td>&nbsp;</td><td>Authorized Signatory</td><td>Authorized Signatory</td></tr>
+    </table>
+
+    <p class="bold">Whereas, the Party at the First Part and the Party at the Second
+    Part have requested INDIAN BANK to disburse the said loan to the Borrower,
+    notwithstanding the fact that the Conveyance Deed / Sale Deed is not executed in
+    favour of the Party at the First Part at this stage, and in consideration of the
+    INDIAN BANK sanctioning the loan to the Borrower(s), the Borrower(s) and the
+    Builder/Developer have executed this Agreement on the following terms and
+    conditions.</p>
+
+    <h3 class="section-left">Now therefore it is hereby agreed by and between the
+    parties that:</h3>
+
+    <ol class="clauses">
+        <li>INDIAN BANK has and shall have the first lien / charge over the said
+        Apartment for the due repayment of the loan which INDIAN BANK has granted to
+        the Borrower. The Builder shall note in its records the valid and enforceable
+        charge and lien of INDIAN BANK over the said Apartment. The Builder shall not
+        transfer the said Apartment to any other person without the prior written
+        consent of the INDIAN BANK.</li>
+
+        <li>The Builder/Developer agrees that it has no objection to the Borrower(s)
+        mortgaging the said Apartment with proportionate share in land to the INDIAN
+        BANK as security for the said loan agreed to be advanced by the INDIAN BANK
+        for the purpose of purchase/construction of the said Apartment. In the event
+        of default in the repayment of loan and/or the Borrower(s) committing any
+        other default which makes the Borrower(s) liable for the repayment of the
+        entire amount outstanding in the said loan as per the terms of the Loan
+        Agreement executed between the Borrower(s) and the INDIAN BANK, the Builder
+        shall at the request of INDIAN BANK, be under obligation to not deliver
+        possession to the Borrower and/or to cancel the booking and pay all amounts
+        received by the Builder on behalf of the Borrower(s) to INDIAN BANK including
+        also any amount paid by the Borrower to the Builder. However, the
+        builder/developer shall be entitled to recover cancellation and/or any other
+        charges, if any payable by the Borrower under the terms of application form
+        for purchase of the said Apartment and/or agreement to sale/construction out
+        of the Borrower&rsquo;s contribution. Upon payment of the amounts by the
+        Builder/Developer to INDIAN BANK as aforesaid, the INDIAN BANK and the
+        Borrower will not have any claim, charge, lien, mortgage, right, title and
+        interest etc. whatsoever, over the said Apartment. INDIAN BANK shall issue a
+        certificate to release any mortgage/charge/lien created on the said
+        Apartment. The Borrower hereby expressly agrees that in the event of
+        cancellation of booking by the Borrower / death of the Borrower / Termination
+        of Agreement contrary to the terms hereof / failure to execute the sale deed
+        or conveyance deed or lease deed by the Builder within the time stipulated /
+        failure to complete the construction within the time stipulated in the
+        construction agreement / default in executing the mortgage in favour of the
+        Bank / default in either repayment of the loan or any other default by the
+        Borrower. INDIAN BANK shall be entitled to request the Builder to cancel the
+        booking and return the amounts received by the Builder and the Borrower
+        agrees and acknowledges that any such request by INDIAN BANK and payment made
+        by the Builder under this clause to INDIAN BANK shall be binding upon the
+        Borrower.</li>
+
+        <li>That if for any reason there is any increase / escalation in the cost of
+        the said Apartment, the increase shall be paid and borne by the Borrower(s)
+        without any reference to INDIAN BANK and until such payment is made, INDIAN
+        BANK shall have the right to suspend further disbursement of the said loan.</li>
+
+        <li>That in the event of the Builder canceling the said booking for any
+        default committed by the Borrower(s) or the project is shelved by the Builder
+        or for any other reason whatsoever, the Builder shall pay the entire amount
+        received on behalf of the Borrower(s) to INDIAN BANK. However, the
+        builder/developer shall be entitled to recover cancellation and/or any other
+        charges, if any payable by the Borrower under the terms of application form
+        for purchase of the said Apartment and/or agreement to sell/construction out
+        of the Borrower&rsquo;s contribution only in the instance where the Borrower
+        has cancelled the booking of the Apartment or has committed any default.</li>
+
+        <li>That on the receipt of the entire consideration amount, the Builder shall
+        execute a proper Conveyance Deed / Sale Deed / Lease Deed in favour of the
+        Borrower. The Builder undertakes to deliver the same along with original
+        registration fee receipt directly to INDIAN BANK and not to the Borrower(s).
+         <br></br>
+        Before the execution of the Sale Deed / Conveyance Deed / Lease Deed, the
+        builder shall inform INDIAN BANK about the same on the completion of the
+        project.</li>
+
+        <li>That the builder agrees that the loan Flat amount may be credited to the
+        Escrow account
+            <table class="detail">
+                <tr><td class="label">NAME OF ACCOUNT HOLDER</td><td>ANANDA HOMES THE LEGACEY MASTER COLLECTION ESCROW ACCOUNT</td></tr>
+                <tr><td class="label">BANK ACCOUNT NUMBER</td><td>57500001468756</td></tr>
+                <tr><td class="label">IFSC CODE</td><td>HDFC0009425</td></tr>
+                <tr><td class="label">ACCOUNT TYPE</td><td>ESCROW ACCOUNT</td></tr>
+                <tr><td class="label">NAME OF BANK</td><td>HDFC BANK Ltd</td></tr>
+                <tr><td class="label">BRANCH</td><td>MANIKONDA BRANCH</td></tr>
+                <tr><td class="label">BRANCH CITY</td><td>HYDERABAD</td></tr>
+            </table>
+        </li>
+
+        <li>That the builder agrees that the loan GST amount may be credited to the
+        below mentioned account
+            <table class="detail">
+                <tr><td class="label">NAME OF ACCOUNT HOLDER</td><td>ANANDA HOMES</td></tr>
+                <tr><td class="label">BANK ACCOUNT NUMBER</td><td>322205002425</td></tr>
+                <tr><td class="label">IFSC CODE</td><td>ICIC0003222</td></tr>
+                <tr><td class="label">ACCOUNT TYPE</td><td>CURRENT ACCOUNT</td></tr>
+                <tr><td class="label">NAME OF BANK</td><td>ICICI BANK</td></tr>
+                <tr><td class="label">BRANCH</td><td>MANIKONDA BRANCH</td></tr>
+                <tr><td class="label">BRANCH CITY</td><td>HYDERABAD</td></tr>
+            </table>
+        </li>
+
+        <li>That the Borrower(s) shall also keep INDIAN BANK informed about the
+        developments in the project. The Borrower shall notify INDIAN BANK the date
+        of taking over the possession of the said Apartment. In case the Borrower(s)
+        comes into possession of the Lease Deed / Conveyance Deed / Sale Deed, he/she
+        shall immediately deliver the same to INDIAN BANK.</li>
+
+        <li>That the Borrower(s) assures that he/she will not avail finance from any
+        other Bank or Financial Institution in respect of the aforesaid Apartment
+        and/or will not create further mortgage/charge over the said Apartment
+        (allotted to the borrower) in any manner whatsoever.</li>
+
+        <li>That the Borrower(s) shall pay all charges, duties, taxes in respect of
+        the said Apartment imposed or payable to the Builder/Developer and or to
+        Corporation or any other Government Department/Authority in respect of the
+        said Apartment and INDIAN BANK shall not be liable or responsible in any
+        manner whatsoever or howsoever for the same.</li>
+
+        <li>That the Borrower(s) / Builder agrees and acknowledges to keep INDIAN
+        BANK indemnified against any loss or damage incurred by it in the event of
+        failure of the Borrower(s) / Builder to honor or to meet any of its
+        obligations under this Agreement in connection with the sanctioning of the
+        loan in respect of the said Apartment.</li>
+
+        <li>That during the currency of the loan, the Borrower(s) shall not transfer
+        the said Apartment to any other person, without the prior written consent of
+        INDIAN BANK. The Builder/Developer shall not issue the duplicate allotment
+        letter/possession letter to the Borrower(s) without the prior written consent
+        of the INDIAN BANK.</li>
+
+        <li>It is understood that the term &ldquo;loan&rdquo; mentioned herein shall
+        include interest, penal interest, and all other sums payable by the
+        borrower(s) to INDIAN BANK.</li>
+
+        <li>That in the event of any default by the Borrower(s), the INDIAN BANK may
+        at its discretion enforce the security by the sale and the Builder shall
+        accept the Purchaser of the said Apartment in place of the Borrower(s), after
+        the Purchaser complies with the necessary requirements of the
+        Builder/Developer in this respect.</li>
+
+        <li>That the Builder assures INDIAN BANK that the construction shall be
+        completed as per schedule and as per the sanctioned plans and on completion
+        of construction, the title of the Apartment with proportionate land share in
+        the land shall be conveyed in the name of the Borrower(s).</li>
+
+        <li>That it is further made clear and understood by all the parties that the
+        non-completion of the project or the happening of any event shall not affect
+        the obligations of the Borrower(s) to repay the loan availed from INDIAN
+        BANK.</li>
+
+        <li>That the said Apartment is free from all encumbrances, charges, lien,
+        attachment, prior agreements, whatsoever or howsoever. The party at first
+        part and second part will not do any act or deed which will affect the
+        security of the Apartment / or charge created in favour of INDIAN BANK in any
+        manner whatsoever.</li>
+
+        <li>That there is no order of attachment by the Income Tax Authorities or any
+        other authority under any law for the time being in force nor any notice of
+        acquisition or requisition has been received in respect of the said
+        property,</li>
+
+        <li>That this Agreement shall not affect in any manner whatsoever the duties
+        and obligations of the Borrower(s) and the terms and conditions agreed to by
+        the Borrower(s) in the Loan Agreement and other documents executed in favour
+        of INDIAN BANK shall remain binding upon the Borrower(s),</li>
+
+        <li>That in case of acquisition, forfeiture/resumption of the said property,
+        INDIAN BANK shall be entitled to get the compensation settled in respect of
+        the said Apartment and to appear and act before the Collector/Revenue
+        Officer/Estate Officer or any other concerned authorities, to sign any form,
+        to give any statement, affidavit, application on Borrower&rsquo;s behalf, to
+        receive the compensation in its own name and on the Borrower&rsquo;s behalf,
+        to file appeal in any court for the enhancement of the compensation amount,
+        to get the compensation amount enhanced and to receive the same.</li>
+
+        <li>The responsibilities of the builders under this tripartite agreement will
+        be extinguished only after delivering the duly registered Conveyance Deed /
+        Sale Deed / Lease Deed directly to the Bank and handing over the possession of
+        the residential unit to the borrower(s) and thereafter the validity of the
+        Tripartite Agreement will come to an end.</li>
+
+        <li>The Borrower and Builder further undertake to recognize the Bank as the
+        duly authorized agent of the Borrowers for the limited purpose of protecting
+        the interest of the Bank.</li>
+    </ol>
+
+    <p class="bold">IN WITNESS WHEREOF THE PARTIES HERETO HAVE SIGNED AND EXECUTED
+    THIS AGREEMENT ON THE DAY AND THE YEAR FIRST ABOVE WRITTEN</p>
+
+    <p>SIGNED AND DELIVERED by the under signed parties</p>
+
+    <table class="sign">
+        <tr><td>BORROWER/s</td><td>BUILDER</td><td>Indian Bank</td></tr>
+        <tr><td>&nbsp;</td><td>Authorized Signatory</td><td>Authorized Signatory</td></tr>
+    </table>
+
+</body>
+</html>
+</apex:page>

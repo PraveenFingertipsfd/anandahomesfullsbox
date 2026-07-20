@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Approval_Name__c</fullName>
+    <description>Holds the Process_Type__c of the Approval Configuration that is currently active for this record. Set by DynamicApprovalService.submitForApproval on submission so the generic approval flow can look up the right config when Approval_Status__c changes to Approved or Rejected.</description>
+    <externalId>false</externalId>
+    <label>Approval Name</label>
+    <length>100</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

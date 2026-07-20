@@ -1,0 +1,295 @@
+<apex:page renderAs="pdf" showHeader="false" sidebar="false"
+           standardStylesheets="false" applyBodyTag="false" applyHtmlTag="false">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<style type="text/css">
+    @page {
+        size: A4;
+        margin: 2cm 1.5cm 2.2cm 1.5cm;
+        @bottom-center {
+            content: "Page " counter(page) " of " counter(pages);
+            font-family: "Times New Roman", serif;
+            font-size: 9px;
+            color: #000;
+        }
+    }
+    body {
+        font-family: "Times New Roman", serif;
+        font-size: 12px;
+        line-height: 1.5;
+        color: #000;
+        text-align: justify;
+    }
+    h1.title {
+        text-align: center;
+        font-size: 16px;
+        font-weight: bold;
+        text-decoration: underline;
+        margin: 0 0 18px 0;
+    }
+    p { margin: 6px 0; }
+    .section {
+        font-weight: bold;
+        text-decoration: underline;
+        margin: 14px 0 8px 0;
+    }
+    .sub {
+        font-weight: bold;
+        text-decoration: underline;
+        margin: 10px 0 6px 0;
+        padding-left: 2.2em;
+    }
+    .center { text-align: center; }
+    .l1 { padding-left: 2.2em; }
+    .l2 { padding-left: 4.4em; }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        page-break-inside: avoid;
+        margin: 10px 0;
+    }
+    td, th {
+        border: 1px solid #000;
+        padding: 6px 8px;
+        vertical-align: top;
+        font-size: 11px;
+        text-align: left;
+    }
+    th { font-weight: bold; }
+    .sig td { height: 70px; }
+</style>
+</head>
+<body>
+
+    <h1 class="title">TRIPARTITE AGREEMENT</h1>
+
+    <p>This Tripartite Agreement (&#8220;Agreement&#8221;) is made at the place and on the date as set out in Schedule I.</p>
+
+    <p class="center"><b>AMONGST</b></p>
+
+    <p><b>BAJAJ HOUSING FINANCE LIMITED</b>, a company registered under the provisions of the Companies Act, 1956, and a &#8216;Company&#8217; under the meaning of the Companies Act, 2013, and having its registered office at Pune Mumbai Road, Akurdi, Pune 411035 (hereinafter referred to as &#8220;BHFL&#8221; or &#8220;Lender&#8221; which expression shall, unless it be repugnant to the context or meaning thereof, be deemed to mean and include its successors and permitted assigns) of the First Part;</p>
+
+    <p class="center"><b>AND</b></p>
+
+    <p>The borrower and co-borrower(s) (if any) whose name(s) and other details are set out in Schedule I (hereinafter collectively referred to as &#8220;Borrower&#8221;, which expression shall, unless it be repugnant to the context or meaning thereof, be deemed to mean and include their successors, heirs, executors and administrators) of the Second Part;</p>
+
+    <p class="center"><b>AND</b></p>
+
+    <p>The builder and/or developer whose name(s) and other details are set out in Schedule I (hereinafter referred to as &#8220;Builder&#8221; which expression shall, unless it be repugnant to the context or meaning thereof, be deemed to mean and include its/his/their successors, heirs, executors, administrators and permitted assigns) of the Third Part.</p>
+
+    <p>The Lender, Borrower and Builder are hereinafter collectively referred to as &#8220;Parties&#8221; and individually referred to as &#8220;Party&#8221;.</p>
+
+    <p><b>WHEREAS:</b></p>
+
+    <p class="l1"><b>A.</b>&#160;&#160;The Lender is a housing finance company, inter alia, engaged in the business of providing home loan/credit facilities to various customers.</p>
+    <p class="l1"><b>B.</b>&#160;&#160;The Builder is engaged in the business of construction and development of commercial and/or residential complexes and as a part of its business activities, the Builder has developed/is currently developing the Project.</p>
+    <p class="l1"><b>C.</b>&#160;&#160;The Builder has agreed to sell / allot and the Borrower has agreed to purchase the Residential Apartment in the Project (as defined hereinbelow) and the Borrower has approached the Lender for a Loan towards payment of the purchase consideration of the Residential Apartment in the Project.</p>
+    <p class="l1"><b>D.</b>&#160;&#160;Relying on the representations of the Borrower, the Lender has agreed to grant the Loan to the Borrower, in terms of the Loan Agreement (as defined hereinbelow).</p>
+    <p class="l1"><b>E.</b>&#160;&#160;The Borrower has agreed to mortgage with the Lender, the Residential Apartment as and by way of equitable mortgage of all the rights, title, benefits that would accrue from the Residential Apartment till the repayment of the Loan and all dues payable there under are made to the satisfaction of the Lender in terms of the Loan Agreement.</p>
+    <p class="l1"><b>F.</b>&#160;&#160;One of the conditions for the Lender sanctioning the said Loan to the Borrower was that the understanding as stipulated in the recitals and this Agreement shall be reduced and recorded in writing with an understanding and intent of making the same irrevocable, binding and enforceable by and between the Borrower and the Builder, and till the time this formality is complied with to the satisfaction of the Lender and documents in evidence thereof are delivered to the Lender there will be no disbursement pursuant to the Loan Agreement.</p>
+
+    <p><b>NOW, THEREFORE,</b> in consideration of the foregoing and other good and valid consideration, the receipt and adequacy of which is expressly acknowledged, the Parties hereby agree as follows:</p>
+
+    <!-- 1 -->
+    <p class="section">1.&#160;&#160;DEFINITIONS AND INTERPRETATION</p>
+    <p>In this Agreement, in addition to the terms defined in the description of the Parties, (a) words and expressions used herein but not defined shall have the same meaning as assigned to them in General Clauses Act, 1897; and (b) the following words and expressions shall have the meanings as set-out in this Clause 1:</p>
+
+    <p class="sub">1.1&#160;&#160;Definitions</p>
+    <p class="l1"><b>(a)</b>&#160;&#160;&#8220;Agreement&#8221; means and includes this Agreement, together with all the schedules, exhibits, addendums, attachments and appendices annexed hereto and all amendments hereto.</p>
+    <p class="l1"><b>(b)</b>&#160;&#160;&#8220;Agreement to Sell&#8221; shall mean the agreement to sell entered into between the Builder and the Borrower, details of which are provided in Schedule I.</p>
+    <p class="l1"><b>(c)</b>&#160;&#160;&#8220;Allotment Letter&#8221; shall mean the allotment letter issued by the Builder in favour of the Borrower in respect of the allotment of the Residential Apartment details of which are provided in Schedule I.</p>
+    <p class="l1"><b>(d)</b>&#160;&#160;&#8220;Builder Payments&#8221; shall have the meaning ascribed to it in Clause 6.6.</p>
+    <p class="l1"><b>(e)</b>&#160;&#160;&#8220;Loan&#8221; shall mean the home loan granted by the Lender to the Borrower in terms of the Loan Agreement.</p>
+    <p class="l1"><b>(f)</b>&#160;&#160;&#8220;Loan Agreement&#8221; shall mean the agreement entered into between the Borrower and the Lender details of which are provided in Schedule I.</p>
+    <p class="l1"><b>(g)</b>&#160;&#160;&#8220;Loan Documents&#8221; shall mean the loan documents as more particularly defined in the Loan Agreement.</p>
+    <p class="l1"><b>(h)</b>&#160;&#160;&#8220;Residential Apartment&#8221; shall mean the residential apartment, details of which are provided in Schedule I.</p>
+    <p class="l1"><b>(i)</b>&#160;&#160;&#8220;Project&#8221; shall mean the project constructed / to be constructed and developed / to be developed by the Builder, details of which are provided in Schedule I.</p>
+    <p class="l1"><b>(j)</b>&#160;&#160;&#8220;Sanction Letter&#8221; means the sanction letter issued by the Lender and accepted by the Borrower, details of which are provided in Schedule I, including all amendments thereto.</p>
+
+    <p class="sub">1.2&#160;&#160;Interpretation</p>
+    <p class="l1"><b>(a)</b>&#160;&#160;unless the context otherwise requires, words denoting the singular shall include the plural and vice versa;</p>
+    <p class="l1"><b>(b)</b>&#160;&#160;the table of contents, headings and the use of bold typeface, are inserted for ease of reference and shall be ignored in the construction and interpretation of the Agreement;</p>
+    <p class="l1"><b>(c)</b>&#160;&#160;a reference to a Clause or Schedule is, unless indicated to the contrary, a reference to a Clause or Schedule to this Agreement;</p>
+    <p class="l1"><b>(d)</b>&#160;&#160;an amendment includes a supplement, novation, extension (whether of maturity or otherwise), restatement, re-enactment or replacement (howsoever fundamental and whether or not more onerous) and amended will be construed accordingly;</p>
+    <p class="l1"><b>(e)</b>&#160;&#160;references to this Agreement shall be construed as references also to any separate or independent stipulation or agreement contained in it;</p>
+    <p class="l1"><b>(f)</b>&#160;&#160;references to the word &#8220;includes&#8221; or &#8220;including&#8221; shall be construed without limitation;</p>
+    <p class="l1"><b>(g)</b>&#160;&#160;a provision of law is a reference to that provision as extended, applied, amended or re-enacted and includes any subordinate legislation;</p>
+    <p class="l1"><b>(h)</b>&#160;&#160;a Loan Document or other document includes any amendment to that Loan Document or other document, including any change in the purpose of, any extension for or any increase in the amount of a facility or any additional facility;</p>
+    <p class="l1"><b>(i)</b>&#160;&#160;words importing a particular gender include all genders; and</p>
+    <p class="l1"><b>(j)</b>&#160;&#160;any written communication includes electronic communication through email and facsimile.</p>
+
+    <!-- 2 -->
+    <p class="section">2.&#160;&#160;LOAN</p>
+    <p class="l1"><b>2.1</b>&#160;&#160;In consideration of the Builder and the Borrower performing their respective obligations under this Agreement, the Lender has agreed to grant the Loan to the Borrower in terms of the Loan Agreement.</p>
+    <p class="l1"><b>2.2</b>&#160;&#160;The Borrower has mandated and authorized the Lender to disburse the Loan directly to the Builder and the Borrower unequivocally and expressly acknowledges and consents that the disbursement of the proceeds of the Loan directly to the Builder shall be deemed to have been done directly to the Borrower. The Lender shall disburse the Loan as the stages of construction of the Project may warrant as assessed by the Lender in its sole discretion and such decision being full and final.</p>
+    <p class="l1"><b>2.3</b>&#160;&#160;The Borrower undertakes to repay the Loan in terms of the Loan Agreement. The Borrower further undertakes that irrespective of the stage of the construction of the Project and irrespective of the date of handing over the possession of the Residential Apartment to the Borrower by the Builder, the Borrower shall have the paramount obligation and shall be liable to pay to the Lender monthly installments as per the Loan Agreement.</p>
+
+    <!-- 3 -->
+    <p class="section">3.&#160;&#160;PAYMENT TO THE BUILDER</p>
+    <p class="l1"><b>3.1</b>&#160;&#160;The Borrower undertakes to make the payment towards the purchase of the Residential Apartment in consonance with the schedule of payment to the Builder, as per the Agreement to Sell, entered into between the Builder and the Borrower. The Borrower shall pay to the Builder his own contribution in full, i.e. the cost of the Residential Apartment minus the Loan amount before availing full disbursement of the Loan from the Lender as per the Agreement to Sell/Allotment Letter.</p>
+
+    <!-- 4 -->
+    <p class="section">4.&#160;&#160;POSSESSION OF RESIDENTIAL APARTMENT</p>
+    <p class="l1"><b>4.1</b>&#160;&#160;The Builder shall not hand over the actual and physical possession of the Residential Apartment to the Borrower before execution and registration of the sale deed and the original registered sale deed shall be submitted to the Lender directly by the Builder as security for the said Loan.</p>
+    <p class="l1"><b>4.2</b>&#160;&#160;The Builder shall inform the Lender about the date, time and venue of the registration of the sale deed by giving at least seven (7) days advance written notice, to enable the representative of the Lender to receive the original sale deed upon registration.</p>
+    <p class="l1"><b>4.3</b>&#160;&#160;The Borrower/Builder agrees and confirms that the Agreement to Sell entered into between the Borrower and the Builder, shall be handed over to the Lender, and the same shall be kept by the Lender in its safe custody in accordance with the terms of the Loan Agreement and other Loan Documents.</p>
+
+    <!-- 5 -->
+    <p class="section">5.&#160;&#160;REPRESENTATIONS AND WARRANTIES OF THE PARTIES</p>
+    <p class="l1"><b>5.1</b>&#160;&#160;The Borrower and the Builder hereby represent that they have the capacity and authority to enter into this Agreement.</p>
+    <p class="l1"><b>5.2</b>&#160;&#160;The Borrower and the Builder hereby represent that all the information given by the Borrower and the Builder to the Lender whether under this Agreement or otherwise, are true, complete and accurate in every respect.</p>
+    <p class="l1"><b>5.3</b>&#160;&#160;The Borrower hereby represents that the Builder is of his choice and that he has satisfied himself with regard to the integrity, capability for quality construction of the Builder and the Builder&#8217;s ability for timely completion and on time delivery of the Project.</p>
+    <p class="l1"><b>5.4</b>&#160;&#160;The Borrower hereby represents that, his relatives or his associates are in no way related to the Builder, his relatives or his associates.</p>
+    <p class="l1"><b>5.5</b>&#160;&#160;The Builder hereby assures and represents that it has clear title to the land on which the Project and the Residential Apartment are being developed and that the Residential Apartment can be freely transferred / registered, and is not subject to any lien and/or encumbrance (other than that of the Lender) and that the Builder has obtained all the requisite sanctions for developing and selling the Residential Apartment.</p>
+    <p class="l1"><b>5.6</b>&#160;&#160;The Borrower and the Builder hereby represent and warrant that no action, application or proceedings have been initiated against any of them under the Insolvency and Bankruptcy Code, 2016 as amended from time to time.</p>
+
+    <!-- 6 -->
+    <p class="section">6.&#160;&#160;COVENANTS, RIGHTS AND UNDERTAKINGS OF THE PARTIES</p>
+    <p class="l1"><b>6.1</b>&#160;&#160;The Borrower shall not sell, mortgage, lease, surrender or otherwise howsoever alienate the Residential Apartment or any part thereof, without prior written consent of the Lender.</p>
+    <p class="l1"><b>6.2</b>&#160;&#160;The Borrower shall forward to the Lender all the Loan Documents as listed in the Sanction Letter / Loan Agreement in relation to the Residential Apartment with immediate effect and also agrees to forward any other documents which may be executed subsequently at a future date, to the Lender.</p>
+    <p class="l1"><b>6.3</b>&#160;&#160;The Builder also confirms and undertakes that it shall submit to the Lender all documents for the Project as requested by the Lender and shall keep the Lender informed of the progress of the Project and shall obtain a clearance from the Lender before handing over the possession of the Residential Apartment to the Borrower.</p>
+    <p class="l1"><b>6.4</b>&#160;&#160;The Builder hereby agrees and acknowledges that the Builder shall not transfer/assign any of its rights in relation to the Residential Apartment without the prior written consent of the Lender.</p>
+    <p class="l1"><b>6.5</b>&#160;&#160;The Builder hereby agrees and undertakes that it shall at all times comply with all the requirements under the Real Estate (Regulation and Development) Act, 2016.</p>
+    <p class="l1"><b>6.6</b>&#160;&#160;In the event any monies are payable by the Builder to the Borrower (&#8220;Builder Payments&#8221;) for any reason whatsoever (including payment of interest, full or partial refund of monies paid by the Borrower or any indemnification by the Builder, developer, promoter or seller), the Builder shall prior to making such payment, notify the Lender and provide the Lender with all relevant details regarding the Builder Payments including the proposed date of payment, the amount payable and the reason for such payment of monies. Unless the Lender instructs the Builder otherwise, the Builder shall pay the entire amount of the Builder Payments directly to the Lender. The Borrower hereby subrogates its rights to receive any amount payable by the Builder to the Borrower in favour of the Lender and unconditionally and irrevocably agrees that the payment by the Builder to the Lender of any Builder Payments under this Clause shall amount to a valid discharge of the Builder&#8217;s obligation to pay the Borrower such amounts.</p>
+    <p class="l1"><b>6.7</b>&#160;&#160;The Builder shall in no circumstances forfeit any amount over and above the amount equivalent to the Borrower&#8217;s own contribution towards the purchase consideration paid to the Builder. The Borrower&#8217;s own contribution for the purpose of this Clause shall mean and include the difference between the total cost of the Residential Apartment and the Loan amount.</p>
+    <p class="l1"><b>6.8</b>&#160;&#160;The Lender shall have the right, at its sole and absolute discretion, to downsize the Loan amount or recall the entire Loan from the Borrower or cancel the undrawn limits under the Loan upon the occurrence of any of the following events:</p>
+    <p class="l2"><b>6.8.1</b>&#160;&#160;any default or non-compliance by the Borrower or Builder of the terms of this Agreement, or the Real Estate Regulation and Development Act, 2016; or</p>
+    <p class="l2"><b>6.8.2</b>&#160;&#160;the Builder being declared as an insolvent or an action, application or proceedings are initiated against the Builder under the Insolvency and Bankruptcy Code, 2016 as amended from time to time; or</p>
+    <p class="l2"><b>6.8.3</b>&#160;&#160;any adverse action is initiated by the regulatory authorities or such other authorities under Real Estate Regulation and Development Act, 2016; or</p>
+    <p class="l2"><b>6.8.4</b>&#160;&#160;for delays in the completion of the Project; or</p>
+    <p class="l2"><b>6.8.5</b>&#160;&#160;for temporary/permanent suspension of the Project construction/development activities; or</p>
+    <p class="l2"><b>6.8.6</b>&#160;&#160;substantial price depreciation of the Project; or</p>
+    <p class="l2"><b>6.8.7</b>&#160;&#160;for any reason which, in the sole discretion of the Lender, warrants downsizing/recall of the Loan and other dues from the Borrower;</p>
+    <p class="l2">which in the opinion of the Lender would affect the ability to repay the Loan or the quality of the security.</p>
+    <p class="l2">The Borrower confirms and agrees that he/she/it shall not have any recourse against the Lender upon such downsizing/recall of the Loan.</p>
+    <p class="l1"><b>6.9</b>&#160;&#160;The Borrower and the Builder confirm that there exists no separate agreement (other than the ones deposited with the Lender) between the Borrower and the Builder with respect to the terms of sale of the Residential Apartment and/or the total sale consideration payable by the Borrower in relation to the Residential Apartment.</p>
+
+    <!-- 7 -->
+    <p class="section">7.&#160;&#160;DEFAULT AND REFUND</p>
+    <p class="l1"><b>7.1</b>&#160;&#160;If the Borrower commits a breach of any of the terms and conditions of this Agreement, it shall be treated as an event of default under the Agreement to Sell and/or under the Loan Agreement.</p>
+    <p class="l1"><b>7.2</b>&#160;&#160;In the event of occurrence of default under the Loan Agreement which would result in the cancellation of the allotment as a consequence thereof and/or for any reason whatsoever or in case of termination / cancellation of the Agreement to Sell for any reason whatsoever or if the allotment is cancelled, the Builder shall refund the following amounts to the Lender within fifteen (15) days from the date of such termination / cancellation:</p>
+    <p class="l2"><b>(a)</b>&#160;&#160;the Loan amount as disbursed by the Lender and received by the Builder; and</p>
+    <p class="l2"><b>(b)</b>&#160;&#160;interest, overdue interest and other payments that are due to the Lender.</p>
+    <p class="l1">The Builder may retain the earnest money, deposited by the Borrower, as per the Agreement to Sell / Allotment Letter. It is further agreed amongst the Parties that such payment made by the Builder directly to the Lender shall not absolve the Borrower from his liability to pay the residual amount, if any, from the outstanding under the Loan Agreement. The Borrower hereby subrogates all its right for refund with respect to the Residential Apartment in favour of the Lender.</p>
+
+    <!-- 8 -->
+    <p class="section">8.&#160;&#160;INDEMNIFICATION</p>
+    <p class="l1">The Borrower and the Builder shall defend, indemnify and hold the Lender and its affiliated entities, and their respective former, current, and future directors, managers, employees, agents, successors and assigns, harmless from and against any claims, demands, loss, damage or expense arising out of or due to non-performance of the obligations or non-compliance of the provisions of this Agreement by the Borrower and/ or the Builder or suffered by the Lender due to arrangement between the Borrower and the Builder which has not be disclosed to Lender.</p>
+
+    <!-- 9 -->
+    <p class="section">9.&#160;&#160;NOTICE</p>
+    <p class="l1">Any notice to be given to the Borrower and/or the Builder shall be deemed to have been validly given if served on the Borrower and/or the Builder via electronic mail at the e-mail address provided by the Borrower and the Builder or sent by courier or left at the address of the Borrower and/or the Builder, as provided to the Lender or at the Borrower&#8217;s and/or Builder&#8217;s existing or last known business or private address. Any such notice sent by courier shall be deemed to have been received by the Borrower and/or the Builder within 48 (forty-eight) hours from the time of its posting.</p>
+
+    <!-- 10 -->
+    <p class="section">10.&#160;&#160;WAIVER</p>
+    <p class="l1">Any delay in exercising or omission to exercise any right, power or remedy accruing to the Lender under this Agreement or any other agreement or document shall not impair any such right, power or remedy and shall not be construed to be waiver thereof or any acquiescence in any default, nor shall the action or inaction of the Lender in respect of any default or any acquiescence by it in any default affect or impair any right, power or remedy of the Lender in respect of any other default.</p>
+
+    <!-- 11 -->
+    <p class="section">11.&#160;&#160;SEVERABILITY</p>
+    <p class="l1">If any provision of this Agreement is held to be illegal, invalid, or unenforceable under the Indian law, and if the rights or obligations of the Parties under this Agreement will not be materially and adversely affected thereby: (a) such provision will be fully severable; (b) this Agreement will be construed and enforced as if such illegal, invalid, or unenforceable provision had never comprised a part hereof; and (c) the remaining provisions of the Agreement will remain in full force and effect and will not be affected by the illegal, invalid, or unenforceable provision or by its severance herefrom.</p>
+
+    <!-- 12 -->
+    <p class="section">12.&#160;&#160;GOVERNING LAW</p>
+    <p class="l1">The validity, interpretation and implementation of this Agreement shall be governed by Indian laws.</p>
+
+    <!-- 13 -->
+    <p class="section">13.&#160;&#160;DISPUTE RESOLUTION</p>
+    <p class="l1">Any dispute arising out of or in relation to this Agreement shall be referred for arbitration to the sole arbitrator appointed only by the Lender. The Parties agree and confirm that the arbitration proceedings shall be conducted in accordance with the prevailing Arbitration &amp; Conciliation Act (as amended from time to time) and the rules applicable thereto. The place of the arbitration shall be Pune and the arbitration proceeding shall be conducted in English language. The decision of the Arbitrator shall be final and binding on the Parties. Pending the passing of final award, the Borrower and the Builder shall be liable to perform all their respective obligations under this Agreement.</p>
+
+    <!-- 14 -->
+    <p class="section">14.&#160;&#160;AMENDMENT</p>
+    <p class="l1">No amendment and/or modification to this Agreement shall be effective unless made in writing and signed by or on behalf of all the Parties.</p>
+
+    <!-- 15 -->
+    <p class="section">15.&#160;&#160;ASSIGNMENT</p>
+    <p class="l1">The Borrower and/or the Builder shall not assign, transfer and/or charge any of its present or future rights, interests and/or benefits hereunder, without the prior written consent of the Lender.</p>
+
+        <!-- SCHEDULE I -->
+    <p class="section">SCHEDULE I</p>
+    <table>
+        <tr>
+            <th style="width:6%;">S. No.</th>
+            <th style="width:30%;">Particulars</th>
+            <th colspan="2" style="width:64%;">Details</th>
+        </tr>
+        <tr>
+            <td class="sno">1.</td>
+            <td class="pt">Date and Place of the execution of the Agreement</td>
+            <td colspan="2"></td>
+        </tr>
+        <tr>
+            <td class="sno">2.</td>
+            <td class="pt">Name and address of the Borrower</td>
+            <td colspan="2"><b>MR. MUSINADA SAISH TEJA, S/o. MR. MUSINADA SRI VENKATA NARAYANA,</b> aged about 29 years, Occupation: Pvt. Employee; R/o: 7-2-1735, Flat No: 104, Bhadra Residency, CZECH Colony, Sanath Nagar, Hyderabad, Telangana-500018. <b>(AADHAR NO: 9532 6558 9240, PAN NO: DFZPM1564J).</b></td>
+        </tr>
+        <tr>
+            <td class="sno">3.</td>
+            <td class="pt">Name and address of the Co-Borrower(s)</td>
+            <td colspan="2"><b>MR. MUSINADA SRI VENKATA NARAYANA, S/o. MR. M VENKATA RAMA BRAHMAM,</b> aged about 56 years, Occupation: Bussiness; R/o: 7-2-1735, Flat No: 104, Bhadra Residency, CZECH Colony, Sanath Nagar, Hyderabad, Telangana-500018. <b>(AADHAR NO: 4719 4405 5838, PAN NO: ACQPM3401P).</b></td>
+        </tr>
+        <tr>
+            <td class="sno">4.</td>
+            <td class="pt">Name and address of the Builder</td>
+            <td colspan="2"><b>&#8220;THE DRIZZLE JV&#8221;</b> (GST No: 36AALAT5115B1ZP) having registered office at 4TH FLOOR, THE 9TH, PLOT NO 131 &amp; 132, PRASHANTHI HILLS, RAIDURGAM, HYDERABAD, RANGAREDDY, TELANGANA, 500008. Represented by its authorized signatory <b>SRI. P.V. SREENIVASULU S/O. LATE P.C.V. RAMANAIAH,</b> Resident of Flat No.201 of &#8220;Aryamitra Pearl Castle&#8221;, Road No.4, Alkapoor Township, Neknampur Village, Gandipet Mandal, Ranga Reddy District, Telangana State.</td>
+        </tr>
+        <tr>
+            <td class="sno">5.</td>
+            <td class="pt">Details of the Lender</td>
+            <td colspan="2"><b>Bajaj Housing Finance Limited, Madhapur Branch</b></td>
+        </tr>
+        <tr>
+            <td class="sno">6.</td>
+            <td class="pt">Details of Agreement to Sell</td>
+            <td colspan="2"></td>
+        </tr>
+        <tr>
+            <td class="sno">7.</td>
+            <td class="pt">Details of Allotment Letter</td>
+            <td colspan="2"></td>
+        </tr>
+        <tr>
+            <td class="sno" rowspan="3">8.</td>
+            <td class="pt" rowspan="3">Details of Loan</td>
+            <td class="pt" style="width:24%;">Loan Amount</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="pt">Sanction Letter Date and Ref. No.</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="pt">Loan Agreement Date and Place</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="sno">9.</td>
+            <td class="pt">Details and Complete Address of Residential Apartment</td>
+            <td colspan="2">All that the Semi-Finished <b>2 BHK Flat No. F-306 (East Facing)</b> in <b>Third Floor</b> in <b>&#8220;F&#8221; Block</b> in the Residential Apartment known as <b>&#8220;ANANDA THE DRIZZLE&#8221;</b>, with an area of <b>1375 Square Feet</b> (including Common Areas and <b>One Car</b> Parking), along with a proportionate undivided share of land admeasuring <b>32.60 Square Yards</b>.</td>
+        </tr>
+        <tr>
+            <td class="sno">10.</td>
+            <td class="pt">Details and Complete Address of Project</td>
+            <td colspan="2">Residential Apartment known as <b>&#8220;ANANDA THE DRIZZLE&#8221;</b> All that land admeasuring Ac. 7-71 cents, in Survey No.325/AA/3, 327/A/2, 327/AA/1, 327/AA/2, 328/A, 328/AA, 328/E,. of Narsingi Village, and Sy.No.91A, 91AA, 93/AA, 93A/1/2, Situated at Neknampur Village, both Gandipet Mandal, Ranga Reddy District, Telangana State.</td>
+        </tr>
+    </table>
+
+    <p style="margin-top:18px;">IN WITNESS WHEREOF the Parties have set and subscribed their respective hands to this Agreement on the day, month and year as set out in Schedule I.</p>
+
+    <table class="sig">
+        <tr>
+            <td style="width:60%;">Signed and Delivered by the Borrower and Co-Borrower(s)</td>
+            <td style="width:40%;"></td>
+        </tr>
+        <tr>
+            <td>Signed and Delivered by the Builder by the hands of its authorised representative</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Signed and Delivered by the Lender by the hands of its authorised representative</td>
+            <td></td>
+        </tr>
+    </table>
+
+</body>
+</html>
+</apex:page>
