@@ -74,6 +74,10 @@ public with sharing class PostSalesConstants {
     public static final String ALLOCATION_CREDIT_ADJUSTMENT = 'Credit Adjustment';
     public static final String ALLOCATION_DEMAND_PAYMENT = 'Demand Payment';
     public static final String ALLOCATION_PAYMENT_SCHEDULE = 'Payment Schedule';
+    public static final String ALLOCATION_ADDITIONAL_CHARGE = 'Additional Charge';
+
+    // ==================== RECEIPT TYPES ====================
+    public static final String RECEIPT_TYPE_ADDITIONAL_CHARGE = 'Additional Charge';
 
     // ==================== ATTACHMENT TYPES ====================
     public static final String ATTACHMENT_TYPE_VF_PAGE = 'VFPage';

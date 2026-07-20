@@ -234,6 +234,24 @@
                                     </lightning-combobox>
                                 </div>
                             </div>
+                            <template if:true={isAdditionalChargeReceipt}>
+                                <div class="form-row">
+                                    <div class="form-field">
+                                        <label class="field-label required">Additional Charge</label>
+                                        <lightning-combobox
+                                            value={additionalChargeId}
+                                            placeholder="Choose an additional charge..."
+                                            options={additionalChargeOptions}
+                                            onchange={handleAdditionalChargeChange}
+                                            variant="label-hidden"
+                                            >
+                                        </lightning-combobox>
+                                        <template if:false={hasPendingAdditionalCharges}>
+                                            <p class="field-help">No additional charge on this booking has a pending amount.</p>
+                                        </template>
+                                    </div>
+                                </div>
+                            </template>
                             <div class="form-row">
                                 <div class="form-field amount-field">
                                     <label class="field-label required">Amount Received</label>
@@ -496,7 +514,32 @@
 
                         <!-- Payment Schedule Allocation Preview (for Receipt) -->
                         <template if:true={isReceiptTab}>
-                            <template if:true={hasPendingPaymentSchedules}>
+                            <template if:true={isAdditionalChargeReceipt}>
+                                <template if:true={additionalChargeAllocationPreview}>
+                                    <div class="allocation-preview">
+                                        <h4>Additional Charge Allocation</h4>
+                                        <div class="allocation-list">
+                                            <div class="allocation-item">
+                                                <div class="allocation-info">
+                                                    <span class="allocation-number">{additionalChargeAllocationPreview.chargeName}</span>
+                                                    <span class="allocation-milestone">{additionalChargeAllocationPreview.chargeType}</span>
+                                                </div>
+                                                <div class="allocation-amounts">
+                                                    <span class="allocation-pending">Pending: {additionalChargeAllocationPreview.formattedPending}</span>
+                                                    <span class="allocation-applying">Applying: {additionalChargeAllocationPreview.formattedAllocated}</span>
+                                                </div>
+                                                <div class="allocation-bar">
+                                                    <div class="allocation-progress" style={additionalChargeAllocationPreview.progressStyle}></div>
+                                                </div>
+                                                <template if:true={additionalChargeAllocationPreview.hasExcess}>
+                                                    <span class="allocation-pending">Excess to Advance: {additionalChargeAllocationPreview.formattedExcess}</span>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </template>
+                            <template if:true={showScheduleAllocationPreview}>
                                 <div class="allocation-preview">
                                     <h4>Payment Schedule Allocation</h4>
                                     <div class="allocation-list">
@@ -518,7 +561,7 @@
                                     </div>
                                 </div>
                             </template>
-                            <template if:true={hasOpenDemands}>
+                            <template if:true={showDemandAllocationPreview}>
                                 <div class="allocation-preview">
                                     <h4>Demand Allocation</h4>
                                     <div class="allocation-list">
