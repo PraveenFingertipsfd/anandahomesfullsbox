@@ -6,5 +6,6 @@
     "**/node_modules": true,
     "**/.sfdx": true,
     "**/.sf": true
-  }
+  },
+  "xml.preferences.showSchemaDocumentationType": "none"
 }
