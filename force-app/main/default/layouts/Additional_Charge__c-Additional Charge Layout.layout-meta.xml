@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <excludeButtons>AssignRecordLabel</excludeButtons>
+    <excludeButtons>ChangeOwnerOne</excludeButtons>
+    <excludeButtons>ChangeRecordType</excludeButtons>
+    <excludeButtons>Clone</excludeButtons>
+    <excludeButtons>Delete</excludeButtons>
+    <excludeButtons>Edit</excludeButtons>
+    <excludeButtons>PrintableView</excludeButtons>
+    <excludeButtons>RecordShareHierarchy</excludeButtons>
+    <excludeButtons>Share</excludeButtons>
+    <excludeButtons>Submit</excludeButtons>
     <layoutSections>
         <customLabel>false</customLabel>
         <detailHeading>false</detailHeading>
@@ -7,8 +17,8 @@
         <label>Information</label>
         <layoutColumns>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>Amount__c</field>
+                <behavior>Readonly</behavior>
+                <field>Name</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
@@ -18,18 +28,41 @@
                 <behavior>Required</behavior>
                 <field>Charge_Type__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Name</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>OwnerId</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Booking__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Description__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
+    </layoutSections>
+    <layoutSections>
+        <customLabel>true</customLabel>
+        <detailHeading>true</detailHeading>
+        <editHeading>true</editHeading>
+        <label>Calculation</label>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>Amount__c</field>
+            </layoutItems>
+        </layoutColumns>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Amount_Paid__c</field>
+            </layoutItems>
+        </layoutColumns>
+        <style>TwoColumnsLeftToRight</style>
     </layoutSections>
     <layoutSections>
         <customLabel>false</customLabel>
@@ -51,19 +84,27 @@
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
     <layoutSections>
-        <customLabel>false</customLabel>
+        <customLabel>true</customLabel>
         <detailHeading>false</detailHeading>
         <editHeading>true</editHeading>
+        <label>Custom Links</label>
         <layoutColumns/>
         <layoutColumns/>
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
-    <miniLayout>
+    <platformActionList>
+        <actionListContext>Record</actionListContext>
+    </platformActionList>
+    <relatedLists>
+        <excludeButtons>MassChangeOwner</excludeButtons>
+        <excludeButtons>New</excludeButtons>
+        <fields>NAME</fields>
         <fields>Amount__c</fields>
-        <fields>Charge_Name__c</fields>
-        <fields>Charge_Type__c</fields>
-    </miniLayout>
+        <fields>CREATED_DATE</fields>
+        <fields>Receipt__c</fields>
+        <relatedList>Receipt_Line_Item__c.Additional_Charge__c</relatedList>
+    </relatedLists>
     <relatedLists>
         <fields>TASK.SUBJECT</fields>
         <fields>TASK.WHO_NAME</fields>
@@ -88,4 +129,10 @@
     <showInteractionLogPanel>false</showInteractionLogPanel>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
+    <summaryLayout>
+        <masterLabel>00h9I000003LTDN</masterLabel>
+        <sizeX>4</sizeX>
+        <sizeY>0</sizeY>
+        <summaryLayoutStyle>Default</summaryLayoutStyle>
+    </summaryLayout>
 </Layout>

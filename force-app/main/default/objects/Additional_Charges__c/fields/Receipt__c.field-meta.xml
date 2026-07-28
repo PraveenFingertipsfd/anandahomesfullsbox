@@ -4,7 +4,6 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <label>Receipt</label>
     <referenceTo>Receipt__c</referenceTo>
-    <relationshipLabel>Additional Charges</relationshipLabel>
     <relationshipName>Additional_Charges</relationshipName>
     <required>false</required>
     <trackHistory>false</trackHistory>

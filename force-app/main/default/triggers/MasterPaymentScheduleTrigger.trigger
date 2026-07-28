@@ -64,11 +64,11 @@ trigger MasterPaymentScheduleTrigger on Master_Payment_Schedule__c (after update
         }
 
         // Send notifications
-        if (!projectWithSchedule.isEmpty()) {
+       /* if (!projectWithSchedule.isEmpty()) {
             List<Booking__c> bookings = [
                 SELECT Id, OwnerId 
                 FROM Booking__c 
-                WHERE Project1__c IN :projectWithSchedule.keySet()
+                WHERE Project__c IN :projectWithSchedule.keySet()
             ];
 
             if (!bookings.isEmpty()) {
@@ -87,6 +87,6 @@ trigger MasterPaymentScheduleTrigger on Master_Payment_Schedule__c (after update
                     );
                 }
             }
-        }
+        }*/
     }
 }

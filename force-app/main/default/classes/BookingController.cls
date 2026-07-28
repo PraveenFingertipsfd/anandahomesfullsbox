@@ -45,10 +45,8 @@ public without sharing class BookingController {
             return 'Plot record not found.';
         }
         list<Block__c> block =[select id,Name from Block__c where Id =:bk.Block__c];
-        List<Project__c> projectList = [SELECT Id, CRM_Manager__c, Legal_User__c, Finance_User__c, Reservation_User__c,
-                                        Demands_Collection_User__c, Possession_User__c, Agreement_User__c,
-                                        Registration_User__c, Maintenance_User__c,Project__c,
-                                        Director__c,Sales_Manager__c,VP__c,CFO__c,Loan_Stage_User__c,Handover_User__c FROM Project__c WHERE Id= :bk.Project1__c];
+        List<Project__c> projectList = [SELECT Id, CRM_Manager__c, Legal_User__c, Finance_User__c,
+                                        Sales_Manager__c,CFO__c,Loan_Stage_User__c FROM Project__c WHERE Id= :bk.Project1__c];
         
         if (projectList.isEmpty()) {
             return 'Project record not found for the given Booking Project.';
@@ -60,17 +58,17 @@ public without sharing class BookingController {
             bk.CRM_Manager__c = projectList[0].CRM_Manager__c;
             //bk.Legal_Team__c = projectList[0].Legal_User__c;
             //bk.Director__c = projectList[0].Director__c;
-            //bk.Finance_User__c = projectList[0].Finance_User__c;
-            //bk.Sales_Manager1__c = projectList[0].Sales_Manager__c;
+            bk.Finance_User__c = projectList[0].Finance_User__c;
+            bk.Sales_Manager1__c = projectList[0].Sales_Manager__c;
             //stage-wise users map
-            /*bk.Reservation_User__c = projectList[0].Reservation_User__c;
-            bk.Agreement_User__c = projectList[0].Agreement_User__c;
-            bk.Maintenance_User__c = projectList[0].Maintenance_User__c;
-            bk.Possession_User__c = projectList[0].Possession_User__c;
-            bk.Registration_User__c = projectList[0].Registration_User__c;
-            bk.Demand_Collection_Users__c = projectList[0].Demands_Collection_User__c;*/
+            //bk.Reservation_User__c = projectList[0].Reservation_User__c;
+            //bk.Agreement_User__c = projectList[0].Agreement_User__c;
+            //bk.Maintenance_User__c = projectList[0].Maintenance_User__c;
+            //bk.Possession_User__c = projectList[0].Possession_User__c;
+            //bk.Registration_User__c = projectList[0].Registration_User__c;
+            //bk.Demand_Collection_Users__c = projectList[0].Demands_Collection_User__c;
             bk.CFO__c = projectList[0].CFO__c;
-            bk.VP__c = projectList[0].VP__c;
+            //bk.VP__c = projectList[0].VP__c;
             //bk.Loan_User__c = projectList[0].Loan_Stage_User__c;
             //bk.Handover_User__c = projectList[0].Handover_User__c; 
             //remaining fileds
@@ -138,12 +136,12 @@ public without sharing class BookingController {
             rli.Receipt__c = recp.Id;
             rli.Booking__c = booking.Id;
             rli.Amount__c = booking.Booking_Amount1__c;
-            //rli.Payment_schedule__c = existingPaymentSchedules[0].Id;
+            rli.Payment_schedule__c = existingPaymentSchedules[0].Id;
             insert rli;
         }
     }
     
-   public static void cloneBookingWithUnitChangeDetails(Booking__c currentBooking, String newStage, String previousBookingStage) {
+    public static void cloneBookingWithUnitChangeDetails(Booking__c currentBooking, String newStage, String previousBookingStage) {
         try {
             // List to store all sObjects that need to be updated
             List<sObject> allToUpdate = new List<sObject>();
@@ -172,7 +170,7 @@ public without sharing class BookingController {
             clonedBooking.Mode_Of_Payment__c = currentBooking.Swap_Mode_of_Payment__c;
             clonedBooking.Solar_Charges__c = currentBooking.Swap_Solar_Charges__c;
             clonedBooking.Is_Swap__c = true;
-            clonedBooking.Swapped_Booking__c = currentBooking.Id;
+            //clonedBooking.Swapped_Booking__c = currentBooking.Id;
             insert clonedBooking;
             
             // Mark the swap unit plot as 'Booked' with the new booking reference
@@ -216,7 +214,8 @@ public without sharing class BookingController {
             
             // Clone receipts and their line items
             List<Receipt__c> receipts = [SELECT Id, Name, Booking__c FROM Receipt__c WHERE Booking__c = :currentBooking.Id];
-            //List<Receipt_Line_Item__c> receiptLineItems = [SELECT Id, S_No__c, Payment_Schedule__c, Booking__c, Amount__c, Approval_Status1__c, Received_Amount__c, Mode_of_Payment__c, Cheque_no_Transaction_Number__c FROM Receipt_Line_Item__c WHERE Booking__c = :currentBooking.Id];
+            List<Receipt_Line_Item__c> receiptLineItems = [SELECT Id, S_No__c, Payment_Schedule__c, Booking__c, Amount__c, Approval_Status1__c, Received_Amount__c, Mode_of_Payment__c, Cheque_no_Transaction_Number__c 
+                                                           FROM Receipt_Line_Item__c WHERE Booking__c = :currentBooking.Id];
             
             Receipt__c newReceipt;
             if (!receipts.isEmpty()) {
@@ -230,19 +229,19 @@ public without sharing class BookingController {
                 newReceipt = [SELECT Id FROM Receipt__c WHERE Booking__c = :clonedBooking.Id LIMIT 1];
             }
             
-           /* if (!receiptLineItems.isEmpty() && newReceipt != null) {
+            if (!receiptLineItems.isEmpty() && newReceipt != null) {
                 List<Receipt_Line_Item__c> clonedReceiptLineItems = new List<Receipt_Line_Item__c>();
                 
                 for (Receipt_Line_Item__c lineItem : receiptLineItems) {
                     Receipt_Line_Item__c clonedLineItem = lineItem.clone(false, true, false, false);
                     clonedLineItem.Booking__c = clonedBooking.Id;
                     clonedLineItem.Receipt__c = newReceipt.Id;
-                    //clonedLineItem.Payment_Schedule__c = scheduleNumberToIdMap.get(lineItem.S_No__c);
+                    clonedLineItem.Payment_Schedule__c = scheduleNumberToIdMap.get(lineItem.S_No__c);
                     clonedReceiptLineItems.add(clonedLineItem);
                 }
                 
                 insert clonedReceiptLineItems;
-            }*/
+            }
          /*   Booking__c book = new Booking__c();
            book.id = currentbooking.Id;
             book.Swapped_Booking__c = clonedBooking.Id;
@@ -305,8 +304,7 @@ public without sharing class BookingController {
             }
         }
         Map<Id, Project__c> projectMap = new Map<Id, Project__c>([
-            SELECT Id, Reservation_User__c, Demands_Collection_User__c, Possession_User__c,
-            Agreement_User__c, Registration_User__c, Maintenance_User__c
+            SELECT Id, Demands_Collection_User__c
             FROM Project__c WHERE Id IN :projectIds
         ]);
         
@@ -316,17 +314,20 @@ public without sharing class BookingController {
                 
                 if (oldBooking.Stage__c != newBooking.Stage__c) {
                     Project__c project = projectMap.get(newBooking.Project1__c);
-                    if (newBooking.Stage__c == 'Agreement' && project.Agreement_User__c != null) {
+                    /*if (newBooking.Stage__c == 'Agreement' && project.Agreement_User__c != null) {
                         newBooking.OwnerId = project.Agreement_User__c;
-                    } else if (newBooking.Stage__c == 'Demands & Collection' && project.Demands_Collection_User__c != null) {
+                    }*/ if (newBooking.Stage__c == 'Demands & Collection' && project.Demands_Collection_User__c != null) {
                         newBooking.OwnerId = project.Demands_Collection_User__c;
-                    } else if (newBooking.Stage__c == 'Registration' && project.Registration_User__c != null) {
-                        newBooking.OwnerId = project.Registration_User__c;
-                    } else if (newBooking.Stage__c == 'Possession' && project.Possession_User__c != null) {
-                        newBooking.OwnerId = project.Possession_User__c;
-                    } else if (newBooking.Stage__c == 'Maintenance' && project.Maintenance_User__c != null) {
-                        newBooking.OwnerId = project.Maintenance_User__c;
                     }
+				/* else if (newBooking.Stage__c == 'Registration' && project.Registration_User__c != null) {
+                        newBooking.OwnerId = project.Registration_User__c;
+                    } 
+ 					else if (newBooking.Stage__c == 'Possession' && project.Possession_User__c != null) {
+                        newBooking.OwnerId = project.Possession_User__c; 
+                    } 
+					else if (newBooking.Stage__c == 'Maintenance' && project.Maintenance_User__c != null) {
+                        newBooking.OwnerId = project.Maintenance_User__c;
+                    } */
                 }
             }
         }
@@ -343,7 +344,7 @@ public without sharing class BookingController {
         Notification.send(recepientIds);
     }
     
-   /* @AuraEnabled
+    @AuraEnabled
     public static void documentVerificationApproval(Id recId){
         Approval.ProcessSubmitRequest req1 = new Approval.ProcessSubmitRequest();
         req1.setComments('Document Verification Approval');
@@ -429,7 +430,7 @@ public without sharing class BookingController {
         req1.setProcessDefinitionNameOrId('Transfer_Assignment_Approval');
         req1.setSkipEntryCriteria(true);
         Approval.ProcessResult result = Approval.process(req1);
-    }*/
+    }
     
     public class BookingUserWrapper {
         @AuraEnabled

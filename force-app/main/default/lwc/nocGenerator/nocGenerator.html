@@ -82,7 +82,9 @@
                             <tbody>
                                 <template for:each={existingNOCs} for:item="n">
                                     <tr key={n.id}>
-                                        <td>{n.name}</td>
+                                        <td>
+                                            <a href={n.url} data-id={n.id} onclick={handleRecordClick}>{n.name}</a>
+                                        </td>
                                         <td>{n.nocType}</td>
                                         <td>{n.approvalStatus}</td>
                                         <td>

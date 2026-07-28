@@ -1,5 +1,6 @@
 import { LightningElement, api, track, wire } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { NavigationMixin } from 'lightning/navigation';
 import { refreshApex } from '@salesforce/apex';
 import getNOCContext from '@salesforce/apex/NOCController.getNOCContext';
 import createNOC from '@salesforce/apex/NOCController.createNOC';
@@ -11,10 +12,11 @@ const NOC_TYPE_OPTIONS = [
     { label: 'Society NOC', value: 'Society NOC' }
 ];
 
-export default class NocGenerator extends LightningElement {
+export default class NocGenerator extends NavigationMixin(LightningElement) {
     @api recordId; // Booking__c Id
 
     @track ctx;
+    @track existingNOCsList = [];
     @track nocType = 'Capri NOC';
     @track mailBody = '';
     @track selectedCancellations = [];
@@ -32,6 +34,7 @@ export default class NocGenerator extends LightningElement {
             if (!this.mailBody) {
                 this.mailBody = result.data.defaultMailBody;
             }
+            this.buildExistingNOCLinks();
         } else if (result.error) {
             this.showError(result.error);
         }
@@ -58,21 +61,59 @@ export default class NocGenerator extends LightningElement {
     }
 
     get existingNOCs() {
+        return this.existingNOCsList;
+    }
+
+    get hasExistingNOCs() {
+        return this.existingNOCsList.length > 0;
+    }
+
+    // Builds the row list with the Send-button flags plus a generated record URL for each NOC,
+    // so the Name column can render as a real, right-click-able link.
+    buildExistingNOCLinks() {
         const list = (this.ctx && this.ctx.existingNOCs) ? this.ctx.existingNOCs : [];
-        // A NOC can only be sent once it is Approved and not already sent. Compute a flag so the
-        // UI only shows the Send button when it will actually work.
-        return list.map((n) => {
+        const rows = list.map((n) => {
             const approved = (n.approvalStatus || '').toLowerCase() === 'approved';
             return {
                 ...n,
                 _canSend: approved && !n.sent,
-                _pending: !approved && !n.sent
+                _pending: !approved && !n.sent,
+                url: '#'
             };
+        });
+        this.existingNOCsList = rows;
+
+        Promise.all(
+            rows.map((n) =>
+                this[NavigationMixin.GenerateUrl]({
+                    type: 'standard__recordPage',
+                    attributes: {
+                        recordId: n.id,
+                        objectApiName: 'NOC__c',
+                        actionName: 'view'
+                    }
+                }).then((url) => {
+                    n.url = url;
+                })
+            )
+        ).then(() => {
+            this.existingNOCsList = [...rows]; // trigger re-render once urls resolve
         });
     }
 
-    get hasExistingNOCs() {
-        return this.existingNOCs.length > 0;
+    // Keeps navigation inside the Lightning app (no full page reload) while
+    // still leaving href set so ctrl/cmd-click "open in new tab" works.
+    handleRecordClick(event) {
+        event.preventDefault();
+        const id = event.currentTarget.dataset.id;
+        this[NavigationMixin.Navigate]({
+            type: 'standard__recordPage',
+            attributes: {
+                recordId: id,
+                objectApiName: 'NOC__c',
+                actionName: 'view'
+            }
+        });
     }
 
     handleTypeChange(event) {

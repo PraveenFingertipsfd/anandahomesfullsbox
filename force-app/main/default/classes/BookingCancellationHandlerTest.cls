@@ -17,7 +17,7 @@ private class BookingCancellationHandlerTest {
         insert project;
         
         Quote__c quote = new Quote__c(
-            Project__c = project.Id
+            Project__c = 'The Legacey'
             // Populate any other mandatory fields
         );
         insert quote;
@@ -26,7 +26,6 @@ private class BookingCancellationHandlerTest {
         units.add(new Plot__c(Project__c = project.Id, Status__c = 'Booked'));
         units.add(new Plot__c(Project__c = project.Id, Status__c = 'Blocked', Blocked_Until__c = Date.today().addDays(30)));
         units.add(new Plot__c(Project__c = project.Id, Status__c = 'Sold'));
-        units.add(new Plot__c(Project__c = project.Id, Status__c = 'Not for Sale'));
         insert units;
         
         

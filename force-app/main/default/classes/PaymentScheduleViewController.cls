@@ -251,7 +251,7 @@ public with sharing class PaymentScheduleViewController {
         if (ps.Bank_Flat_Amount__c != null) {
             return nz(ps.Bank_Flat_Amount__c) + nz(ps.Bank_GST_Amount__c);
         }
-        return nz(ps.Payment_Schedule_Amount__c) + nz(ps.GST_Amount__c) + nz(ps.TDS_Amount__c);
+        return nz(ps.Pending_Amount__c);
     }
 
     private static Decimal nz(Decimal v) {

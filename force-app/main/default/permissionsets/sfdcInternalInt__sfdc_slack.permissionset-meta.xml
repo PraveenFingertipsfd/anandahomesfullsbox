@@ -103,6 +103,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Additional_Charge__c.Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Additional_Charge__c.GST_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1534,6 +1539,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Booking__c.Is_Primary_Minor__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Booking__c.Is_Show__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3344,6 +3354,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Co_Applicant__c.Loan_Applicant__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Co_Applicant__c.Mobile__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -8068,6 +8083,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Payment_Schedule__c.Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Payment_Schedule__c.Approver_1__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8449,6 +8469,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Payment_Schedule__c.Scheduled_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Schedule__c.Sequence__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -10549,6 +10574,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Reassignment_History__c.Temp_Expiry__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Receipt_Line_Item__c.Additional_Charge__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

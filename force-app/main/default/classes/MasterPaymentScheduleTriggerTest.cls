@@ -60,7 +60,7 @@ public class MasterPaymentScheduleTriggerTest {
         ld1.Project1__c = pr.Id; 
         ld1.Date_of_Booking__c = System.today(); 
         ld1.Mode_Of_Payment__c = 'Credit Card';
-        ld1.Funding_Type__c = 'Self';
+        ld1.Funding_Type__c = 'Self-Funded';
         ld1.Plot__c = pl.Id;
         insert ld1;
         
@@ -76,12 +76,12 @@ public class MasterPaymentScheduleTriggerTest {
         ld.Project1__c = pr.Id; 
         ld.Date_of_Booking__c = System.today(); 
         ld.Mode_Of_Payment__c = 'Credit Card';
-        ld.Funding_Type__c = 'Self';
+        ld.Funding_Type__c = 'Self-Funded';
         ld.Plot__c = pl.Id;
         insert ld;
         
         Master_payment_schedule__c mpy = new Master_payment_schedule__c ();
-        mpy.Status__c = 'Not Started';
+        mpy.Status__c = '';
         mpy.Project__c = pr.id;
   mpy.Payment_Percent__c=10;
         mpy.Due_Date__c = system.today();

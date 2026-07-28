@@ -51,20 +51,19 @@
                                     <th>Old</th>
                                     <th>New</th>
                                     <th>Approval</th>
-                                    <th>New Form Uploaded</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
                                 <template for:each={changes} for:item="c">
                                     <tr key={c.id}>
-                                        <td>{c.name}</td>
+                                        <td>
+                                            <a href={c.url} data-id={c.id} onclick={handleRecordClick}>{c.name}</a>
+                                        </td>
                                         <td>{c.oldApplicant}</td>
                                         <td>{c.newApplicant}</td>
                                         <td>{c.approvalStatus}</td>
-                                        <td>
-                                            <template if:true={c.newFormUploaded}>Yes</template>
-                                            <template if:false={c.newFormUploaded}>No</template>
-                                        </td>
+                                        
                                     </tr>
                                 </template>
                             </tbody>

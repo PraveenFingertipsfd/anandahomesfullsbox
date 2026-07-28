@@ -50,6 +50,11 @@
                 <default>false</default>
                 <label>Other</label>
             </value>
+            <value>
+                <fullName>Demand Payment</fullName>
+                <default>false</default>
+                <label>Demand Payment</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

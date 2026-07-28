@@ -4,7 +4,7 @@
 * @date January 2026
 * @version 1.0
 */
-public with sharing class FinancialTransactionController {
+public without sharing class FinancialTransactionController {
     
     // ==================== GET BOOKING SUMMARY ====================
     
@@ -64,10 +64,10 @@ public with sharing class FinancialTransactionController {
             Boolean cancelled = 'Cancelled'.equalsIgnoreCase(booking.Status__c)
                 || 'Cancellation'.equalsIgnoreCase(booking.Status__c);
             if (cancelled) {
-                Decimal refundable = (booking.Total_Receipt_Amount__c ?? 0) - getTotalRefunded(booking.Id);
+                Decimal refundable = booking.Total_Receipt_Amount__c;
                 summary.maxRefundableAmount = refundable > 0 ? refundable : 0;
             } else {
-                summary.maxRefundableAmount = summary.advancePaymentAvailable;
+                summary.maxRefundableAmount = 0;//summary.advancePaymentAvailable;
             }
 
             return summary;
@@ -146,7 +146,7 @@ public with sharing class FinancialTransactionController {
     
     @AuraEnabled(cacheable=true)
     public static List<CreditNoteInfo> getAvailableCredits(String bookingId) {
-        try {
+        /*try {
             List<Credit_Note__c> credits = [
                 SELECT Id, Name, Credit_Date__c,
                 Credit_Amount__c, Available_Amount__c,
@@ -177,7 +177,8 @@ public with sharing class FinancialTransactionController {
             return creditList;
         } catch (Exception e) {
             throw new AuraHandledException('Error fetching credits: ' + e.getMessage());
-        }
+        }*/
+        return null;
     }
     
     // ==================== GET AVAILABLE ADVANCES ====================
@@ -483,7 +484,7 @@ public with sharing class FinancialTransactionController {
             }
             
             // Step 2: Apply Credits (if enabled)
-            if (wrapper.useCredits && !isAdditionalCharge) {
+           /* if (wrapper.useCredits && !isAdditionalCharge) {
                 List<Credit_Note__c> credits = [
                     SELECT Id, Available_Amount__c
                     FROM Credit_Note__c
@@ -508,7 +509,7 @@ public with sharing class FinancialTransactionController {
                     remainingAmount -= allocated;
                     creditApplied += allocated;
                 }
-            }
+            }*/
             
             // Step 3: Allocate to Payment Schedules & their Demands
             // Sequential allocation: Base Amount first, then GST Amount per schedule
@@ -977,7 +978,9 @@ public with sharing class FinancialTransactionController {
             refund.Bank_Name__c = wrapper.bankName;
             refund.Transaction_Reference__c = wrapper.transactionReference;
             refund.Description__c = wrapper.description;
-            refund.Status__c = PostSalesConstants.APPROVAL_STATUS_PENDING;
+            refund.Status__c = 'Approved';
+            refund.Refund_Type__c = 'Cancellation Refund';
+            refund.Requested_Date__c = system.today();
             
             insert refund;
             
