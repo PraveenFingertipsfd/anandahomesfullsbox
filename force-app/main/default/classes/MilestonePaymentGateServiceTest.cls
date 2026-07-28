@@ -10,7 +10,7 @@ private class MilestonePaymentGateServiceTest {
     private static Payment_Schedule__c ps2;
 
     private static void buildBookingWithTwoMilestones(Decimal ps1Pending, String ps1Status) {
-        Project__c project = new Project__c(Name = 'P1', Project_Type__c = 'Apartment', Interest_Rate__c = 18);
+        Project__c project = new Project__c(Name = 'P1', Project_Type__c = 'Residential', Interest_Rate__c = 18);
         insert project;
         Plot__c unit = new Plot__c(Project__c = project.Id, Unit_Type__c = 'Apartment', Status__c = 'Booked');
         insert unit;

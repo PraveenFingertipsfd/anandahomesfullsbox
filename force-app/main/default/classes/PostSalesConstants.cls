@@ -46,7 +46,7 @@ public with sharing class PostSalesConstants {
     public static final String SCHEDULE_STATUS_WAIVED = 'Waived';
 
     public static final Set<String> SCHEDULE_CLOSED_STATUSES = new Set<String>{
-        SCHEDULE_STATUS_PAID, SCHEDULE_STATUS_WAIVED
+        SCHEDULE_STATUS_PAID, SCHEDULE_STATUS_COMPLETED, SCHEDULE_STATUS_WAIVED
     };
 
     // ==================== MILESTONE STATUSES ====================

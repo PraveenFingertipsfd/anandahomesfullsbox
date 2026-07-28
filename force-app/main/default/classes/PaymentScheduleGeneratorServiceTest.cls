@@ -25,6 +25,7 @@ private class PaymentScheduleGeneratorServiceTest {
             Project__c = project.Id,
             Payment_Type__c = 'On Booking',
             Percentage__c = 10,
+            Payment_Percent__c = 10,
             Sequence__c = 1,
             Status__c = 'In Progress',
             Is_Active__c = true,
@@ -37,6 +38,7 @@ private class PaymentScheduleGeneratorServiceTest {
             Project__c = project.Id,
             Payment_Type__c = 'On Agreement',
             Percentage__c = 15,
+            Payment_Percent__c = 15,
             Sequence__c = 2,
             Status__c = 'In Progress',
             Is_Active__c = true,
@@ -49,6 +51,7 @@ private class PaymentScheduleGeneratorServiceTest {
             Project__c = project.Id,
             Payment_Type__c = 'On Foundation',
             Percentage__c = 10,
+            Payment_Percent__c = 10,
             Sequence__c = 3,
             Status__c = 'Completed',
             Is_Active__c = true,
@@ -61,6 +64,7 @@ private class PaymentScheduleGeneratorServiceTest {
             Project__c = project.Id,
             Payment_Type__c = 'On Possession',
             Percentage__c = 65,
+            Payment_Percent__c = 65,
             Sequence__c = 4,
             Status__c = 'Pending',
             Is_Active__c = true,
@@ -78,10 +82,7 @@ private class PaymentScheduleGeneratorServiceTest {
         );
         insert unit;
         // Create Quote
-        Quote__c quote = new Quote__c(
-            Project__c = project.Id
-            // Add any other mandatory fields on Quote__c
-        );
+        Quote__c quote = new Quote__c();
         insert quote;
     }
 

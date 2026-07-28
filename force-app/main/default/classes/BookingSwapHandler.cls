@@ -117,124 +117,107 @@ public with sharing class BookingSwapHandler {
             throw new BookingSwapException('New Booking Status is required to perform a swap.');
         }
 
-        Savepoint sp = Database.setSavepoint();
         Boolean priorReceiptGateBypass = ReceiptApprovalGateService.bypass;
 
-        try {
-            // Step 1: Query old booking with all fields
-            Booking__c oldBooking = queryBookingWithAllFields(request.oldBookingId);
-            Id oldUnitId = oldBooking.Plot__c;
+        // Step 1: Query old booking with all fields
+        Booking__c oldBooking = queryBookingWithAllFields(request.oldBookingId);
+        Id oldUnitId = oldBooking.Plot__c;
 
-            // Step 1a: Swap eligibility (BRD §12) — only before Registration and only within
-            // the same project. Validated before any DML so an invalid swap is a clean no-op.
-            String eligibilityError = swapEligibilityError(oldBooking, request.newUnitId);
-            if (String.isNotBlank(eligibilityError)) {
-                throw new BookingSwapException(eligibilityError);
-            }
-
-            // Cloning transfers existing receipts (which may be pending/rejected) to the new
-            // booking; suspend the receipt approval gate for this trusted server-side move.
-            ReceiptApprovalGateService.bypass = true;
-
-            // Step 2: Clone the booking for the new unit
-            Booking__c newBooking = oldBooking.clone(false, true, false, false);
-            newBooking.Plot__c = request.newUnitId;
-            newBooking.Status__c = request.newBookingStatus;
-            newBooking.Booking_Date__c = Date.today();
-            // Clear cancellation/swap fields on new booking
-            newBooking.Cancellation_Date__c = null;
-            newBooking.Cancellation_Reason__c = null;
-            newBooking.Swap_Date__c = null;
-            newBooking.Swapped_To_Booking__c = null;
-            // Clear approval statuses for fresh start
-            newBooking.Booking_Verification_Approval_Status__c = null;
-            newBooking.Assignment_Approval_Status__c = null;
-            newBooking.Sale_Agreement_Approval_Status__c = null;
-            newBooking.Cancellation_Approval_Before_Agreement__c = null;
-            newBooking.Swapping_Approval_Before_Agreement__c = null;
-            insert newBooking;
-
-            // Step 3: Update old booking - mark as Swapped
-            oldBooking.Swap_Date__c = Date.today();
-            oldBooking.Swapped_To_Booking__c = newBooking.Id;
-            update oldBooking;
-
-            // Step 4: Update Unit statuses
-            List<Plot__c> unitsToUpdate = new List<Plot__c>();
-
-            // Old unit → Available
-            if (oldUnitId != null) {
-                unitsToUpdate.add(new Plot__c(
-                    Id = oldUnitId,
-                    Status__c = PostSalesConstants.UNIT_STATUS_AVAILABLE,
-                    Current_Booking__c = null
-                ));
-            }
-
-            // New unit → Booked
-            unitsToUpdate.add(new Plot__c(
-                Id = request.newUnitId,
-                Status__c = PostSalesConstants.UNIT_STATUS_BOOKED,
-                Current_Booking__c = newBooking.Id
-            ));
-
-            update unitsToUpdate;
-
-            // Step 5: Clone Master-Detail child records (non-reparentable) using data-driven config
-            for (ChildCloneConfig config : getChildCloneConfigs()) {
-                cloneChildRecords(request.oldBookingId, newBooking.Id, config);
-            }
-
-            // Step 6: Reparent Lookup child records
-            //reparentLookupChildren(request.oldBookingId, newBooking.Id);
-
-            // Step 7: Transfer files (ContentDocumentLinks)
-            transferFiles(request.oldBookingId, newBooking.Id);
-
-            // Step 8: Record swap history on both bookings (BRD §12).
-            insert new Swap_History__c(
-                Old_Booking__c = oldBooking.Id,
-                New_Booking__c = newBooking.Id,
-                Old_Plot__c    = oldUnitId,
-                New_Plot__c    = request.newUnitId,
-                Swap_Date__c   = Date.today(),
-                Approved_By__c = UserInfo.getUserId(),
-                Approved_Date__c = Date.today()
-            );
-
-            result.success = true;
-            result.newBookingId = newBooking.Id;
-            result.message = 'Booking swapped successfully. New Booking ID: ' + newBooking.Id;
-
-            // Apply Post Sales Configuration for Transfer/Swap (auto-send email if configured)
-            try {
-                PostSalesAdminController.ConfigWrapper config = PostSalesAdminController.resolveConfigurationForRecord(
-                    'Transfer', newBooking.Id, 'Booking__c'
-                );
-                if (config != null && config.autoSendEmail == true && config.emailTemplateId != null) {
-                    String templateId = ConfigMatchingService.resolveEmailTemplateForAction(
-                        'Transfer', newBooking.Id, 'Booking__c'
-                    );
-                    if (templateId != null) {
-                        result.message += '. Email template resolved for auto-send.';
-                    }
-                }
-            } catch (Exception configEx) {
-                System.debug('Post Sales Config lookup for swap: ' + configEx.getMessage());
-            }
-
-        } catch (BookingSwapException swapEx) {
-            // A validation failure (e.g. ineligible swap) — roll back and re-surface so the
-            // whole transaction (including the Status = Swapped change) is undone and the user
-            // sees why, instead of the booking being left half-swapped.
-            Database.rollback(sp);
-            throw swapEx;
-        } catch (Exception e) {
-            Database.rollback(sp);
-            throw new BookingSwapException('The swap could not be completed: ' + e.getMessage(), e);
-        } finally {
-            ReceiptApprovalGateService.bypass = priorReceiptGateBypass;
+        // Step 1a: Swap eligibility (BRD §12) — only before Registration and only within
+        // the same project. Validated before any DML so an invalid swap is a clean no-op.
+        String eligibilityError = swapEligibilityError(oldBooking, request.newUnitId);
+        if (String.isNotBlank(eligibilityError)) {
+            throw new BookingSwapException(eligibilityError);
         }
+
+        // Cloning transfers existing receipts (which may be pending/rejected) to the new
+        // booking; suspend the receipt approval gate for this trusted server-side move.
+        ReceiptApprovalGateService.bypass = true;
+
+        // Step 2: Clone the booking for the new unit
+        Booking__c newBooking = oldBooking.clone(false, true, false, false);
+        newBooking.Plot__c = request.newUnitId;
+        newBooking.Status__c = request.newBookingStatus;
+        newBooking.Booking_Date__c = Date.today();
+        // Clear cancellation/swap fields on new booking
+        newBooking.Cancellation_Date__c = null;
+        newBooking.Cancellation_Reason__c = null;
+        newBooking.Swap_Date__c = null;
+        newBooking.Swapped_To_Booking__c = null;
+        // Clear approval statuses for fresh start
+        newBooking.Booking_Verification_Approval_Status__c = null;
+        newBooking.Assignment_Approval_Status__c = null;
+        newBooking.Sale_Agreement_Approval_Status__c = null;
+        newBooking.Cancellation_Approval_Before_Agreement__c = null;
+        newBooking.Swapping_Approval_Before_Agreement__c = null;
+        insert newBooking;
+
+        // Step 3: Update old booking - mark as Swapped
+        oldBooking.Swap_Date__c = Date.today();
+        oldBooking.Swapped_To_Booking__c = newBooking.Id;
+        update oldBooking;
+
+        // Step 4: Update Unit statuses
+        List<Plot__c> unitsToUpdate = new List<Plot__c>();
+
+        // Old unit → Available
+        if (oldUnitId != null) {
+            unitsToUpdate.add(new Plot__c(
+                Id = oldUnitId,
+                Status__c = PostSalesConstants.UNIT_STATUS_AVAILABLE,
+                Current_Booking__c = null
+            ));
+        }
+
+        // New unit → Booked
+        unitsToUpdate.add(new Plot__c(
+            Id = request.newUnitId,
+            Status__c = PostSalesConstants.UNIT_STATUS_BOOKED,
+            Current_Booking__c = newBooking.Id
+        ));
+
+        update unitsToUpdate;
+
+        // Step 5: Clone Master-Detail child records (non-reparentable) using data-driven config
+        for (ChildCloneConfig config : getChildCloneConfigs()) {
+            cloneChildRecords(request.oldBookingId, newBooking.Id, config);
+        }
+
+        // Step 6: Reparent Lookup child records
+        //reparentLookupChildren(request.oldBookingId, newBooking.Id);
+
+        // Step 7: Transfer files (ContentDocumentLinks)
+        transferFiles(request.oldBookingId, newBooking.Id);
+
+        // Step 8: Record swap history on both bookings (BRD §12).
+        insert new Swap_History__c(
+            Old_Booking__c = oldBooking.Id,
+            New_Booking__c = newBooking.Id,
+            Old_Plot__c    = oldUnitId,
+            New_Plot__c    = request.newUnitId,
+            Swap_Date__c   = Date.today(),
+            Approved_By__c = UserInfo.getUserId(),
+            Approved_Date__c = Date.today()
+        );
+
+        result.success = true;
+        result.newBookingId = newBooking.Id;
+        result.message = 'Booking swapped successfully. New Booking ID: ' + newBooking.Id;
+
+        // Apply Post Sales Configuration for Transfer/Swap (auto-send email if configured)
+        PostSalesAdminController.ConfigWrapper config = PostSalesAdminController.resolveConfigurationForRecord(
+            'Transfer', newBooking.Id, 'Booking__c'
+        );
+        if (config != null && config.autoSendEmail == true && config.emailTemplateId != null) {
+            String templateId = ConfigMatchingService.resolveEmailTemplateForAction(
+                'Transfer', newBooking.Id, 'Booking__c'
+            );
+            if (templateId != null) {
+                result.message += '. Email template resolved for auto-send.';
+            }
+        }
+
+        ReceiptApprovalGateService.bypass = priorReceiptGateBypass;
 
         return result;
     }

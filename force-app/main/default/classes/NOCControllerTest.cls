@@ -8,7 +8,7 @@ private class NOCControllerTest {
     private static Plot__c unit;
 
     private static void buildData() {
-        Project__c project = new Project__c(Name = 'P1', Project_Type__c = 'Apartment', Interest_Rate__c = 18);
+        Project__c project = new Project__c(Name = 'P1', Project_Type__c = 'Residential', Interest_Rate__c = 18);
         insert project;
         unit = new Plot__c(Project__c = project.Id, Unit_Type__c = 'Apartment', Status__c = 'Booked');
         insert unit;

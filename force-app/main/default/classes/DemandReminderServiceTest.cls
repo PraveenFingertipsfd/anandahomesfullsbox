@@ -69,7 +69,7 @@ private class DemandReminderServiceTest {
         );
         insert unit;
 
-        Quote__c quote = new Quote__c(Project__c = project.Id);
+        Quote__c quote = new Quote__c();
         insert quote;
 
         Booking__c booking = new Booking__c(
@@ -197,7 +197,7 @@ private class DemandReminderServiceTest {
         insert p;
         Plot__c u = new Plot__c(Project__c = p.Id, Unit_Type__c = 'Apartment', Status__c = 'Booked');
         insert u;
-        Quote__c q = new Quote__c(Project__c = p.Id);
+        Quote__c q = new Quote__c();
         insert q;
         Booking__c b = new Booking__c(
             Project__c = p.Id, Plot__c = u.Id, Quote__c = q.Id, Booking_Amount__c = 100000,
@@ -259,7 +259,7 @@ private class DemandReminderServiceTest {
         insert p;
         Plot__c u = new Plot__c(Project__c = p.Id, Unit_Type__c = 'Apartment', Status__c = 'Available');
         insert u;
-        Quote__c q = new Quote__c(Project__c = p.Id);
+        Quote__c q = new Quote__c();
         insert q;
         Booking__c b = new Booking__c(
             Project__c = p.Id, Plot__c = u.Id, Quote__c = q.Id, Booking_Date__c = Date.today(),

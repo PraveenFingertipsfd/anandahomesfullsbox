@@ -12,7 +12,7 @@ private class InterestCalculationServiceTest {
         // Create Project with 18% annual interest rate
         Project__c project = new Project__c(
             Name = 'Test Project',
-            Project_Type__c = 'Apartment',
+            Project_Type__c = 'Residential',
             Interest_Rate__c = 18
         );
         insert project;
@@ -202,7 +202,7 @@ private class InterestCalculationServiceTest {
         // Create project with 0% interest
         Project__c project = new Project__c(
             Name = 'Zero Interest Project',
-            Project_Type__c = 'Plot',
+            Project_Type__c = 'Residential',
             Interest_Rate__c = 0
         );
         insert project;

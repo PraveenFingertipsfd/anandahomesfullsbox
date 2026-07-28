@@ -22,11 +22,9 @@ private class BookingSwapHandlerTest {
         );
         insert new List<Plot__c>{ oldUnit, newUnit };
             
-        // Create Quote
-        Quote__c quote = new Quote__c(
-            Project__c = project.Id
-            // Populate any other mandatory fields if required
-        );
+        // Create Quote. Note: Quote__c.Project__c is a restricted picklist (Project_Name
+        // global value set), not a lookup — so it is left unset here.
+        Quote__c quote = new Quote__c();
         insert quote;
 
         Booking__c booking = new Booking__c(

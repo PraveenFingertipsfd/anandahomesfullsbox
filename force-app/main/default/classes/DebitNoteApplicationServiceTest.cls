@@ -21,10 +21,7 @@ private class DebitNoteApplicationServiceTest {
         insert unit;
         
         // Create Quote
-        Quote__c quote = new Quote__c(
-            Project__c = project.Id
-            // Populate any other mandatory fields if required
-        );
+        Quote__c quote = new Quote__c();
         insert quote;
         
         Booking__c booking = new Booking__c(

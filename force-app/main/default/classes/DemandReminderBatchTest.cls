@@ -8,7 +8,7 @@ private class DemandReminderBatchTest {
     static void setup() {
         Project__c project = new Project__c(
             Name = 'Reminder Batch Project',
-            Project_Type__c = 'Apartment'
+            Project_Type__c = 'Residential'
         );
         insert project;
 

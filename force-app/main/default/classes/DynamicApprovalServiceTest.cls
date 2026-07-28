@@ -8,7 +8,7 @@ private class DynamicApprovalServiceTest {
     static void setup() {
         Project__c project = new Project__c(
             Name = 'Test Project DA',
-            Project_Type__c = 'Apartment',
+            Project_Type__c = 'Residential',
             Interest_Rate__c = 12
         );
         insert project;

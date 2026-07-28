@@ -9,7 +9,7 @@ private class DemandReminderEnhancementsTest {
 
     private static Booking__c makeBooking(DateTime welcomeDate, Boolean disableReminders) {
         Project__c project = new Project__c(
-            Name = 'P1', Project_Type__c = 'Apartment', Interest_Rate__c = 18,
+            Name = 'P1', Project_Type__c = 'Residential', Interest_Rate__c = 18,
             Enable_Reminder_1__c = true, Reminder_1_Days__c = 15,
             Enable_Reminder_2__c = true, Reminder_2_Days__c = 30,
             Enable_Termination_Mail__c = true, Termination_Mail_Days__c = 45

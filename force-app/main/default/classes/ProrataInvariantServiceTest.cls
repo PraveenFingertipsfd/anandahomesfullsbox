@@ -7,7 +7,7 @@ private class ProrataInvariantServiceTest {
     private static Booking__c booking;
 
     private static void buildProrataBooking() {
-        Project__c project = new Project__c(Name = 'P1', Project_Type__c = 'Apartment', Interest_Rate__c = 18);
+        Project__c project = new Project__c(Name = 'P1', Project_Type__c = 'Residential', Interest_Rate__c = 18);
         insert project;
         Plot__c unit = new Plot__c(Project__c = project.Id, Unit_Type__c = 'Apartment', Status__c = 'Booked');
         insert unit;
@@ -81,7 +81,7 @@ private class ProrataInvariantServiceTest {
 
     @isTest
     static void nonProrataBooking_isIgnored() {
-        Project__c project = new Project__c(Name = 'P2', Project_Type__c = 'Apartment', Interest_Rate__c = 18);
+        Project__c project = new Project__c(Name = 'P2', Project_Type__c = 'Residential', Interest_Rate__c = 18);
         insert project;
         Plot__c unit = new Plot__c(Project__c = project.Id, Unit_Type__c = 'Apartment', Status__c = 'Booked');
         insert unit;

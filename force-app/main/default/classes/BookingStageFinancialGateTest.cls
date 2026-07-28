@@ -9,14 +9,14 @@
 private class BookingStageFinancialGateTest {
 
     private static Booking__c makeBooking(String stage, String funding) {
-        Project__c project = new Project__c(Name = 'P', Project_Type__c = 'Apartment', Interest_Rate__c = 18);
+        Project__c project = new Project__c(Name = 'P', Project_Type__c = 'Residential', Interest_Rate__c = 18);
         insert project;
         Plot__c unit = new Plot__c(Project__c = project.Id, Unit_Type__c = 'Apartment', Status__c = 'Booked');
         insert unit;
         Booking__c b = new Booking__c(
             Project__c = project.Id, Plot__c = unit.Id, Booking_Date__c = Date.today(),
             Status__c = stage, Funding_Type__c = funding,
-            Sale_Agreement_Status__c = 'Completed'
+            Sale_Agreement_Status__c = 'Completed', Agreement_Date__c = Date.today()
         );
         insert b;
         return b;
@@ -89,6 +89,7 @@ private class BookingStageFinancialGateTest {
         Booking__c b = makeBooking('Registration', 'Self');
         b.Sale_Deed_Status__c = 'Completed';
         b.Sale_Deed_Date__c = Date.today();
+        b.Registration_Date__c = Date.today();
         b.Registration_Number__c = 'REG-1';
         update b;
 
@@ -120,6 +121,7 @@ private class BookingStageFinancialGateTest {
         Booking__c b = makeBooking('Registration', 'Self');
         b.Sale_Deed_Status__c = 'Completed';
         b.Sale_Deed_Date__c = Date.today();
+        b.Registration_Date__c = Date.today();
         b.Registration_Number__c = 'REG-2';
         update b;
 

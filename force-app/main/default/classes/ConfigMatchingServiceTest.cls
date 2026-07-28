@@ -8,7 +8,7 @@ private class ConfigMatchingServiceTest {
     static void setup() {
         Project__c project = new Project__c(
             Name = 'CMS Test Project',
-            Project_Type__c = 'Apartment',
+            Project_Type__c = 'Residential',
             Interest_Rate__c = 12
         );
         insert project;

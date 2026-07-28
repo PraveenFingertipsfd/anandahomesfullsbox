@@ -11,7 +11,7 @@ private class CreditNoteApplicationServiceTest {
     static void setupData() {
         Project__c project = new Project__c(
             Name = 'Test Project',
-            Project_Type__c = 'Apartment',
+            Project_Type__c = 'Residential',
             Interest_Rate__c = 18
         );
         insert project;

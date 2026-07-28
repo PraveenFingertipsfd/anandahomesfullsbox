@@ -6,7 +6,7 @@
 private class MilestoneStatusRemarkServiceTest {
 
     private static Construction_Milestone__c makeMilestone(String status, String remarks) {
-        Project__c project = new Project__c(Name = 'P1', Project_Type__c = 'Apartment', Interest_Rate__c = 18);
+        Project__c project = new Project__c(Name = 'P1', Project_Type__c = 'Residential', Interest_Rate__c = 18);
         insert project;
         Construction_Milestone__c m = new Construction_Milestone__c(
             Project__c = project.Id,

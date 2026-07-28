@@ -47,10 +47,7 @@ public class postSalesTestDataFactory {
      * @description Create and insert a Booking__c record.
      */
     public static Quote__c createQuote(Id projectId) {
-    Quote__c q = new Quote__c(
-        Project__c = projectId
-        // Add any other required fields on Quote__c
-    );
+    Quote__c q = new Quote__c();
     insert q;
     return q;
 }
