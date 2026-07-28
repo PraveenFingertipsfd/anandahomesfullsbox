@@ -38,6 +38,9 @@ public class CoApplicantsControllerTest {
         mpy.Tower__c = block.Id;
         mpy.Name = 'On Regestration';
         mpy.S_No__c = 1;
+        mpy.Payment_Type__c = 'On Booking';
+        mpy.Percentage__c = 10;
+        mpy.Sequence__c = 1;
         mpy.Payment_Percent__c = 0;
         mp.add(mpy);
         
@@ -47,6 +50,9 @@ public class CoApplicantsControllerTest {
         mpy1.Tower__c = block.Id;
         mpy1.Name = 'On Agreement';
         mpy1.S_No__c = 2;
+        mpy1.Payment_Type__c = 'On Agreement';
+        mpy1.Percentage__c = 10;
+        mpy1.Sequence__c = 2;
         mpy1.Payment_Percent__c = 0;
         mp.add(mpy1);
         
@@ -56,6 +62,9 @@ public class CoApplicantsControllerTest {
         mpy2.Tower__c = block.Id;
         mpy2.Name = 'On Completion of basement';
         mpy2.S_No__c = 3;
+        mpy2.Payment_Type__c = 'On Foundation';
+        mpy2.Percentage__c = 10;
+        mpy2.Sequence__c = 3;
         mpy2.Payment_Percent__c = 0;
         mp.add(mpy2);
         
@@ -106,7 +115,7 @@ public class CoApplicantsControllerTest {
         book.Project1__c = project.Id; 
         book.Date_of_Booking__c = System.today(); 
         book.Mode_Of_Payment__c = 'Credit Card';
-        book.Funding_Type__c = 'Self';
+        book.Funding_Type__c = 'Self-Funded';
         book.Plot__c = unit.Id;
         book.Loan_Sanction_Confirmed__c = true;
         book.Loan_Sanctioned_Amount__c = 10000;
@@ -161,7 +170,7 @@ public class CoApplicantsControllerTest {
             Project1__c=project.Id,
             Property_Type__c='Apartment',
             Payment_Type__c='Custom', Date_of_Booking__c=System.today(),
-            Mode_Of_Payment__c='Cheque', Funding_Type__c='Self', Plot__c=plot.Id,
+            Mode_Of_Payment__c='Cheque', Funding_Type__c='Self-Funded', Plot__c=plot.Id,
             Sale_Agreement_Completed__c=false,
             Agreement_Amount_Cleared__c='Received Partial Amount',
             Stage__c='New Booking', Demand_Number__c='9',

@@ -32,7 +32,7 @@ private class BulkDemandSplitTest {
 
     @isTest
     static void selfFunded_fillsBaseGstAndCustomerAudience() {
-        Booking__c b = makeBooking('Self');
+        Booking__c b = makeBooking('Self-Funded');
         Payment_Schedule__c ps = new Payment_Schedule__c(
             Booking__c = b.Id, Sequence__c = 1, Status__c = 'Pending', Amount__c = 84000,
             Payment_Schedule_Amount_Pending__c = 80000, GST_Amount_Pending__c = 4000, TDS_Amount_Pending__c = 0

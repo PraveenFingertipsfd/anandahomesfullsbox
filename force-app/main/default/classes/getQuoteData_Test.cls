@@ -60,6 +60,9 @@ public class getQuoteData_Test {
                 Project__c = proj.Id,
                 Unit__c = unit.Id,
                 Payment_Percent__c = 10 * i,
+                Payment_Type__c = 'On Booking',
+                Percentage__c = 10 * i,
+                Sequence__c = i,
                 S_No__c = i
             ));
         }

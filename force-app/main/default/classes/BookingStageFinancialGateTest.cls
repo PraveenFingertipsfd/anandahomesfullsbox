@@ -31,7 +31,7 @@ private class BookingStageFinancialGateTest {
 
     @isTest
     static void registration_blockedByPendingBalance_thenAllowed() {
-        Booking__c b = makeBooking('Demands & Collections', 'Self');
+        Booking__c b = makeBooking('Demands & Collections', 'Self-Funded');
         Payment_Schedule__c ps = schedule(b.Id, 50000);
         insert ps;
 
@@ -54,7 +54,7 @@ private class BookingStageFinancialGateTest {
 
     @isTest
     static void registration_blockedByPendingReceipt() {
-        Booking__c b = makeBooking('Demands & Collections', 'Self');
+        Booking__c b = makeBooking('Demands & Collections', 'Self-Funded');
         insert new Receipt__c(
             Booking__c = b.Id, Payment_Method__c = 'NEFT', Receipt_Date__c = Date.today(),
             Approval_Status__c = 'Pending Approval'
@@ -86,7 +86,7 @@ private class BookingStageFinancialGateTest {
 
     @isTest
     static void handover_blockedByOpenCharge_thenAllowed() {
-        Booking__c b = makeBooking('Registration', 'Self');
+        Booking__c b = makeBooking('Registration', 'Self-Funded');
         b.Sale_Deed_Status__c = 'Completed';
         b.Sale_Deed_Date__c = Date.today();
         b.Registration_Date__c = Date.today();
@@ -118,7 +118,7 @@ private class BookingStageFinancialGateTest {
 
     @isTest
     static void handover_blockedByPendingBalance() {
-        Booking__c b = makeBooking('Registration', 'Self');
+        Booking__c b = makeBooking('Registration', 'Self-Funded');
         b.Sale_Deed_Status__c = 'Completed';
         b.Sale_Deed_Date__c = Date.today();
         b.Registration_Date__c = Date.today();

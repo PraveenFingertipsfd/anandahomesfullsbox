@@ -128,7 +128,8 @@ public class followUpControllerTest {
         // Update Follow up to Completed — validation rules require Completed Date & Call Duration
         fu.Status__c = 'Completed';
         fu.Subject__c = 'Important Call';
-        fu.Completed_Date__c = System.now();
+        // Completed_Date must not be earlier than Scheduled_Date (Completed_Date_after_the_Schedule_Date rule)
+        fu.Completed_Date__c = System.now().addDays(2);
         fu.Call_Duration_In_Mins__c = 5;
 
         Test.startTest();

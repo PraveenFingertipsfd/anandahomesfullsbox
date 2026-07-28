@@ -87,7 +87,7 @@ private class ProrataInvariantServiceTest {
         insert unit;
         booking = new Booking__c(
             Project__c = project.Id, Plot__c = unit.Id, Booking_Date__c = Date.today(),
-            Status__c = 'Booked', Funding_Type__c = 'Self'
+            Status__c = 'Booked', Funding_Type__c = 'Self-Funded'
         );
         insert booking;
 

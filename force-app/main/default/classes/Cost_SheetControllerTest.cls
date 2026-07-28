@@ -120,7 +120,7 @@ public class Cost_SheetControllerTest {
         book.Project1__c = project.Id;
         book.Date_of_Booking__c = System.today();
         book.Mode_Of_Payment__c = 'Credit Card';
-        book.Funding_Type__c = 'Self';
+        book.Funding_Type__c = 'Self-Funded';
         book.Plot__c = unit.Id;
         book.Loan_Sanction_Confirmed__c = true;
         book.Loan_Sanctioned_Amount__c = 10000;
@@ -147,7 +147,7 @@ public class Cost_SheetControllerTest {
         book2.Project1__c = project.Id;
         book2.Date_of_Booking__c = System.today();
         book2.Mode_Of_Payment__c = 'Credit Card';
-        book2.Funding_Type__c = 'Self';
+        book2.Funding_Type__c = 'Self-Funded';
         book2.Plot__c = unit2.Id;
         book2.Loan_Sanction_Confirmed__c = true;
         book2.Loan_Sanctioned_Amount__c = 10000;
@@ -213,7 +213,7 @@ public class Cost_SheetControllerTest {
         b.Project1__c = projectId;
         b.Date_of_Booking__c = System.today();
         b.Mode_Of_Payment__c = 'Credit Card';
-        b.Funding_Type__c = 'Self';
+        b.Funding_Type__c = 'Self-Funded';
         b.Plot__c = plotId;
         b.Loan_Sanction_Confirmed__c = true;
         b.Loan_Sanctioned_Amount__c = 5000;
@@ -284,7 +284,7 @@ public class Cost_SheetControllerTest {
         book.Project1__c = project.Id;
         book.Date_of_Booking__c = System.today();
         book.Mode_Of_Payment__c = 'Credit Card';
-        book.Funding_Type__c = 'Self';
+        book.Funding_Type__c = 'Self-Funded';
         book.Plot__c = unit.Id;
         book.Loan_Sanction_Confirmed__c = true;
         book.Loan_Sanctioned_Amount__c = 10000;

@@ -52,7 +52,8 @@ private class FollowUpTriggerTest {
         insert fu;
 
         fu.Status__c = 'Completed';
-        fu.Completed_Date__c = System.now();
+        // Completed_Date must not be earlier than Scheduled_Date (Completed_Date_after_the_Schedule_Date rule)
+        fu.Completed_Date__c = System.now().addDays(3);
         fu.Comments__c = 'Completed remark for validation';
         fu.Call_Duration_In_Mins__c = 30;
 
@@ -134,7 +135,8 @@ private class FollowUpTriggerTest {
         insert fu;
 
         fu.Status__c = 'Completed';
-        fu.Completed_Date__c = System.now();
+        // Completed_Date must not be earlier than Scheduled_Date (Completed_Date_after_the_Schedule_Date rule)
+        fu.Completed_Date__c = System.now().addDays(3);
         fu.Call_Duration_In_Mins__c = 25;
         fu.Comments__c = 'Completion without subject';
 
@@ -162,7 +164,8 @@ private class FollowUpTriggerTest {
         insert fu;
 
         fu.Status__c = 'Completed';
-        fu.Completed_Date__c = System.now();
+        // Completed_Date must not be earlier than Scheduled_Date (Completed_Date_after_the_Schedule_Date rule)
+        fu.Completed_Date__c = System.now().addDays(3);
         fu.Call_Duration_In_Mins__c = 45;
         fu.Comments__c = 'Resolved pending issue';
 

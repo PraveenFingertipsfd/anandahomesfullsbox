@@ -87,7 +87,7 @@ private class ProrataDemandServiceTest {
 
     @isTest
     static void nonProrataBooking_isSkipped() {
-        buildData('Self');
+        buildData('Self-Funded');
         Payment_Schedule__c ps = makeSchedule('Foundation', Date.today());
 
         Test.startTest();

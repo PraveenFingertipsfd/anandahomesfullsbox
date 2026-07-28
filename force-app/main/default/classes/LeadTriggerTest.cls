@@ -222,7 +222,7 @@ private class LeadTriggerTest {
         insert fuPending;
         Follow_up__c fuCompleted = new Follow_up__c(
             CLead__c = ld.Id, Status__c = 'Completed', Scheduled_Date__c = System.now().addDays(3),
-            Completed_Date__c = System.now(), Comments__c = 'Done', Call_Duration_In_Mins__c = 5
+            Completed_Date__c = System.now().addDays(4), Comments__c = 'Done', Call_Duration_In_Mins__c = 5
         );
         insert fuCompleted;
 
