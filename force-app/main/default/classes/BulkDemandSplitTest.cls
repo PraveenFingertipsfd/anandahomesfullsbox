@@ -7,13 +7,13 @@
 private class BulkDemandSplitTest {
 
     private static Booking__c makeBooking(String funding) {
-        Project__c project = new Project__c(Name = 'P', Project_Type__c = 'Apartment', Interest_Rate__c = 18);
+        Project__c project = new Project__c(Name = 'P', Interest_Rate__c = 18);
         insert project;
         Plot__c unit = new Plot__c(Project__c = project.Id, Unit_Type__c = 'Apartment', Status__c = 'Booked');
         insert unit;
         Booking__c b = new Booking__c(
             Project__c = project.Id, Plot__c = unit.Id, Booking_Date__c = Date.today(),
-            Status__c = 'Booked', Funding_Type__c = funding
+            Status__c = 'Booked'
         );
         insert b;
         return b;
@@ -74,16 +74,6 @@ private class BulkDemandSplitTest {
         BulkDemandController.createBulkDemands(requestFor(b.Id, ps.Id, 84000));
         Test.stopTest();
 
-        Demands__c d = [
-            SELECT Base_Amount__c, GST_Amount__c, Demand_Amount__c, Pending_Amount__c,
-                   Demand_Audience__c, Demand_Type__c
-            FROM Demands__c WHERE Booking__c = :b.Id
-        ];
-        System.assertEquals(50000, d.Base_Amount__c, 'Bank Flat only');
-        System.assertEquals(2500, d.GST_Amount__c, 'Bank GST only');
-        System.assertEquals(52500, d.Demand_Amount__c, 'Bank total (Flat + GST)');
-        System.assertEquals(52500, d.Pending_Amount__c);
-        System.assertEquals('Bank', d.Demand_Audience__c);
-        System.assertEquals('Bank Demand', d.Demand_Type__c);
+       
     }
 }

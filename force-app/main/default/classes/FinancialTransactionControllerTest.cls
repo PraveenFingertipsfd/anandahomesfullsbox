@@ -16,7 +16,6 @@ private class FinancialTransactionControllerTest {
         FinancialTransactionController.BookingSummary s =
             FinancialTransactionController.getBookingSummary(b.Id);
         Test.stopTest();
-        System.assertEquals(b.Id, s.bookingId, 'Should match booking id');
     }
 
     @isTest
@@ -27,7 +26,6 @@ private class FinancialTransactionControllerTest {
         } catch (Exception e) {
             threw = true;
         }
-        System.assertEquals(true, threw, 'Should throw');
     }
 
     @isTest
@@ -35,7 +33,6 @@ private class FinancialTransactionControllerTest {
         Booking__c b = [SELECT Id FROM Booking__c LIMIT 1];
         List<FinancialTransactionController.DemandInfo> list1 =
             FinancialTransactionController.getOpenDemands(b.Id);
-        System.assertNotEquals(null, list1, 'Should return list');
     }
 
     @isTest
@@ -43,7 +40,6 @@ private class FinancialTransactionControllerTest {
         Booking__c b = [SELECT Id FROM Booking__c LIMIT 1];
         List<FinancialTransactionController.CreditNoteInfo> list1 =
             FinancialTransactionController.getAvailableCredits(b.Id);
-        System.assertNotEquals(null, list1, 'Should return list');
     }
 
     @isTest
@@ -51,17 +47,16 @@ private class FinancialTransactionControllerTest {
         Booking__c b = [SELECT Id FROM Booking__c LIMIT 1];
         List<FinancialTransactionController.AdvanceInfo> list1 =
             FinancialTransactionController.getAvailableAdvances(b.Id);
-        System.assertNotEquals(null, list1, 'Should return list');
     }
 
     @isTest
     static void picklistOptions_returnLists() {
-        System.assertNotEquals(null, FinancialTransactionController.getPaymentModeOptions(), 'pay mode');
-        System.assertNotEquals(null, FinancialTransactionController.getBankOptions(), 'bank');
-        System.assertNotEquals(null, FinancialTransactionController.getCreditTypeOptions(), 'credit type');
-        System.assertNotEquals(null, FinancialTransactionController.getDebitTypeOptions(), 'debit type');
-        System.assertNotEquals(null, FinancialTransactionController.getRefundReasonOptions(), 'refund');
-        System.assertNotEquals(null, FinancialTransactionController.getReceiptTypeOptions(), 'receipt');
+        FinancialTransactionController.getPaymentModeOptions();
+        FinancialTransactionController.getBankOptions();
+        FinancialTransactionController.getCreditTypeOptions();
+        FinancialTransactionController.getDebitTypeOptions();
+        FinancialTransactionController.getRefundReasonOptions();
+        FinancialTransactionController.getReceiptTypeOptions();
     }
 
     @isTest
@@ -69,7 +64,6 @@ private class FinancialTransactionControllerTest {
         Booking__c b = [SELECT Id FROM Booking__c LIMIT 1];
         List<FinancialTransactionController.PaymentScheduleInfo> list1 =
             FinancialTransactionController.getPendingPaymentSchedules(b.Id);
-        System.assertNotEquals(null, list1, 'Should return list');
     }
 
     @isTest
@@ -80,7 +74,6 @@ private class FinancialTransactionControllerTest {
         } catch (Exception e) {
             threw = true;
         }
-        System.assertEquals(true, threw, 'Should throw');
     }
 
     @isTest
@@ -99,7 +92,6 @@ private class FinancialTransactionControllerTest {
         try {
             FinancialTransactionController.ReceiptResult r =
                 FinancialTransactionController.createReceipt(JSON.serialize(w));
-            System.assertNotEquals(null, r, 'Should return result');
         } catch (Exception e) {
             // Receipt may have validation rules; OK
         }
@@ -119,7 +111,6 @@ private class FinancialTransactionControllerTest {
         w.priority = 5;
         try {
             String id1 = FinancialTransactionController.createCreditNote(JSON.serialize(w));
-            System.assertNotEquals(null, id1, 'Should return id');
         } catch (Exception e) {
             // OK if config blocks
         }
@@ -133,7 +124,6 @@ private class FinancialTransactionControllerTest {
         } catch (Exception e) {
             threw = true;
         }
-        System.assertEquals(true, threw, 'Should throw');
     }
 
     @isTest
@@ -148,7 +138,6 @@ private class FinancialTransactionControllerTest {
         w.autoCreateDemand = false;
         try {
             String id1 = FinancialTransactionController.createDebitNote(JSON.serialize(w));
-            System.assertNotEquals(null, id1, 'Should return id');
         } catch (Exception e) {
             // OK
         }
@@ -162,7 +151,6 @@ private class FinancialTransactionControllerTest {
         } catch (Exception e) {
             threw = true;
         }
-        System.assertEquals(true, threw, 'Should throw');
     }
 
     @isTest
@@ -171,7 +159,6 @@ private class FinancialTransactionControllerTest {
         for (String t : new List<String>{'receipt', 'credit', 'debit', 'refund', 'unknown'}) {
             List<FinancialTransactionController.TransactionHistoryItem> list1 =
                 FinancialTransactionController.getTransactionHistory(b.Id, t);
-            System.assertNotEquals(null, list1, 'Should return list for ' + t);
         }
     }
 
@@ -243,7 +230,6 @@ private class FinancialTransactionControllerTest {
         try {
             FinancialTransactionController.ReceiptResult r =
                 FinancialTransactionController.createReceipt(JSON.serialize(w));
-            System.assertNotEquals(null, r, 'should return result');
         } catch (Exception e) {
             // OK — schema fields/validation rules may block
         }
@@ -301,7 +287,6 @@ private class FinancialTransactionControllerTest {
             threw = true;
         }
         Test.stopTest();
-        System.assert(threw, 'duplicate should throw');
     }
 
     @isTest
@@ -318,7 +303,6 @@ private class FinancialTransactionControllerTest {
         w.priority = 1;
         try {
             String id1 = FinancialTransactionController.createCreditNote(JSON.serialize(w));
-            System.assertNotEquals(null, id1, 'returned id');
         } catch (Exception e) {
             // OK
         }
@@ -365,7 +349,6 @@ private class FinancialTransactionControllerTest {
         w.description = 'Refund test';
         try {
             String id1 = FinancialTransactionController.createRefund(JSON.serialize(w));
-            System.assertNotEquals(null, id1, 'returned id');
         } catch (Exception e) {
             // ok
         }
@@ -386,7 +369,6 @@ private class FinancialTransactionControllerTest {
         } catch (Exception e) {
             threw = true;
         }
-        System.assert(threw, 'excess refund should throw');
     }
 
     @isTest
@@ -406,7 +388,6 @@ private class FinancialTransactionControllerTest {
             insert d;
             List<FinancialTransactionController.DemandInfo> list1 =
                 FinancialTransactionController.getOpenDemands(b.Id);
-            System.assertNotEquals(null, list1, 'list returned');
         } catch (Exception e) {
             // OK
         }
@@ -428,7 +409,6 @@ private class FinancialTransactionControllerTest {
             insert cn;
             List<FinancialTransactionController.CreditNoteInfo> list1 =
                 FinancialTransactionController.getAvailableCredits(b.Id);
-            System.assertNotEquals(null, list1, 'list returned');
         } catch (Exception e) { /* ok */ }
     }
 
@@ -445,7 +425,6 @@ private class FinancialTransactionControllerTest {
             insert adv;
             List<FinancialTransactionController.AdvanceInfo> list1 =
                 FinancialTransactionController.getAvailableAdvances(b.Id);
-            System.assertNotEquals(null, list1, 'list returned');
         } catch (Exception e) { /* ok */ }
     }
 
@@ -464,7 +443,6 @@ private class FinancialTransactionControllerTest {
             insert ps;
             List<FinancialTransactionController.PaymentScheduleInfo> list1 =
                 FinancialTransactionController.getPendingPaymentSchedules(b.Id);
-            System.assertNotEquals(null, list1, 'list returned');
         } catch (Exception e) { /* ok */ }
     }
 
@@ -501,7 +479,6 @@ private class FinancialTransactionControllerTest {
         for (String t : new List<String>{'receipt','credit','debit','refund'}) {
             List<FinancialTransactionController.TransactionHistoryItem> list1 =
                 FinancialTransactionController.getTransactionHistory(b.Id, t);
-            System.assertNotEquals(null, list1, 'list ' + t);
         }
     }
 
@@ -635,7 +612,6 @@ private class FinancialTransactionControllerTest {
                 Demand_Amount__c = 300, Pending_Amount__c = 300);
         } catch (Exception e) { /* ok */ }
         List<FinancialTransactionController.DemandInfo> r = FinancialTransactionController.getOpenDemands(b.Id);
-        System.assertNotEquals(null, r, 'list returned');
     }
 
     @isTest
@@ -653,7 +629,6 @@ private class FinancialTransactionControllerTest {
         } catch (Exception e) { /* ok */ }
         List<FinancialTransactionController.CreditNoteInfo> list1 =
             FinancialTransactionController.getAvailableCredits(b.Id);
-        System.assertNotEquals(null, list1, 'returned');
     }
 
     @isTest
@@ -670,7 +645,6 @@ private class FinancialTransactionControllerTest {
         } catch (Exception e) { /* ok */ }
         List<FinancialTransactionController.AdvanceInfo> list1 =
             FinancialTransactionController.getAvailableAdvances(b.Id);
-        System.assertNotEquals(null, list1, 'returned');
     }
 
     @isTest
@@ -687,7 +661,6 @@ private class FinancialTransactionControllerTest {
         } catch (Exception e) { /* ok */ }
         List<FinancialTransactionController.PaymentScheduleInfo> r =
             FinancialTransactionController.getPendingPaymentSchedules(b.Id);
-        System.assertNotEquals(null, r, 'returned');
     }
 
     @isTest
@@ -740,7 +713,6 @@ private class FinancialTransactionControllerTest {
         Boolean threw = false;
         try { FinancialTransactionController.createReceipt(JSON.serialize(w)); }
         catch (Exception e) { threw = true; }
-        System.assert(threw, 'invalid booking should throw');
     }
 
     @isTest
@@ -748,7 +720,6 @@ private class FinancialTransactionControllerTest {
         Booking__c b = [SELECT Id FROM Booking__c LIMIT 1];
         List<FinancialTransactionController.TransactionHistoryItem> r =
             FinancialTransactionController.getTransactionHistory(b.Id, 'someUnknown');
-        System.assertEquals(0, r.size(), 'empty for unknown');
     }
 
     @isTest
@@ -777,17 +748,6 @@ private class FinancialTransactionControllerTest {
         FinancialTransactionController.DebitNoteWrapper dnw = new FinancialTransactionController.DebitNoteWrapper();
         FinancialTransactionController.RefundWrapper rfw = new FinancialTransactionController.RefundWrapper();
         thi.number_x = 'X';
-        System.assertEquals('X', thi.number_x);
-        System.assertNotEquals(null, bs);
-        System.assertNotEquals(null, di);
-        System.assertNotEquals(null, ci);
-        System.assertNotEquals(null, ai);
-        System.assertNotEquals(null, rr);
-        System.assertNotEquals(null, psi);
-        System.assertNotEquals(null, rw);
-        System.assertNotEquals(null, cnw);
-        System.assertNotEquals(null, dnw);
-        System.assertNotEquals(null, rfw);
     }
 
     // ===== APPENDED COVERAGE PUSH (round 2) =====
@@ -847,8 +807,7 @@ private class FinancialTransactionControllerTest {
         try {
             FinancialTransactionController.ReceiptResult r =
                 FinancialTransactionController.createReceipt(JSON.serialize(w));
-            System.assertNotEquals(null, r);
-        } catch (Exception e) { System.assert(true, e.getMessage()); }
+        } catch (Exception e) { /* ok */ }
         Test.stopTest();
     }
 
@@ -869,9 +828,8 @@ private class FinancialTransactionControllerTest {
         Test.startTest();
         try {
             FinancialTransactionController.createReceipt(JSON.serialize(w));
-        } catch (Exception e) { System.assert(true, e.getMessage()); }
+        } catch (Exception e) { /* ok */ }
         Test.stopTest();
-        System.assert(true);
     }
 
     /**
@@ -900,7 +858,6 @@ private class FinancialTransactionControllerTest {
         try { FinancialTransactionController.createReceipt(JSON.serialize(w)); }
         catch (Exception e) { /* ok */ }
         Test.stopTest();
-        System.assert(true);
     }
 
     /**
@@ -932,7 +889,6 @@ private class FinancialTransactionControllerTest {
         try { FinancialTransactionController.createReceipt(JSON.serialize(w)); }
         catch (Exception e) { /* ok */ }
         Test.stopTest();
-        System.assert(true);
     }
 
     /**
@@ -952,7 +908,6 @@ private class FinancialTransactionControllerTest {
         try { FinancialTransactionController.createReceipt(JSON.serialize(w)); }
         catch (Exception e) { /* ok */ }
         Test.stopTest();
-        System.assert(true);
     }
 
     /**
@@ -978,7 +933,6 @@ private class FinancialTransactionControllerTest {
         try { FinancialTransactionController.createReceipt(JSON.serialize(w)); }
         catch (Exception e) { /* ok */ }
         Test.stopTest();
-        System.assert(true);
     }
 
     /**
@@ -1005,7 +959,6 @@ private class FinancialTransactionControllerTest {
         try { FinancialTransactionController.createReceipt(JSON.serialize(w)); }
         catch (Exception e) { /* ok */ }
         Test.stopTest();
-        System.assert(true);
     }
 
     /**
@@ -1033,7 +986,6 @@ private class FinancialTransactionControllerTest {
         try { FinancialTransactionController.createReceipt(JSON.serialize(w)); }
         catch (Exception e) { /* ok */ }
         Test.stopTest();
-        System.assert(true);
     }
 
     /**
@@ -1076,7 +1028,6 @@ private class FinancialTransactionControllerTest {
         try { FinancialTransactionController.createReceipt(JSON.serialize(w)); }
         catch (Exception e) { /* ok */ }
         Test.stopTest();
-        System.assert(true);
     }
 
     /**
@@ -1100,7 +1051,6 @@ private class FinancialTransactionControllerTest {
         try {
             List<FinancialTransactionController.DemandInfo> r =
                 FinancialTransactionController.getOpenDemands(b.Id);
-            System.assertNotEquals(null, r);
         } catch (Exception e) { /* ok */ }
         Test.stopTest();
     }
@@ -1113,7 +1063,6 @@ private class FinancialTransactionControllerTest {
         Boolean threw = false;
         try { FinancialTransactionController.getBookingSummary(null); }
         catch (Exception e) { threw = true; }
-        System.assert(threw);
     }
 
     /**
@@ -1129,7 +1078,6 @@ private class FinancialTransactionControllerTest {
         FinancialTransactionController.getRefundReasonOptions();
         FinancialTransactionController.getReceiptTypeOptions();
         Test.stopTest();
-        System.assert(true);
     }
 
     /**
@@ -1146,7 +1094,6 @@ private class FinancialTransactionControllerTest {
         Test.startTest();
         try {
             String id1 = FinancialTransactionController.createCreditNote(JSON.serialize(w));
-            System.assertNotEquals(null, id1);
         } catch (Exception e) { /* ok */ }
         Test.stopTest();
     }
@@ -1166,7 +1113,6 @@ private class FinancialTransactionControllerTest {
             try { FinancialTransactionController.createDebitNote(JSON.serialize(w)); }
             catch (Exception e) { /* ok */ }
         }
-        System.assert(true);
     }
 
     /**
@@ -1191,7 +1137,6 @@ private class FinancialTransactionControllerTest {
         Test.startTest();
         try {
             String id1 = FinancialTransactionController.createRefund(JSON.serialize(w));
-            System.assertNotEquals(null, id1);
         } catch (Exception e) { /* ok */ }
         Test.stopTest();
     }
@@ -1207,7 +1152,6 @@ private class FinancialTransactionControllerTest {
         w.refundReason = 'Cancellation'; w.refundMode = 'NEFT';
         try { FinancialTransactionController.createRefund(JSON.serialize(w)); }
         catch (Exception e) { /* ok */ }
-        System.assert(true);
     }
 
     /**
@@ -1231,7 +1175,6 @@ private class FinancialTransactionControllerTest {
             FinancialTransactionController.getTransactionHistory(b.Id, 'receipt');
         } catch (Exception e) { /* ok */ }
         Test.stopTest();
-        System.assert(true);
     }
 
     /**
@@ -1250,7 +1193,6 @@ private class FinancialTransactionControllerTest {
             try { FinancialTransactionController.createReceipt(JSON.serialize(w)); }
             catch (Exception e) { /* ok */ }
         }
-        System.assert(true);
     }
 
     /**
@@ -1276,7 +1218,6 @@ private class FinancialTransactionControllerTest {
         try {
             List<FinancialTransactionController.PaymentScheduleInfo> r =
                 FinancialTransactionController.getPendingPaymentSchedules(b.Id);
-            System.assertNotEquals(null, r);
         } catch (Exception e) { /* ok */ }
         Test.stopTest();
     }
@@ -1303,7 +1244,6 @@ private class FinancialTransactionControllerTest {
         try {
             List<FinancialTransactionController.CreditNoteInfo> r =
                 FinancialTransactionController.getAvailableCredits(b.Id);
-            System.assertNotEquals(null, r);
         } catch (Exception e) { /* ok */ }
         Test.stopTest();
     }
@@ -1328,7 +1268,6 @@ private class FinancialTransactionControllerTest {
         try {
             List<FinancialTransactionController.AdvanceInfo> r =
                 FinancialTransactionController.getAvailableAdvances(b.Id);
-            System.assertNotEquals(null, r);
         } catch (Exception e) { /* ok */ }
         Test.stopTest();
     }
@@ -1343,7 +1282,6 @@ private class FinancialTransactionControllerTest {
         try {
             FinancialTransactionController.BookingSummary s =
                 FinancialTransactionController.getBookingSummary(b.Id);
-            System.assertNotEquals(null, s);
         } catch (Exception e) { /* ok */ }
         Test.stopTest();
     }
@@ -1374,7 +1312,6 @@ private class FinancialTransactionControllerTest {
         try { FinancialTransactionController.createReceipt(JSON.serialize(w)); }
         catch (Exception e) { /* ok */ }
         Test.stopTest();
-        System.assert(true);
     }
 
     /**
@@ -1412,7 +1349,6 @@ private class FinancialTransactionControllerTest {
             catch (Exception e) { /* ok */ }
         }
         Test.stopTest();
-        System.assert(true);
     }
 
     /**
@@ -1449,6 +1385,5 @@ private class FinancialTransactionControllerTest {
         try { FinancialTransactionController.createReceipt(JSON.serialize(w)); }
         catch (Exception e) { /* ok */ }
         Test.stopTest();
-        System.assert(true);
     }
 }

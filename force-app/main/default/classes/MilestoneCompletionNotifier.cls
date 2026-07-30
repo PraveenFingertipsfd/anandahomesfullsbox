@@ -19,6 +19,11 @@ public with sharing class MilestoneCompletionNotifier {
 
     private static final String STATUS_COMPLETED = 'Completed';
 
+    /** @description Test-only: injected CustomNotificationType id (may be fabricated) so the
+     *               bell path can be exercised in orgs without the notification type. */
+    @TestVisible
+    private static Id notificationTypeIdOverrideForTest;
+
     /**
      * @description Sends completion notifications for every milestone whose status just
      *              changed to Completed.
@@ -119,7 +124,7 @@ public with sharing class MilestoneCompletionNotifier {
     }
 
     // ==================== HELPERS ====================
-
+    @TestVisible
     private static void sendBell(Id typeId, Id targetId, String title, String body, Set<String> recipients) {
         try {
             Messaging.CustomNotification n = new Messaging.CustomNotification();
@@ -143,6 +148,10 @@ public with sharing class MilestoneCompletionNotifier {
     }
 
     private static Id getNotificationTypeId() {
+        if (Test.isRunningTest() && notificationTypeIdOverrideForTest != null) {
+            return notificationTypeIdOverrideForTest;
+        }
+
         String devName;
         try {
             devName = System.Label.Approval_Notification_Type;

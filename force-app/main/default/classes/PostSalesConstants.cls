@@ -5,7 +5,7 @@
  * @author System
  * @date 2026-03-01
  */
-public with sharing class PostSalesConstants {
+public without sharing class PostSalesConstants {
 
     // ==================== DEMAND STATUSES ====================
     public static final String DEMAND_STATUS_OPEN = 'Open';

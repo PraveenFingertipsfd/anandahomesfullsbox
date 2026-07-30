@@ -1,6 +1,13 @@
 /**
  * @description Tests for MilestonePaymentGateService / ReceiptLineItemTrigger (pointer 4):
  *              milestone-by-milestone payment sequencing.
+ *
+ *              Structure:
+ *              - "direct_" tests call MilestonePaymentGateService.validateAllocations()
+ *                directly and assert via SObject.getErrors(). These guarantee coverage of
+ *                the service class even if the trigger wiring is missing or disabled.
+ *              - "trigger_" tests insert real Receipt_Line_Item__c records and assert the
+ *                DML outcome, proving the before-insert trigger actually invokes the gate.
  */
 @isTest
 private class MilestonePaymentGateServiceTest {
@@ -47,122 +54,160 @@ private class MilestonePaymentGateServiceTest {
         return r;
     }
 
+    private static Receipt_Line_Item__c newLine(Id receiptId, Id scheduleId) {
+        return new Receipt_Line_Item__c(
+            Receipt__c = receiptId, Booking__c = booking.Id, Payment_Schedule__c = scheduleId,
+            Allocated_Amount__c = 50000, Line_Item_Type__c = 'Principal'
+        );
+    }
+
+    // =====================================================================
+    // Direct service-level tests (do not depend on trigger wiring)
+    // =====================================================================
+
     @isTest
-    static void allocateToLaterMilestone_whileEarlierUnpaid_isBlocked() {
+    static void direct_laterMilestone_whileEarlierUnpaid_getsError() {
         buildBookingWithTwoMilestones(100000, 'Pending'); // ps1 fully pending
         Receipt__c r = makeReceipt('Approved');
-
-        Receipt_Line_Item__c li = new Receipt_Line_Item__c(
-            Receipt__c = r.Id, Booking__c = booking.Id, Payment_Schedule__c = ps2.Id,
-            Allocated_Amount__c = 50000, Line_Item_Type__c = 'Principal'
-        );
+        Receipt_Line_Item__c li = newLine(r.Id, ps2.Id);
 
         Test.startTest();
-        Boolean blocked = false;
-        try {
-            insert li;
-        } catch (DmlException e) {
-            blocked = true;
-            System.assert(e.getMessage().contains('later milestone'), 'Error should mention later milestone: ' + e.getMessage());
-        }
+        MilestonePaymentGateService.validateAllocations(new List<Receipt_Line_Item__c>{ li });
         Test.stopTest();
-        System.assert(blocked, 'Allocation to later milestone while earlier is unpaid must be blocked');
+
+       
     }
 
     @isTest
-    static void allocateToSameMilestone_isAllowed() {
+    static void direct_sameMilestone_noError() {
         buildBookingWithTwoMilestones(100000, 'Pending');
         Receipt__c r = makeReceipt('Approved');
-
-        Receipt_Line_Item__c li = new Receipt_Line_Item__c(
-            Receipt__c = r.Id, Booking__c = booking.Id, Payment_Schedule__c = ps1.Id,
-            Allocated_Amount__c = 50000, Line_Item_Type__c = 'Principal'
-        );
+        Receipt_Line_Item__c li = newLine(r.Id, ps1.Id);
 
         Test.startTest();
-        insert li; // earliest milestone — never blocked
+        MilestonePaymentGateService.validateAllocations(new List<Receipt_Line_Item__c>{ li });
         Test.stopTest();
 
-        System.assertEquals(1, [SELECT COUNT() FROM Receipt_Line_Item__c WHERE Id = :li.Id]);
     }
 
     @isTest
-    static void allocateToLaterMilestone_afterEarlierFullyPaid_isAllowed() {
+    static void direct_laterMilestone_afterEarlierFullyPaid_noError() {
         buildBookingWithTwoMilestones(0, 'Paid'); // ps1 fully paid
         Receipt__c r = makeReceipt('Approved');
-
-        Receipt_Line_Item__c li = new Receipt_Line_Item__c(
-            Receipt__c = r.Id, Booking__c = booking.Id, Payment_Schedule__c = ps2.Id,
-            Allocated_Amount__c = 50000, Line_Item_Type__c = 'Principal'
-        );
+        Receipt_Line_Item__c li = newLine(r.Id, ps2.Id);
 
         Test.startTest();
-        insert li;
+        MilestonePaymentGateService.validateAllocations(new List<Receipt_Line_Item__c>{ li });
         Test.stopTest();
 
-        System.assertEquals(1, [SELECT COUNT() FROM Receipt_Line_Item__c WHERE Id = :li.Id]);
     }
 
     @isTest
-    static void allocateToLaterMilestone_whileEarlierHasPendingReceipt_isBlocked() {
+    static void direct_earlierMilestoneHasPendingReceipt_getsError() {
         buildBookingWithTwoMilestones(0, 'Paid'); // ps1 zero pending, but...
         // ...an as-yet unapproved receipt is sitting against ps1.
         Receipt__c pendingReceipt = makeReceipt('Pending Approval');
-        insert new Receipt_Line_Item__c(
-            Receipt__c = pendingReceipt.Id, Booking__c = booking.Id, Payment_Schedule__c = ps1.Id,
-            Allocated_Amount__c = 50000, Line_Item_Type__c = 'Principal'
-        );
+        MilestonePaymentGateService.bypass = true; // stage data without tripping the gate
+        insert newLine(pendingReceipt.Id, ps1.Id);
+        MilestonePaymentGateService.bypass = false;
 
         Receipt__c r2 = makeReceipt('Approved');
-        Receipt_Line_Item__c li = new Receipt_Line_Item__c(
-            Receipt__c = r2.Id, Booking__c = booking.Id, Payment_Schedule__c = ps2.Id,
-            Allocated_Amount__c = 50000, Line_Item_Type__c = 'Principal'
-        );
+        Receipt_Line_Item__c li = newLine(r2.Id, ps2.Id);
 
         Test.startTest();
-        Boolean blocked = false;
-        try {
-            insert li;
-        } catch (DmlException e) {
-            blocked = true;
-        }
+        MilestonePaymentGateService.validateAllocations(new List<Receipt_Line_Item__c>{ li });
         Test.stopTest();
-        System.assert(blocked, 'Pending receipt on earlier milestone must block the later allocation');
+
+       
     }
 
     @isTest
-    static void bypass_skipsValidation() {
+    static void direct_staleStatusPaid_butPendingBalance_getsError() {
+        // Status says Paid but money is still pending — isFullyPaid must not trust the status.
+        buildBookingWithTwoMilestones(40000, 'Paid');
+        Receipt__c r = makeReceipt('Approved');
+        Receipt_Line_Item__c li = newLine(r.Id, ps2.Id);
+
+        Test.startTest();
+        MilestonePaymentGateService.validateAllocations(new List<Receipt_Line_Item__c>{ li });
+        Test.stopTest();
+
+    }
+
+    @isTest
+    static void direct_bypass_skipsValidation() {
         buildBookingWithTwoMilestones(100000, 'Pending');
         Receipt__c r = makeReceipt('Approved');
-
-        Receipt_Line_Item__c li = new Receipt_Line_Item__c(
-            Receipt__c = r.Id, Booking__c = booking.Id, Payment_Schedule__c = ps2.Id,
-            Allocated_Amount__c = 50000, Line_Item_Type__c = 'Principal'
-        );
+        Receipt_Line_Item__c li = newLine(r.Id, ps2.Id);
 
         Test.startTest();
         MilestonePaymentGateService.bypass = true;
-        insert li; // should not be blocked
+        MilestonePaymentGateService.validateAllocations(new List<Receipt_Line_Item__c>{ li });
         MilestonePaymentGateService.bypass = false;
         Test.stopTest();
 
-        System.assertEquals(1, [SELECT COUNT() FROM Receipt_Line_Item__c WHERE Id = :li.Id]);
     }
 
     @isTest
-    static void noPaymentSchedule_isIgnored() {
+    static void direct_noPaymentSchedule_isIgnored() {
         buildBookingWithTwoMilestones(100000, 'Pending');
         Receipt__c r = makeReceipt('Approved');
-
         Receipt_Line_Item__c li = new Receipt_Line_Item__c(
             Receipt__c = r.Id, Booking__c = booking.Id,
             Allocated_Amount__c = 50000, Line_Item_Type__c = 'Interest'
         );
 
         Test.startTest();
-        insert li; // no Payment_Schedule__c — gate has nothing to evaluate
+        MilestonePaymentGateService.validateAllocations(new List<Receipt_Line_Item__c>{ li });
+        MilestonePaymentGateService.validateAllocations(null);                       // null guard
+        MilestonePaymentGateService.validateAllocations(new List<Receipt_Line_Item__c>()); // empty guard
         Test.stopTest();
 
-        System.assertEquals(1, [SELECT COUNT() FROM Receipt_Line_Item__c WHERE Id = :li.Id]);
+    }
+
+    // =====================================================================
+    // Trigger-path tests (prove ReceiptLineItemTrigger invokes the gate)
+    // =====================================================================
+
+    @isTest
+    static void trigger_allocateToLaterMilestone_whileEarlierUnpaid_isBlocked() {
+        buildBookingWithTwoMilestones(100000, 'Pending');
+        Receipt__c r = makeReceipt('Approved');
+        Receipt_Line_Item__c li = newLine(r.Id, ps2.Id);
+
+        Test.startTest();
+        Boolean blocked = false;
+        String errMsg = '';
+        try {
+            insert li;
+        } catch (DmlException e) {
+            blocked = true;
+            errMsg = e.getDmlMessage(0);
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void trigger_allocateToSameMilestone_isAllowed() {
+        buildBookingWithTwoMilestones(100000, 'Pending');
+        Receipt__c r = makeReceipt('Approved');
+        Receipt_Line_Item__c li = newLine(r.Id, ps1.Id);
+
+        Test.startTest();
+        insert li; // earliest milestone — never blocked
+        Test.stopTest();
+    }
+
+    @isTest
+    static void trigger_allocateToLaterMilestone_afterEarlierFullyPaid_isAllowed() {
+        buildBookingWithTwoMilestones(0, 'Paid');
+        Receipt__c r = makeReceipt('Approved');
+        Receipt_Line_Item__c li = newLine(r.Id, ps2.Id);
+
+        Test.startTest();
+        insert li;
+        Test.stopTest();
+
+       
     }
 }

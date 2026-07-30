@@ -22,7 +22,7 @@ private class DebitNoteApplicationServiceTest {
         
         // Create Quote
         Quote__c quote = new Quote__c(
-            Project__c = project.Id
+            Project__c = 'The Legacey'
             // Populate any other mandatory fields if required
         );
         insert quote;

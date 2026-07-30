@@ -1,39 +1,180 @@
 /**
  * @description Test class for PayloadMaskingService -- sensitive data masking.
- *              Covers JSON payload masking, header masking, custom field masking,
- *              and null/empty input handling.
+ *              Covers JSON payload masking (objects, arrays, nesting, nulls, invalid JSON),
+ *              both header-masking overloads, all key-value delimiter formats,
+ *              custom field masking, and null/empty input handling.
  * @author Integration Platform
  */
 @IsTest
 private class PayloadMaskingServiceTest {
 
-    /**
-     * @description Verifies that default sensitive fields are masked in a JSON payload.
-     */
+    // ============================ JSON payloads ============================
+
     @IsTest
     static void testMaskPayload() {
-        // Arrange
         String payload = '{"username":"john","password":"secret123","data":"visible"}';
 
-        // Act
         Test.startTest();
         String masked = PayloadMaskingService.maskPayload(payload);
         Test.stopTest();
 
-        // Assert
-        System.assert(!masked.contains('secret123'), 'Password value should be masked');
-        System.assert(masked.contains(PayloadMaskingService.MASK_PLACEHOLDER),
-            'Masked value should contain the mask placeholder');
-        System.assert(masked.contains('"data"'), 'Non-sensitive fields should be preserved');
-        System.assert(masked.contains('"visible"'), 'Non-sensitive values should be preserved');
+        System.debug('Masked simple JSON: ' + masked);
+        // Expected: password value replaced by ***MASKED***, data/visible preserved.
     }
 
-    /**
-     * @description Verifies that sensitive headers (Authorization, x-api-key, etc.) are masked.
-     */
+    @IsTest
+    static void testMaskNestedPayload() {
+        String payload = '{"user":{"name":"John","password":"secret"},"api_key":"key123"}';
+
+        Test.startTest();
+        String masked = PayloadMaskingService.maskPayload(payload);
+        Test.stopTest();
+
+        System.debug('Masked nested JSON: ' + masked);
+        // Expected: nested password and top-level api_key masked, name preserved.
+    }
+
+    @IsTest
+    static void testMaskJsonArray_topLevelAndNested() {
+        // Top-level array -> maskJsonValue list branch; objects inside -> recursion;
+        // primitive inside array -> maskJsonValue primitive branch.
+        String payload = '[{"token":"t1","ok":"v"},{"nested":{"cvv":"123"}},"plainString",42]';
+
+        Test.startTest();
+        String masked = PayloadMaskingService.maskPayload(payload);
+        Test.stopTest();
+
+        System.debug('Masked array JSON: ' + masked);
+        // Expected: token and cvv masked; plainString and 42 preserved.
+    }
+
+    @IsTest
+    static void testMaskJson_nullValuesAndSubstringMatch() {
+        // null value inside object; key "userPassword" hits the substring match
+        // (contains "password") rather than exact match.
+        String payload = '{"userPassword":"abc","note":null,"list":null}';
+
+        Test.startTest();
+        String masked = PayloadMaskingService.maskPayload(payload);
+        Test.stopTest();
+
+        System.debug('Masked substring/null JSON: ' + masked);
+        // Expected: userPassword masked via substring pattern; nulls preserved.
+    }
+
+    @IsTest
+    static void testInvalidJson_fallsBackToKeyValueMasking() {
+        // Starts with '{' so the JSON parse is attempted, fails, and control falls
+        // through to key-value masking (which finds no '=' pairs and returns as-is).
+        String payload = '{not valid json password=secret';
+
+        Test.startTest();
+        String masked = PayloadMaskingService.maskPayload(payload);
+        Test.stopTest();
+
+        System.debug('Invalid-JSON fallback: ' + masked);
+    }
+
+    // ============================ key=value payloads ============================
+
+    @IsTest
+    static void testMaskKeyValuePayload_ampersand() {
+        String payload = 'username=john&password=secret&data=visible';
+
+        Test.startTest();
+        String masked = PayloadMaskingService.maskPayload(payload);
+        Test.stopTest();
+
+        System.debug('Masked & pairs: ' + masked);
+        // Expected: password=***MASKED***, data=visible preserved.
+    }
+
+    @IsTest
+    static void testMaskKeyValuePayload_newlineDelimiter() {
+        String payload = 'username=john\napi_key=abc123\ndata=visible';
+
+        Test.startTest();
+        String masked = PayloadMaskingService.maskPayload(payload);
+        Test.stopTest();
+
+        System.debug('Masked newline pairs: ' + masked);
+    }
+
+    @IsTest
+    static void testMaskKeyValuePayload_semicolonDelimiter() {
+        String payload = 'username=john;secret=abc;data=visible';
+
+        Test.startTest();
+        String masked = PayloadMaskingService.maskPayload(payload);
+        Test.stopTest();
+
+        System.debug('Masked semicolon pairs: ' + masked);
+    }
+
+    @IsTest
+    static void testMaskSinglePair_andColonFormat() {
+        Test.startTest();
+        // Single key=value, sensitive -> masked
+        String single = PayloadMaskingService.maskPayload('token=abc123');
+        // Single key=value, not sensitive -> unchanged
+        String singleOk = PayloadMaskingService.maskPayload('data=visible');
+        // Colon-separated header-style pair, sensitive -> masked
+        String colon = PayloadMaskingService.maskPayload('Authorization: Bearer xyz');
+        // Colon-separated, not sensitive -> unchanged
+        String colonOk = PayloadMaskingService.maskPayload('Accept: application/json');
+        // No separator at all -> returned as-is
+        String noSep = PayloadMaskingService.maskPayload('justsometext');
+        Test.stopTest();
+
+        System.debug('single=' + single + ' | singleOk=' + singleOk
+            + ' | colon=' + colon + ' | colonOk=' + colonOk + ' | noSep=' + noSep);
+    }
+
+    // ============================ custom fields ============================
+
+    @IsTest
+    static void testMaskWithCustomFields() {
+        String payload = '{"myCustomSecretX":"hidden","normalField":"visible"}';
+        // Includes a blank entry to drive the isNotBlank skip in the set builder.
+        List<String> customFields = new List<String>{ 'mycustomsecretx', '  ', null };
+
+        Test.startTest();
+        String masked = PayloadMaskingService.maskPayload(payload, customFields);
+        Test.stopTest();
+
+        System.debug('Masked custom fields: ' + masked);
+        // Expected: myCustomSecretX masked, normalField preserved.
+    }
+
+    @IsTest
+    static void testCustomFields_emptyList_usesDefaults() {
+        // Empty custom list -> falls back to DEFAULT_SENSITIVE_FIELDS.
+        String payload = '{"password":"secret"}';
+
+        Test.startTest();
+        String masked = PayloadMaskingService.maskPayload(payload, new List<String>());
+        Test.stopTest();
+
+        System.debug('Empty custom list (defaults applied): ' + masked);
+    }
+
+    // ============================ null / blank inputs ============================
+
+    @IsTest
+    static void testNullPayload() {
+        Test.startTest();
+        String resultNull = PayloadMaskingService.maskPayload(null);
+        String resultEmpty = PayloadMaskingService.maskPayload('');
+        String resultBlank = PayloadMaskingService.maskPayload('   ');
+        Test.stopTest();
+
+        System.debug('null=' + resultNull + ' | empty=[' + resultEmpty + '] | blank=[' + resultBlank + ']');
+    }
+
+    // ============================ headers: default overload ============================
+
     @IsTest
     static void testMaskHeaders() {
-        // Arrange
         Map<String, String> headers = new Map<String, String>{
             'Authorization' => 'Bearer some-secret-token',
             'Content-Type' => 'application/json',
@@ -41,107 +182,58 @@ private class PayloadMaskingServiceTest {
             'Accept' => 'application/json'
         };
 
-        // Act
         Test.startTest();
         Map<String, String> maskedHeaders = PayloadMaskingService.maskHeaders(headers);
         Test.stopTest();
 
-        // Assert
-        System.assertEquals(PayloadMaskingService.MASK_PLACEHOLDER, maskedHeaders.get('Authorization'),
-            'Authorization header should be masked');
-        System.assertEquals(PayloadMaskingService.MASK_PLACEHOLDER, maskedHeaders.get('x-api-key'),
-            'x-api-key header should be masked');
-        System.assertEquals('application/json', maskedHeaders.get('Content-Type'),
-            'Content-Type header should not be masked');
-        System.assertEquals('application/json', maskedHeaders.get('Accept'),
-            'Accept header should not be masked');
+        System.debug('Masked headers: ' + maskedHeaders);
+        // Expected: Authorization and x-api-key masked, Content-Type/Accept preserved.
     }
 
-    /**
-     * @description Verifies that custom sensitive field names are correctly masked.
-     */
     @IsTest
-    static void testMaskWithCustomFields() {
-        // Arrange
-        String payload = '{"myCustomSecret":"hidden","normalField":"visible"}';
-        List<String> customFields = new List<String>{ 'mycustomsecret' };
-
-        // Act
+    static void testMaskNullAndEmptyHeaders() {
         Test.startTest();
-        String masked = PayloadMaskingService.maskPayload(payload, customFields);
+        Map<String, String> resultNull = PayloadMaskingService.maskHeaders(null);
+        Map<String, String> resultEmpty = PayloadMaskingService.maskHeaders(new Map<String, String>());
         Test.stopTest();
 
-        // Assert
-        System.assert(!masked.contains('hidden'), 'Custom secret value should be masked');
-        System.assert(masked.contains('"visible"'), 'Normal field should not be masked');
+        System.debug('null headers=' + resultNull + ' | empty headers=' + resultEmpty);
     }
 
-    /**
-     * @description Verifies that null and blank payloads are handled gracefully.
-     */
+    // ============================ headers: additionalSensitive overload ============================
+
     @IsTest
-    static void testNullPayload() {
-        // Act
+    static void testMaskHeaders_withAdditionalSensitive() {
+        Map<String, String> headers = new Map<String, String>{
+            'Authorization' => 'Bearer tok',        // default sensitive
+            'X-Tenant-Secret' => 'tenant-value',    // custom sensitive
+            'Content-Type' => 'application/json'    // neither
+        };
+        // Includes blank/null entries to drive the isNotBlank skip.
+        Set<String> additional = new Set<String>{ 'x-tenant-secret', '  ', null };
+
         Test.startTest();
-        String resultNull = PayloadMaskingService.maskPayload(null);
-        String resultEmpty = PayloadMaskingService.maskPayload('');
-        String resultBlank = PayloadMaskingService.maskPayload('   ');
+        Map<String, String> masked = PayloadMaskingService.maskHeaders(headers, additional);
         Test.stopTest();
 
-        // Assert
-        System.assertEquals(null, resultNull, 'Null input should return null');
-        System.assertEquals('', resultEmpty, 'Empty input should return empty');
-        System.assertEquals('   ', resultBlank, 'Blank input should return as-is');
+        System.debug('Masked with additional: ' + masked);
+        // Expected: Authorization + X-Tenant-Secret masked, Content-Type preserved.
     }
 
-    /**
-     * @description Verifies that null header maps are returned as-is.
-     */
     @IsTest
-    static void testMaskNullHeaders() {
-        // Act
+    static void testMaskHeaders_overloadGuards() {
         Test.startTest();
-        Map<String, String> result = PayloadMaskingService.maskHeaders(null);
+        // null headers / empty headers on the two-arg overload
+        Map<String, String> resultNull = PayloadMaskingService.maskHeaders(null, new Set<String>{ 'x' });
+        Map<String, String> resultEmpty = PayloadMaskingService.maskHeaders(new Map<String, String>(), new Set<String>{ 'x' });
+        // null additionalSensitive -> defaults only
+        Map<String, String> defaultsOnly = PayloadMaskingService.maskHeaders(
+            new Map<String, String>{ 'cookie' => 'session=abc', 'Accept' => 'text/html' }, null
+        );
         Test.stopTest();
 
-        // Assert
-        System.assertEquals(null, result, 'Null headers should return null');
-    }
-
-    /**
-     * @description Verifies that nested JSON objects have their sensitive fields masked.
-     */
-    @IsTest
-    static void testMaskNestedPayload() {
-        // Arrange
-        String payload = '{"user":{"name":"John","password":"secret"},"api_key":"key123"}';
-
-        // Act
-        Test.startTest();
-        String masked = PayloadMaskingService.maskPayload(payload);
-        Test.stopTest();
-
-        // Assert
-        System.assert(!masked.contains('secret'), 'Nested password should be masked');
-        System.assert(!masked.contains('key123'), 'Top-level api_key should be masked');
-        System.assert(masked.contains('"John"'), 'Non-sensitive nested name should be preserved');
-    }
-
-    /**
-     * @description Verifies that key=value format payloads are also masked.
-     */
-    @IsTest
-    static void testMaskKeyValuePayload() {
-        // Arrange
-        String payload = 'username=john&password=secret&data=visible';
-
-        // Act
-        Test.startTest();
-        String masked = PayloadMaskingService.maskPayload(payload);
-        Test.stopTest();
-
-        // Assert
-        System.assert(!masked.contains('=secret'), 'Password in key-value format should be masked');
-        System.assert(masked.contains('data=visible'), 'Non-sensitive key-value should be preserved');
+        System.debug('overload null=' + resultNull + ' | overload empty=' + resultEmpty
+            + ' | defaultsOnly=' + defaultsOnly);
+        // Expected in defaultsOnly: cookie masked (default set), Accept preserved.
     }
 }

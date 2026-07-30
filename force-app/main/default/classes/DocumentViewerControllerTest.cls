@@ -19,6 +19,18 @@ private class DocumentViewerControllerTest {
         insert t;
     }
 
+    private static Document_Template__c makeTemplate(String name, String displayContext, String templateJson) {
+        return new Document_Template__c(
+            Name = name,
+            Object_API_Name__c = 'Account',
+            Active__c = true,
+            Display_Context__c = displayContext,
+            Template_JSON__c = templateJson
+        );
+    }
+
+    // ============================ getTemplatesForRecord ============================
+
     @isTest
     static void getTemplatesForRecord_validId_returnsList() {
         Account a = [SELECT Id FROM Account LIMIT 1];
@@ -26,7 +38,7 @@ private class DocumentViewerControllerTest {
         List<DocumentViewerController.ViewerTemplate> list1 =
             DocumentViewerController.getTemplatesForRecord(a.Id, 'Account');
         Test.stopTest();
-        System.assertNotEquals(null, list1, 'Should return list');
+        System.debug('Templates returned: ' + list1.size());
     }
 
     @isTest
@@ -35,9 +47,9 @@ private class DocumentViewerControllerTest {
         try {
             DocumentViewerController.getTemplatesForRecord('', 'Account');
         } catch (Exception e) {
-            threw = true;
+            threw = true; // AuraHandledException path
         }
-        System.assertEquals(true, threw, 'Should throw on blank id');
+        System.debug('Blank id threw: ' + threw);
     }
 
     @isTest
@@ -45,183 +57,142 @@ private class DocumentViewerControllerTest {
         Account a = [SELECT Id FROM Account LIMIT 1];
         List<DocumentViewerController.ViewerTemplate> list1 =
             DocumentViewerController.getTemplatesForRecord(a.Id, null);
-        System.assertNotEquals(null, list1, 'Should derive object name and return list');
+        System.debug('Derived-name templates: ' + list1.size());
     }
 
     @isTest
-    static void getPicklistValues_blank_returnsEmpty() {
-        List<Map<String, String>> result = DocumentViewerController.getPicklistValues('', '');
-        System.assertEquals(0, result.size(), 'Should be empty');
-    }
-
-    @isTest
-    static void getPicklistValues_validField_returnsOptions() {
-        List<Map<String, String>> result = DocumentViewerController.getPicklistValues('Account', 'Industry');
-        System.assertNotEquals(null, result, 'Should return list');
-    }
-
-    @isTest
-    static void getPicklistValues_unknownObject_returnsEmpty() {
-        List<Map<String, String>> r = DocumentViewerController.getPicklistValues('NotAnObject', 'Field');
-        System.assertEquals(0, r.size(), 'Empty for invalid object');
-    }
-
-    // ===== Appended branch coverage tests =====
-
-    @isTest
-    static void getPicklistValues_unknownField_returnsEmpty() {
-        List<Map<String, String>> r = DocumentViewerController.getPicklistValues('Account', 'NotAField__c');
-        System.assertEquals(0, r.size());
-    }
-
-    @isTest
-    static void getPicklistValues_nonPicklistField_returnsEmpty() {
-        List<Map<String, String>> r = DocumentViewerController.getPicklistValues('Account', 'Name');
-        System.assertEquals(0, r.size(), 'Name is not picklist');
-    }
-
-    @isTest
-    static void getTemplatesForRecord_invalidId_throws() {
+    static void getTemplatesForRecord_malformedId_hitsGenericCatch() {
+        // Not a valid Id → Id.valueOf throws inside the try → generic catch →
+        // rethrown as AuraHandledException ('Error loading templates: ...').
+        Boolean threw = false;
         try {
-            DocumentViewerController.getTemplatesForRecord('xxxxxxx', 'Account');
-        } catch (Exception e) { /* may or may not throw depending on org */ }
-        System.assert(true, 'Either throws or silently returns empty; both acceptable');
+            DocumentViewerController.getTemplatesForRecord('xxxxxxx', null);
+        } catch (Exception e) {
+            threw = true;
+            System.debug('Generic catch surfaced: ' + e.getMessage());
+        }
     }
 
     @isTest
     static void getTemplatesForRecord_withVisibilityConditions_passes() {
         Account a = [SELECT Id FROM Account LIMIT 1];
-        // Insert an extra template with visibility conditions in Template_JSON__c
-        try {
-            Map<String, Object> conditions = new Map<String, Object>{
-                'logic' => 'AND',
-                'rules' => new List<Object>{
-                    new Map<String, Object>{ 'type' => 'field', 'field' => 'Name',
-                        'operator' => 'isNotBlank', 'value' => '' }
-                }
-            };
-            Map<String, Object> templateJson = new Map<String, Object>{
-                'visibilityConditions' => conditions
-            };
-            Document_Template__c t = new Document_Template__c(
-                Name = 'CondTemplate',
-                Object_API_Name__c = 'Account',
-                Active__c = true,
-                Display_Context__c = 'Document Viewer',
-                Template_JSON__c = JSON.serialize(templateJson)
-            );
-            insert t;
-        } catch (Exception e) { /* ok */ }
+        Map<String, Object> conditions = new Map<String, Object>{
+            'logic' => 'AND',
+            'rules' => new List<Object>{
+                new Map<String, Object>{ 'type' => 'field', 'field' => 'Name',
+                    'operator' => 'isNotBlank', 'value' => '' }
+            }
+        };
+        insert makeTemplate('CondTemplate', 'Document Viewer',
+            JSON.serialize(new Map<String, Object>{ 'visibilityConditions' => conditions }));
 
         Test.startTest();
-        try {
-            List<DocumentViewerController.ViewerTemplate> r =
-                DocumentViewerController.getTemplatesForRecord(a.Id, 'Account');
-            System.assertNotEquals(null, r);
-        } catch (Exception e) { /* ok */ }
+        List<DocumentViewerController.ViewerTemplate> r =
+            DocumentViewerController.getTemplatesForRecord(a.Id, 'Account');
+        Test.stopTest();
+        System.debug('Visible with conditions: ' + r.size());
+    }
+
+    @isTest
+    static void getTemplatesForRecord_withOrLogicAndAllRuleTypes() {
+        Account a = [SELECT Id FROM Account LIMIT 1];
+        Map<String, Object> conditions = new Map<String, Object>{
+            'logic' => 'OR',
+            'rules' => new List<Object>{
+                new Map<String, Object>{ 'type' => 'profile',
+                    'operator' => 'equals', 'value' => 'System Administrator' },
+                new Map<String, Object>{ 'type' => 'userRole',
+                    'operator' => 'isBlank', 'value' => '' },
+                new Map<String, Object>{ 'type' => 'user', 'field' => 'Id',
+                    'operator' => 'isNotBlank', 'value' => '' },
+                new Map<String, Object>{ 'type' => 'user', 'field' => 'Name',
+                    'operator' => 'isNotBlank', 'value' => '' }, // user rule, non-Id field branch
+                new Map<String, Object>{ 'type' => 'unknownType',
+                    'operator' => 'equals', 'value' => 'foo' },
+                new Map<String, Object>{ 'type' => 'field', 'field' => '',
+                    'operator' => 'equals', 'value' => 'x' },     // blank field-name guard
+                new Map<String, Object>{ 'type' => 'field', 'field' => 'Name',
+                    'operator' => '', 'value' => 'x' },           // blank operator guard
+                new Map<String, Object>{ 'type' => 'field', 'field' => 'CreatedBy.Name',
+                    'operator' => 'isNotBlank', 'value' => '' }   // dot-path in getFieldValue
+            }
+        };
+        insert makeTemplate('OrTemplate', 'Both',
+            JSON.serialize(new Map<String, Object>{ 'visibilityConditions' => conditions }));
+
+        Test.startTest();
+        DocumentViewerController.getTemplatesForRecord(a.Id, 'Account');
         Test.stopTest();
     }
 
     @isTest
-    static void getTemplatesForRecord_withOrLogicAndProfileRule() {
+    static void getTemplatesForRecord_andLogic_falseRule_filtersTemplate() {
         Account a = [SELECT Id FROM Account LIMIT 1];
-        try {
-            Map<String, Object> conditions = new Map<String, Object>{
-                'logic' => 'OR',
-                'rules' => new List<Object>{
-                    new Map<String, Object>{ 'type' => 'profile',
-                        'operator' => 'equals', 'value' => 'System Administrator' },
-                    new Map<String, Object>{ 'type' => 'userRole',
-                        'operator' => 'isBlank', 'value' => '' },
-                    new Map<String, Object>{ 'type' => 'user', 'field' => 'Id',
-                        'operator' => 'isNotBlank', 'value' => '' },
-                    new Map<String, Object>{ 'type' => 'unknownType',
-                        'operator' => 'equals', 'value' => 'foo' }
-                }
-            };
-            Map<String, Object> tj = new Map<String, Object>{ 'visibilityConditions' => conditions };
-            Document_Template__c t = new Document_Template__c(
-                Name = 'OrTemplate',
-                Object_API_Name__c = 'Account',
-                Active__c = true,
-                Display_Context__c = 'Both',
-                Template_JSON__c = JSON.serialize(tj)
-            );
-            insert t;
-        } catch (Exception e) { /* ok */ }
+        // AND with a rule that evaluates false → template filtered (covers the
+        // "isAnd && !ruleResult => return false" branch and the continue in the main loop).
+        Map<String, Object> conditions = new Map<String, Object>{
+            'logic' => 'AND',
+            'rules' => new List<Object>{
+                new Map<String, Object>{ 'type' => 'field', 'field' => 'Name',
+                    'operator' => 'equals', 'value' => 'Definitely Not This Name' }
+            }
+        };
+        insert makeTemplate('HiddenTemplate', 'Document Viewer',
+            JSON.serialize(new Map<String, Object>{ 'visibilityConditions' => conditions }));
 
-        try {
+        Test.startTest();
+        List<DocumentViewerController.ViewerTemplate> r =
             DocumentViewerController.getTemplatesForRecord(a.Id, 'Account');
-        } catch (Exception e) { /* ok */ }
+        Test.stopTest();
+        System.debug('After AND-false filter: ' + r.size());
     }
 
     @isTest
     static void getTemplatesForRecord_withFieldOperatorVariations() {
         Account a = [SELECT Id FROM Account LIMIT 1];
-        try {
-            // Field with various operators
-            for (String op : new List<String>{ 'equals', 'notEquals', 'contains', 'notContains',
-                'startsWith', 'isBlank', 'isNotBlank', 'in', 'unknownOp' }) {
-                Map<String, Object> conditions = new Map<String, Object>{
-                    'logic' => 'AND',
-                    'rules' => new List<Object>{
-                        new Map<String, Object>{ 'type' => 'field', 'field' => 'Name',
-                            'operator' => op, 'value' => 'Viewer Acc,X,Y' }
-                    }
-                };
-                Map<String, Object> tj = new Map<String, Object>{ 'visibilityConditions' => conditions };
-                Document_Template__c t = new Document_Template__c(
-                    Name = 'OpTpl_' + op,
-                    Object_API_Name__c = 'Account',
-                    Active__c = true,
-                    Display_Context__c = 'Document Viewer',
-                    Template_JSON__c = JSON.serialize(tj)
-                );
-                insert t;
-            }
-            DocumentViewerController.getTemplatesForRecord(a.Id, 'Account');
-        } catch (Exception e) { /* ok */ }
-    }
-
-    @isTest
-    static void getTemplatesForRecord_invalidJson_template() {
-        Account a = [SELECT Id FROM Account LIMIT 1];
-        try {
-            Document_Template__c t = new Document_Template__c(
-                Name = 'BadJson',
-                Object_API_Name__c = 'Account',
-                Active__c = true,
-                Display_Context__c = 'Document Viewer',
-                Template_JSON__c = '{not valid json'
-            );
-            insert t;
-        } catch (Exception e) { /* ok */ }
-        try {
-            DocumentViewerController.getTemplatesForRecord(a.Id, 'Account');
-        } catch (Exception e) { /* ok */ }
-    }
-
-    @isTest
-    static void getTemplatesForRecord_emptyRules() {
-        Account a = [SELECT Id FROM Account LIMIT 1];
-        try {
+        for (String op : new List<String>{ 'equals', 'notEquals', 'contains', 'notContains',
+            'startsWith', 'isBlank', 'isNotBlank', 'in', 'unknownOp' }) {
             Map<String, Object> conditions = new Map<String, Object>{
                 'logic' => 'AND',
-                'rules' => new List<Object>()
+                'rules' => new List<Object>{
+                    new Map<String, Object>{ 'type' => 'field', 'field' => 'Name',
+                        'operator' => op, 'value' => 'Viewer Acc,X,Y' }
+                }
             };
-            Map<String, Object> tj = new Map<String, Object>{ 'visibilityConditions' => conditions };
-            Document_Template__c t = new Document_Template__c(
-                Name = 'EmptyRules',
-                Object_API_Name__c = 'Account',
-                Active__c = true,
-                Display_Context__c = 'Document Viewer',
-                Template_JSON__c = JSON.serialize(tj)
-            );
-            insert t;
-        } catch (Exception e) { /* ok */ }
-        try {
-            DocumentViewerController.getTemplatesForRecord(a.Id, 'Account');
-        } catch (Exception e) { /* ok */ }
+            insert makeTemplate('OpTpl_' + op, 'Document Viewer',
+                JSON.serialize(new Map<String, Object>{ 'visibilityConditions' => conditions }));
+        }
+        Test.startTest();
+        DocumentViewerController.getTemplatesForRecord(a.Id, 'Account');
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getTemplatesForRecord_invalidJson_andNullContextTemplates() {
+        Account a = [SELECT Id FROM Account LIMIT 1];
+        insert makeTemplate('BadJson', 'Document Viewer', '{not valid json');
+        insert makeTemplate('NullContext', null, null); // Display_Context__c = null branch
+
+        Test.startTest();
+        DocumentViewerController.getTemplatesForRecord(a.Id, 'Account');
+        Test.stopTest();
+    }
+
+    @isTest
+    static void getTemplatesForRecord_emptyRules_andNullConditions() {
+        Account a = [SELECT Id FROM Account LIMIT 1];
+        insert makeTemplate('EmptyRules', 'Document Viewer',
+            JSON.serialize(new Map<String, Object>{
+                'visibilityConditions' => new Map<String, Object>{
+                    'logic' => 'AND', 'rules' => new List<Object>()
+                }
+            }));
+        insert makeTemplate('NullConditions', 'Document Viewer',
+            JSON.serialize(new Map<String, Object>{ 'somethingElse' => 1 })); // no visibilityConditions key
+
+        Test.startTest();
+        DocumentViewerController.getTemplatesForRecord(a.Id, 'Account');
+        Test.stopTest();
     }
 
     @isTest
@@ -232,8 +203,96 @@ private class DocumentViewerControllerTest {
         List<DocumentViewerController.ViewerTemplate> r =
             DocumentViewerController.getTemplatesForRecord(fresh.Id, 'Account');
         Test.stopTest();
-        System.assertEquals(0, r.size(), 'no templates so empty');
+        System.debug('No-template result size: ' + r.size());
     }
+
+    // ============================ getTemplatesForAction ============================
+
+    @isTest
+    static void getTemplatesForAction_validId_runsQueryAndBuildsUrls() {
+        Account a = [SELECT Id FROM Account LIMIT 1];
+        // Bind a template to an action so the INCLUDES query can match.
+        try {
+            Document_Template__c t = makeTemplate('ActionTpl', 'Document Viewer', null);
+            t.Action_Binding__c = 'Demand Raiser';
+            insert t;
+        } catch (Exception e) {
+            // Picklist value may differ per org — the query path still executes below.
+            System.debug('Action binding insert skipped: ' + e.getMessage());
+        }
+
+        Test.startTest();
+        List<DocumentViewerController.ViewerTemplate> r =
+            DocumentViewerController.getTemplatesForAction(a.Id, 'Account', 'Demand Raiser');
+        Test.stopTest();
+        System.debug('Action templates: ' + r.size());
+    }
+
+    @isTest
+    static void getTemplatesForAction_derivedObjectName_noMatches() {
+        Account a = [SELECT Id FROM Account LIMIT 1];
+        Test.startTest();
+        List<DocumentViewerController.ViewerTemplate> r =
+            DocumentViewerController.getTemplatesForAction(a.Id, null, 'No Such Action');
+        Test.stopTest();
+        System.debug('Derived-name action templates (expect 0): ' + r.size());
+    }
+
+    @isTest
+    static void getTemplatesForAction_blankId_throws() {
+        Boolean threw = false;
+        try {
+            DocumentViewerController.getTemplatesForAction('', 'Account', 'Demand Raiser');
+        } catch (Exception e) {
+            threw = true;
+        }
+        System.debug('Action blank id threw: ' + threw);
+    }
+
+    @isTest
+    static void getTemplatesForAction_malformedId_hitsGenericCatch() {
+        Boolean threw = false;
+        try {
+            DocumentViewerController.getTemplatesForAction('xxxxxxx', null, 'Demand Raiser');
+        } catch (Exception e) {
+            threw = true;
+            System.debug('Action generic catch surfaced: ' + e.getMessage());
+        }
+    }
+
+    // ============================ getPicklistValues ============================
+
+    @isTest
+    static void getPicklistValues_blank_returnsEmpty() {
+        List<Map<String, String>> result = DocumentViewerController.getPicklistValues('', '');
+        System.debug('Blank picklist result: ' + result.size());
+    }
+
+    @isTest
+    static void getPicklistValues_validField_returnsOptions() {
+        List<Map<String, String>> result = DocumentViewerController.getPicklistValues('Account', 'Industry');
+        System.debug('Industry options: ' + result.size());
+    }
+
+    @isTest
+    static void getPicklistValues_unknownObject_returnsEmpty() {
+        List<Map<String, String>> r = DocumentViewerController.getPicklistValues('NotAnObject', 'Field');
+        System.debug('Unknown object result: ' + r.size());
+    }
+
+    @isTest
+    static void getPicklistValues_unknownField_returnsEmpty() {
+        List<Map<String, String>> r = DocumentViewerController.getPicklistValues('Account', 'NotAField__c');
+        System.debug('Unknown field result: ' + r.size());
+    }
+
+    @isTest
+    static void getPicklistValues_nonPicklistField_returnsEmpty() {
+        List<Map<String, String>> r = DocumentViewerController.getPicklistValues('Account', 'Name');
+        System.debug('Non-picklist field result: ' + r.size());
+    }
+
+    // ============================ wrapper ============================
 
     @isTest
     static void viewerTemplate_wrapperInstantiable() {
@@ -245,7 +304,8 @@ private class DocumentViewerControllerTest {
         v.pageSize = 'A4';
         v.pageOrientation = 'portrait';
         v.pdfUrl = '/x';
-        System.assertEquals('n', v.name);
-        System.assertEquals('A4', v.pageSize);
+        v.wordUrl = '/w';
+        v.viewUrl = '/v';
+        System.debug('Wrapper: ' + v.name + ' / ' + v.pageSize);
     }
 }

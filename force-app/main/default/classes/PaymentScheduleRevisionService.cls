@@ -21,7 +21,7 @@
  *              before this change was deployed.
  * @author System
  */
-public with sharing class PaymentScheduleRevisionService {
+public without sharing class PaymentScheduleRevisionService {
 
     /** Process type used to find the Approval_Configuration__c and stamp Approval_Name__c. */
     @TestVisible private static final String PROCESS_TYPE = 'PaymentScheduleRevision';

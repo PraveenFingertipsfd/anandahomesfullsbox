@@ -4,6 +4,20 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <description>The target Unit for a booking swap. Populate this field before changing Status to Swapped.</description>
     <label>Swap To Unit</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>$Source.Project__c</field>
+            <operation>equals</operation>
+            <valueField>Plot__c.Project__c</valueField>
+        </filterItems>
+        <filterItems>
+            <field>Plot__c.Status__c</field>
+            <operation>equals</operation>
+            <value>Available</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
     <referenceTo>Plot__c</referenceTo>
     <relationshipLabel>Swap Bookings</relationshipLabel>
     <relationshipName>Swap_Bookings</relationshipName>

@@ -48,7 +48,7 @@ public class postSalesTestDataFactory {
      */
     public static Quote__c createQuote(Id projectId) {
     Quote__c q = new Quote__c(
-        Project__c = projectId
+        Project__c = 'The Legacey'
         // Add any other required fields on Quote__c
     );
     insert q;

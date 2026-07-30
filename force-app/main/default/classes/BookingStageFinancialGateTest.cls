@@ -38,6 +38,10 @@ private class BookingStageFinancialGateTest {
         Test.startTest();
         Boolean blocked = false;
         b.Status__c = 'Registration';
+        b.Sale_Agreement_Approval_Status__c = 'Approved';
+        b.Sale_Agreement_Completed__c = true;
+        b.Sale_Agreement_Completed__c = true;
+        b.Agreement_Date__c = system.today();
         try { update b; } catch (DmlException e) {
             blocked = true;
             //System.assert(e.getMessage().contains('all payments must be received'), e.getMessage());
@@ -78,6 +82,7 @@ private class BookingStageFinancialGateTest {
 
         Test.startTest();
         b.Status__c = 'Registration';
+        b.Agreement_Date__c = System.today();
         update b;
         Test.stopTest();
 
@@ -101,6 +106,7 @@ private class BookingStageFinancialGateTest {
         Test.startTest();
         Boolean blocked = false;
         b.Status__c = 'Handover';
+        b.Sale_Deed_Date__c = System.today();
         try { update b; } catch (DmlException e) {
             blocked = true;
             //System.assert(e.getMessage().contains('additional charges'), e.getMessage());

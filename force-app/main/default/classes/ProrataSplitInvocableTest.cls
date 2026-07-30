@@ -22,7 +22,7 @@ private class ProrataSplitInvocableTest {
         insert unit;
         
         Quote__c quote = new Quote__c(
-            Project__c = project.Id
+            Project__c = 'The Legacey'
             // Populate any other required fields on Quote__c
         );
         insert quote;

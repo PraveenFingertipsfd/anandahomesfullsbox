@@ -13,7 +13,6 @@ private class InterestCalculationBatchTest {
         // Project with 18% annual interest
         Project__c project = new Project__c(
             Name = 'Batch Test Project',
-            Project_Type__c = 'Apartment',
             Interest_Rate__c = 18
         );
         insert project;
@@ -33,7 +32,7 @@ private class InterestCalculationBatchTest {
             Total_Flat_Cost__c = 10000000,
             GST_Amount__c = 500000,
             Total_Payable_Amount__c = 10500000,
-            Status__c = 'Active'
+            Status__c = 'New'
         );
         insert booking;
 
@@ -49,7 +48,7 @@ private class InterestCalculationBatchTest {
             Pending_Amount__c = 0,
             Amount_Paid__c = 1050000,
             Due_Date__c = Date.today().addDays(-90),
-            Status__c = 'Paid'
+            Status__c= 'Completed'
         ));
 
         // Overdue with pending - should get interest
@@ -62,7 +61,7 @@ private class InterestCalculationBatchTest {
             Pending_Amount__c = 1100000,
             Amount_Paid__c = 1000000,
             Due_Date__c = Date.today().addDays(-45),
-            Status__c = 'Partially Paid'
+            Status__c= 'Completed'
         ));
 
         // Overdue fully unpaid - should get interest
@@ -75,7 +74,7 @@ private class InterestCalculationBatchTest {
             Pending_Amount__c = 1575000,
             Amount_Paid__c = 0,
             Due_Date__c = Date.today().addDays(-20),
-            Status__c = 'Pending'
+            Status__c= 'Completed'
         ));
 
         // Future - no interest
@@ -88,7 +87,7 @@ private class InterestCalculationBatchTest {
             Pending_Amount__c = 5775000,
             Amount_Paid__c = 0,
             Due_Date__c = Date.today().addDays(180),
-            Status__c = 'Pending'
+            Status__c= 'Completed'
         ));
 
         insert schedules;
@@ -137,7 +136,6 @@ private class InterestCalculationBatchTest {
         // Create a project with 0% interest
         Project__c zeroProject = new Project__c(
             Name = 'Zero Rate Project',
-            Project_Type__c = 'Plot',
             Interest_Rate__c = 0
         );
         insert zeroProject;
@@ -146,7 +144,7 @@ private class InterestCalculationBatchTest {
             Project__c = zeroProject.Id,
             Booking_Date__c = Date.today().addDays(-30),
             Total_Payable_Amount__c = 5000000,
-            Status__c = 'Active'
+            Status__c = 'New'
         );
         insert booking;
 
@@ -157,7 +155,7 @@ private class InterestCalculationBatchTest {
             Amount__c = 5000000,
             Pending_Amount__c = 5000000,
             Due_Date__c = Date.today().addDays(-15),
-            Status__c = 'Pending'
+            Status__c = 'Completed'
         );
         insert ps;
 

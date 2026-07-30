@@ -141,13 +141,15 @@ public with sharing class BookingSwapHandler {
         newBooking.Swap_Date__c = null;
         newBooking.Swapped_To_Booking__c = null;
         newBooking.Swap_Unit__c = null;
+        newBooking.Swap_To_Plot__c = null;
 
         // Clear approval statuses for fresh start
-        newBooking.Booking_Verification_Approval_Status__c = null;
+        newBooking.Booking_Verification_Approval_Status__c = 'Approved';
         newBooking.Assignment_Approval_Status__c = null;
         newBooking.Sale_Agreement_Approval_Status__c = null;
         newBooking.Cancellation_Approval_Before_Agreement__c = null;
         newBooking.Swapping_Approval_Before_Agreement__c = null;
+        newBooking.Sale_Deed_Approval__c = null;
 
         insert newBooking;
 
@@ -303,7 +305,7 @@ public with sharing class BookingSwapHandler {
      * @description Clone line-item child records, remapping both the Booking lookup and
      * the parent lookup (e.g. Receipt__c) to the newly cloned parent record.
      */
-    private static void cloneLineItems(Id oldBookingId, Id newBookingId,
+    public static void cloneLineItems(Id oldBookingId, Id newBookingId,
                                         ChildCloneConfig config, Map<Id, Id> parentMap) {
         List<String> fields = getFieldNames(config.lineItemObjectApiName);
         String bookingField = String.escapeSingleQuotes(config.lineItemBookingLookupField);

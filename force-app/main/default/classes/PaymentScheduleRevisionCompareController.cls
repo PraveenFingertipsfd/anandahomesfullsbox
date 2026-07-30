@@ -5,7 +5,7 @@
  *              can see exactly what is being proposed before approving or rejecting.
  * @author System
  */
-public with sharing class PaymentScheduleRevisionCompareController {
+public without sharing class PaymentScheduleRevisionCompareController {
 
     public Payment_Schedule_Revision__c revision { get; private set; }
     public List<LineRow> lineRows { get; private set; }

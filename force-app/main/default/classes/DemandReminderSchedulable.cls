@@ -11,8 +11,22 @@
  */
 public with sharing class DemandReminderSchedulable implements Schedulable {
 
+    /** @description Test-only fault injection: when true, each step throws so the
+     *               error-handling paths can be exercised. Never set in production code. */
+    @TestVisible
+    private static Boolean forceExceptionForTest = false;
+
+    private class ForcedTestException extends Exception {}
+
+    private static void throwIfForced() {
+        if (forceExceptionForTest) {
+            throw new ForcedTestException('Forced test exception');
+        }
+    }
+
     public void execute(SchedulableContext sc) {
         try {
+            throwIfForced();
             DemandReminderService.ProcessingResult result = DemandReminderService.processDueReminders();
             System.debug(result.toLogString());
         } catch (Exception e) {
@@ -21,6 +35,7 @@ public with sharing class DemandReminderSchedulable implements Schedulable {
 
         // Additional-charge reminders (1st/2nd only — BRD §13.1).
         try {
+            throwIfForced();
             Integer ac = AdditionalChargeReminderService.processDueReminders();
             System.debug('Additional charge reminders sent: ' + ac);
         } catch (Exception e) {
@@ -29,6 +44,7 @@ public with sharing class DemandReminderSchedulable implements Schedulable {
 
         // Prorata forecast-date reminders (BRD §8.4).
         try {
+            throwIfForced();
             Integer fc = ProrataForecastReminderService.processDueForecastReminders();
             System.debug('Prorata forecast reminders sent: ' + fc);
         } catch (Exception e) {
@@ -37,6 +53,7 @@ public with sharing class DemandReminderSchedulable implements Schedulable {
 
         // Prorata customer-side demands on the milestone demand date (BRD §8.4).
         try {
+            throwIfForced();
             Integer cd = ProrataDemandService.raiseDueCustomerDemands();
             System.debug('Prorata customer demands raised: ' + cd);
         } catch (Exception e) {
