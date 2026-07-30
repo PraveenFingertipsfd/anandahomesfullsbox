@@ -514,7 +514,7 @@ public with sharing class BulkDemandController {
                 : new Map<Id, Payment_Schedule__c>([
                     SELECT Id, Payment_Schedule_Amount_Pending__c, GST_Amount_Pending__c,
                            TDS_Amount_Pending__c, Bank_Flat_Amount__c, Bank_GST_Amount__c,
-                           Sequence__c
+                           Sequence__c, Demand_Raised__c
                     FROM Payment_Schedule__c WHERE Id IN :allScheduleIds
                 ]);
 
@@ -538,6 +538,37 @@ public with sharing class BulkDemandController {
             Integer idx = 0;
 
             for (BookingDemandItem item : request.bookings) {
+                // Guard against double-demanding: drop any schedule that already has a demand
+                // raised against it (Demand_Raised__c = true). Raising a second demand on the
+                // same schedule would double Total Demand Raised on the Booking. If every
+                // schedule of this item is already demanded, skip the item entirely and report
+                // it back to the UI instead of inserting a duplicate demand.
+                if (item.scheduleIds != null && !item.scheduleIds.isEmpty()) {
+                    List<Id> freshScheduleIds = new List<Id>();
+                    Integer alreadyRaised = 0;
+                    for (Id sid : item.scheduleIds) {
+                        Payment_Schedule__c ps = scheduleMap.get(sid);
+                        if (ps != null && ps.Demand_Raised__c == true) {
+                            alreadyRaised++;
+                        } else {
+                            freshScheduleIds.add(sid);
+                        }
+                    }
+                    if (freshScheduleIds.isEmpty()) {
+                        DemandResultItem skipped = new DemandResultItem();
+                        skipped.bookingId = item.bookingId;
+                        skipped.bookingName = bookingMap.containsKey(item.bookingId)
+                            ? bookingMap.get(item.bookingId).Name : '';
+                        skipped.success = false;
+                        skipped.errorMessage = 'Skipped: a demand has already been raised for the selected payment schedule(s). Raising it again would duplicate the demand.';
+                        result.results.add(skipped);
+                        result.failureCount++;
+                        continue;
+                    }
+                    // Demand only the schedules that have not been demanded yet.
+                    item.scheduleIds = freshScheduleIds;
+                }
+
                 Demands__c demand = new Demands__c();
                 demand.Booking__c = item.bookingId;
                 demand.Interest_Amount__c = request.includeInterest == true ? item.interestAmount : 0;

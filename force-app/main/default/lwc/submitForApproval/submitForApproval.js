@@ -406,7 +406,12 @@ export default class SubmitForApproval extends LightningElement {
             this._patchRequiredLookup(fieldName, { lookupResults: [], hasLookupResults: false });
             return;
         }
-        searchLookupRecords({ objectApiName: refObject, searchTerm: term })
+        searchLookupRecords({
+            objectApiName: refObject,
+            searchTerm: term,
+            contextRecordId: this.recordId,
+            fieldApiName: fieldName
+        })
             .then(results => {
                 const list = results || [];
                 this._patchRequiredLookup(fieldName, {

@@ -18,6 +18,45 @@ private class FinancialTransactionControllerTest {
         Test.stopTest();
     }
 
+    /** Two demands raised against the SAME payment schedule must not double
+     *  Total Demanded — the schedule is counted once; a schedule-less demand
+     *  (e.g. additional charge) still adds on top. */
+    @isTest
+    static void getBookingSummary_duplicateScheduleDemand_notDoubled() {
+        Booking__c b = [SELECT Id FROM Booking__c LIMIT 1];
+
+        Payment_Schedule__c ps = new Payment_Schedule__c(
+            Booking__c = b.Id, Sequence__c = 1, S_No__c = 1,
+            Milestone_Name__c = 'Dup Milestone',
+            Amount__c = 100000, Pending_Amount__c = 100000,
+            Status__c = 'Pending', Due_Date__c = Date.today()
+        );
+        insert ps;
+
+        List<Demands__c> demands = new List<Demands__c>{
+            // Demand raised twice on the same schedule (the bug scenario)
+            new Demands__c(Booking__c = b.Id, Payment_Schedule__c = ps.Id,
+                Demand_Amount__c = 100000, Pending_Amount__c = 100000,
+                Status__c = 'Raised', Demand_Date__c = Date.today(), Due_Date__c = Date.today()),
+            new Demands__c(Booking__c = b.Id, Payment_Schedule__c = ps.Id,
+                Demand_Amount__c = 100000, Pending_Amount__c = 100000,
+                Status__c = 'Raised', Demand_Date__c = Date.today(), Due_Date__c = Date.today()),
+            // Demand with no schedule (additional charge / custom) — counts individually
+            new Demands__c(Booking__c = b.Id,
+                Demand_Amount__c = 5000, Pending_Amount__c = 5000,
+                Status__c = 'Raised', Demand_Date__c = Date.today(), Due_Date__c = Date.today())
+        };
+        insert demands;
+
+        Test.startTest();
+        FinancialTransactionController.BookingSummary s =
+            FinancialTransactionController.getBookingSummary(b.Id);
+        Test.stopTest();
+
+        System.assertEquals(105000, s.totalDemandRaised,
+            'Duplicate demand on the same schedule must be counted once (100000 + 5000), not doubled');
+    }
+
     @isTest
     static void getBookingSummary_invalid_throws() {
         Boolean threw = false;

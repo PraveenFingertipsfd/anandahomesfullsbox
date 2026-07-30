@@ -149,7 +149,9 @@ public with sharing class PaymentScheduleViewController {
                 PaymentScheduleWrapper wrapper = new PaymentScheduleWrapper();
                 wrapper.id = schedule.Id;
                 wrapper.name = schedule.Name != null ? schedule.Name : '';
-                wrapper.milestoneName = schedule.Milestone_Name__c != null ? schedule.Milestone_Name__c : '';
+                wrapper.milestoneName = String.isNotBlank(schedule.Milestone_Name__c)
+                    ? schedule.Milestone_Name__c
+                    : (schedule.Name != null ? schedule.Name : '');
                 wrapper.status = schedule.Status__c != null ? schedule.Status__c : '';
                 wrapper.amount = schedule.Amount__c != null ? schedule.Amount__c : 0;
                 wrapper.percentage = schedule.Percentage__c != null ? schedule.Percentage__c : 0;
@@ -178,7 +180,7 @@ public with sharing class PaymentScheduleViewController {
                     completedCount++;
 
                     // Track last completed milestone
-                    lastCompletedMilestone = schedule.Milestone_Name__c != null ?
+                    lastCompletedMilestone = String.isNotBlank(schedule.Milestone_Name__c) ?
                                             schedule.Milestone_Name__c : schedule.Name;
 
                     // Next demand = Bank Flat + Bank GST when a bank split exists on the

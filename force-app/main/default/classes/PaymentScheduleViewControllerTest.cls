@@ -41,6 +41,34 @@ private class PaymentScheduleViewControllerTest {
         Test.stopTest();
         System.assertEquals(true, r.success, 'Should succeed');
         System.assertEquals(2, r.schedules.size(), 'Should have 2 schedules');
+        System.assertEquals('Milestone 1', r.schedules[0].milestoneName, 'Milestone name should map from Milestone_Name__c');
+        System.assertEquals('Milestone 1', r.nextDemand.lastCompletedMilestone, 'Last completed milestone should be the completed schedule');
+    }
+
+    @isTest
+    static void getPaymentSchedules_blankMilestoneName_fallsBackToScheduleName() {
+        Booking__c b = [SELECT Id FROM Booking__c LIMIT 1];
+        Payment_Schedule__c completed = [
+            SELECT Id, Name FROM Payment_Schedule__c
+            WHERE Booking__c = :b.Id AND Status__c = 'Completed' LIMIT 1
+        ];
+        completed.Milestone_Name__c = null;
+        update completed;
+
+        Test.startTest();
+        PaymentScheduleViewController.PaymentScheduleViewResult r =
+            PaymentScheduleViewController.getPaymentSchedules(b.Id);
+        Test.stopTest();
+
+        System.assertEquals(true, r.success, 'Should succeed');
+        System.assertEquals(completed.Name, r.nextDemand.lastCompletedMilestone,
+            'Blank Milestone_Name__c should fall back to schedule Name');
+        for (PaymentScheduleViewController.PaymentScheduleWrapper w : r.schedules) {
+            if (w.id == completed.Id) {
+                System.assertEquals(completed.Name, w.milestoneName,
+                    'Wrapper should fall back to schedule Name when Milestone_Name__c is blank');
+            }
+        }
     }
 
     @isTest

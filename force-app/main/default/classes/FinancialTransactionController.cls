@@ -41,7 +41,7 @@ public without sharing class FinancialTransactionController {
             summary.originalAgreementValue = booking.Total_Payable_Amount__c ?? 0;
             summary.netAgreementValue = booking.Total_Payable_Amount__c ?? 0;
 
-            summary.totalDemandRaised = booking.Total_Demand_Raised__c ?? 0;
+            summary.totalDemandRaised = computeTotalDemandRaised(bookingId);
             summary.totalReceiptAmount = booking.Total_Receipt_Amount__c ?? 0;
             summary.outstandingDemandAmount = booking.Outstanding_Demand_Amount__c ?? 0;
 
@@ -76,6 +76,36 @@ public without sharing class FinancialTransactionController {
         }
     }
     
+    /**
+     * @description Total demanded for a booking, de-duplicated per Payment Schedule.
+     *              The Booking rollup (Total_Demand_Raised__c) is a straight SUM over
+     *              Demands__c, so if a demand was accidentally raised twice against the
+     *              same schedule the rollup doubles. Here each schedule is counted once
+     *              (its earliest non-cancelled demand), while demands not linked to any
+     *              schedule (additional charges, custom/interest demands) still sum
+     *              individually.
+     */
+    private static Decimal computeTotalDemandRaised(String bookingId) {
+        Decimal total = 0;
+        Set<Id> countedSchedules = new Set<Id>();
+        for (Demands__c d : [
+            SELECT Payment_Schedule__c, Demand_Amount__c
+            FROM Demands__c
+            WHERE Booking__c = :bookingId
+            AND Status__c != 'Cancelled'
+            ORDER BY CreatedDate ASC
+        ]) {
+            if (d.Payment_Schedule__c != null) {
+                if (countedSchedules.contains(d.Payment_Schedule__c)) {
+                    continue; // duplicate demand on an already-counted schedule
+                }
+                countedSchedules.add(d.Payment_Schedule__c);
+            }
+            total += d.Demand_Amount__c ?? 0;
+        }
+        return total;
+    }
+
     // ==================== GET OPEN DEMANDS ====================
     
     @AuraEnabled(cacheable=true)

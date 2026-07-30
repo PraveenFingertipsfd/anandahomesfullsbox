@@ -243,6 +243,53 @@ private class BulkDemandControllerTest {
         Test.stopTest();
     }
 
+    /** Duplicate guard: raising a second demand on the same schedule is skipped, so
+     *  Total Demand Raised on the Booking does not double. */
+    @isTest
+    static void createBulkDemands_duplicateSchedule_skipped() {
+        List<Booking__c> bookings = [SELECT Id FROM Booking__c WHERE Funding_Type__c != 'Prorata' LIMIT 1];
+        if (bookings.isEmpty()) return;
+        List<Payment_Schedule__c> ps = [
+            SELECT Id FROM Payment_Schedule__c WHERE Booking__c = :bookings[0].Id LIMIT 1
+        ];
+        if (ps.isEmpty()) return;
+
+        BulkDemandController.BookingDemandItem item = new BulkDemandController.BookingDemandItem();
+        item.bookingId = bookings[0].Id;
+        item.demandAmount = 0;
+        item.scheduleIds = new List<Id>{ ps[0].Id };
+
+        BulkDemandController.BulkDemandRequest req = new BulkDemandController.BulkDemandRequest();
+        req.bookings = new List<BulkDemandController.BookingDemandItem>{ item };
+
+        Test.startTest();
+        try {
+            // First call raises the demand and flips Demand_Raised__c on the schedule.
+            BulkDemandController.createBulkDemands(JSON.serialize(req));
+            Integer countAfterFirst = [
+                SELECT COUNT() FROM Demands__c WHERE Booking__c = :bookings[0].Id
+            ];
+
+            // Second call for the SAME schedule must be skipped, not duplicated.
+            BulkDemandController.BulkDemandResult res2 =
+                BulkDemandController.createBulkDemands(JSON.serialize(req));
+            Integer countAfterSecond = [
+                SELECT COUNT() FROM Demands__c WHERE Booking__c = :bookings[0].Id
+            ];
+
+            if (countAfterFirst > 0) {
+                System.assertEquals(countAfterFirst, countAfterSecond,
+                    'Second demand on an already-demanded schedule must not create a new Demands__c');
+                System.assertEquals(0, res2.successCount, 'Duplicate item must not succeed');
+                System.assertEquals(1, res2.failureCount, 'Duplicate item must be reported as skipped');
+                System.assert(res2.results[0].errorMessage != null
+                    && res2.results[0].errorMessage.contains('already been raised'),
+                    'Skip message should explain the schedule was already demanded: ' + res2.results[0].errorMessage);
+            }
+        } catch (Exception e) { System.debug('Tolerated: ' + e.getMessage()); }
+        Test.stopTest();
+    }
+
     @isTest
     static void createBulkDemands_emptyBookings_throws() {
         BulkDemandController.BulkDemandRequest req = new BulkDemandController.BulkDemandRequest();

@@ -105,13 +105,13 @@ private class DynamicFormExecutionControllerTest {
 
     @isTest
     static void searchLookupRecords_validTerm_returnsList() {
-        List<Map<String, String>> r = DynamicFormExecutionController.searchLookupRecords('Account', 'Form');
+        List<Map<String, String>> r = DynamicFormExecutionController.searchLookupRecords('Account', 'Form', null, null);
         System.assertNotEquals(null, r, 'Should return list');
     }
 
     @isTest
     static void searchLookupRecords_blank_returnsEmpty() {
-        List<Map<String, String>> r = DynamicFormExecutionController.searchLookupRecords('', '');
+        List<Map<String, String>> r = DynamicFormExecutionController.searchLookupRecords('', '', null, null);
         System.assertEquals(0, r.size(), 'Empty list');
     }
 
@@ -351,15 +351,56 @@ private class DynamicFormExecutionControllerTest {
     @isTest
     static void searchLookupRecords_shortTerm_returnsEmpty() {
         Test.startTest();
-        List<Map<String, String>> r = DynamicFormExecutionController.searchLookupRecords('Account', 'A');
+        List<Map<String, String>> r = DynamicFormExecutionController.searchLookupRecords('Account', 'A', null, null);
         Test.stopTest();
         System.assertEquals(0, r.size(), 'Term <2 chars returns empty');
     }
 
     @isTest
+    static void searchLookupRecords_swapToPlotContext_filtersUnits() {
+        // Booking in project A on unit "Unit-Current"; the Swap To Unit search must return
+        // only same-project Available units that are not the booking's current unit.
+        Project__c projectA = postSalesTestDataFactory.createProject('Swap Filter Proj A');
+        Project__c projectB = postSalesTestDataFactory.createProject('Swap Filter Proj B');
+
+        Plot__c currentUnit = postSalesTestDataFactory.createUnit(projectA.Id);
+        currentUnit.Name = 'Unit-Current';
+        Plot__c availableSameProject = postSalesTestDataFactory.createUnit(projectA.Id);
+        availableSameProject.Name = 'Unit-Eligible';
+        Plot__c soldSameProject = postSalesTestDataFactory.createUnit(projectA.Id);
+        soldSameProject.Name = 'Unit-Sold';
+        soldSameProject.Status__c = 'Sold';
+        Plot__c otherProjectUnit = postSalesTestDataFactory.createUnit(projectB.Id);
+        otherProjectUnit.Name = 'Unit-OtherProject';
+        update new List<Plot__c>{ currentUnit, availableSameProject, soldSameProject, otherProjectUnit };
+
+        Booking__c booking = postSalesTestDataFactory.createBooking(projectA.Id, currentUnit.Id);
+
+        Test.startTest();
+        List<Map<String, String>> r = DynamicFormExecutionController.searchLookupRecords(
+            'Plot__c', 'Unit', booking.Id, 'Swap_To_Plot__c');
+        Test.stopTest();
+
+        System.assertEquals(1, r.size(), 'Only the same-project Available non-current unit should match');
+        System.assertEquals(availableSameProject.Id, Id.valueOf(r[0].get('id')),
+            'Result should be the eligible unit');
+    }
+
+    @isTest
+    static void searchLookupRecords_nonSwapContext_unfiltered() {
+        // A context that does not match the Swap_To_Plot__c rule must not alter results.
+        Account a = [SELECT Id FROM Account LIMIT 1];
+        Test.startTest();
+        List<Map<String, String>> r = DynamicFormExecutionController.searchLookupRecords(
+            'Account', 'Form', a.Id, 'Some_Other_Field__c');
+        Test.stopTest();
+        System.assertEquals(1, r.size(), 'Unrelated field context should leave the search unfiltered');
+    }
+
+    @isTest
     static void searchLookupRecords_invalidObject_handles() {
         Test.startTest();
-        List<Map<String, String>> r = DynamicFormExecutionController.searchLookupRecords('NotARealObj', 'test');
+        List<Map<String, String>> r = DynamicFormExecutionController.searchLookupRecords('NotARealObj', 'test', null, null);
         Test.stopTest();
         System.assertEquals(0, r.size(), 'Invalid object returns empty');
     }
