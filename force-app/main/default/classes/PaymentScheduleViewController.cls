@@ -36,6 +36,7 @@ public with sharing class PaymentScheduleViewController {
         // record, 'Customer' otherwise. isBankDemand is the boolean equivalent for templates.
         @AuraEnabled public String demandSource { get; set; }
         @AuraEnabled public Boolean isBankDemand { get; set; }
+        @AuraEnabled public Boolean demandRaised { get; set; }
         @AuraEnabled public String statusColor { get; set; }
         @AuraEnabled public String statusIcon { get; set; }
         @AuraEnabled public Boolean isPaid { get; set; }
@@ -130,7 +131,7 @@ public with sharing class PaymentScheduleViewController {
                        Payment_Schedule_Amount__c, GST_Amount__c, TDS_Amount__c,
                        Payment_Schedule_Amount_Paid__c, GST_Amount_Paid__c,
                        Payment_Schedule_Amount_Pending__c, GST_Amount_Pending__c,
-                       Bank_Flat_Amount__c, Bank_GST_Amount__c
+                       Bank_Flat_Amount__c, Bank_GST_Amount__c, Demand_Raised__c
                 FROM Payment_Schedule__c
                 WHERE Booking__c = :bookingId
                 ORDER BY CreatedDate ASC
@@ -169,6 +170,7 @@ public with sharing class PaymentScheduleViewController {
                 wrapper.formattedDemandable = formatCurrency(demandable);
                 wrapper.isBankDemand = schedule.Bank_Flat_Amount__c != null;
                 wrapper.demandSource = wrapper.isBankDemand ? 'Bank' : 'Customer';
+                wrapper.demandRaised = schedule.Demand_Raised__c == true;
                 
                 // Determine status color and icon
                 wrapper.isPaid = (schedule.Status__c == PostSalesConstants.SCHEDULE_STATUS_PAID);
@@ -185,13 +187,17 @@ public with sharing class PaymentScheduleViewController {
 
                     // Next demand = Bank Flat + Bank GST when a bank split exists on the
                     // milestone, otherwise the full schedule amount (Base + GST + TDS).
-                    totalPendingForNextDemand += demandable;
-                    if (wrapper.isBankDemand) {
-                        totalBankForNextDemand += demandable;
-                    } else {
-                        totalCustomerForNextDemand += demandable;
+                    // Schedules whose demand is already raised are excluded — the next
+                    // demand covers only newly completed, not-yet-demanded milestones.
+                    if (!wrapper.demandRaised) {
+                        totalPendingForNextDemand += demandable;
+                        if (wrapper.isBankDemand) {
+                            totalBankForNextDemand += demandable;
+                        } else {
+                            totalCustomerForNextDemand += demandable;
+                        }
+                        totalInterestForNextDemand += (schedule.Interest_Pending__c != null ? schedule.Interest_Pending__c : 0);
                     }
-                    totalInterestForNextDemand += (schedule.Interest_Pending__c != null ? schedule.Interest_Pending__c : 0);
                 }
                 
                 // Format currency values
@@ -282,6 +288,7 @@ public with sharing class PaymentScheduleViewController {
             FROM Payment_Schedule__c
             WHERE Booking__c = :bookingId
             AND Status__c = :PostSalesConstants.SCHEDULE_STATUS_COMPLETED
+            AND Demand_Raised__c != true
             ORDER BY Due_Date__c ASC NULLS LAST, CreatedDate ASC
         ];
 
@@ -343,7 +350,8 @@ public with sharing class PaymentScheduleViewController {
         Decimal grandTotal = totalPending + totalInterest;
         if (grandTotal <= 0) {
             throw new AuraHandledException(
-                'Nothing to raise: no completed payment schedule has a pending amount or interest.');
+                'Nothing to raise: every completed payment schedule has either been demanded '
+                + 'already or has no pending amount or interest.');
         }
 
         Demands__c demand = new Demands__c();

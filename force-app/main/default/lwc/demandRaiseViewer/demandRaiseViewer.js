@@ -368,7 +368,9 @@ export default class PaymentScheduleViewer extends LightningElement {
     // The milestones actually contributing to the next demand, each tagged with its source
     // (Bank or Customer) so the raising UI can show the user where the money is coming from.
     get demandLines() {
-        return this.completedSchedules.filter(s => (s.demandableAmount || 0) > 0);
+        // Schedules already demanded are excluded — the next demand only covers
+        // newly completed, not-yet-demanded milestones.
+        return this.completedSchedules.filter(s => (s.demandableAmount || 0) > 0 && !s.demandRaised);
     }
 
     get hasDemandLines() {
