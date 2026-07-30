@@ -9,7 +9,7 @@ import sendBulkDemandEmails from '@salesforce/apex/BulkDemandController.sendBulk
 import getConfigurationByType from '@salesforce/apex/PostSalesAdminController.getConfigurationByType';
 import resolveConfigurationForRecord from '@salesforce/apex/PostSalesAdminController.resolveConfigurationForRecord';
 import getEmailTemplateOptions from '@salesforce/apex/PostSalesAdminController.getEmailTemplateOptions';
-import getProjects from '@salesforce/apex/FormulaBuilderController.getProjects';
+import getProjects from '@salesforce/apex/BulkDemandController.getProjects';
 
 export default class BulkRaiseDemand extends LightningElement {
     @api recordId;

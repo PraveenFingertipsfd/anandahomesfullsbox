@@ -10,15 +10,15 @@ trigger BookingTrigger on Booking__c (before insert, before update, after insert
     if (Trigger.isBefore && (Trigger.isInsert || Trigger.isUpdate)) {
         //Stage-progression gates (BRD lifecycle prerequisites).
         if (Trigger.isUpdate) {
-            BookingStageValidationService.validateStageTransitions(Trigger.new, Trigger.oldMap);
+           BookingStageValidationService.validateStageTransitions(Trigger.new, Trigger.oldMap);
         }
     }
 
     if (Trigger.isAfter) {
         if (Trigger.isInsert) {
-            //BookingStageRemarkService.captureForNewBookings(Trigger.new);
+            BookingStageRemarkService.captureForNewBookings(Trigger.new);
         } else if (Trigger.isUpdate) {
-            //BookingStageRemarkService.captureForStageChanges(Trigger.new, Trigger.oldMap);
+            BookingStageRemarkService.captureForStageChanges(Trigger.new, Trigger.oldMap);
         }
     }
 }

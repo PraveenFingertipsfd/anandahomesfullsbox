@@ -81,7 +81,7 @@ public class MasterPaymentScheduleTriggerTest {
         insert ld;
         
         Master_payment_schedule__c mpy = new Master_payment_schedule__c ();
-        mpy.Status__c = 'Not Started';
+        mpy.Status__c = '';
         mpy.Project__c = pr.id;
   mpy.Payment_Percent__c=10;
         mpy.Payment_Type__c = 'On Booking';

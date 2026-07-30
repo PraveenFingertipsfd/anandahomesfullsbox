@@ -103,6 +103,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Additional_Charge__c.Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Additional_Charge__c.GST_Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1534,6 +1539,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Booking__c.Is_Primary_Minor__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Booking__c.Is_Show__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3344,6 +3354,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Co_Applicant__c.Loan_Applicant__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Co_Applicant__c.Mobile__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -7803,6 +7818,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Master_Payment_Schedule__c.Payment_Percent__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Master_Payment_Schedule__c.Payment_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Master_Payment_Schedule__c.Project_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8064,6 +8089,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Payment_Schedule__c.Amount_Paid__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Schedule__c.Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -8449,6 +8479,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Payment_Schedule__c.Scheduled_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Payment_Schedule__c.Sequence__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -10553,6 +10588,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Receipt_Line_Item__c.Additional_Charge__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Receipt_Line_Item__c.Advance_Payment__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -10569,6 +10609,21 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Receipt_Line_Item__c.Allocated_Principal_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Receipt_Line_Item__c.Allocation_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Receipt_Line_Item__c.Allocation_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Receipt_Line_Item__c.Amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -10934,6 +10989,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Receipt__c.Payment_Location__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Receipt__c.Payment_Method__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

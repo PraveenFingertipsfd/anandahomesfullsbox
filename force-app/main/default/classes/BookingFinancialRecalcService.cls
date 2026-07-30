@@ -7,7 +7,18 @@
  * @author System
  * @date 2026-03-09
  */
-public with sharing class BookingFinancialRecalcService {
+public without sharing class BookingFinancialRecalcService {
+
+    /**
+     * @description When true, all recalculation is suppressed. Set by trusted server-side bulk
+     *              operations (e.g. BookingSwapHandler) that insert many financial child records
+     *              in one transaction and will trigger a single recalculation at the end, rather
+     *              than paying ~8 SOQL queries after every individual child insert.
+     *              Callers MUST restore the previous value when finished — ideally in a finally
+     *              block — so a failure part-way through does not leave recalculation disabled
+     *              for the remainder of the transaction.
+     */
+    public static Boolean bypass = false;
 
     /**
      * @description Approval status of a Receipt whose allocations must NOT count towards any
@@ -32,6 +43,8 @@ public with sharing class BookingFinancialRecalcService {
      */
     @InvocableMethod(label='Recalculate Booking Financials' description='Recalculates all financial totals, demand pending amounts, and payment schedule pending amounts for a Booking' category='Financial')
     public static void recalculate(List<FlowInput> inputs) {
+        if (bypass) return;
+
         Set<Id> bookingIds = new Set<Id>();
         for (FlowInput input : inputs) {
             if (input.bookingId != null) {
@@ -51,6 +64,9 @@ public with sharing class BookingFinancialRecalcService {
      *              3. Updates Booking-level currency fields (including Base/GST totals)
      */
     public static void recalculateForBookings(Set<Id> bookingIds) {
+        if (bypass) return;
+        if (bookingIds == null || bookingIds.isEmpty()) return;
+
         recalcPaymentSchedules(bookingIds);
         recalcDemands(bookingIds);
         recalcBookingTotals(bookingIds);

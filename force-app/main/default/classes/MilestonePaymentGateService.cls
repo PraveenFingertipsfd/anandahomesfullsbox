@@ -46,7 +46,7 @@ public with sharing class MilestonePaymentGateService {
 
         // Resolve booking + sequence for each target schedule.
         Map<Id, Payment_Schedule__c> targetSchedules = new Map<Id, Payment_Schedule__c>([
-            SELECT Id, Booking__c, Sequence__c
+            SELECT Id, Booking__c, Sequence__c,Milestone_Name__c
             FROM Payment_Schedule__c
             WHERE Id IN :targetScheduleIds
         ]);

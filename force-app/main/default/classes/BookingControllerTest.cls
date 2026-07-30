@@ -162,8 +162,8 @@ public class BookingControllerTest {
                 Receipt_Line_Item_Name__c = 'Receipt Line Item 1',
                 Receipt__c = receipt.Id,
                 Booking__c = book.Id,
-                Amount__c = 1000
-                //Payment_schedule__c = pay.Id
+                Amount__c = 1000,
+                Payment_schedule__c = pay.Id
             );
             insert receiptLineItem;
         }
@@ -353,7 +353,7 @@ public class BookingControllerTest {
         System.assert(true, 'sendCustomNotification call attempted');
     }
     
- /*   @isTest
+    @isTest
     static void testDocumentVerificationApproval() {
         Booking__c bk = new Booking__c();
         insert bk;
@@ -493,10 +493,9 @@ public class BookingControllerTest {
         }
         Test.stopTest();
     }
-*/
-    
-    
-    
+
+
+
     @isTest
 static void testSendWelcomeEmail() {
 // Setup test data

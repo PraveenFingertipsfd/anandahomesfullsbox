@@ -28,20 +28,18 @@
             <value>
                 <fullName>Apartment</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
                 <label>Apartment</label>
+            </value>
+            <value>
+                <fullName>Plot</fullName>
+                <default>false</default>
+                <label>Plot</label>
             </value>
             <value>
                 <fullName>Apartments</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
                 <label>Apartments</label>
-            </value>
-            <value>
-                <fullName>Plot</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Plot</label>
             </value>
             <value>
                 <fullName>Villa</fullName>

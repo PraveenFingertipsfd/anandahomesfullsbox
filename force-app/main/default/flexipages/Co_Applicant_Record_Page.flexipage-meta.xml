@@ -82,7 +82,17 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>required</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Salutation__c</fieldItem>
+                <identifier>RecordSalutation_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Full_Name__c</fieldItem>
                 <identifier>RecordFirst_Name_cField</identifier>
@@ -102,10 +112,10 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>required</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Bank_Name__c</fieldItem>
-                <identifier>RecordBank_Name_cField</identifier>
+                <fieldItem>Record.Aadhar_Number__c</fieldItem>
+                <identifier>RecordAadhar_Number_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -114,24 +124,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Occupation__c</fieldItem>
-                <identifier>RecordOccupation_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Income_Source__c</fieldItem>
-                <identifier>RecordIncome_Source_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldItem>Record.S_o_D_o_W_o__c</fieldItem>
-                <identifier>RecordS_o_D_o_W_o__cField</identifier>
+                <fieldItem>Record.Passport_Aadhar_number__c</fieldItem>
+                <identifier>RecordPassport_Aadhar_number_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-6291b323-5e55-4001-bd73-6c6128969e1a</name>
@@ -158,10 +152,20 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>required</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Email__c</fieldItem>
-                <identifier>RecordEmail_cField</identifier>
+                <fieldItem>Record.W_o_S_o_C_o_c__c</fieldItem>
+                <identifier>RecordW_o_S_o_C_o_c_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>required</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.S_o_D_o_W_o__c</fieldItem>
+                <identifier>RecordS_o_D_o_W_o_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -169,6 +173,16 @@
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
                     <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Contact_Number__c</fieldItem>
+                <identifier>RecordContact_Number_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>required</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Date_of_Birth__c</fieldItem>
                 <identifier>RecordDate_of_Birth_cField</identifier>
@@ -180,18 +194,18 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Country__c</fieldItem>
-                <identifier>RecordCountry_cField</identifier>
+                <fieldItem>Record.Email__c</fieldItem>
+                <identifier>RecordEmail_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>required</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Loan_Applicant__c</fieldItem>
-                <identifier>RecordLoan_Applicant_cField</identifier>
+                <fieldItem>Record.PAN_Number__c</fieldItem>
+                <identifier>RecordPAN_Number_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-842e7851-4502-4a94-9485-34b215984fdd</name>
@@ -375,28 +389,8 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentInstanceProperties>
-                    <name>parentFieldApiName</name>
-                    <value>Co_Applicant__c.Id</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListApiName</name>
-                    <value>ProcessSteps</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>relatedListComponentOverride</name>
-                    <value>NONE</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>rowsToDisplay</name>
-                    <value>10</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActionBar</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentName>force:relatedListSingleContainer</componentName>
-                <identifier>force_relatedListSingleContainer</identifier>
+                <componentName>documentManager</componentName>
+                <identifier>c_documentManager</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>

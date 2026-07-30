@@ -17,7 +17,7 @@
  *                3. (before update) Block any change to a Rejected receipt.
  * @author System
  */
-public with sharing class ReceiptApprovalGateService {
+public without sharing class ReceiptApprovalGateService {
 
     /** Escape hatch for trusted server-side processes (swap/transfer clones, migrations). */
     public static Boolean bypass = false;

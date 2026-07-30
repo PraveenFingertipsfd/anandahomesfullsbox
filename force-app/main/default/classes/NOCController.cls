@@ -19,7 +19,7 @@ public with sharing class NOCController {
     //  When a NOC is generated it is submitted to that approval and routed to the
     //  booking's CRM Manager (filled into the Approver 1 user lookup). (BUG-0655)
     // ============================================================================
-    private static final String NOC_APPROVAL_NAME = 'NOC_Approval';
+    private static final String NOC_APPROVAL_NAME = 'NOC Approval';
 
     // ─── Wrappers ────────────────────────────────────────────────────────────────
 
