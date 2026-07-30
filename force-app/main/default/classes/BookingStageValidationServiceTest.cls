@@ -137,6 +137,36 @@ private class BookingStageValidationServiceTest {
     }
 
     @isTest
+    static void toCancelled_withAfterAgreementApproval_isAllowed() {
+        // Post-Agreement cancellations carry their approval in the After-Agreement field.
+        Booking__c b = makeBooking('New');
+        Test.startTest();
+        b.Status__c = 'Cancelled';
+        b.Cancellation_Approval_After_Agreement__c = 'Approved';
+        update b;
+        Test.stopTest();
+        System.assertEquals('Cancelled', [SELECT Status__c FROM Booking__c WHERE Id = :b.Id].Status__c);
+    }
+
+    @isTest
+    static void cancellationStage_canOnlyMoveToCancelled() {
+        Booking__c b = makeBooking('New');
+        b.Status__c = 'Cancellation';
+        b.Cancellation_Approval_Before_Agreement__c = 'Pending Approval';
+        update b;
+
+        Test.startTest();
+        Boolean blocked = false;
+        b.Status__c = 'Booked'; // attempt to "un-cancel"
+        try { update b; } catch (DmlException e) {
+            blocked = true;
+            System.assert(e.getMessage().contains('only move to Cancelled'), e.getMessage());
+        }
+        Test.stopTest();
+        System.assert(blocked, 'A booking in Cancellation may only move to Cancelled');
+    }
+
+    @isTest
     static void toSwapped_withoutApproval_isBlocked() {
         Booking__c b = makeBooking('New');
         Test.startTest();

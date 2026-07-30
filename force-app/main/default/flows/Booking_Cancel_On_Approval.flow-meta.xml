@@ -37,9 +37,16 @@
             <targetReference>Set_Status_Cancelled</targetReference>
         </connector>
         <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
-        <filterLogic>1 AND 2</filterLogic>
+        <filterLogic>(1 OR 2) AND 3</filterLogic>
         <filters>
             <field>Cancellation_Approval_Before_Agreement__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Approved</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Cancellation_Approval_After_Agreement__c</field>
             <operator>EqualTo</operator>
             <value>
                 <stringValue>Approved</stringValue>
