@@ -1,11 +1,17 @@
 /**
  * @description Test class for DemandReminderService.
  *
- *              - One scenario per test method, each with its OWN demand record, so a failure
- *                in one path never blocks coverage of the others.
- *              - No exception swallowing: real assertions prove each branch executed.
- *              - Post_Sales_Configuration__c.Config_Name__c is REQUIRED (not auto-number in
- *                this org), so every config insert supplies a value.
+ *              Covers three areas:
+ *                • populateReminderDates  – reminder-date stamping across all config paths
+ *                • processDueReminders    – daily send/escalation logic
+ *                • disableRemindersForPaidDemands
+ *                • markCalculateFlag      – Is_Calculate__c de-duplication (first demand per
+ *                                           Payment Schedule -> true, later ones -> false)
+ *
+ *              Conventions kept from the original:
+ *                - One scenario per test method, each with its OWN demand record.
+ *                - No exception swallowing: real assertions prove each branch executed.
+ *                - Post_Sales_Configuration__c.Config_Name__c handling preserved.
  */
 @isTest
 private class DemandReminderServiceTest {
@@ -28,7 +34,15 @@ private class DemandReminderServiceTest {
     }
 
     private static Booking__c getBooking() {
-        return [SELECT Id, Project__c FROM Booking__c WHERE Email__c = 'demandcustomer@example.com' LIMIT 1];
+        return [SELECT Id, Project__c FROM Booking__c
+                WHERE Email__c = 'demandcustomer@example.com' LIMIT 1];
+    }
+
+    /** Booking's schedules, oldest first (Sequence 1 first). Used by the calc-flag tests. */
+    private static List<Payment_Schedule__c> getSchedules() {
+        return [SELECT Id, Milestone_Name__c FROM Payment_Schedule__c
+                WHERE Booking__r.Email__c = 'demandcustomer@example.com'
+                ORDER BY Sequence__c ASC];
     }
 
     /** Post_Sales_Configuration builder that always sets the required Config_Name__c. */
@@ -321,7 +335,7 @@ private class DemandReminderServiceTest {
             cfg('Receipt', 'DR2 Config'),
             cfg('Credit Note',  'Term Config')
         };
-        insert new Post_Sales_Config_Master__c(Is_Active__c = true);
+        insert new Post_Sales_Config_Master__c(Is_Active__c = true,Config_Name__c ='Test');
 
         Booking__c b = getBooking();
         Demands__c d = newDemand(b.Id, b.Project__c);
@@ -458,5 +472,134 @@ private class DemandReminderServiceTest {
         System.assertEquals(21, r.totalProcessed(), 'Sum of all counts');
         System.assert(r.toLogString().contains('1st Reminders: 1'), 'Log string includes counts');
         System.assert(r.toLogString().contains('Unit Unblockings: 6'), 'Log string includes unblockings');
+    }
+
+    // ===================================================================
+    // markCalculateFlag  (Is_Calculate__c de-duplication)
+    // ===================================================================
+
+    @isTest
+    static void markCalculate_singleUniqueSchedule_true() {
+        Booking__c b = getBooking();
+        Payment_Schedule__c a = getSchedules()[0];
+
+        Demands__c d = newDemand(b.Id, b.Project__c);
+        d.Payment_Schedule__c = a.Id;
+
+        Test.startTest();
+        DemandReminderService.markCalculateFlag(new List<Demands__c>{ d });
+        Test.stopTest();
+
+        System.assertEquals(true, d.Is_Calculate__c,
+            'First (and only) demand for a schedule must be true');
+    }
+
+    @isTest
+    static void markCalculate_differentSchedules_allTrue() {
+        Booking__c b = getBooking();
+        List<Payment_Schedule__c> ps = getSchedules();
+
+        Demands__c d1 = newDemand(b.Id, b.Project__c);
+        d1.Payment_Schedule__c = ps[0].Id;
+        Demands__c d2 = newDemand(b.Id, b.Project__c);
+        d2.Payment_Schedule__c = ps[1].Id;
+
+        Test.startTest();
+        DemandReminderService.markCalculateFlag(new List<Demands__c>{ d1, d2 });
+        Test.stopTest();
+
+        System.assertEquals(true, d1.Is_Calculate__c, 'Unique schedule A -> true');
+        System.assertEquals(true, d2.Is_Calculate__c, 'Unique schedule B -> true');
+    }
+
+    @isTest
+    static void markCalculate_duplicateInSameBatch_firstTrueRestFalse() {
+        Booking__c b = getBooking();
+        List<Payment_Schedule__c> ps = getSchedules();
+
+        // [A, A, B] in one batch -> [true, false, true]
+        Demands__c a1 = newDemand(b.Id, b.Project__c); a1.Payment_Schedule__c = ps[0].Id;
+        Demands__c a2 = newDemand(b.Id, b.Project__c); a2.Payment_Schedule__c = ps[0].Id;
+        Demands__c b1 = newDemand(b.Id, b.Project__c); b1.Payment_Schedule__c = ps[1].Id;
+
+        Test.startTest();
+        DemandReminderService.markCalculateFlag(new List<Demands__c>{ a1, a2, b1 });
+        Test.stopTest();
+
+        System.assertEquals(true,  a1.Is_Calculate__c, 'First demand for schedule A -> true');
+        System.assertEquals(false, a2.Is_Calculate__c, 'Second demand for SAME schedule A -> false');
+        System.assertEquals(true,  b1.Is_Calculate__c, 'First demand for unique schedule B -> true');
+    }
+
+    @isTest
+    static void markCalculate_existingDbDemand_secondFalse() {
+        Booking__c b = getBooking();
+        Payment_Schedule__c a = getSchedules()[0];
+
+        // Pre-existing flagged demand in the DB for schedule A (explicit precondition,
+        // independent of trigger wiring).
+        Demands__c first = newDemand(b.Id, b.Project__c);
+        first.Payment_Schedule__c = a.Id;
+        first.Is_Calculate__c = true;
+        insert first;
+
+        Demands__c second = newDemand(b.Id, b.Project__c);
+        second.Payment_Schedule__c = a.Id;
+
+        Test.startTest();
+        DemandReminderService.markCalculateFlag(new List<Demands__c>{ second });
+        Test.stopTest();
+
+        System.assertEquals(false, second.Is_Calculate__c,
+            'A schedule that already has a calculate-flagged demand -> new demand false');
+    }
+
+    @isTest
+    static void markCalculate_nullSchedule_stayTrue() {
+        Booking__c b = getBooking();
+
+        Demands__c d = newDemand(b.Id, b.Project__c);
+        d.Payment_Schedule__c = null;   // nothing to de-dupe against
+
+        Test.startTest();
+        DemandReminderService.markCalculateFlag(new List<Demands__c>{ d });
+        Test.stopTest();
+
+        System.assertEquals(true, d.Is_Calculate__c,
+            'Demand with no linked schedule cannot be de-duped -> true');
+    }
+
+    @isTest
+    static void markCalculate_nullAndEmpty_noOp() {
+        Test.startTest();
+        DemandReminderService.markCalculateFlag(null);
+        DemandReminderService.markCalculateFlag(new List<Demands__c>());
+        Test.stopTest();
+        System.assert(true, 'Null / empty input must not throw');
+    }
+
+    @isTest
+    static void markCalculate_viaTrigger_secondInsertIsFalse() {
+        Booking__c b = getBooking();
+        Payment_Schedule__c a = getSchedules()[0];
+
+        Demands__c first = newDemand(b.Id, b.Project__c);
+        first.Payment_Schedule__c = a.Id;
+        insert first;   // DemandTrigger -> markCalculateFlag
+
+        Demands__c firstDb = [SELECT Is_Calculate__c FROM Demands__c WHERE Id = :first.Id];
+        System.assertEquals(true, firstDb.Is_Calculate__c,
+            'First inserted demand should be flagged true by the trigger');
+
+        Demands__c second = newDemand(b.Id, b.Project__c);
+        second.Payment_Schedule__c = a.Id;
+
+        Test.startTest();
+        insert second;  // DemandTrigger -> markCalculateFlag sees firstDb flagged
+        Test.stopTest();
+
+        Demands__c secondDb = [SELECT Is_Calculate__c FROM Demands__c WHERE Id = :second.Id];
+        System.assertEquals(false, secondDb.Is_Calculate__c,
+            'Second demand for the same schedule should be flagged false via the trigger');
     }
 }

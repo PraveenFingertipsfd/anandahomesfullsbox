@@ -14,7 +14,7 @@
  * @author System
  * @date 2026-03-29
  */
-public with sharing class DemandReminderService {
+public without sharing class DemandReminderService {
 
     // ==================== CONSTANTS ====================
 
@@ -784,6 +784,49 @@ public with sharing class DemandReminderService {
             return null;
         }
     }
+    
+    /**
+ * @description Flags Is_Calculate__c so that only the FIRST demand raised against a given
+ *              Payment Schedule (milestone) is marked for calculation. A second/later demand
+ *              for the same schedule is set false so its milestone isn't double-counted.
+ *              Runs on before insert: existing DB demands are checked first, then duplicates
+ *              within the same insert batch are resolved in row order. Demands with no linked
+ *              schedule can't be de-duplicated and are left true.
+ */
+public static void markCalculateFlag(List<Demands__c> demands) {
+    if (demands == null || demands.isEmpty()) return;
+
+    Set<Id> scheduleIds = new Set<Id>();
+    for (Demands__c d : demands) {
+        if (d.Payment_Schedule__c != null) scheduleIds.add(d.Payment_Schedule__c);
+    }
+
+    // Schedules that already have a calculate-flagged demand in the DB
+    Set<Id> alreadyFlagged = new Set<Id>();
+    if (!scheduleIds.isEmpty()) {
+        for (Demands__c existing : [
+            SELECT Payment_Schedule__c
+            FROM Demands__c
+            WHERE Payment_Schedule__c IN :scheduleIds
+            AND Is_Calculate__c = true
+        ]) {
+            alreadyFlagged.add(existing.Payment_Schedule__c);
+        }
+    }
+
+    // First unseen schedule wins; the rest are false
+    Set<Id> seenInBatch = new Set<Id>();
+    for (Demands__c d : demands) {
+        if (d.Payment_Schedule__c == null) {
+            d.Is_Calculate__c = true;   // nothing to de-dupe against
+            continue;
+        }
+        Boolean isDuplicate = alreadyFlagged.contains(d.Payment_Schedule__c)
+                           || seenInBatch.contains(d.Payment_Schedule__c);
+        d.Is_Calculate__c = !isDuplicate;
+        if (!isDuplicate) seenInBatch.add(d.Payment_Schedule__c);
+    }
+}
 
     // ==================== RESULT WRAPPER ====================
 

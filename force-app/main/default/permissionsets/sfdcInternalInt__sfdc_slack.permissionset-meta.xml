@@ -4553,6 +4553,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Demands__c.Is_Calculate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Demands__c.Is_Custom_Demand__c</field>
         <readable>true</readable>
     </fieldPermissions>

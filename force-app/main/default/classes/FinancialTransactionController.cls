@@ -43,9 +43,9 @@ public without sharing class FinancialTransactionController {
 
             summary.totalDemandRaised = computeTotalDemandRaised(bookingId);
             summary.totalReceiptAmount = booking.Total_Receipt_Amount__c ?? 0;
-            summary.outstandingDemandAmount = booking.Outstanding_Demand_Amount__c ?? 0;
+            summary.outstandingDemandAmount = (booking.Total_Demand_Raised__c - booking.Total_Receipt_Amount__c) ?? 0;
 
-            summary.currentPayableBalance = booking.Current_Payable_Balance__c ?? 0;
+            summary.currentPayableBalance = (booking.Total_Demand_Raised__c - booking.Total_Receipt_Amount__c) ?? 0;
             summary.futureDemandBalance = booking.Future_Demand_Balance__c ?? 0;
             summary.pendingAmount = booking.Pending_Amount__c ?? 0;
 
