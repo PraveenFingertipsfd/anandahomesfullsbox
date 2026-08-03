@@ -9,6 +9,7 @@ import prepareBlankEmail from '@salesforce/apex/EmailSenderController.prepareBla
 import getOrgWideEmailAddresses from '@salesforce/apex/EmailFieldPickerController.getOrgWideEmailAddresses';
 import getRelatedFiles from '@salesforce/apex/EmailSenderController.getRelatedFiles';
 import getDesignerDocuments from '@salesforce/apex/DocumentViewerController.getTemplatesForRecord';
+import getVfPagesForRecord from '@salesforce/apex/DocumentViewerController.getVfPagesForRecord';
 import sendEmail from '@salesforce/apex/EmailSenderController.sendEmail';
 import getTemplatesWithMatchStatus from '@salesforce/apex/EmailSenderController.getTemplatesWithMatchStatus';
 
@@ -20,7 +21,7 @@ export default class EmailSender extends LightningElement {
     @api buttonVariant = 'brand';
     @api buttonIconName = 'utility:email';
     // When true the launcher card is hidden — the component is driven only via its
-    // public openForDocument/openWithTemplate methods (e.g. from the Document Viewer).
+    // public openForDocument/openForVfPage/openWithTemplate methods (e.g. from the Document Viewer).
     @api embedded = false;
 
     // ============ TRACKED PROPERTIES ============
@@ -58,10 +59,13 @@ export default class EmailSender extends LightningElement {
     // "Send Email" action — kept attached even when the template changes.
     @track pinnedAttachments = [];
 
-    // Pickers for the upload area: Document Manager files + Document Designer documents.
+    // Pickers for the upload area: Document Manager files, Document Designer documents,
+    // and Visualforce pages related to this record's object.
     @track designerDocs = [];
+    @track vfPagesList = [];
     @track showPickFromManager = false;
     @track showPickDesigner = false;
+    @track showPickVfPages = false;
 
     // Options
     @track allowAdditionalRecipients = true;
@@ -214,6 +218,29 @@ export default class EmailSender extends LightningElement {
         }
     }
 
+    // Opens the composer from the Document Viewer's "Email" action on a
+    // Visualforce page row, with that page pinned as a PDF attachment.
+    @api
+    async openForVfPage(vfPageName, pageLabel) {
+        try {
+            this.isLoading = true;
+            this.showModal = true;
+            this.currentStep = 1;
+            await this.loadTemplates();
+            await this.loadRelatedFiles();
+            if (vfPageName) {
+                this.pinnedAttachments = [this.buildVfPageAttachment(vfPageName, pageLabel)];
+            }
+            this.selectedTemplateId = 'custom';
+            this.isCustomEmail = true;
+            await this.loadBlankEmail();
+        } catch (error) {
+            this.showToast('Error', this.reduceErrors(error), 'error');
+        } finally {
+            this.isLoading = false;
+        }
+    }
+
     // Builds a VF-page attachment descriptor for a Document Designer template.
     buildDocAttachment(documentTemplateId, documentName) {
         const name = documentName || 'Document';
@@ -228,6 +255,25 @@ export default class EmailSender extends LightningElement {
             isSelected: true,
             isRequired: false,
             previewUrl: '/apex/DynamicDocumentPDF?templateId=' + documentTemplateId + '&id=' + this.recordId
+        };
+    }
+
+    // Builds an attachment descriptor for a related Visualforce page.
+    // Sent through the same VFPage pipeline: EmailPdfGenerator renders the
+    // page as PDF with ?id=<recordId> at send time.
+    buildVfPageAttachment(vfPageName, pageLabel) {
+        const name = pageLabel || vfPageName || 'Page';
+        return {
+            id: 'vf_' + vfPageName,
+            name: name,
+            fileName: name + '.pdf',
+            type: 'VFPage',
+            vfPageName: vfPageName,
+            documentTemplateId: '',
+            recordSourceType: 'Direct',
+            isSelected: true,
+            isRequired: false,
+            previewUrl: '/apex/' + vfPageName + '?id=' + this.recordId
         };
     }
 
@@ -470,6 +516,7 @@ export default class EmailSender extends LightningElement {
     // ---- Pick from Document Manager (uploaded files on this record) ----
     async handleTogglePickManager() {
         this.showPickDesigner = false;
+        this.showPickVfPages = false;
         this.showPickFromManager = !this.showPickFromManager;
         if (this.showPickFromManager && (!this.relatedFiles || !this.relatedFiles.length)) {
             await this.loadRelatedFiles();
@@ -490,6 +537,7 @@ export default class EmailSender extends LightningElement {
     // ---- Pick Document Designer documents associated with this object ----
     async handleTogglePickDesigner() {
         this.showPickFromManager = false;
+        this.showPickVfPages = false;
         this.showPickDesigner = !this.showPickDesigner;
         if (this.showPickDesigner && (!this.designerDocs || !this.designerDocs.length)) {
             await this.loadDesignerDocs();
@@ -519,6 +567,44 @@ export default class EmailSender extends LightningElement {
         }
         this.attachments = [...this.attachments, this.buildDocAttachment(tid, name)];
         this.showToast('Added', name + ' attached', 'success');
+    }
+
+    // ---- Pick Visualforce pages related to this record's object ----
+    async handleTogglePickVfPages() {
+        this.showPickFromManager = false;
+        this.showPickDesigner = false;
+        this.showPickVfPages = !this.showPickVfPages;
+        if (this.showPickVfPages && (!this.vfPagesList || !this.vfPagesList.length)) {
+            await this.loadVfPagesList();
+        }
+    }
+
+    async loadVfPagesList() {
+        try {
+            const pages = await getVfPagesForRecord({
+                recordId: this.recordId,
+                objectApiName: this._objectApiName
+            });
+            this.vfPagesList = (pages || []).map(p => ({
+                name: p.name,           // API name (used as vfPageName)
+                label: p.label || p.name
+            }));
+        } catch (error) {
+            console.error('Error loading Visualforce pages:', error);
+            this.vfPagesList = [];
+        }
+    }
+
+    handlePickVfPage(event) {
+        const pageName = event.currentTarget.dataset.page;
+        const label = event.currentTarget.dataset.name;
+        const attId = 'vf_' + pageName;
+        if (this.attachments.some(a => a.id === attId)) {
+            this.showToast('Already added', label + ' is already attached', 'warning');
+            return;
+        }
+        this.attachments = [...this.attachments, this.buildVfPageAttachment(pageName, label)];
+        this.showToast('Added', label + ' attached as PDF', 'success');
     }
 
     // ============ SEND EMAIL ============
@@ -577,7 +663,10 @@ export default class EmailSender extends LightningElement {
             body: this.body,
             attachments: this.attachments.filter(att => att.isSelected).map(att => ({
                 id: att.id, name: att.name, fileName: att.fileName, type: att.type,
-                vfPageName: att.VFPageName, vfPageParam: att.VFParamName,
+                // Template-config attachments use VFPageName/VFParamName (capitalised),
+                // viewer-pinned & picker attachments use vfPageName — support both.
+                vfPageName: att.VFPageName || att.vfPageName,
+                vfPageParam: att.VFParamName || att.vfPageParam,
                 documentId: att.documentId, documentTemplateId: att.documentTemplateId || '',
                 documentCategory: att.documentCategory || '', documentType: att.documentType || '',
                 isSelected: att.isSelected, fileNamePattern: att.fileNamePattern || '',
@@ -612,8 +701,10 @@ export default class EmailSender extends LightningElement {
         this.uploadedFiles = [];
         this.pinnedAttachments = [];
         this.designerDocs = [];
+        this.vfPagesList = [];
         this.showPickFromManager = false;
         this.showPickDesigner = false;
+        this.showPickVfPages = false;
         this.currentStep = 1;
         this.previewDocumentUrl = '';
         this.previewDocumentName = '';
@@ -651,6 +742,7 @@ export default class EmailSender extends LightningElement {
     get hasUploadedFiles() { return this.uploadedFiles.length > 0; }
     get hasRelatedFiles() { return this.relatedFiles && this.relatedFiles.length > 0; }
     get hasDesignerDocs() { return this.designerDocs && this.designerDocs.length > 0; }
+    get hasVfPagesList() { return this.vfPagesList && this.vfPagesList.length > 0; }
 
     get selectedAttachmentCount() { return this.attachments.filter(a => a.isSelected).length; }
 

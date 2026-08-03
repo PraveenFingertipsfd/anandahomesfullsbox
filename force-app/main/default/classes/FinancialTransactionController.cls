@@ -43,9 +43,9 @@ public without sharing class FinancialTransactionController {
 
             summary.totalDemandRaised = computeTotalDemandRaised(bookingId);
             summary.totalReceiptAmount = booking.Total_Receipt_Amount__c ?? 0;
-            summary.outstandingDemandAmount = booking.Outstanding_Demand_Amount__c ?? 0;
+            summary.outstandingDemandAmount = (booking.Total_Demand_Raised__c - booking.Total_Receipt_Amount__c) ?? 0;
 
-            summary.currentPayableBalance = booking.Current_Payable_Balance__c ?? 0;
+            summary.currentPayableBalance = (booking.Total_Demand_Raised__c - booking.Total_Receipt_Amount__c) ?? 0;
             summary.futureDemandBalance = booking.Future_Demand_Balance__c ?? 0;
             summary.pendingAmount = booking.Pending_Amount__c ?? 0;
 
@@ -59,15 +59,18 @@ public without sharing class FinancialTransactionController {
 
             summary.bookingStatus = booking.Status__c;
 
-            // Max refundable: once the booking is cancelled the full received amount is refundable
-            // (less whatever has already been refunded); otherwise only the available advance/excess.
+            // Max refundable: refunds are allowed only when the booking is cancelled.
+            // In that case the refundable amount is Total Received minus what has
+            // already been refunded (rejected refunds excluded).
             Boolean cancelled = 'Cancelled'.equalsIgnoreCase(booking.Status__c)
                 || 'Cancellation'.equalsIgnoreCase(booking.Status__c);
             if (cancelled) {
-                Decimal refundable = booking.Total_Receipt_Amount__c;
+                Decimal received = booking.Total_Receipt_Amount__c ?? 0;
+                Decimal alreadyRefunded = getTotalRefunded(booking.Id);
+                Decimal refundable = received - alreadyRefunded;
                 summary.maxRefundableAmount = refundable > 0 ? refundable : 0;
             } else {
-                summary.maxRefundableAmount = 0;//summary.advancePaymentAvailable;
+                summary.maxRefundableAmount = 0;
             }
 
             return summary;
@@ -990,7 +993,21 @@ public without sharing class FinancialTransactionController {
                 refundData, RefundWrapper.class
             );
             
-            // Validate refund amount
+            // Refunds are only permitted when the booking is in Cancellation/Cancelled status
+            Booking__c booking = [
+                SELECT Id, Status__c
+                FROM Booking__c
+                WHERE Id = :wrapper.bookingId
+                LIMIT 1
+            ];
+            Boolean cancelled = 'Cancelled'.equalsIgnoreCase(booking.Status__c)
+                || 'Cancellation'.equalsIgnoreCase(booking.Status__c);
+            if (!cancelled) {
+                throw new AuraHandledException(
+                    'Refunds can only be processed when the booking status is Cancellation.');
+            }
+            
+            // Validate refund amount (Total Received - Total Already Refunded)
             Decimal maxRefund = getMaxRefundableAmount(wrapper.bookingId);
             if (wrapper.refundAmount > maxRefund) {
                 throw new AuraHandledException(

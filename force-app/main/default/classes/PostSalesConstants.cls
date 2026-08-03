@@ -38,7 +38,7 @@ public without sharing class PostSalesConstants {
     public static final String UNIT_STATUS_BOOKED = 'Booked';
 
     // ==================== BOOKING STATUSES ====================
-    public static final String BOOKING_STATUS_CANCELLED = 'Cancelled';
+    public static final String BOOKING_STATUS_CANCELLED = 'Cancellation';
 
     // ==================== PAYMENT SCHEDULE STATUSES ====================
     public static final String SCHEDULE_STATUS_PAID = 'Paid';

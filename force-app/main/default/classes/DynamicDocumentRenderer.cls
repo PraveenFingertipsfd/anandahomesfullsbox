@@ -17,6 +17,11 @@
  *   ],
  *   "styles": { "fontFamily": "...", "fontSize": "12px", "primaryColor": "#333" }
  * }
+ *
+ * Table sections support two modes:
+ *  - Child table:       childObject + relationshipField set -> one row per child record.
+ *  - Main-record table: childObject blank -> exactly ONE row sourced from the main
+ *    record's own fields (direct like Amount__c or lookup paths like Booking__r.Amount__c).
  */
 public with sharing class DynamicDocumentRenderer {
 
@@ -338,7 +343,14 @@ public with sharing class DynamicDocumentRenderer {
         return html.toString();
     }
 
-    // ---- TABLE SECTION (Child / Related Records) ----
+    // ---- TABLE SECTION (Child / Related Records OR Main-Record single row) ----
+    // Two modes:
+    //  1. Child table: childObject + relationshipField set -> one row per child record.
+    //  2. Main-record table: childObject blank -> exactly ONE row whose values come
+    //     from the main record itself. Column fields may be direct (Amount__c) or
+    //     lookup paths (Booking__r.Amount__c); both resolve via getFieldValue and
+    //     are already included in the main record query (all accessible fields +
+    //     "field":"Rel.Field" paths scanned by addReferencedParentFields).
     private static String renderTableSection(Map<String, Object> section, SObject record,
                                               String recordId, String objectApiName) {
         String title = getStr(section, 'title', '');
@@ -349,7 +361,13 @@ public with sharing class DynamicDocumentRenderer {
         Boolean showRowNumbers = section.get('showRowNumbers') == true;
         List<Object> columns = (List<Object>) section.get('columns');
 
-        if (String.isBlank(childObject) || String.isBlank(relationshipField) || columns == null) {
+        // Blank childObject = main-record table (1 row from the parent record itself)
+        Boolean isMainRecordTable = String.isBlank(childObject);
+
+        if (columns == null || columns.isEmpty()) {
+            return '<p style="color:red;">Table section missing configuration.</p>';
+        }
+        if (!isMainRecordTable && String.isBlank(relationshipField)) {
             return '<p style="color:red;">Table section missing configuration.</p>';
         }
 
@@ -362,10 +380,15 @@ public with sharing class DynamicDocumentRenderer {
             columnLabels.add(getStr(col, 'label', ''));
         }
 
-        // Query child records
-        List<SObject> children = queryChildRecords(
-            childObject, relationshipField, recordId, fieldNames, orderBy, maxRows
-        );
+        // Rows: child records, or the main record itself as a single row
+        List<SObject> children;
+        if (isMainRecordTable) {
+            children = (record != null) ? new List<SObject>{ record } : new List<SObject>();
+        } else {
+            children = queryChildRecords(
+                childObject, relationshipField, recordId, fieldNames, orderBy, maxRows
+            );
+        }
 
         // Table styles
         String headerBg = getStr(section, 'headerBackground', '#f5f5f5');
@@ -423,6 +446,8 @@ public with sharing class DynamicDocumentRenderer {
 
         // ---- TOTALS ROW ----
         // Shown when "Show Totals" is on, or when any column has an aggregate configured.
+        // For a main-record table the aggregates run over its single row (sum/min/max =
+        // the value itself, count = 1); 'parent' still reads from the main record.
         Boolean anyAggregate = false;
         for (Object colObj : columns) {
             String agg = getStr((Map<String, Object>) colObj, 'total', 'none');
@@ -671,8 +696,10 @@ public with sharing class DynamicDocumentRenderer {
 
     /**
      * @description Scan the template JSON for parent relationship field references
-     * (e.g., Account__r.Phone, Owner.Email) used in merge fields or fieldGrid sections
-     * and add them to the query field set.
+     * (e.g., Account__r.Phone, Owner.Email) used in merge fields, fieldGrid sections,
+     * or table columns and add them to the query field set. The "field" scan (pattern 2)
+     * also covers main-record TABLE columns that use lookup paths (Booking__r.Amount__c),
+     * since table columns store their path under the same "field" key.
      */
     private static void addReferencedParentFields(String templateJson, Set<String> fieldSet,
                                                     Map<String, Schema.SObjectField> fieldMap) {
@@ -688,7 +715,8 @@ public with sharing class DynamicDocumentRenderer {
             }
         }
 
-        // 2. Scan for fieldGrid fields with dot notation (e.g., "field":"Account__r.Phone")
+        // 2. Scan for fieldGrid / table-column fields with dot notation
+        //    (e.g., "field":"Account__r.Phone" or "field":"Booking__r.Amount__c")
         Pattern fieldPattern = Pattern.compile('"field"\\s*:\\s*"([A-Za-z0-9_]+)\\.([A-Za-z0-9_]+)"');
         Matcher fm = fieldPattern.matcher(templateJson);
         while (fm.find()) {

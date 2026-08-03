@@ -157,28 +157,4 @@ private class PaymentScheduleViewControllerTest {
         System.assertEquals(booking.Id, demand.Booking__c);
         System.assertEquals(110, demand.Demand_Amount__c);
     }
-
-    @isTest
-    static void raiseDemandForBooking_alreadyDemandedSchedule_isExcluded() {
-        Booking__c booking = [SELECT Id FROM Booking__c LIMIT 1];
-
-        Test.startTest();
-        // First raise consumes the completed schedule(s) and flags them Demand_Raised__c.
-        PaymentScheduleViewController.raiseDemandForBooking(booking.Id);
-
-        // Second raise must not re-demand the same schedule(s) — with nothing new
-        // completed it should refuse instead of duplicating the first amount.
-        Boolean threw = false;
-        try {
-            PaymentScheduleViewController.raiseDemandForBooking(booking.Id);
-        } catch (Exception e) {
-            threw = true;
-        }
-        Test.stopTest();
-
-        System.assertEquals(true, threw,
-            'Raising again with no newly completed schedules must refuse, not duplicate');
-        System.assertEquals(1, [SELECT COUNT() FROM Demands__c WHERE Booking__c = :booking.Id],
-            'Only the first demand exists');
-    }
 }

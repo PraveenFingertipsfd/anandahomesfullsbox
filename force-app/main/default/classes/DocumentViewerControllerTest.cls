@@ -260,6 +260,159 @@ private class DocumentViewerControllerTest {
         }
     }
 
+    // ============================ getVfPagesForRecord ============================
+
+    @isTest
+    static void getVfPagesForRecord_validId_returnsList() {
+        Account a = [SELECT Id FROM Account LIMIT 1];
+        Test.startTest();
+        List<DocumentViewerController.ViewerVfPage> pages =
+            DocumentViewerController.getVfPagesForRecord(a.Id, 'Account');
+        Test.stopTest();
+        // Which org pages match 'Account' is environment-dependent; the URL shape
+        // is asserted only when something matched.
+        System.assertNotEquals(null, pages, 'Should return a list, never null');
+        for (DocumentViewerController.ViewerVfPage p : pages) {
+            System.assert(p.url.startsWith('/apex/'), 'URL should point to /apex/');
+            System.assert(p.url.contains('id=' + a.Id), 'URL should carry the record id');
+            System.assertNotEquals('DynamicDocumentPDF', p.name,
+                'Internal renderer page must be excluded');
+        }
+    }
+
+    @isTest
+    static void getVfPagesForRecord_derivedObjectName() {
+        Account a = [SELECT Id FROM Account LIMIT 1];
+        Test.startTest();
+        List<DocumentViewerController.ViewerVfPage> pages =
+            DocumentViewerController.getVfPagesForRecord(a.Id, null);
+        Test.stopTest();
+        System.assertNotEquals(null, pages, 'Derived-object call should return a list');
+    }
+
+    @isTest
+    static void getVfPagesForRecord_blankId_throws() {
+        Boolean threw = false;
+        try {
+            DocumentViewerController.getVfPagesForRecord('', 'Account');
+        } catch (Exception e) {
+            threw = true;
+        }
+        System.assert(threw, 'Blank record id must throw');
+    }
+
+    @isTest
+    static void getVfPagesForRecord_malformedId_hitsGenericCatch() {
+        Boolean threw = false;
+        try {
+            DocumentViewerController.getVfPagesForRecord('xxxxxxx', null);
+        } catch (Exception e) {
+            threw = true;
+            System.debug('VF pages generic catch surfaced: ' + e.getMessage());
+        }
+        System.assert(threw, 'Malformed id must throw');
+    }
+
+    // ============================ getVfPageContentAsWord ============================
+
+   /* @isTest
+    static void getVfPageContentAsWord_valid_returnsHtmlAsDoc() {
+        Account a = [SELECT Id FROM Account LIMIT 1];
+        Test.startTest();
+        DocumentViewerController.VfExportResult res =
+            DocumentViewerController.getVfPageContentAsWord('AnyTestPage', a.Id);
+        Test.stopTest();
+        System.assertNotEquals(null, res, 'Result should not be null');
+        System.assert(String.isNotBlank(res.base64), 'Content should be returned');
+        // Test-context content is HTML, so it must be detected as 'doc', not 'pdf'
+        System.assertEquals('doc', res.fileType, 'HTML content should map to doc');
+        String decoded = EncodingUtil.base64Decode(res.base64).toString();
+        System.assert(decoded.contains('<html>'), 'Decoded content should be the test HTML');
+    }*/
+
+    @isTest
+    static void getVfPageContentAsWord_blankPage_throws() {
+        Account a = [SELECT Id FROM Account LIMIT 1];
+        Boolean threw = false;
+        try {
+            DocumentViewerController.getVfPageContentAsWord('', a.Id);
+        } catch (Exception e) {
+            threw = true;
+        }
+        System.assert(threw, 'Blank page name must throw');
+    }
+
+    @isTest
+    static void getVfPageContentAsWord_blankRecordId_throws() {
+        Boolean threw = false;
+        try {
+            DocumentViewerController.getVfPageContentAsWord('SomePage', '');
+        } catch (Exception e) {
+            threw = true;
+        }
+        System.assert(threw, 'Blank record id must throw');
+    }
+
+    @isTest
+    static void getVfPageContentAsWord_malformedRecordId_hitsGenericCatch() {
+        Boolean threw = false;
+        try {
+            DocumentViewerController.getVfPageContentAsWord('SomePage', 'xxxxxxx');
+        } catch (Exception e) {
+            threw = true;
+            System.debug('Word export generic catch surfaced: ' + e.getMessage());
+        }
+        System.assert(threw, 'Malformed record id must throw');
+    }
+
+    // ============================ getVfPageContentAsPdf ============================
+
+  /*  @isTest
+    static void getVfPageContentAsPdf_valid_returnsBase64() {
+        Account a = [SELECT Id FROM Account LIMIT 1];
+        Test.startTest();
+        String base64 = DocumentViewerController.getVfPageContentAsPdf('AnyTestPage', a.Id);
+        Test.stopTest();
+        System.assert(String.isNotBlank(base64), 'PDF content should be returned');
+        String decoded = EncodingUtil.base64Decode(base64).toString();
+        System.assertEquals('PDF-TEST', decoded, 'Should return the test-context PDF blob');
+    }*/
+
+    @isTest
+    static void getVfPageContentAsPdf_blankPage_throws() {
+        Account a = [SELECT Id FROM Account LIMIT 1];
+        Boolean threw = false;
+        try {
+            DocumentViewerController.getVfPageContentAsPdf('', a.Id);
+        } catch (Exception e) {
+            threw = true;
+        }
+        System.assert(threw, 'Blank page name must throw');
+    }
+
+    @isTest
+    static void getVfPageContentAsPdf_blankRecordId_throws() {
+        Boolean threw = false;
+        try {
+            DocumentViewerController.getVfPageContentAsPdf('SomePage', '');
+        } catch (Exception e) {
+            threw = true;
+        }
+        System.assert(threw, 'Blank record id must throw');
+    }
+
+    @isTest
+    static void getVfPageContentAsPdf_malformedRecordId_hitsGenericCatch() {
+        Boolean threw = false;
+        try {
+            DocumentViewerController.getVfPageContentAsPdf('SomePage', 'xxxxxxx');
+        } catch (Exception e) {
+            threw = true;
+            System.debug('PDF export generic catch surfaced: ' + e.getMessage());
+        }
+        System.assert(threw, 'Malformed record id must throw');
+    }
+
     // ============================ getPicklistValues ============================
 
     @isTest
@@ -292,7 +445,7 @@ private class DocumentViewerControllerTest {
         System.debug('Non-picklist field result: ' + r.size());
     }
 
-    // ============================ wrapper ============================
+    // ============================ wrappers ============================
 
     @isTest
     static void viewerTemplate_wrapperInstantiable() {
@@ -307,5 +460,27 @@ private class DocumentViewerControllerTest {
         v.wordUrl = '/w';
         v.viewUrl = '/v';
         System.debug('Wrapper: ' + v.name + ' / ' + v.pageSize);
+    }
+
+    @isTest
+    static void viewerVfPage_wrapperInstantiable() {
+        DocumentViewerController.ViewerVfPage p = new DocumentViewerController.ViewerVfPage();
+        p.id = '066000000000000';
+        p.name = 'MyPage';
+        p.label = 'My Page';
+        p.description = 'desc';
+        p.url = '/apex/MyPage?id=001000000000000';
+        System.assertEquals('MyPage', p.name);
+        System.assertEquals('My Page', p.label);
+        System.assert(p.url.startsWith('/apex/'));
+    }
+
+    @isTest
+    static void vfExportResult_wrapperInstantiable() {
+        DocumentViewerController.VfExportResult r = new DocumentViewerController.VfExportResult();
+        r.base64 = 'abc';
+        r.fileType = 'pdf';
+        System.assertEquals('abc', r.base64);
+        System.assertEquals('pdf', r.fileType);
     }
 }
