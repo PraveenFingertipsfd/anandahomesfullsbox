@@ -339,25 +339,25 @@
                                                     </lightning-file-upload>
 
                                                     <!-- Pick from existing sources -->
-                                                    <div class="slds-grid slds-gutters_xx-small slds-p-top_x-small">
-                                                        <div class="slds-col">
-                                                            <lightning-button
-                                                                label="From Document Manager"
-                                                                icon-name="utility:open_folder"
-                                                                variant="neutral"
-                                                                onclick={handleTogglePickManager}
-                                                                class="slds-button_stretch">
-                                                            </lightning-button>
-                                                        </div>
-                                                        <div class="slds-col">
-                                                            <lightning-button
-                                                                label="Designer Documents"
-                                                                icon-name="utility:page"
-                                                                variant="neutral"
-                                                                onclick={handleTogglePickDesigner}
-                                                                class="slds-button_stretch">
-                                                            </lightning-button>
-                                                        </div>
+                                                    <div class="picker-btn-row slds-p-top_x-small">
+                                                        <lightning-button
+                                                            label="Document Manager"
+                                                            icon-name="utility:open_folder"
+                                                            variant="neutral"
+                                                            onclick={handleTogglePickManager}>
+                                                        </lightning-button>
+                                                        <lightning-button
+                                                            label="Designer Docs"
+                                                            icon-name="utility:page"
+                                                            variant="neutral"
+                                                            onclick={handleTogglePickDesigner}>
+                                                        </lightning-button>
+                                                        <lightning-button
+                                                            label="VF Pages"
+                                                            icon-name="utility:insert_tag_field"
+                                                            variant="neutral"
+                                                            onclick={handleTogglePickVfPages}>
+                                                        </lightning-button>
                                                     </div>
 
                                                     <!-- Document Manager uploaded files -->
@@ -396,6 +396,26 @@
                                                             </template>
                                                             <template if:false={hasDesignerDocs}>
                                                                 <div class="picker-empty">No designer documents for this object</div>
+                                                            </template>
+                                                        </div>
+                                                    </template>
+
+                                                    <!-- Visualforce pages related to this record's object -->
+                                                    <template if:true={showPickVfPages}>
+                                                        <div class="picker-list">
+                                                            <template if:true={hasVfPagesList}>
+                                                                <template for:each={vfPagesList} for:item="vp">
+                                                                    <div key={vp.name} class="att-item picker-item"
+                                                                        data-page={vp.name} data-name={vp.label}
+                                                                        onclick={handlePickVfPage}>
+                                                                        <lightning-icon icon-name="doctype:html" size="xx-small"></lightning-icon>
+                                                                        <span class="att-name">{vp.label}</span>
+                                                                        <lightning-icon icon-name="utility:add" size="xx-small"></lightning-icon>
+                                                                    </div>
+                                                                </template>
+                                                            </template>
+                                                            <template if:false={hasVfPagesList}>
+                                                                <div class="picker-empty">No Visualforce pages for this object</div>
                                                             </template>
                                                         </div>
                                                     </template>

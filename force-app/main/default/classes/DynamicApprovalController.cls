@@ -495,7 +495,51 @@ public with sharing class DynamicApprovalController {
             throw new AuraHandledException('Error previewing approvers: ' + e.getMessage());
         }
     }
-    
+
+    /**
+     * @description NEW: Count of Receipt__c records related to this Booking__c that are
+     * still 'Pending For Approval'. Used by the LWC to block submission up front.
+     * Returns 0 for any non-Booking__c record.
+     */
+    @AuraEnabled
+    public static Integer getPendingReceiptCount(Id recordId) {
+        if (recordId == null
+            || recordId.getSObjectType().getDescribe().getName() != 'Booking__c') {
+            return 0;
+        }
+        return [
+            SELECT COUNT()
+            FROM Receipt__c
+            WHERE Booking__c = :recordId
+            AND Approval_Status__c = 'Pending Approval'
+        ];
+    }
+
+    /**
+     * @description NEW: Server-side enforcement — block submission if any Receipt__c
+     * linked to this Booking__c is still 'Pending For Approval'.
+     */
+    private static void validateNoPendingReceipts(Id recordId) {
+        // Only applies when submitting a Booking__c record
+        if (recordId.getSObjectType().getDescribe().getName() != 'Booking__c') {
+            return;
+        }
+
+        Integer pendingCount = [
+            SELECT COUNT()
+            FROM Receipt__c
+            WHERE Booking__c = :recordId
+            AND Approval_Status__c = 'Pending For Approval'
+        ];
+
+        if (pendingCount > 0) {
+            throw new AuraHandledException(
+                'This Booking cannot be submitted for approval because ' + pendingCount +
+                ' Receipt(s) are still Pending For Approval. Please wait until they are approved or rejected.'
+            );
+        }
+    }
+
     /**
      * @description Submit a record for approval
      * @param recordId The record ID to submit
@@ -513,6 +557,9 @@ public with sharing class DynamicApprovalController {
         }
         
         try {
+            // NEW: block submission if related receipts are pending approval
+            validateNoPendingReceipts(recordId);
+
             // Validate required fields before submitting
             List<RequiredFieldStatus> fieldStatuses = validateRequiredFieldsInternal(recordId, configId);
             for (RequiredFieldStatus fs : fieldStatuses) {

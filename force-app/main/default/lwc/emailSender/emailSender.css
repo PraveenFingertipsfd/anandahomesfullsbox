@@ -6,6 +6,19 @@
     overflow: hidden;
 }
 
+/* ============================================================
+   APPEND TO emailSender.css
+   Compact row for the attachment source picker buttons
+   (Document Manager / Designer Docs / VF Pages)
+   ============================================================ */
+
+.picker-btn-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
 .email-card-header {
     display: flex;
     align-items: center;

@@ -33,6 +33,14 @@
         <template if:true={hasAnyProcesses}>
             <div class="approval-body">
 
+                <!-- NEW: Pending Receipts Warning -->
+                <template if:true={hasPendingReceipts}>
+                    <div class="req-warning">
+                        <lightning-icon icon-name="utility:warning" size="xx-small" variant="warning"></lightning-icon>
+                        <span>{pendingReceiptCount} Receipt(s) on this Booking are Pending For Approval — submission is blocked until they are approved or rejected.</span>
+                    </div>
+                </template>
+
                 <!-- Status Cards: Completed / In Progress / Locked -->
                 <template if:true={hasStatusCards}>
                     <div class="status-section">
