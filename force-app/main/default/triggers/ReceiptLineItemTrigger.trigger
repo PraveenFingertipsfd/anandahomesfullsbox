@@ -4,7 +4,7 @@
  * @author System
  */
 trigger ReceiptLineItemTrigger on Receipt_Line_Item__c (before insert) {
-    /*if (Trigger.isBefore && Trigger.isInsert) {
-        MilestonePaymentGateService.validateAllocations(Trigger.new);
-    }*/
+    if (Trigger.isBefore && Trigger.isInsert) {
+        //MilestonePaymentGateService.validateAllocations(Trigger.new);
+    }
 }

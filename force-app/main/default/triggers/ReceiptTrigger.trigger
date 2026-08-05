@@ -5,9 +5,10 @@
  * @author System
  */
 trigger ReceiptTrigger on Receipt__c (before insert, before update) {
-    /*if (Trigger.isBefore && Trigger.isInsert) {
-        ReceiptApprovalGateService.validateNewReceipts(Trigger.new);
+    if (Trigger.isBefore && Trigger.isInsert) {
+        //ReceiptApprovalGateService.validateNewReceipts(Trigger.new);
+        //ReceiptApprovalGateService.SubmitForApproval(Trigger.new);
     } else if (Trigger.isBefore && Trigger.isUpdate) {
-        ReceiptApprovalGateService.validateReceiptEdits(Trigger.new, Trigger.oldMap);
-    }*/
+        //ReceiptApprovalGateService.validateReceiptEdits(Trigger.new, Trigger.oldMap);
+    }
 }

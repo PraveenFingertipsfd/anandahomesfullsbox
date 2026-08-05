@@ -107,4 +107,46 @@ public without sharing class ReceiptApprovalGateService {
             }
         }
     }
+    
+    public static void SubmitForApproval(List<Receipt__c> newList) {
+
+    List<Approval.ProcessSubmitRequest> requests = new List<Approval.ProcessSubmitRequest>();
+
+    for (Receipt__c rep : newList) {
+        // Skip records already approved or already mid-approval, so a re-fired
+        // trigger doesn't try to submit the same record twice.
+        if (rep.Approval_Status__c != 'Approved' && rep.Approval_Status__c != 'Pending Approval') {
+            Approval.ProcessSubmitRequest req = new Approval.ProcessSubmitRequest();
+            req.setComments('Receipt Approval');
+            req.setObjectId(rep.Id);
+            req.setSubmitterId(UserInfo.getUserId());
+            req.setProcessDefinitionNameOrId('Receipt_Approval');
+            req.setSkipEntryCriteria(true);
+            requests.add(req);
+        }
+    }
+
+    if (requests.isEmpty()) {
+        return;
+    }
+
+    // allOrNone = false: one record failing (e.g. "already has a pending approval
+    // request") won't block approval submission for the rest of the batch.
+    List<Approval.ProcessResult> results = Approval.process(requests, false);
+
+    List<String> errors = new List<String>();
+    for (Approval.ProcessResult result : results) {
+        if (!result.isSuccess()) {
+            for (Database.Error err : result.getErrors()) {
+                errors.add('Receipt ' + result.getEntityId() + ': ' + err.getMessage());
+            }
+        }
+    }
+
+    if (!errors.isEmpty()) {
+        // Surface failures without throwing — adjust to your logging/error convention
+        // (custom exception, a Log__c record, etc.) as needed.
+        System.debug(LoggingLevel.ERROR, 'Receipt approval submission failures: ' + String.join(errors, ' | '));
+    }
+}
 }

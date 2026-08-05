@@ -21,16 +21,6 @@ public without sharing class BookingFinancialRecalcService {
     public static Boolean bypass = false;
 
     /**
-     * @description Re-entrancy guard. This service's own updates (Payment Schedules, Demands,
-     *              Booking totals) fire other record-triggered flows which call this service
-     *              again in the same transaction. That nested call recomputes from the very
-     *              data the outer call just wrote, so it is pure waste — and in bulk inserts
-     *              the cascade multiplies until the 101-SOQL limit is hit. While a
-     *              recalculation is running, nested invocations return immediately.
-     */
-    private static Boolean isRunning = false;
-
-    /**
      * @description Approval status of a Receipt whose allocations must NOT count towards any
      *              financial totals. When a receipt is Rejected its line items are frozen in
      *              place (the receipt cannot be edited or deleted), so we exclude them here so
@@ -74,17 +64,12 @@ public without sharing class BookingFinancialRecalcService {
      *              3. Updates Booking-level currency fields (including Base/GST totals)
      */
     public static void recalculateForBookings(Set<Id> bookingIds) {
-        if (bypass || isRunning) return;
+        if (bypass) return;
         if (bookingIds == null || bookingIds.isEmpty()) return;
 
-        isRunning = true;
-        try {
-            recalcPaymentSchedules(bookingIds);
-            recalcDemands(bookingIds);
-            recalcBookingTotals(bookingIds);
-        } finally {
-            isRunning = false;
-        }
+        recalcPaymentSchedules(bookingIds);
+        recalcDemands(bookingIds);
+        recalcBookingTotals(bookingIds);
     }
 
     /**
