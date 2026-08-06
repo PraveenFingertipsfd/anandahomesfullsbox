@@ -298,6 +298,12 @@ public with sharing class BulkDemandController {
             Boolean isProrata = booking.Funding_Type__c != null
                 && PRORATA_FUNDING_TYPES.contains(booking.Funding_Type__c);
             Boolean hasUnraisedDemand = false;
+            // True only if THIS booking has an actual Payment_Schedule__c row (Status__c =
+            // Completed, per the allSchedules query above) matching the milestone selected in
+            // Step 2. The Step 2 "COMPLETED" badge reflects the master/template flag, which can
+            // say Completed project-wide even when this specific booking hasn't reached that
+            // milestone yet (data issue) — this flag catches that at the booking level instead.
+            Boolean selectedMilestoneCompletedForBooking = false;
 
             for (Payment_Schedule__c ps : bookingSchedules) {
                 Decimal pending = ps.Pending_Amount__c != null ? ps.Pending_Amount__c : 0;
@@ -309,6 +315,10 @@ public with sharing class BulkDemandController {
                 // Separate current milestone vs previous milestones
                 if (isCurrentMilestone) {
                     w.currentMilestoneAmount += pending;
+                    // bookingSchedules only contains rows with Status__c = Completed (see the
+                    // allSchedules query above), so reaching this line means the selected
+                    // milestone's own schedule IS Completed for this booking.
+                    selectedMilestoneCompletedForBooking = true;
                 } else {
                     w.previousMilestonesAmount += pending;
                 }
@@ -360,6 +370,11 @@ public with sharing class BulkDemandController {
                     w.scheduleItems.add(item);
                 }
             }
+
+            // Skip this booking if the milestone selected in Step 2 is not actually Completed
+            // for THIS booking's own schedule — even though the Step 2 badge may show
+            // "COMPLETED" (that badge reflects the master/template flag, not this booking).
+            if (!selectedMilestoneCompletedForBooking) continue;
 
             // Skip bookings with no unraised demand schedules
             if (!hasUnraisedDemand) continue;

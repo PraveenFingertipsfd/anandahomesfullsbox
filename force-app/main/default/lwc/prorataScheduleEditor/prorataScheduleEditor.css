@@ -1,30 +1,30 @@
-/* ==================== ALLOCATION METER ==================== */
+/* ── Allocation meter ─────────────────────────────────────────────────────── */
 
 .psp-meter {
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 0.75rem;
     padding: 0.75rem 1rem;
     border-radius: 0.25rem;
-    border: 1px solid var(--slds-g-color-border-base-1, #e5e5e5);
-    margin-bottom: 0.5rem;
+    border-left: 4px solid;
+    margin-bottom: 0.75rem;
 }
 
 .psp-meter-ok {
-    background: var(--slds-g-color-success-base-90, #ebf7e6);
-    border-color: var(--slds-g-color-success-base-50, #2e844a);
+    background: #ebf7e6;
+    border-left-color: #2e844a;
 }
 
 .psp-meter-under {
-    background: var(--slds-g-color-warning-base-90, #fef1dd);
-    border-color: var(--slds-g-color-warning-base-60, #dd7a01);
+    background: #fef5e7;
+    border-left-color: #dd7a01;
 }
 
 .psp-meter-over {
-    background: var(--slds-g-color-error-base-90, #fef1ee);
-    border-color: var(--slds-g-color-error-base-40, #ea001e);
+    background: #fdeded;
+    border-left-color: #ba0517;
 }
 
 .psp-meter-main {
@@ -35,270 +35,279 @@
 .psp-meter-value {
     font-size: 1.125rem;
     font-weight: 700;
-    line-height: 1.4;
+    line-height: 1.3;
 }
 
 .psp-meter-sub {
     font-size: 0.75rem;
-    color: var(--slds-g-color-neutral-base-30, #514f4d);
-}
-
-.psp-meter-actions {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
+    color: #514f4d;
 }
 
 .psp-rule {
     font-size: 0.75rem;
-    color: var(--slds-g-color-neutral-base-30, #514f4d);
-    margin: 0 0 0.75rem;
+    color: #514f4d;
+    margin-bottom: 0.75rem;
 }
 
-/* ==================== BLOCKING ISSUES PANEL ==================== */
+/* ── Issue panel ──────────────────────────────────────────────────────────── */
 
 .psp-issues {
-    background: var(--slds-g-color-error-base-90, #fef1ee);
-    border: 1px solid var(--slds-g-color-error-base-40, #ea001e);
+    border: 1px solid #ea001e;
+    border-left-width: 4px;
     border-radius: 0.25rem;
-    padding: 0.5rem 0.75rem;
+    background: #fdeded;
+    padding: 0.75rem 1rem;
     margin-bottom: 0.75rem;
 }
 
 .psp-issues-head {
-    display: flex;
-    align-items: center;
-    font-size: 0.8125rem;
     font-weight: 700;
-    color: var(--slds-g-color-error-base-30, #ba0517);
     margin-bottom: 0.25rem;
 }
 
 .psp-issues-list {
     margin: 0;
-    padding-left: 1.25rem;
-    list-style: disc;
+    padding: 0;
+    list-style: none;
 }
 
 .psp-issue-link {
     background: none;
-    border: none;
+    border: 0;
     padding: 0.125rem 0;
-    font-size: 0.75rem;
-    color: var(--slds-g-color-error-base-30, #ba0517);
     text-align: left;
+    color: #0176d3;
     cursor: pointer;
+    font-size: 0.8125rem;
 }
 
-.psp-issue-link:hover {
+.psp-issue-link:hover,
+.psp-issue-link:focus {
     text-decoration: underline;
 }
 
-/* ==================== SCHEDULE TABLE ==================== */
+/* ── Table ────────────────────────────────────────────────────────────────── */
 
 .psp-scroll {
-    overflow-x: auto;
-    border: 1px solid var(--slds-g-color-border-base-1, #e5e5e5);
+    max-height: 60vh;
+    overflow: auto;
+    border: 1px solid #e5e5e5;
     border-radius: 0.25rem;
 }
 
 .psp-table {
-    min-width: 64rem;
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
 .psp-th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: #f3f3f3;
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
     white-space: nowrap;
-    font-size: 0.75rem;
-    background: var(--slds-g-color-neutral-base-95, #f3f3f3);
 }
 
 .psp-num {
     text-align: right;
     white-space: nowrap;
-}
-
-.psp-num lightning-input {
-    max-width: 8rem;
-    display: inline-block;
-}
-
-/* Sticky first two columns so Seq + Milestone stay visible while scrolling */
-.psp-sticky-1,
-.psp-sticky-2 {
-    position: sticky;
-    background: var(--slds-g-color-neutral-base-100, #fff);
-    z-index: 1;
-}
-
-.psp-sticky-1 {
-    left: 0;
-    min-width: 3rem;
-}
-
-.psp-sticky-2 {
-    left: 3rem;
-    min-width: 10rem;
-    box-shadow: inset -1px 0 0 var(--slds-g-color-border-base-1, #e5e5e5);
-}
-
-thead .psp-sticky-1,
-thead .psp-sticky-2,
-.psp-foot .psp-sticky-1,
-.psp-foot .psp-sticky-2 {
-    background: var(--slds-g-color-neutral-base-95, #f3f3f3);
-    z-index: 2;
-}
-
-/* Vertical separators marking where the Bank / Customer column groups start */
-.psp-bank-edge {
-    border-left: 2px solid var(--slds-g-color-border-base-4, #c9c9c9);
-}
-
-.psp-cust-edge {
-    border-right: 2px solid var(--slds-g-color-border-base-4, #c9c9c9);
-}
-
-.psp-milestone {
-    font-weight: 600;
-    display: block;
-}
-
-.psp-lock {
-    display: block;
-    font-size: 0.6875rem;
-    color: var(--slds-g-color-neutral-base-50, #747474);
-    font-style: italic;
-}
-
-.psp-auto {
-    display: inline-block;
-    font-size: 0.625rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--slds-g-color-neutral-base-50, #747474);
-    border: 1px solid var(--slds-g-color-border-base-4, #c9c9c9);
-    border-radius: 0.75rem;
-    padding: 0 0.375rem;
-    margin-top: 0.125rem;
-}
-
-.psp-muted {
-    color: var(--slds-g-color-neutral-base-50, #747474);
+    font-variant-numeric: tabular-nums;
 }
 
 .psp-strong {
     font-weight: 700;
 }
 
-/* ==================== ROW STATES ==================== */
-
-.psp-locked td {
-    background: var(--slds-g-color-neutral-base-95, #f3f3f3);
-    color: var(--slds-g-color-neutral-base-50, #747474);
+.psp-muted {
+    color: #706e6b;
 }
 
-.psp-row-error td {
-    background: var(--slds-g-color-error-base-90, #fef1ee);
+/* Frozen identity columns */
+.psp-sticky-1,
+.psp-sticky-2 {
+    position: sticky;
+    background: inherit;
+    z-index: 1;
 }
 
-.psp-row-dirty td {
-    background: var(--slds-g-color-warning-base-90, #fef1dd);
+.psp-sticky-1 {
+    left: 0;
+    width: 3.5rem;
 }
 
-/* Keep the sticky cells matching their row's state instead of plain white */
-.psp-locked .psp-sticky-1,
-.psp-locked .psp-sticky-2 {
-    background: var(--slds-g-color-neutral-base-95, #f3f3f3);
+.psp-sticky-2 {
+    left: 3.5rem;
+    min-width: 11rem;
 }
 
-.psp-row-error .psp-sticky-1,
-.psp-row-error .psp-sticky-2 {
-    background: var(--slds-g-color-error-base-90, #fef1ee);
+.psp-th.psp-sticky-1,
+.psp-th.psp-sticky-2 {
+    z-index: 3;
+    background: #f3f3f3;
 }
 
-.psp-row-dirty .psp-sticky-1,
-.psp-row-dirty .psp-sticky-2 {
-    background: var(--slds-g-color-warning-base-90, #fef1dd);
+/* Editable region banding */
+.psp-bank-edge {
+    border-left: 2px solid #c9c7c5;
 }
 
-/* Row briefly highlighted when the user clicks a blocking issue */
-.psp-flash td {
-    animation: psp-flash-bg 1.2s ease-out;
+.psp-cust-edge {
+    border-right: 2px solid #c9c7c5;
 }
 
-@keyframes psp-flash-bg {
-    0% { background: var(--slds-g-color-brand-base-90, #d8e6fe); }
+/* ── Rows ─────────────────────────────────────────────────────────────────── */
+
+.psp-row {
+    background: #fff;
+}
+
+.psp-row:hover {
+    background: #f8f8f8;
+}
+
+.psp-locked {
+    background: #f4f6f9;
+    color: #706e6b;
+}
+
+.psp-row-dirty {
+    box-shadow: inset 4px 0 0 0 #0176d3;
+}
+
+.psp-row-error {
+    background: #fdeded;
+    box-shadow: inset 4px 0 0 0 #ea001e;
+}
+
+.psp-flash {
+    animation: psp-flash-anim 1.2s ease-out;
+}
+
+@keyframes psp-flash-anim {
+    0%, 40% { background: #fff3cd; }
     100% { background: transparent; }
 }
 
-/* ==================== INPUT STATES ==================== */
-
-.psp-invalid {
-    --slds-c-input-color-border: var(--slds-g-color-error-base-40, #ea001e);
-    --sds-c-input-color-border: #ea001e;
+@media (prefers-reduced-motion: reduce) {
+    .psp-flash { animation: none; background: #fff3cd; }
 }
 
-.psp-derived {
-    --slds-c-input-color-background: var(--slds-g-color-neutral-base-95, #f3f3f3);
-    --sds-c-input-color-background: #f3f3f3;
-}
-
-/* ==================== BALANCE / VARIANCE BADGES ==================== */
-
-.psp-balance,
-.psp-total {
-    font-size: 0.75rem;
-    font-weight: 700;
-    white-space: nowrap;
-}
-
-.psp-ok {
-    color: var(--slds-g-color-success-base-50, #2e844a);
-}
-
-.psp-off {
-    color: var(--slds-g-color-error-base-40, #ea001e);
-}
-
-/* ==================== TOTALS FOOTER ==================== */
-
-.psp-foot td {
-    background: var(--slds-g-color-neutral-base-95, #f3f3f3);
-    border-top: 2px solid var(--slds-g-color-border-base-4, #c9c9c9);
+.psp-milestone {
+    display: block;
     font-weight: 600;
 }
 
-.psp-foot-label {
-    font-weight: 700;
-    text-transform: uppercase;
+.psp-lock {
+    display: block;
     font-size: 0.6875rem;
-    letter-spacing: 0.05em;
+    color: #706e6b;
+}
+
+/* ── Inputs ───────────────────────────────────────────────────────────────── */
+
+.psp-input {
+    min-width: 8rem;
+}
+
+.psp-input .slds-input {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.psp-derived .slds-input {
+    background: #f4f6f9;
+    color: #514f4d;
+}
+
+.psp-invalid .slds-input {
+    border-color: #ea001e;
+    box-shadow: 0 0 0 1px #ea001e inset;
+}
+
+.psp-auto {
+    display: block;
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #706e6b;
+}
+
+/* ── Balance chips ────────────────────────────────────────────────────────── */
+
+.psp-balance {
+    display: inline-block;
+    padding: 0.0625rem 0.375rem;
+    border-radius: 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.psp-ok {
+    color: #2e844a;
+}
+
+.psp-off {
+    background: #fef5e7;
+    color: #8c4b02;
+}
+
+.psp-total.psp-off {
+    background: transparent;
+    color: #ba0517;
+    font-weight: 700;
+}
+
+.psp-total.psp-ok {
+    color: #2e844a;
+    font-weight: 700;
+}
+
+/* ── Footer totals ────────────────────────────────────────────────────────── */
+
+.psp-foot td {
+    position: sticky;
+    bottom: 0;
+    background: #f3f3f3;
+    border-top: 2px solid #c9c7c5;
+    font-weight: 600;
+    z-index: 2;
 }
 
 .psp-foot-target td,
 .psp-foot-variance td {
-    border-top: 1px solid var(--slds-g-color-border-base-1, #e5e5e5);
+    border-top: 0;
     font-weight: 400;
+}
+
+.psp-foot-label {
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #514f4d;
 }
 
 .psp-foot-note {
     font-size: 0.6875rem;
-    color: var(--slds-g-color-neutral-base-50, #747474);
+    color: #706e6b;
+    font-weight: 400;
     text-align: left;
-    white-space: normal;
 }
 
-/* ==================== FOOTER ACTIONS ==================== */
+/* ── Actions ──────────────────────────────────────────────────────────────── */
 
 .psp-actions {
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    gap: 0.5rem;
     margin-top: 1rem;
 }
 
 .psp-submit-reason {
     font-size: 0.75rem;
-    color: var(--slds-g-color-neutral-base-50, #747474);
-    margin-right: 0.75rem;
+    color: #706e6b;
+    margin-right: auto;
 }

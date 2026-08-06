@@ -94,7 +94,7 @@ public with sharing class DynamicDocumentRenderer {
         String hdrFontSize = getStr(header, 'fontSize', '');
         Boolean hdrBold = header.get('bold') == true;
         String hdrColor = getStr(header, 'textColor', '');
-        String hdrStyle = 'border-bottom:2px solid #ccc;padding-bottom:10px;margin-bottom:16px;';
+        String hdrStyle = 'padding-bottom:10px;margin-bottom:16px;';
         if (String.isNotBlank(hdrFontSize)) hdrStyle += 'font-size:' + hdrFontSize + ';';
         if (hdrBold) hdrStyle += 'font-weight:bold;';
         if (String.isNotBlank(hdrColor)) hdrStyle += 'color:' + hdrColor + ';';
@@ -696,63 +696,90 @@ public with sharing class DynamicDocumentRenderer {
 
     /**
      * @description Scan the template JSON for parent relationship field references
-     * (e.g., Account__r.Phone, Owner.Email) used in merge fields, fieldGrid sections,
-     * or table columns and add them to the query field set. The "field" scan (pattern 2)
+     * (e.g., Account__r.Phone, Owner.Email, and multi-hop grandparent paths like
+     * Booking__r.Unit__r.Name) used in merge fields, fieldGrid sections, or table
+     * columns, and add them to the query field set. The "field" scan (pattern 2)
      * also covers main-record TABLE columns that use lookup paths (Booking__r.Amount__c),
      * since table columns store their path under the same "field" key.
+     *
+     * Supports ANY relationship depth (Booking__r.Unit__r.Name,
+     * Booking__r.Project__r.Owner__r.Name, etc.) — each hop is validated against schema
+     * so a single bad/renamed field only skips that one merge field instead of throwing
+     * and losing the whole query (which would blank out every merge field on the page).
      */
     private static void addReferencedParentFields(String templateJson, Set<String> fieldSet,
                                                     Map<String, Schema.SObjectField> fieldMap) {
-        // 1. Scan for {!Relationship.Field} patterns in content
-        Pattern p = Pattern.compile('\\{!([A-Za-z0-9_]+)\\.([A-Za-z0-9_]+)\\}');
+        // 1. Scan for {!Relationship.Relationship....Field} patterns (any depth) in content
+        Pattern p = Pattern.compile('\\{!([A-Za-z0-9_]+(?:\\.[A-Za-z0-9_]+)+)\\}');
         Matcher m = p.matcher(templateJson);
         while (m.find()) {
-            String relOrObj = m.group(1);
-            String fieldName = m.group(2);
-            // Check if it's a valid relationship name on the object
-            if (isValidRelationship(relOrObj, fieldMap)) {
-                fieldSet.add(relOrObj + '.' + fieldName);
-            }
+            addValidatedPath(m.group(1), fieldSet, fieldMap);
         }
 
-        // 2. Scan for fieldGrid / table-column fields with dot notation
-        //    (e.g., "field":"Account__r.Phone" or "field":"Booking__r.Amount__c")
-        Pattern fieldPattern = Pattern.compile('"field"\\s*:\\s*"([A-Za-z0-9_]+)\\.([A-Za-z0-9_]+)"');
+        // 1b. Scan inside {!INWORDS(...)} calls too — e.g. {!INWORDS(Booking__r.Unit__r.Cost__c)}
+        Pattern fnP = Pattern.compile('(?i)\\{!\\s*INWORDS\\s*\\(\\s*([A-Za-z0-9_]+(?:\\.[A-Za-z0-9_]+)+)\\s*\\)\\s*\\}');
+        Matcher fnM = fnP.matcher(templateJson);
+        while (fnM.find()) {
+            addValidatedPath(fnM.group(1), fieldSet, fieldMap);
+        }
+
+        // 2. Scan for fieldGrid / table-column fields with dot notation (any depth)
+        //    (e.g., "field":"Account__r.Phone" or "field":"Booking__r.Unit__r.Name")
+        Pattern fieldPattern = Pattern.compile('"field"\\s*:\\s*"([A-Za-z0-9_]+(?:\\.[A-Za-z0-9_]+)+)"');
         Matcher fm = fieldPattern.matcher(templateJson);
         while (fm.find()) {
-            String rel = fm.group(1);
-            String fld = fm.group(2);
-            if (isValidRelationship(rel, fieldMap)) {
-                fieldSet.add(rel + '.' + fld);
-            }
+            addValidatedPath(fm.group(1), fieldSet, fieldMap);
         }
 
-        // 3. Scan for table-column parent-field totals with dot notation
-        //    (e.g., "totalParentField":"Booking__r.Total_Flat_Cost__c") so the value the
-        //    totals row pulls from a related parent record is actually queried.
-        Pattern totalPattern = Pattern.compile('"totalParentField"\\s*:\\s*"([A-Za-z0-9_]+)\\.([A-Za-z0-9_]+)"');
+        // 3. Scan for table-column parent-field totals with dot notation (any depth)
+        //    (e.g., "totalParentField":"Booking__r.Unit__r.Total_Flat_Cost__c") so the value
+        //    the totals row pulls from a related parent record is actually queried.
+        Pattern totalPattern = Pattern.compile('"totalParentField"\\s*:\\s*"([A-Za-z0-9_]+(?:\\.[A-Za-z0-9_]+)+)"');
         Matcher tm = totalPattern.matcher(templateJson);
         while (tm.find()) {
-            String rel = tm.group(1);
-            String fld = tm.group(2);
-            if (isValidRelationship(rel, fieldMap)) {
-                fieldSet.add(rel + '.' + fld);
-            }
+            addValidatedPath(tm.group(1), fieldSet, fieldMap);
         }
     }
 
-    private static Boolean isValidRelationship(String relName, Map<String, Schema.SObjectField> fieldMap) {
-        // Check if this relationship name matches a lookup field on the object
+    /**
+     * @description Walk a dotted relationship path (e.g. Booking__r.Unit__r.Name) one hop
+     * at a time, validating each relationship segment against the schema of whatever object
+     * it points to. If every hop resolves, the full path is added to the SOQL field set. If
+     * any hop is invalid (typo'd relationship name, non-reference field, etc.) the path is
+     * silently skipped — that single merge field just won't resolve, instead of throwing and
+     * falling back to an Id/Name-only query that would blank out every merge field on the page.
+     */
+    private static void addValidatedPath(String fieldPath, Set<String> fieldSet,
+                                          Map<String, Schema.SObjectField> rootFieldMap) {
+        List<String> parts = fieldPath.split('\\.');
+        if (parts.size() < 2) return; // no relationship hop — nothing extra to query
+
+        Map<String, Schema.SObjectField> currentFieldMap = rootFieldMap;
+        // Walk every segment except the last (the last segment is the actual field name)
+        for (Integer i = 0; i < parts.size() - 1; i++) {
+            Schema.SObjectField relField = findRelationshipField(parts[i], currentFieldMap);
+            if (relField == null) return; // unknown relationship hop — bail out safely
+
+            List<Schema.SObjectType> refs = relField.getDescribe().getReferenceTo();
+            if (refs.isEmpty()) return; // polymorphic/unresolvable reference — bail out safely
+            currentFieldMap = refs[0].getDescribe().fields.getMap();
+        }
+
+        fieldSet.add(fieldPath);
+    }
+
+    /** Finds the lookup field on fieldMap whose RelationshipName matches relName (case-insensitive). */
+    private static Schema.SObjectField findRelationshipField(String relName, Map<String, Schema.SObjectField> fieldMap) {
         for (String fName : fieldMap.keySet()) {
             Schema.DescribeFieldResult dfr = fieldMap.get(fName).getDescribe();
             if (dfr.getType() == Schema.DisplayType.REFERENCE) {
                 String lookupRelName = dfr.getRelationshipName();
                 if (String.isNotBlank(lookupRelName) && lookupRelName.equalsIgnoreCase(relName)) {
-                    return true;
+                    return fieldMap.get(fName);
                 }
             }
         }
-        return false;
+        return null;
     }
 
     // ============================== UTILITIES ==============================

@@ -148,7 +148,7 @@ public with sharing class PaymentScheduleGeneratorService {
                 ps.Master_Payment_Schedule__c = ms.Id;
                 ps.Milestone_Name__c = ms.Name;
                 ps.Is_Milestone_Based__c = true;
-                ps.Status__c = 'Pending';
+                ps.Status__c = ms.Status__c;
                 ps.Demand_Raised__c = false;
                 // Flow the Agreement flag from the master milestone (BRD pointer 5).
                 ps.Is_Agreement__c = ms.Is_Agreement__c == true;

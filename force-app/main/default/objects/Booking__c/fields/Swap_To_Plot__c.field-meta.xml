@@ -16,7 +16,7 @@
             <operation>equals</operation>
             <value>Available</value>
         </filterItems>
-        <isOptional>false</isOptional>
+        <isOptional>true</isOptional>
     </lookupFilter>
     <referenceTo>Plot__c</referenceTo>
     <relationshipLabel>Swap Bookings</relationshipLabel>
