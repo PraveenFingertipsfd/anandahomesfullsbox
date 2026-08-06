@@ -104,10 +104,12 @@ public with sharing class ProrataInvariantService {
 
             List<String> errors = new List<String>();
             Decimal sumBankPayable = 0, sumCustPayable = 0, lockedUnsplitTotal = 0;
+            Boolean hasAnySplit = false;
 
             for (Payment_Schedule__c ps : rowsByBooking.get(bookingId)) {
                 Boolean hasSplit = ps.Bank_Flat_Amount__c != null || ps.Customer_Flat_Prorata__c != null
                     || ps.Bank_GST_Amount__c != null || ps.Customer_GST_Prorata__c != null;
+                if (hasSplit) hasAnySplit = true;
 
                 // Locked and never split: treated as already settled by the customer and
                 // subtracted from the Deficit target. The row itself is never written.
@@ -143,6 +145,12 @@ public with sharing class ProrataInvariantService {
                 sumBankPayable += bf + bg;
                 sumCustPayable += cf + cg;
             }
+
+            // A booking whose schedules carry no split values at all has not started
+            // splitting yet (e.g. schedules freshly generated on booking creation) — the
+            // totals are only enforced once a split exists. A cleared split writes explicit
+            // zeros (not nulls), so clearing still counts as "has split" and stays enforced.
+            if (!hasAnySplit) continue;
 
             // Bank total is enforced whenever Loan Sanctioned is populated — including when
             // every split has been cleared, which would otherwise leave the bank unallocated.

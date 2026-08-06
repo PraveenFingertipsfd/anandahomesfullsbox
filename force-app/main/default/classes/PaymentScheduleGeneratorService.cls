@@ -218,7 +218,16 @@ public with sharing class PaymentScheduleGeneratorService {
         }
 
         if (!schedulesToInsert.isEmpty()) {
-            insert schedulesToInsert;
+            // Freshly generated schedules carry no bank/customer split yet — the split is
+            // entered later in the prorata editor. Suspend the split invariant for this
+            // trusted generation insert so Prorata bookings can be created.
+            Boolean priorInvariantBypass = ProrataInvariantService.bypass;
+            ProrataInvariantService.bypass = true;
+            try {
+                insert schedulesToInsert;
+            } finally {
+                ProrataInvariantService.bypass = priorInvariantBypass;
+            }
         }
 
         if (!bookingsToUpdate.isEmpty()) {
