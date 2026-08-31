@@ -124,7 +124,7 @@ public with sharing class PaymentScheduleViewController {
             
             // Query all Payment Schedules
             List<Payment_Schedule__c> schedules = [
-                SELECT Id, Name, Milestone_Name__c, Status__c,
+                SELECT Id, Name, Milestone_Name__c, Status__c, Demand_Raised__c,
                        Amount__c, Percentage__c, Pending_Amount__c,
                        Interest_Pending__c,
                        Payment_Schedule_Amount__c, GST_Amount__c, TDS_Amount__c,
@@ -185,13 +185,19 @@ public with sharing class PaymentScheduleViewController {
 
                     // Next demand = Bank Flat + Bank GST when a bank split exists on the
                     // milestone, otherwise the full schedule amount (Base + GST + TDS).
-                    totalPendingForNextDemand += demandable;
-                    if (wrapper.isBankDemand) {
-                        totalBankForNextDemand += demandable;
-                    } else {
-                        totalCustomerForNextDemand += demandable;
+                    // Exclude milestones whose demand has already been raised so the "Next
+                    // Payment Demand" total never re-demands an existing demand (e.g. the
+                    // booking-amount demand on milestone #1). This keeps the single-demand
+                    // total in agreement with the Bulk Raise Demand flow.
+                    if (schedule.Demand_Raised__c != true) {
+                        totalPendingForNextDemand += demandable;
+                        if (wrapper.isBankDemand) {
+                            totalBankForNextDemand += demandable;
+                        } else {
+                            totalCustomerForNextDemand += demandable;
+                        }
+                        totalInterestForNextDemand += (schedule.Interest_Pending__c != null ? schedule.Interest_Pending__c : 0);
                     }
-                    totalInterestForNextDemand += (schedule.Interest_Pending__c != null ? schedule.Interest_Pending__c : 0);
                 }
                 
                 // Format currency values
@@ -282,6 +288,7 @@ public with sharing class PaymentScheduleViewController {
             FROM Payment_Schedule__c
             WHERE Booking__c = :bookingId
             AND Status__c = :PostSalesConstants.SCHEDULE_STATUS_COMPLETED
+            AND (Demand_Raised__c = false OR Demand_Raised__c = null)
             ORDER BY Due_Date__c ASC NULLS LAST, CreatedDate ASC
         ];
 

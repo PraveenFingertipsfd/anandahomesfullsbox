@@ -308,22 +308,22 @@ public with sharing class BulkDemandController {
             for (Payment_Schedule__c ps : bookingSchedules) {
                 Decimal pending = ps.Pending_Amount__c != null ? ps.Pending_Amount__c : 0;
                 Decimal interest = ps.Interest_Pending__c != null ? ps.Interest_Pending__c : 0;
-                Decimal amount = ps.Amount__c != null ? ps.Amount__c : 0;
                 Boolean isCurrentMilestone = (ps.Master_Payment_Schedule__c == masterPaymentScheduleId);
                 Boolean isDemandNotRaised = (ps.Demand_Raised__c != true && pending > 0);
 
-                // Separate current milestone vs previous milestones
+                // Reaching a current-milestone Completed schedule confirms this booking has
+                // actually hit the milestone selected in Step 2 (used for the skip check
+                // below), regardless of whether that milestone was already demanded.
                 if (isCurrentMilestone) {
-                    w.currentMilestoneAmount += pending;
-                    // bookingSchedules only contains rows with Status__c = Completed (see the
-                    // allSchedules query above), so reaching this line means the selected
-                    // milestone's own schedule IS Completed for this booking.
                     selectedMilestoneCompletedForBooking = true;
-                } else {
-                    w.previousMilestonesAmount += pending;
                 }
 
-                // Only include schedules where demand hasn't been raised
+                // Only schedules whose demand hasn't been raised yet count toward the amounts
+                // shown and demanded. The Current/Previous breakdown is now gated on the SAME
+                // condition as Total Pending / Net Demand, so Previous Dues + Current Milestone
+                // always reconciles with Net Demand — and an already-demanded milestone (e.g. the
+                // booking-amount demand on milestone #1) is never re-demanded. This also keeps the
+                // Bulk flow in agreement with the single Raise Demand flow up to the same milestone.
                 if (isDemandNotRaised) {
                     hasUnraisedDemand = true;
 
@@ -332,12 +332,23 @@ public with sharing class BulkDemandController {
                     // portion is reminded separately per BRD §8.5, not raised in this demand.
                     // Otherwise the full pending amount (Base + GST + TDS) is demanded, entirely
                     // from the Customer. This is the single source of truth for the amount —
-                    // Total Pending, Net Demand, and Bank/Customer Payable all derive from it,
-                    // so they always sum consistently.
+                    // Total Pending, Net Demand, Previous/Current, and Bank/Customer Payable all
+                    // derive from it, so they always sum consistently.
                     Decimal bankFlat = ps.Bank_Flat_Amount__c != null ? ps.Bank_Flat_Amount__c : 0;
                     Decimal bankGst = ps.Bank_GST_Amount__c != null ? ps.Bank_GST_Amount__c : 0;
                     Boolean thisIsBank = isProrata && (bankFlat != 0 || bankGst != 0);
                     Decimal demandable = thisIsBank ? (bankFlat + bankGst) : pending;
+
+                    // Current vs previous breakdown — over demandable (not-yet-demanded) amounts
+                    // only, so the two figures always sum to Total Pending / Net Demand. The
+                    // schedule matching the selected milestone is also what the Demand's
+                    // Payment_Schedule__c lookup links to.
+                    if (isCurrentMilestone) {
+                        w.currentMilestoneAmount += demandable;
+                        w.currentMilestoneScheduleId = ps.Id;
+                    } else {
+                        w.previousMilestonesAmount += demandable;
+                    }
 
                     w.totalPending += demandable;
                     w.totalInterest += interest;
@@ -345,12 +356,6 @@ public with sharing class BulkDemandController {
                         w.bankPayableAmount += demandable;
                     } else {
                         w.customerPayableAmount += demandable;
-                    }
-
-                    // The schedule matching the selected milestone — this is what the Demand's
-                    // Payment_Schedule__c lookup should link to.
-                    if (isCurrentMilestone) {
-                        w.currentMilestoneScheduleId = ps.Id;
                     }
 
                     PaymentScheduleLineItem item = new PaymentScheduleLineItem();
