@@ -285,8 +285,7 @@ public with sharing class DynamicDocumentRenderer {
 
             String value = '';
             if (record != null && String.isNotBlank(fieldName)) {
-                Object val = getFieldValue(record, fieldName);
-                value = val != null ? String.valueOf(val) : '';
+                value = formatFieldValue(getFieldValue(record, fieldName));
             }
 
             html.append('<td style="padding:4px 8px;font-weight:bold;width:15%;border:1px solid #eee;background:#f9f9f9;">' + label + '</td>');
@@ -407,7 +406,7 @@ public with sharing class DynamicDocumentRenderer {
         html.append('<thead><tr>');
         if (showRowNumbers) {
             html.append('<th style="background:' + headerBg + ';color:' + headerColor +
-                        ';border:1px solid ' + borderColor + ';padding:6px 8px;text-align:center;">#</th>');
+                        ';border:1px solid ' + borderColor + ';padding:6px 8px;text-align:center;">Sl. No</th>');
         }
         for (String lbl : columnLabels) {
             html.append('<th style="background:' + headerBg + ';color:' + headerColor +
@@ -435,7 +434,7 @@ public with sharing class DynamicDocumentRenderer {
                 }
                 for (String fName : fieldNames) {
                     Object val = getFieldValue(child, fName);
-                    String display = val != null ? String.valueOf(val) : '';
+                    String display = formatFieldValue(val);
                     html.append('<td style="border:1px solid ' + borderColor +
                                 ';padding:4px 8px;">' + display + '</td>');
                 }
@@ -469,7 +468,7 @@ public with sharing class DynamicDocumentRenderer {
                 if (agg == 'parent') {
                     String pf = getStr(col, 'totalParentField', '');
                     Object pv = (record != null && String.isNotBlank(pf)) ? getFieldValue(record, pf) : null;
-                    cellVal = pv != null ? String.valueOf(pv) : '';
+                    cellVal = formatFieldValue(pv);
                 } else if (agg == 'sum' || agg == 'count' || agg == 'average' || agg == 'min' || agg == 'max') {
                     cellVal = computeAggregate(children, fieldNames[ci], agg);
                 } else if (!labelPlaced) {
@@ -536,7 +535,7 @@ public with sharing class DynamicDocumentRenderer {
             }
 
             Object val = getFieldValue(record, fieldPath);
-            replacements.put(fullMatch, val != null ? String.valueOf(val) : '');
+            replacements.put(fullMatch, formatFieldValue(val));
         }
 
         for (String key : replacements.keySet()) {
@@ -880,6 +879,20 @@ public with sharing class DynamicDocumentRenderer {
         if (d == null) return '';
         if (d == d.round()) return String.valueOf(d.longValue());
         return String.valueOf(d);
+    }
+
+    /**
+     * @description Renders a field value for display in a document. DateTime fields show the
+     *              calendar date only (no "00:00:00" time component) — documents display dates,
+     *              not timestamps. Everything else is unchanged: a Date already renders as
+     *              yyyy-MM-dd, and numbers/text/booleans pass through String.valueOf.
+     */
+    private static String formatFieldValue(Object val) {
+        if (val == null) return '';
+        if (val instanceof DateTime) {
+            return ((DateTime) val).format('yyyy-MM-dd');
+        }
+        return String.valueOf(val);
     }
 
     private static String getStr(Map<String, Object> data, String key, String defaultVal) {
