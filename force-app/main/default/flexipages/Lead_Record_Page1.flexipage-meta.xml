@@ -7,6 +7,9 @@
                     <name>actionNames</name>
                     <valueList>
                         <valueListItems>
+                            <value>Lead__c.Call_Customer</value>
+                        </valueListItems>
+                        <valueListItems>
                             <value>Lead__c.Update_Lead_Status</value>
                             <visibilityRule>
                                 <booleanFilter>NOT(2 AND 3) AND 1 AND 4</booleanFilter>

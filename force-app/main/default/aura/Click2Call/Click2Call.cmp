@@ -1,0 +1,53 @@
+<aura:component controller="click2callController"
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    access="global">
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="primaryPhone" type="String"/>
+    <aura:attribute name="secondaryPhone" type="String"/>
+    <aura:attribute name="isLoading" type="Boolean" default="true"/>
+
+    <div class="slds-p-around_medium">
+
+        <!-- Spinner while loading -->
+        <aura:if isTrue="{!v.isLoading}">
+            <lightning:spinner alternativeText="Loading" size="small"/>
+        </aura:if>
+
+        <!-- Content once loaded -->
+        <aura:if isTrue="{!!v.isLoading}">
+
+            <aura:if isTrue="{!or(not(empty(v.primaryPhone)), not(empty(v.secondaryPhone)))}">
+                <p class="slds-m-bottom_small slds-text-title_bold">Select a number to call:</p>
+
+                <!-- Primary button (only if present) -->
+                <aura:if isTrue="{!not(empty(v.primaryPhone))}">
+                    <lightning:button label="{!'Primary:  ' + v.primaryPhone}"
+                        iconName="utility:call"
+                        variant="brand"
+                        class="slds-m-bottom_x-small slds-size_1-of-1"
+                        value="{!v.primaryPhone}"
+                        onclick="{!c.makeCall}"/>
+                </aura:if>
+
+                <!-- Secondary button (only if present) -->
+                <aura:if isTrue="{!not(empty(v.secondaryPhone))}">
+                    <lightning:button label="{!'Secondary:  ' + v.secondaryPhone}"
+                        iconName="utility:call"
+                        variant="neutral"
+                        class="slds-size_1-of-1"
+                        value="{!v.secondaryPhone}"
+                        onclick="{!c.makeCall}"/>
+                </aura:if>
+
+                <!-- No numbers at all -->
+                <aura:set attribute="else">
+                    <p>No phone number available on this record.</p>
+                </aura:set>
+            </aura:if>
+
+        </aura:if>
+    </div>
+</aura:component>
