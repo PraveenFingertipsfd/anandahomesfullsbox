@@ -311,12 +311,17 @@
     background: white !important;
     border: 1px solid #ddd !important;
     border-radius: 6px !important;
-    overflow: hidden !important;
+    /* The quick-action modal is narrower than the table; scroll sideways inside the
+       wrapper instead of clipping the right-hand columns out of reach. */
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) !important;
 }
 
 .custom-table {
     width: 100% !important;
+    /* Keep every column readable; the wrapper scrolls when the modal is narrower. */
+    min-width: 920px !important;
     border-collapse: collapse !important;
     margin: 0 !important;
     border: none !important;
