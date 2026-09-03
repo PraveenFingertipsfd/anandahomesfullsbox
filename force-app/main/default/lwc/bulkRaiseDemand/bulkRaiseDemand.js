@@ -365,7 +365,9 @@ export default class BulkRaiseDemand extends LightningElement {
                 bookingId: b.bookingId,
                 demandAmount: b.totalPending,
                 interestAmount: b.totalInterest,
-                previousDues: 0,
+                // Previously-demanded-but-unpaid amount from Step 3 — stored on the Demand so
+                // Net_Demand_Amount__c (= Demand + Previous Dues + Interest) matches the preview.
+                previousDues: b.previousMilestonesAmount || 0,
                 scheduleIds: b.scheduleItems ? b.scheduleItems.filter(s => s.isSelected !== false).map(s => s.scheduleId) : [],
                 // The schedule matching the milestone actually selected in Step 2 — Apex links
                 // the resulting Demand's Payment_Schedule__c lookup to this specifically.
