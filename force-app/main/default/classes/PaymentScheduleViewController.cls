@@ -353,10 +353,31 @@ public with sharing class PaymentScheduleViewController {
                 'Nothing to raise: no completed payment schedule has a pending amount or interest.');
         }
 
+        // Previous dues: milestones on this booking already demanded but still unpaid. These are
+        // NOT re-raised here (they stay pending on their original demand); they are surfaced on
+        // this demand so Net_Demand_Amount__c (= Demand Amount + Previous Dues + Interest) reflects
+        // the customer's full outstanding — matching the Bulk Raise Demand behaviour. Runs before
+        // the schedules raised now are marked demanded, so those aren't counted here.
+        Decimal previousDues = 0;
+        for (AggregateResult ar : [
+            SELECT SUM(Pending_Amount__c) prev
+            FROM Payment_Schedule__c
+            WHERE Booking__c = :bookingId
+            AND Demand_Raised__c = true
+            AND Pending_Amount__c > 0
+        ]) {
+            Object prev = ar.get('prev');
+            if (prev != null) previousDues = (Decimal) prev;
+        }
+
         Demands__c demand = new Demands__c();
         demand.Booking__c = bookingId;
-        demand.Demand_Amount__c = grandTotal;
+        // Current demand principal only. Interest goes in Interest_Amount__c and previous dues in
+        // Previous_Dues__c; the Net_Demand_Amount__c formula sums all three, so interest must NOT
+        // also sit inside Demand_Amount__c or it would be double-counted in the net.
+        demand.Demand_Amount__c = totalPending;
         demand.Pending_Amount__c = grandTotal;
+        demand.Previous_Dues__c = previousDues;
         demand.Interest_Amount__c = totalInterest;
         // Cumulative components of this demand — Flat + GST + TDS equals totalPending (Interest
         // is tracked separately above), so Flat + GST + TDS + Interest = Demand_Amount__c.
