@@ -807,15 +807,31 @@ public with sharing class BulkDemandController {
                 WHERE Id IN :demandIds
             ];
 
-            // NOTE: the demand email is sent by the record-triggered flow "Send_Demand_Email",
-            // which fires on every Demands__c insert and renders the "Demand Raise Mail" template
-            // through EmailSenderInvocable against the Demands__c record — so merge fields resolve
-            // (Applicant, Project, Milestone, etc.) and the Demand Letter document is attached, for
-            // every funding type. This method therefore does NOT send its own email: the previous
-            // implementation called prepareEmailFromTemplate with the Booking Id while the template's
-            // object is Demands__c, so its query matched nothing and it sent the template RAW with no
-            // attachment — a second, broken email on top of the flow's correct one. It now only
-            // stamps the email-tracking fields the flow does not maintain.
+            if (String.isNotBlank(templateId)) {
+                // Build all emails first, then send them in ONE Messaging.sendEmail call so the
+                // per-transaction email-invocation limit isn't hit for many demands (BUG-0642).
+                List<Messaging.SingleEmailMessage> emailsToSend = new List<Messaging.SingleEmailMessage>();
+                for (Demands__c demand : demands) {
+                    if (String.isNotBlank(demand.Booking__r.Email__c)) {
+                        try {
+                            EmailSenderController.PreparedEmailData prepared =
+                                EmailSenderController.prepareEmailFromTemplate(templateId, demand.Booking__c);
+
+                            Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
+                            email.setToAddresses(new List<String>{ demand.Booking__r.Email__c });
+                            email.setSubject(prepared.subject);
+                            email.setHtmlBody(prepared.body);
+                            email.setSaveAsActivity(true);
+                            emailsToSend.add(email);
+                        } catch (Exception emailEx) {
+                            System.debug('Error preparing email for demand ' + demand.Name + ': ' + emailEx.getMessage());
+                        }
+                    }
+                }
+                if (!emailsToSend.isEmpty()) {
+                    Messaging.sendEmail(emailsToSend, false);
+                }
+            }
 
             // Update demand records
             List<Demands__c> demandsToUpdate = new List<Demands__c>();

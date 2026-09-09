@@ -42,32 +42,7 @@ public without sharing class PaymentScheduleRevisionCompareController {
         if (payload.totals != null) totals = payload.totals;
         if (payload.lines == null) return;
 
-        // The milestone name stored in the revision payload is the schedule's own
-        // Milestone_Name__c, which is blank on all but the first milestone. Backfill any blank
-        // name from the live schedule's master template (Master_Payment_Schedule__r.Name), so the
-        // Milestone column is populated for existing and future revisions alike.
-        Set<Id> psIds = new Set<Id>();
         for (PaymentScheduleRevisionService.RevisionLineDiff d : payload.lines) {
-            if (d.id != null && String.isBlank(d.milestoneName)) psIds.add(d.id);
-        }
-        Map<Id, String> nameById = new Map<Id, String>();
-        if (!psIds.isEmpty()) {
-            for (Payment_Schedule__c ps : [
-                SELECT Id, Milestone_Name__c, Master_Payment_Schedule__r.Name
-                FROM Payment_Schedule__c
-                WHERE Id IN :psIds
-            ]) {
-                String nm = String.isNotBlank(ps.Milestone_Name__c)
-                    ? ps.Milestone_Name__c
-                    : (ps.Master_Payment_Schedule__c != null ? ps.Master_Payment_Schedule__r.Name : null);
-                if (String.isNotBlank(nm)) nameById.put(ps.Id, nm);
-            }
-        }
-
-        for (PaymentScheduleRevisionService.RevisionLineDiff d : payload.lines) {
-            if (String.isBlank(d.milestoneName) && d.id != null && nameById.containsKey(d.id)) {
-                d.milestoneName = nameById.get(d.id);
-            }
             lineRows.add(new LineRow(d));
         }
     }

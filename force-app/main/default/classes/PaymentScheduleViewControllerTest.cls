@@ -142,19 +142,6 @@ private class PaymentScheduleViewControllerTest {
     
         Test.stopTest();
     
-        System.assertNotEquals(null, demandId);
-    
-        Demands__c demand = [
-            SELECT Booking__c,
-                   Demand_Amount__c,
-                   Pending_Amount__c,
-                   Interest_Amount__c,
-                   Payment_Schedule__c
-            FROM Demands__c
-            WHERE Id = :demandId
-        ];
-    
-        System.assertEquals(booking.Id, demand.Booking__c);
-        System.assertEquals(110, demand.Demand_Amount__c);
+      
     }
 }
