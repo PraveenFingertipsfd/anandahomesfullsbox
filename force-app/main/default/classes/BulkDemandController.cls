@@ -316,13 +316,6 @@ public with sharing class BulkDemandController {
                 // below), regardless of whether that milestone was already demanded.
                 if (isCurrentMilestone) {
                     selectedMilestoneCompletedForBooking = true;
-                } else if (ps.Demand_Raised__c == true) {
-                    // True "Previous Dues" (QA item 5): earlier milestones already demanded but
-                    // still unpaid. These are NOT part of this demand (never re-demanded) but the
-                    // customer still owes them, so they are shown and added into Net Demand.
-                    // Earlier milestones never demanded join THIS demand via totalPending below,
-                    // so counting them here too would double-count them in the net.
-                    w.previousMilestonesAmount += pending;
                 }
 
                 // Only schedules whose demand hasn't been raised yet count toward the amounts
@@ -346,15 +339,15 @@ public with sharing class BulkDemandController {
                     Boolean thisIsBank = isProrata && (bankFlat != 0 || bankGst != 0);
                     Decimal demandable = thisIsBank ? (bankFlat + bankGst) : pending;
 
-                    // Current Milestone shows the selected milestone's demandable amount. Earlier
-                    // not-yet-demanded milestones still flow into Total Pending / Net Demand below;
-                    // they are NOT added to Previous Dues, which (per QA item 5) means amounts
-                    // already demanded but unpaid — accumulated in the loop above. The schedule
-                    // matching the selected milestone is what the Demand's Payment_Schedule__c
-                    // lookup links to.
+                    // Current vs previous breakdown — over demandable (not-yet-demanded) amounts
+                    // only, so the two figures always sum to Total Pending / Net Demand. The
+                    // schedule matching the selected milestone is also what the Demand's
+                    // Payment_Schedule__c lookup links to.
                     if (isCurrentMilestone) {
                         w.currentMilestoneAmount += demandable;
                         w.currentMilestoneScheduleId = ps.Id;
+                    } else {
+                        w.previousMilestonesAmount += demandable;
                     }
 
                     w.totalPending += demandable;
@@ -391,8 +384,7 @@ public with sharing class BulkDemandController {
             // Skip bookings with no unraised demand schedules
             if (!hasUnraisedDemand) continue;
 
-            // Net = previous dues (already demanded, unpaid) + what this demand raises + interest.
-            w.netDemandAmount = w.totalPending + w.totalInterest + w.previousMilestonesAmount;
+            w.netDemandAmount = w.totalPending + w.totalInterest;
             w.formattedPending = formatCurrency(w.totalPending);
             w.formattedInterest = formatCurrency(w.totalInterest);
             w.formattedNet = formatCurrency(w.netDemandAmount);
@@ -615,7 +607,7 @@ public with sharing class BulkDemandController {
                 Demands__c demand = new Demands__c();
                 demand.Booking__c = item.bookingId;
                 demand.Interest_Amount__c = request.includeInterest == true ? item.interestAmount : 0;
-                demand.Previous_Dues__c = item.previousDues != null ? item.previousDues : 0;
+                demand.Previous_Dues__c = item.previousDues;
                 demand.Status__c = PostSalesConstants.DEMAND_STATUS_RAISED;
                 demand.Demand_Date__c = Date.today();
                 demand.Due_Date__c = dueDate;

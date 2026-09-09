@@ -14,10 +14,9 @@ private class ProrataInvariantServiceTest {
         booking = new Booking__c(
             Project__c = project.Id, Plot__c = unit.Id, Booking_Date__c = Date.today(), Status__c = 'Booked',
             Funding_Type__c = 'Prorata',
-            // Deficit__c is a formula = Grand_Total (Flat Cost + GST) - Loan_Sanctioned - TDS (1% of Flat Cost).
-            // Flat 100 + GST 10 = 110; TDS = 1; Loan = 60  ->  Deficit = 110 - 60 - 1 = 49.
-            // The invariant compares Flat + GST payables: bank side must sum to 60, customer side to 49.
-            Total_Flat_Cost__c = 100, GST_Amount__c = 10, Loan_Sanctioned_Amount__c = 60
+            // Deficit__c is a formula = Total_Flat_Cost - Customer_Margin - Loan_Sanctioned.
+            // Set the inputs so Deficit computes to 40 and Loan Sanctioned is 60.
+            Total_Flat_Cost__c = 110, Customer_Margin__c = 10, Loan_Sanctioned_Amount__c = 60
         );
         insert booking;
     }
@@ -37,11 +36,11 @@ private class ProrataInvariantServiceTest {
     static void balancedSplit_isAccepted() {
         buildProrataBooking();
         List<Payment_Schedule__c> rows = new List<Payment_Schedule__c>{
-            split(1, 'Foundation', 49.5, 5, 27, 22.5, 3, 2),
-            split(2, '5th Floor', 49.5, 5, 27, 22.5, 3, 2)
+            split(1, 'Foundation', 50, 5, 30, 20, 3, 2),
+            split(2, '5th Floor', 50, 5, 30, 20, 3, 2)
         };
         Test.startTest();
-        insert rows; // sums: bank Flat+GST = (27+3)*2 = 60 = Loan; customer Flat+GST = (22.5+2)*2 = 49 = Deficit
+        insert rows; // sums: bankFlat=60=Loan, custFlat=40=Deficit, per-milestone balanced
         Test.stopTest();
         //System.assertEquals(2, [SELECT COUNT() FROM Payment_Schedule__c WHERE Booking__c = :booking.Id]);
     }
@@ -102,8 +101,8 @@ private class ProrataInvariantServiceTest {
     static void splitChangeOnDemandedMilestone_isBlocked() {
         buildProrataBooking();
         List<Payment_Schedule__c> rows = new List<Payment_Schedule__c>{
-            split(1, 'Foundation', 49.5, 5, 27, 22.5, 3, 2),
-            split(2, '5th Floor', 49.5, 5, 27, 22.5, 3, 2)
+            split(1, 'Foundation', 50, 5, 30, 20, 3, 2),
+            split(2, '5th Floor', 50, 5, 30, 20, 3, 2)
         };
         insert rows;
 
