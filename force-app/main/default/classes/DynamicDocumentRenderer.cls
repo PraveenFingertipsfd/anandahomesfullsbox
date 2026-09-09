@@ -542,9 +542,9 @@ public with sharing class DynamicDocumentRenderer {
             content = content.replace(key, replacements.get(key));
         }
 
-        // Resolve TODAY
-        content = content.replace('{!TODAY}', String.valueOf(Date.today()));
-        content = content.replace('{!NOW}', String.valueOf(Datetime.now()));
+        // Resolve TODAY / NOW in the same day-month-year form as field dates
+        content = content.replace('{!TODAY}', formatFieldValue(Date.today()));
+        content = content.replace('{!NOW}', Datetime.now().format('dd-MM-yyyy hh:mm a'));
 
         return content;
     }
@@ -882,15 +882,20 @@ public with sharing class DynamicDocumentRenderer {
     }
 
     /**
-     * @description Renders a field value for display in a document. DateTime fields show the
-     *              calendar date only (no "00:00:00" time component) — documents display dates,
-     *              not timestamps. Everything else is unchanged: a Date already renders as
-     *              yyyy-MM-dd, and numbers/text/booleans pass through String.valueOf.
+     * @description Renders a field value for display in a document. Date and DateTime fields
+     *              show the calendar date only, in the Indian day-month-year form (dd-MM-yyyy),
+     *              with no "00:00:00" time component — documents display dates, not timestamps.
+     *              Numbers/text/booleans pass through String.valueOf. Date and Datetime satisfy
+     *              each other's instanceof checks in Apex, so instead of branching on type the
+     *              value is normalised through its ISO string (yyyy-MM-dd[ HH:mm:ss], local
+     *              time zone) and the date part reformatted.
      */
     private static String formatFieldValue(Object val) {
         if (val == null) return '';
-        if (val instanceof DateTime) {
-            return ((DateTime) val).format('yyyy-MM-dd');
+        if (val instanceof Datetime || val instanceof Date) {
+            String iso = String.valueOf(val);
+            Date d = Date.valueOf(iso.left(10));
+            return DateTime.newInstance(d.year(), d.month(), d.day()).format('dd-MM-yyyy');
         }
         return String.valueOf(val);
     }
