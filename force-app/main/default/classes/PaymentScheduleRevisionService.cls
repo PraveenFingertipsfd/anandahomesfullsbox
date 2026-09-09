@@ -93,7 +93,8 @@ public without sharing class PaymentScheduleRevisionService {
         // Snapshot every schedule on the booking BEFORE any trial update, so the revision can
         // show a full old-vs-new comparison (and booking-level before/after totals) later.
         Map<Id, Payment_Schedule__c> oldRows = new Map<Id, Payment_Schedule__c>([
-            SELECT Id, Milestone_Name__c, Percentage__c, Payment_Schedule_Amount__c, GST_Amount__c,
+            SELECT Id, Milestone_Name__c, Master_Payment_Schedule__r.Name,
+                   Percentage__c, Payment_Schedule_Amount__c, GST_Amount__c,
                    TDS_Amount__c, Amount__c, Bank_Flat_Amount__c, Customer_Flat_Prorata__c,
                    Bank_GST_Amount__c, Customer_GST_Prorata__c, With_GST__c
             FROM Payment_Schedule__c
@@ -239,7 +240,11 @@ public without sharing class PaymentScheduleRevisionService {
             if (editedL != null) {
                 RevisionLineDiff diff = new RevisionLineDiff();
                 diff.id = row.Id;
-                diff.milestoneName = row.Milestone_Name__c;
+                // Milestone label must never be blank: use the schedule's own Milestone Name, and
+                // when that is empty fall back to the linked Master Payment Schedule's Name.
+                diff.milestoneName = String.isNotBlank(row.Milestone_Name__c)
+                    ? row.Milestone_Name__c
+                    : (row.Master_Payment_Schedule__r != null ? row.Master_Payment_Schedule__r.Name : '');
                 diff.oldValues = oldL;
                 diff.newValues = newL;
                 diffs.add(diff);

@@ -42,8 +42,30 @@ public without sharing class PaymentScheduleRevisionCompareController {
         if (payload.totals != null) totals = payload.totals;
         if (payload.lines == null) return;
 
+        // Milestone label must never be blank. Newer payloads already carry it, but revisions
+        // staged before that fallback existed may have it empty — resolve those live from the
+        // schedule (Milestone Name, else the linked Master Payment Schedule's Name).
+        Set<Id> needLabel = new Set<Id>();
         for (PaymentScheduleRevisionService.RevisionLineDiff d : payload.lines) {
-            lineRows.add(new LineRow(d));
+            if (String.isBlank(d.milestoneName) && d.id != null) needLabel.add(d.id);
+        }
+        Map<Id, String> labelById = new Map<Id, String>();
+        if (!needLabel.isEmpty()) {
+            for (Payment_Schedule__c ps : [
+                SELECT Id, Milestone_Name__c, Master_Payment_Schedule__r.Name
+                FROM Payment_Schedule__c WHERE Id IN :needLabel
+            ]) {
+                String label = String.isNotBlank(ps.Milestone_Name__c)
+                    ? ps.Milestone_Name__c
+                    : (ps.Master_Payment_Schedule__r != null ? ps.Master_Payment_Schedule__r.Name : '');
+                labelById.put(ps.Id, label);
+            }
+        }
+
+        for (PaymentScheduleRevisionService.RevisionLineDiff d : payload.lines) {
+            String fallback = (String.isBlank(d.milestoneName) && d.id != null)
+                ? labelById.get(d.id) : null;
+            lineRows.add(new LineRow(d, fallback));
         }
     }
 
@@ -87,10 +109,10 @@ public without sharing class PaymentScheduleRevisionCompareController {
         public Decimal newCustomerGst { get; private set; }
         public Boolean customerGstChanged { get; private set; }
 
-        public LineRow(PaymentScheduleRevisionService.RevisionLineDiff d) {
+        public LineRow(PaymentScheduleRevisionService.RevisionLineDiff d, String milestoneFallback) {
             PaymentScheduleRevisionService.RevisionLine o = d.oldValues;
             PaymentScheduleRevisionService.RevisionLine n = d.newValues;
-            milestoneName = d.milestoneName;
+            milestoneName = String.isNotBlank(d.milestoneName) ? d.milestoneName : milestoneFallback;
 
             oldPercentage = o != null ? o.percentage : null;
             newPercentage = n != null ? n.percentage : null;
