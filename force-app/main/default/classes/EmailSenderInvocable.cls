@@ -434,7 +434,9 @@ public with sharing class EmailSenderInvocable {
 
                         String fileName = String.isNotBlank(fileNamePattern)
                             ? EmailMergeFieldResolver.resolveMergeFields(fileNamePattern, recordId, objectApiName)
-                            : (String.isNotBlank(attName) ? attName + '.pdf' : 'Document.pdf');
+                            : (String.isNotBlank(attName)
+                                ? attName + '.pdf'
+                                : buildDefaultFileName(recordId, objectApiName));
 
                         Map<String, String> extraParams = new Map<String, String>();
                         if (String.isNotBlank(docTemplateId)) {
@@ -472,6 +474,31 @@ public with sharing class EmailSenderInvocable {
         }
 
         return attachments;
+    }
+
+    /**
+     * @description Builds the attachment file name to use when the template's attachment config
+     *              defines neither a file-name pattern nor a name. For a Receipt (payment) email
+     *              the file is named after the Booking ID and the Receipt number
+     *              (e.g. "BK-00123_REC-00045.pdf") so the recipient can identify the payment,
+     *              instead of a generic "Document.pdf". Any other object keeps "Document.pdf".
+     */
+    @TestVisible
+    private static String buildDefaultFileName(Id recordId, String objectApiName) {
+        if (recordId != null && objectApiName == 'Receipt__c') {
+            // Booking_ID__c is the booking's Name (formula), Name is the receipt number.
+            String resolved = EmailMergeFieldResolver.resolveMergeFields(
+                '{!Booking_ID__c}_{!Name}', recordId, objectApiName
+            );
+            if (String.isNotBlank(resolved)) {
+                // Collapse and trim separators left by any missing part (e.g. no booking id).
+                resolved = resolved.replaceAll('_+', '_').removeStart('_').removeEnd('_').trim();
+                if (String.isNotBlank(resolved)) {
+                    return resolved + '.pdf';
+                }
+            }
+        }
+        return 'Document.pdf';
     }
 
     /**
