@@ -33,7 +33,6 @@ export default class SubmitForApproval extends LightningElement {
     
     @track selectedConfigId = '';
     @track approverPreviews = [];
-    @track comments = '';
     @track availableOptions = [];
     @track requiredFieldStatuses = [];
     @track isLoadingRequiredFields = false;
@@ -574,11 +573,7 @@ export default class SubmitForApproval extends LightningElement {
         this.selectedConfigId = event.detail.value;
         this.loadApproverPreview();
     }
-    
-    handleCommentsChange(event) {
-        this.comments = event.target.value;
-    }
-    
+
     handleCancel() {
         this.dispatchEvent(new CloseActionScreenEvent());
     }
@@ -618,7 +613,7 @@ export default class SubmitForApproval extends LightningElement {
         try {
             // If Approval_Comments__c is a configured required field, its value ALSO flows into the
             // STANDARD approval submission comment (it is still saved on the record too).
-            let submissionComments = this.comments || '';
+            let submissionComments = '';
             const commentField = this.requiredFieldStatuses.find(
                 f => f.fieldApiName === 'Approval_Comments__c'
             );
