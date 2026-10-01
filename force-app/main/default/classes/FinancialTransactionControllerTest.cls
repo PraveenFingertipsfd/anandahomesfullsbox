@@ -37,14 +37,14 @@ private class FinancialTransactionControllerTest {
             // Demand raised twice on the same schedule (the bug scenario)
             new Demands__c(Booking__c = b.Id, Payment_Schedule__c = ps.Id,
                 Demand_Amount__c = 100000, Pending_Amount__c = 100000,
-                Status__c = 'Raised', Demand_Date__c = Date.today(), Due_Date__c = Date.today()),
+                Status__c = 'Raised', Demand_Date__c = Date.today(), Due_Date__c = Date.today(),Demand_Type__c = 'Individual Demand'),
             new Demands__c(Booking__c = b.Id, Payment_Schedule__c = ps.Id,
                 Demand_Amount__c = 100000, Pending_Amount__c = 100000,
-                Status__c = 'Raised', Demand_Date__c = Date.today(), Due_Date__c = Date.today()),
+                Status__c = 'Raised', Demand_Date__c = Date.today(), Due_Date__c = Date.today(),Demand_Type__c='Individual Demand'),
             // Demand with no schedule (additional charge / custom) — counts individually
             new Demands__c(Booking__c = b.Id,
                 Demand_Amount__c = 5000, Pending_Amount__c = 5000,
-                Status__c = 'Raised', Demand_Date__c = Date.today(), Due_Date__c = Date.today())
+                Status__c = 'Raised', Demand_Date__c = Date.today(), Due_Date__c = Date.today(),Demand_Type__c='Individual Demand')
         };
         insert demands;
 

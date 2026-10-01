@@ -413,10 +413,70 @@ public without sharing class FinancialTransactionController {
             receipt.Remarks__c = wrapper.remarks;
             receipt.Total_Amount__c = wrapper.amountReceived;
             receipt.Receipt_Type__c = wrapper.receiptType;
+            // Persist the allocation inputs so the SAME allocation can be run later, on approval.
+            //receipt.Use_Advances__c = wrapper.useAdvances == true;
+            //receipt.Use_Credits__c = wrapper.useCredits == true;
+            receipt.Additional_Charge__c = wrapper.additionalChargeId;
             receipt.Approval_Status__c = PostSalesConstants.APPROVAL_STATUS_PENDING_APPROVAL;
             
             insert receipt;
-            
+
+            // Receipt Line Items are NOT created at creation time. Allocation to payment schedules /
+            // demands / advances happens only when the receipt is APPROVED (ReceiptTrigger ->
+            // ReceiptAllocationService -> allocateReceipt), so a Rejected receipt never produces
+            // line items and there is nothing to reverse.
+            ReceiptResult created = new ReceiptResult();
+            created.receiptId = receipt.Id;
+            created.receiptNumber = receipt.Name;
+            created.success = true;
+            created.message = 'Receipt created successfully. Pending approval.';
+            created.lineItemCount = 0;
+            created.allocatedToDemands = 0;
+            created.advanceUtilized = 0;
+            created.creditApplied = 0;
+            created.excessAmount = 0;
+            return created;
+    }
+
+    // ==================== ALLOCATE RECEIPT (runs on approval) ====================
+
+    /**
+     * @description Creates the Receipt Line Items and adjusts payment schedules / demands / advances
+     *              for a receipt. Invoked when the receipt is APPROVED (see ReceiptTrigger ->
+     *              ReceiptAllocationService), NOT at creation, so a Rejected receipt never produces
+     *              line items. Idempotent: does nothing if line items already exist for the receipt.
+     * @param receiptId the approved Receipt to allocate
+     */
+    public static ReceiptResult allocateReceipt(Id receiptId) {
+            Receipt__c receipt = [
+                SELECT Id, Name, Booking__c, Total_Amount__c, Receipt_Date__c, Receipt_Type__c
+                       , Additional_Charge__c,
+                       New_Advance_Created__c, Created_Advance__c
+                FROM Receipt__c WHERE Id = :receiptId LIMIT 1
+            ];
+
+            // Idempotency: never double-allocate a receipt that already has line items.
+            if ([SELECT COUNT() FROM Receipt_Line_Item__c WHERE Receipt__c = :receiptId] > 0) {
+                ReceiptResult skip = new ReceiptResult();
+                skip.receiptId = receipt.Id;
+                skip.receiptNumber = receipt.Name;
+                skip.success = true;
+                skip.message = 'Receipt already allocated.';
+                skip.lineItemCount = 0;
+                return skip;
+            }
+
+            // Reconstruct the allocation inputs the original createReceipt logic used, from the
+            // fields persisted on the receipt at creation.
+            ReceiptWrapper wrapper = new ReceiptWrapper();
+            wrapper.bookingId = receipt.Booking__c;
+            wrapper.amountReceived = receipt.Total_Amount__c;
+            wrapper.receiptDate = receipt.Receipt_Date__c;
+            wrapper.receiptType = receipt.Receipt_Type__c;
+            wrapper.additionalChargeId = receipt.Additional_Charge__c;
+            //wrapper.useAdvances = receipt.Use_Advances__c == true;
+            //wrapper.useCredits = receipt.Use_Credits__c == true;
+
             Decimal remainingAmount = receipt.Total_Amount__c;
             List<Receipt_Line_Item__c> lineItems = new List<Receipt_Line_Item__c>();
             Integer sequence = 1;
@@ -848,7 +908,7 @@ public without sharing class FinancialTransactionController {
             result.receiptId = receipt.Id;
             result.receiptNumber = receipt.Name;
             result.success = true;
-            result.message = 'Receipt created successfully. Pending approval.';
+            result.message = 'Receipt allocated to payment schedule.';
             result.advanceUtilized = advanceUtilized;
             result.creditApplied = creditApplied;
             result.allocatedToDemands = allocatedToDemands;
@@ -862,10 +922,10 @@ public without sharing class FinancialTransactionController {
     }
 
     // ==================== INVOCABLE: BOOKING ADVANCE RECEIPT (for Flow) ====================
-    // Lets a Flow (e.g. on Booking creation) create a receipt for the captured booking
-    // advance. Builds a ReceiptWrapper and calls the existing createReceipt(String) so the
-    // exact same allocation logic (advances -> credits -> schedules/demands -> excess advance)
-    // is reused without changing any existing code.
+    // Lets a Flow (e.g. on Booking creation) create a receipt for the captured booking advance.
+    // Builds a ReceiptWrapper and calls createReceipt(String), which creates the receipt in
+    // Pending Approval. Like every receipt, its line items and milestone adjustment are made only
+    // when it is approved (ReceiptTrigger -> ReceiptAllocationService -> allocateReceipt).
 
     @InvocableMethod(
         label='Create Booking Advance Receipt'

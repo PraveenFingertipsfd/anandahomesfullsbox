@@ -10803,6 +10803,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Receipt__c.Additional_Charge__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Receipt__c.Allocated_amount__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -11139,6 +11144,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Receipt__c.Unallocated_Amount__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Receipt__c.Use_Advances__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Receipt__c.Use_Credits__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

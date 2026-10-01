@@ -357,21 +357,42 @@ public with sharing class DynamicFormExecutionController {
         uniquePaths.remove(null);
         uniquePaths.remove('');
         if (uniquePaths.isEmpty()) return result;
+        List<String> pathList = new List<String>(uniquePaths);
 
-        String query = 'SELECT ' + String.join(new List<String>(uniquePaths), ', ') +
-                       ' FROM ' + String.escapeSingleQuotes(objectApiName) +
-                       ' WHERE Id = :rid LIMIT 1';
-        List<SObject> rows;
-        try { rows = Database.query(query); }
-        catch (Exception e) { return result; }
-        if (rows.isEmpty()) return result;
+        // Try one combined query first (cheap). But if a single path is invalid - e.g. a stale
+        // relationship such as Quote__r.X that does not exist on this object - the whole query
+        // throws, which used to blank EVERY default on the form. So on failure, fall back to
+        // resolving each path in its own query: a bad path then only drops itself, and every
+        // valid selection (Unit__r.Id, Project1__r.Id, ...) still resolves.
+        SObject row = queryContextRow(objectApiName, pathList, rid);
+        if (row != null) {
+            for (String path : pathList) {
+                try { result.put(path, resolvePath(row, path)); }
+                catch (Exception ignored) { /* leave path unresolved */ }
+            }
+            return result;
+        }
 
-        SObject row = rows[0];
-        for (String path : uniquePaths) {
-            try { result.put(path, resolvePath(row, path)); }
+        for (String path : pathList) {
+            SObject r = queryContextRow(objectApiName, new List<String>{ path }, rid);
+            if (r == null) continue; // invalid path - skip it, keep the rest
+            try { result.put(path, resolvePath(r, path)); }
             catch (Exception ignored) { /* leave path unresolved */ }
         }
         return result;
+    }
+
+    /** Query one record for the given SOQL paths; returns null if the query is invalid or matches nothing. */
+    private static SObject queryContextRow(String objectApiName, List<String> paths, Id rid) {
+        String query = 'SELECT ' + String.join(paths, ', ') +
+                       ' FROM ' + String.escapeSingleQuotes(objectApiName) +
+                       ' WHERE Id = :rid LIMIT 1';
+        try {
+            List<SObject> rows = Database.query(query);
+            return rows.isEmpty() ? null : rows[0];
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     private static Object resolvePath(SObject record, String path) {
