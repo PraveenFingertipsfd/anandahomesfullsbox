@@ -22,3 +22,4 @@ private class AgentDetailsAPITest {
         System.assertEquals(agentCount, response.agents.size(), 'All agent records should be returned');
     }
 }
+}
