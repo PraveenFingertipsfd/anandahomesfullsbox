@@ -168,7 +168,7 @@ static void testCPReSharingOnOwnerChange() {
 
     @isTest
     static void testPushToCustomLeadWithAllFields() {
-        Campaign__c camp = new Campaign__c(Campaign_Name__c = 'SLead Campaign');
+        Campaign__c camp = new Campaign__c(Campaign_Name__c = 'SLead Campaign', Is_Active__c = true);
         insert camp;
 
         Test.startTest();

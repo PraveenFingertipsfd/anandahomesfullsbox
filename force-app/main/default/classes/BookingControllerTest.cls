@@ -107,7 +107,7 @@ public class BookingControllerTest {
         book.Project1__c = project.Id; 
         book.Date_of_Booking__c = System.today(); 
         book.Mode_Of_Payment__c = 'Credit Card';
-        book.Funding_Type__c = 'Self';
+        book.Funding_Type__c = 'Self-Funded';
         book.Plot__c = unit.Id;
         book.Loan_Sanction_Confirmed__c = true;
         book.Loan_Sanctioned_Amount__c = 10000;
@@ -162,8 +162,8 @@ public class BookingControllerTest {
                 Receipt_Line_Item_Name__c = 'Receipt Line Item 1',
                 Receipt__c = receipt.Id,
                 Booking__c = book.Id,
-                Amount__c = 1000
-                //Payment_schedule__c = pay.Id
+                Amount__c = 1000,
+                Payment_schedule__c = pay.Id
             );
             insert receiptLineItem;
         }
@@ -185,7 +185,7 @@ public class BookingControllerTest {
         ld1.Project1__c = project.Id; 
         ld1.Date_of_Booking__c = System.today(); 
         ld1.Mode_Of_Payment__c = 'Credit Card';
-        ld1.Funding_Type__c = 'Self';
+        ld1.Funding_Type__c = 'Self-Funded';
         ld1.Email1__c='Email1@gma.com';
         ld1.Email2__c = 'test2@example.com';
         ld1.First_Applicant_Name__c = 'John Doe';
@@ -353,7 +353,7 @@ public class BookingControllerTest {
         System.assert(true, 'sendCustomNotification call attempted');
     }
     
- /*   @isTest
+    @isTest
     static void testDocumentVerificationApproval() {
         Booking__c bk = new Booking__c();
         insert bk;
@@ -493,10 +493,9 @@ public class BookingControllerTest {
         }
         Test.stopTest();
     }
-*/
-    
-    
-    
+
+
+
     @isTest
 static void testSendWelcomeEmail() {
 // Setup test data
@@ -581,7 +580,7 @@ book.Property_Type__c = 'Apartment';
 book.Project1__c = project.Id; 
 book.Date_of_Booking__c = System.today(); 
 book.Mode_Of_Payment__c = 'Credit Card';
-book.Funding_Type__c = 'Self';
+book.Funding_Type__c = 'Self-Funded';
 book.Plot__c = unit.Id;
 book.Loan_Sanction_Confirmed__c = true;
 book.Loan_Sanctioned_Amount__c = 10000;
@@ -712,7 +711,7 @@ book.Property_Type__c = 'Apartment';
 book.Project1__c = project.Id; 
 book.Date_of_Booking__c = System.today(); 
 book.Mode_Of_Payment__c = 'Credit Card';
-book.Funding_Type__c = 'Self';
+book.Funding_Type__c = 'Self-Funded';
 book.Plot__c = unit.Id;
 book.Loan_Sanction_Confirmed__c = true;
 book.Loan_Sanctioned_Amount__c = 10000;

@@ -129,7 +129,12 @@ trigger RelatedSourceTrigger on Related_Source__c (after insert, before insert) 
         }
 
         if (!sharesToInsert.isEmpty()) {
-            insert sharesToInsert;
+            // Partial-success insert: when the Lead org-wide default already grants
+            // the requested access level (e.g. OWD = Public Read/Write, or Read with
+            // Read shares), the share row is "trivial" and Salesforce rejects it with
+            // FIELD_INTEGRITY_EXCEPTION. Such rejections are safe to ignore — the
+            // access already exists — so we must not fail the whole transaction.
+            Database.insert(sharesToInsert, false);
         }
     }
 }

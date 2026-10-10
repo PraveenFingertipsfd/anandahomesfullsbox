@@ -51,6 +51,11 @@
                 <label>Self-Funded</label>
             </value>
             <value>
+                <fullName>Debit Note</fullName>
+                <default>false</default>
+                <label>Debit Note</label>
+            </value>
+            <value>
                 <fullName>Auto Demand</fullName>
                 <default>false</default>
                 <isActive>false</isActive>

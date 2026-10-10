@@ -3,6 +3,9 @@ public with sharing class BulkDemandController {
     // Funding types that carry a per-milestone Bank/Customer prorata split (BRD §8.1).
     private static final Set<String> PRORATA_FUNDING_TYPES = new Set<String>{ 'Prorata', 'Partial' };
 
+    // Only payment schedules whose own Status__c is Completed are eligible for a bulk demand.
+    private static final String SCHEDULE_STATUS_COMPLETED = 'Completed';
+
     // ============ WRAPPER CLASSES ============
 
     public class ProjectContextWrapper {
@@ -243,18 +246,21 @@ public with sharing class BulkDemandController {
             bookingMap.put(b.Id, b);
         }
 
-        // Query ALL payment schedules up to and including the selected milestone
-        // (both demand-raised and not) for cumulative calculation
+        // Query payment schedules up to and including the selected milestone (both
+        // demand-raised and not) for cumulative calculation. Only schedules whose own
+        // Status__c is Completed are eligible — a booking whose schedules are all still
+        // pending simply produces no rows here and drops out of the list below.
         List<Payment_Schedule__c> allSchedules = [
             SELECT Id, Name, Booking__c, Milestone_Name__c,
                    Amount__c, Pending_Amount__c, Interest_Pending__c,
-                   Sequence__c, S_No__c, Demand_Raised__c,
+                   Sequence__c, S_No__c, Demand_Raised__c, Status__c,
                    Payment_Schedule_Amount_Pending__c, GST_Amount_Pending__c,
                    Bank_Flat_Amount__c, Bank_GST_Amount__c,
                    Master_Payment_Schedule__c
             FROM Payment_Schedule__c
             WHERE Booking__c IN :bookingIds
             AND S_No__c <= :milestoneSequence
+            AND Status__c = :SCHEDULE_STATUS_COMPLETED
             ORDER BY Sequence__c ASC
         ];
 
@@ -292,22 +298,39 @@ public with sharing class BulkDemandController {
             Boolean isProrata = booking.Funding_Type__c != null
                 && PRORATA_FUNDING_TYPES.contains(booking.Funding_Type__c);
             Boolean hasUnraisedDemand = false;
+            // True only if THIS booking has an actual Payment_Schedule__c row (Status__c =
+            // Completed, per the allSchedules query above) matching the milestone selected in
+            // Step 2. The Step 2 "COMPLETED" badge reflects the master/template flag, which can
+            // say Completed project-wide even when this specific booking hasn't reached that
+            // milestone yet (data issue) — this flag catches that at the booking level instead.
+            Boolean selectedMilestoneCompletedForBooking = false;
 
             for (Payment_Schedule__c ps : bookingSchedules) {
                 Decimal pending = ps.Pending_Amount__c != null ? ps.Pending_Amount__c : 0;
                 Decimal interest = ps.Interest_Pending__c != null ? ps.Interest_Pending__c : 0;
-                Decimal amount = ps.Amount__c != null ? ps.Amount__c : 0;
                 Boolean isCurrentMilestone = (ps.Master_Payment_Schedule__c == masterPaymentScheduleId);
                 Boolean isDemandNotRaised = (ps.Demand_Raised__c != true && pending > 0);
 
-                // Separate current milestone vs previous milestones
+                // Reaching a current-milestone Completed schedule confirms this booking has
+                // actually hit the milestone selected in Step 2 (used for the skip check
+                // below), regardless of whether that milestone was already demanded.
                 if (isCurrentMilestone) {
-                    w.currentMilestoneAmount += pending;
-                } else {
+                    selectedMilestoneCompletedForBooking = true;
+                } else if (ps.Demand_Raised__c == true) {
+                    // True "Previous Dues" (QA item 5): earlier milestones already demanded but
+                    // still unpaid. These are NOT part of this demand (never re-demanded) but the
+                    // customer still owes them, so they are shown and added into Net Demand.
+                    // Earlier milestones never demanded join THIS demand via totalPending below,
+                    // so counting them here too would double-count them in the net.
                     w.previousMilestonesAmount += pending;
                 }
 
-                // Only include schedules where demand hasn't been raised
+                // Only schedules whose demand hasn't been raised yet count toward the amounts
+                // shown and demanded. The Current/Previous breakdown is now gated on the SAME
+                // condition as Total Pending / Net Demand, so Previous Dues + Current Milestone
+                // always reconciles with Net Demand — and an already-demanded milestone (e.g. the
+                // booking-amount demand on milestone #1) is never re-demanded. This also keeps the
+                // Bulk flow in agreement with the single Raise Demand flow up to the same milestone.
                 if (isDemandNotRaised) {
                     hasUnraisedDemand = true;
 
@@ -316,12 +339,23 @@ public with sharing class BulkDemandController {
                     // portion is reminded separately per BRD §8.5, not raised in this demand.
                     // Otherwise the full pending amount (Base + GST + TDS) is demanded, entirely
                     // from the Customer. This is the single source of truth for the amount —
-                    // Total Pending, Net Demand, and Bank/Customer Payable all derive from it,
-                    // so they always sum consistently.
+                    // Total Pending, Net Demand, Previous/Current, and Bank/Customer Payable all
+                    // derive from it, so they always sum consistently.
                     Decimal bankFlat = ps.Bank_Flat_Amount__c != null ? ps.Bank_Flat_Amount__c : 0;
                     Decimal bankGst = ps.Bank_GST_Amount__c != null ? ps.Bank_GST_Amount__c : 0;
                     Boolean thisIsBank = isProrata && (bankFlat != 0 || bankGst != 0);
                     Decimal demandable = thisIsBank ? (bankFlat + bankGst) : pending;
+
+                    // Current Milestone shows the selected milestone's demandable amount. Earlier
+                    // not-yet-demanded milestones still flow into Total Pending / Net Demand below;
+                    // they are NOT added to Previous Dues, which (per QA item 5) means amounts
+                    // already demanded but unpaid — accumulated in the loop above. The schedule
+                    // matching the selected milestone is what the Demand's Payment_Schedule__c
+                    // lookup links to.
+                    if (isCurrentMilestone) {
+                        w.currentMilestoneAmount += demandable;
+                        w.currentMilestoneScheduleId = ps.Id;
+                    }
 
                     w.totalPending += demandable;
                     w.totalInterest += interest;
@@ -329,12 +363,6 @@ public with sharing class BulkDemandController {
                         w.bankPayableAmount += demandable;
                     } else {
                         w.customerPayableAmount += demandable;
-                    }
-
-                    // The schedule matching the selected milestone — this is what the Demand's
-                    // Payment_Schedule__c lookup should link to.
-                    if (isCurrentMilestone) {
-                        w.currentMilestoneScheduleId = ps.Id;
                     }
 
                     PaymentScheduleLineItem item = new PaymentScheduleLineItem();
@@ -355,10 +383,16 @@ public with sharing class BulkDemandController {
                 }
             }
 
+            // Skip this booking if the milestone selected in Step 2 is not actually Completed
+            // for THIS booking's own schedule — even though the Step 2 badge may show
+            // "COMPLETED" (that badge reflects the master/template flag, not this booking).
+            if (!selectedMilestoneCompletedForBooking) continue;
+
             // Skip bookings with no unraised demand schedules
             if (!hasUnraisedDemand) continue;
 
-            w.netDemandAmount = w.totalPending + w.totalInterest;
+            // Net = previous dues (already demanded, unpaid) + what this demand raises + interest.
+            w.netDemandAmount = w.totalPending + w.totalInterest + w.previousMilestonesAmount;
             w.formattedPending = formatCurrency(w.totalPending);
             w.formattedInterest = formatCurrency(w.totalInterest);
             w.formattedNet = formatCurrency(w.netDemandAmount);
@@ -372,19 +406,26 @@ public with sharing class BulkDemandController {
         return wrappers;
     }
 
+    @AuraEnabled(cacheable=true)
+    public static List<Project__c> getProjects() {
+        return [SELECT Id, Name FROM Project__c ORDER BY Name LIMIT 1000];
+    }
+
     @AuraEnabled
     public static List<BookingDemandWrapper> getIndividualCompletedSchedules(Id projectId) {
-        // Query payment schedules where master milestone is completed and has pending amounts
+        // Query payment schedules where the schedule itself is Completed (and its master
+        // milestone is completed) and has pending amounts.
         List<Payment_Schedule__c> schedules = [
             SELECT Id, Name, Booking__c, Booking__r.Name, Booking__r.Plot__r.Name,
                    Booking__r.First_Applicant_Name__c, Booking__r.Email__c, Booking__r.Funding_Type__c,
                    Milestone_Name__c, Pending_Amount__c, Interest_Pending__c,
-                   Sequence__c, Master_Payment_Schedule__r.Status__c,
+                   Sequence__c, Status__c, Master_Payment_Schedule__r.Status__c,
                    Payment_Schedule_Amount_Pending__c, GST_Amount_Pending__c,
                    Bank_Flat_Amount__c, Bank_GST_Amount__c
             FROM Payment_Schedule__c
             WHERE Booking__r.Project__c = :projectId
             AND Booking__r.Status__c != 'Cancellation' and Booking__r.Status__c != 'Swapping'
+            AND Status__c = :SCHEDULE_STATUS_COMPLETED
             AND Master_Payment_Schedule__r.Status__c = :PostSalesConstants.MILESTONE_STATUS_COMPLETED
             AND Pending_Amount__c > 0
             AND (Demand_Raised__c = false OR Demand_Raised__c = null)
@@ -499,7 +540,8 @@ public with sharing class BulkDemandController {
             // Base / GST / TDS amounts, and Prorata/Partial bookings demand only the Bank portion
             // (the customer side is reminded via the Master Payment Schedule forecast, BRD §8.5).
             // Sequence__c is also pulled so the demand can link to the latest (highest-sequence)
-            // schedule included in it, matching the individual Raise Demand flow.
+            // schedule included in it, matching the individual Raise Demand flow. Status__c is
+            // pulled so a schedule that is no longer Completed can be rejected server-side.
             Set<Id> allScheduleIds = new Set<Id>();
             for (BookingDemandItem item : request.bookings) {
                 if (item.scheduleIds != null) allScheduleIds.addAll(item.scheduleIds);
@@ -509,7 +551,7 @@ public with sharing class BulkDemandController {
                 : new Map<Id, Payment_Schedule__c>([
                     SELECT Id, Payment_Schedule_Amount_Pending__c, GST_Amount_Pending__c,
                            TDS_Amount_Pending__c, Bank_Flat_Amount__c, Bank_GST_Amount__c,
-                           Sequence__c
+                           Sequence__c, Demand_Raised__c, Status__c
                     FROM Payment_Schedule__c WHERE Id IN :allScheduleIds
                 ]);
 
@@ -533,10 +575,47 @@ public with sharing class BulkDemandController {
             Integer idx = 0;
 
             for (BookingDemandItem item : request.bookings) {
+                // Guard against double-demanding and against demanding a schedule that is not
+                // Completed: drop any schedule that already has a demand raised against it
+                // (Demand_Raised__c = true) or whose Status__c is not Completed. Raising a second
+                // demand on the same schedule would double Total Demand Raised on the Booking. If
+                // every schedule of this item is filtered out, skip the item entirely and report
+                // it back to the UI instead of inserting a duplicate or premature demand.
+                if (item.scheduleIds != null && !item.scheduleIds.isEmpty()) {
+                    List<Id> freshScheduleIds = new List<Id>();
+                    Integer alreadyRaised = 0;
+                    Integer notCompleted = 0;
+                    for (Id sid : item.scheduleIds) {
+                        Payment_Schedule__c ps = scheduleMap.get(sid);
+                        if (ps != null && ps.Demand_Raised__c == true) {
+                            alreadyRaised++;
+                        } else if (ps != null && ps.Status__c != SCHEDULE_STATUS_COMPLETED) {
+                            notCompleted++;
+                        } else {
+                            freshScheduleIds.add(sid);
+                        }
+                    }
+                    if (freshScheduleIds.isEmpty()) {
+                        DemandResultItem skipped = new DemandResultItem();
+                        skipped.bookingId = item.bookingId;
+                        skipped.bookingName = bookingMap.containsKey(item.bookingId)
+                            ? bookingMap.get(item.bookingId).Name : '';
+                        skipped.success = false;
+                        skipped.errorMessage = notCompleted > 0 && alreadyRaised == 0
+                            ? 'Skipped: the selected payment schedule(s) are not marked Completed.'
+                            : 'Skipped: a demand has already been raised for the selected payment schedule(s). Raising it again would duplicate the demand.';
+                        result.results.add(skipped);
+                        result.failureCount++;
+                        continue;
+                    }
+                    // Demand only the schedules that are Completed and not demanded yet.
+                    item.scheduleIds = freshScheduleIds;
+                }
+
                 Demands__c demand = new Demands__c();
                 demand.Booking__c = item.bookingId;
                 demand.Interest_Amount__c = request.includeInterest == true ? item.interestAmount : 0;
-                demand.Previous_Dues__c = item.previousDues;
+                demand.Previous_Dues__c = item.previousDues != null ? item.previousDues : 0;
                 demand.Status__c = PostSalesConstants.DEMAND_STATUS_RAISED;
                 demand.Demand_Date__c = Date.today();
                 demand.Due_Date__c = dueDate;

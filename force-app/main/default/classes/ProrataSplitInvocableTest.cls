@@ -21,10 +21,7 @@ private class ProrataSplitInvocableTest {
         );
         insert unit;
         
-        Quote__c quote = new Quote__c(
-            Project__c = project.Id
-            // Populate any other required fields on Quote__c
-        );
+        Quote__c quote = new Quote__c();
         insert quote;
         // Create Booking
         Booking__c booking = new Booking__c(

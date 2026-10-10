@@ -1,5 +1,6 @@
-<apex:page renderAs="pdf" applyHtmlTag="false" applyBodyTag="false"
-           showHeader="false" sidebar="false" standardStylesheets="false">
+<apex:page standardController="Booking__c"
+    renderAs="{!IF($CurrentPage.parameters.format = 'word', '', 'pdf')}"
+    showHeader="false" applyBodyTag="false">
 <html>
 <head>
 <style type="text/css">

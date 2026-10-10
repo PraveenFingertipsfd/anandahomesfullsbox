@@ -36,6 +36,10 @@
                 <behavior>Edit</behavior>
                 <field>S_o_D_o_W_o__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Mobile__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

@@ -23,6 +23,19 @@ public with sharing class ApprovalRejectionNotifier {
 
     private static final String STEP_STATUS_APPROVED = 'Approved';
 
+    // ==================== TEST SEAMS ====================
+    // ProcessInstance / ProcessInstanceStep cannot be inserted in tests, so these
+    // overrides (active only while Test.isRunningTest()) let unit tests inject the
+    // approval-history result and a notification type without real approval config.
+
+    /** @description Test-only: injected record -> approver-user-ids map. */
+    @TestVisible
+    private static Map<Id, Set<Id>> approverOverrideForTest;
+
+    /** @description Test-only: injected CustomNotificationType id (may be fabricated). */
+    @TestVisible
+    private static Id notificationTypeIdOverrideForTest;
+
     // ==================== INVOCABLE (Flow / Process Builder) ====================
 
     public class Request {
@@ -122,6 +135,10 @@ public with sharing class ApprovalRejectionNotifier {
      *              are ignored so resubmissions don't notify stale approvers.
      */
     private static Map<Id, Set<Id>> getApproversByRecord(Set<Id> recordIds) {
+        if (Test.isRunningTest() && approverOverrideForTest != null) {
+            return approverOverrideForTest;
+        }
+
         Map<Id, Set<Id>> result = new Map<Id, Set<Id>>();
 
         // Identify the latest ProcessInstance per target record.
@@ -193,6 +210,10 @@ public with sharing class ApprovalRejectionNotifier {
     }
 
     private static Id getApprovalNotificationTypeId() {
+        if (Test.isRunningTest() && notificationTypeIdOverrideForTest != null) {
+            return notificationTypeIdOverrideForTest;
+        }
+
         String devName;
         try {
             devName = System.Label.Approval_Notification_Type;

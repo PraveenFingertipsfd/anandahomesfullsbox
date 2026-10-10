@@ -134,9 +134,12 @@ export default class PaymentScheduleViewer extends LightningElement {
             }
         }
 
-        this.lastCompletedMilestone = lastCompleted
-            ? lastCompleted.milestoneName
-            : 'No completed milestones';
+        // Prefer the server-computed value (it falls back to the schedule Name when
+        // Milestone_Name__c is blank); recompute locally only if it is missing.
+        this.lastCompletedMilestone =
+            (this.nextDemand && this.nextDemand.lastCompletedMilestone) ||
+            (lastCompleted && (lastCompleted.milestoneName || lastCompleted.name)) ||
+            'No completed milestones';
 
         let totalScheduleAmount = 0;
         let totalPendingAmount = 0;

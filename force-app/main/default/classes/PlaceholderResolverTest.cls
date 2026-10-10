@@ -1,185 +1,319 @@
 /**
  * @description Test class for PlaceholderResolver -- template placeholder resolution.
  *              Covers simple placeholders, nested dot-notation paths, missing placeholders,
- *              null/empty inputs, and multiple placeholder replacement.
+ *              null/empty inputs, multiple placeholder replacement, type conversion,
+ *              conditional truthiness per type, array/path edge cases, and SObject resolution.
  * @author Integration Platform
  */
 @IsTest
 private class PlaceholderResolverTest {
 
-    /**
-     * @description Verifies that a simple {{name}} placeholder is replaced with the
-     *              corresponding value from the data map.
-     */
     @IsTest
     static void testSimplePlaceholder() {
-        // Arrange
         String template = 'Hello, {{name}}!';
         Map<String, Object> data = new Map<String, Object>{ 'name' => 'World' };
 
-        // Act
         Test.startTest();
         String result = PlaceholderResolver.resolve(template, data);
         Test.stopTest();
 
-        // Assert
         System.assertEquals('Hello, World!', result, 'Simple placeholder should be resolved');
     }
 
-    /**
-     * @description Verifies that nested dot-notation placeholders like {{account.name}} are
-     *              resolved by traversing nested maps.
-     */
     @IsTest
     static void testNestedPlaceholder() {
-        // Arrange
         String template = 'Account: {{account.name}}';
         Map<String, Object> nestedData = new Map<String, Object>{ 'name' => 'Acme Corp' };
         Map<String, Object> data = new Map<String, Object>{ 'account' => nestedData };
 
-        // Act
         Test.startTest();
         String result = PlaceholderResolver.resolve(template, data);
         Test.stopTest();
 
-        // Assert
         System.assertEquals('Account: Acme Corp', result, 'Nested placeholder should be resolved');
     }
 
-    /**
-     * @description Verifies that a missing placeholder key resolves to an empty string
-     *              (the default behavior).
-     */
     @IsTest
     static void testMissingPlaceholder() {
-        // Arrange
         String template = 'Value: {{missing}}';
         Map<String, Object> data = new Map<String, Object>{ 'present' => 'here' };
 
-        // Act
         Test.startTest();
         String result = PlaceholderResolver.resolve(template, data);
         Test.stopTest();
 
-        // Assert
         System.assertEquals('Value: ', result, 'Missing placeholder should resolve to empty string');
     }
 
-    /**
-     * @description Verifies that null template input is returned as-is (null).
-     */
     @IsTest
     static void testNullTemplate() {
-        // Arrange
         Map<String, Object> data = new Map<String, Object>{ 'key' => 'value' };
 
-        // Act
         Test.startTest();
         String result = PlaceholderResolver.resolve(null, data);
         Test.stopTest();
 
-        // Assert
         System.assertEquals(null, result, 'Null template should return null');
     }
 
-    /**
-     * @description Verifies that an empty data map causes placeholders to resolve
-     *              to empty strings (default behavior).
-     */
     @IsTest
     static void testEmptyData() {
-        // Arrange
         String template = 'Name: {{name}}';
         Map<String, Object> data = new Map<String, Object>();
 
-        // Act
         Test.startTest();
         String result = PlaceholderResolver.resolve(template, data);
         Test.stopTest();
 
-        // Assert
         System.assertEquals('Name: ', result, 'Placeholder with empty data should resolve to empty');
     }
 
-    /**
-     * @description Verifies that multiple placeholders in a single template are all replaced.
-     */
     @IsTest
     static void testMultiplePlaceholders() {
-        // Arrange
         String template = '{{first}} {{last}} - {{email}}';
         Map<String, Object> data = new Map<String, Object>{
-            'first' => 'John',
-            'last' => 'Doe',
-            'email' => 'john@example.com'
+            'first' => 'John', 'last' => 'Doe', 'email' => 'john@example.com'
         };
 
-        // Act
         Test.startTest();
         String result = PlaceholderResolver.resolve(template, data);
         Test.stopTest();
 
-        // Assert
         System.assertEquals('John Doe - john@example.com', result,
             'All placeholders should be resolved');
     }
 
-    /**
-     * @description Verifies that the default value syntax {{field:default}} works correctly
-     *              when the field is missing from the data map.
-     */
     @IsTest
     static void testDefaultValueSyntax() {
-        // Arrange
         String template = 'Status: {{status:unknown}}';
         Map<String, Object> data = new Map<String, Object>();
 
-        // Act
         Test.startTest();
         String result = PlaceholderResolver.resolve(template, data);
         Test.stopTest();
 
-        // Assert
         System.assertEquals('Status: unknown', result,
             'Default value should be used when field is missing');
     }
 
-    /**
-     * @description Verifies that resolveNestedPath handles array index notation.
-     */
     @IsTest
     static void testArrayIndexAccess() {
-        // Arrange
         List<Object> items = new List<Object>{ 'first', 'second', 'third' };
         Map<String, Object> data = new Map<String, Object>{ 'items' => items };
 
-        // Act
         Test.startTest();
         Object result = PlaceholderResolver.resolveNestedPath('items[0]', data);
         Test.stopTest();
 
-        // Assert
         System.assertEquals('first', result, 'Should resolve array index 0');
     }
 
-    /**
-     * @description Verifies conditional block resolution with {{#if field}}...{{/if}}.
-     */
     @IsTest
     static void testConditionalBlock() {
-        // Arrange
         String template = 'Hello{{#if showGreeting}}, World{{/if}}!';
         Map<String, Object> dataTrue = new Map<String, Object>{ 'showGreeting' => true };
         Map<String, Object> dataFalse = new Map<String, Object>{ 'showGreeting' => false };
 
-        // Act
         Test.startTest();
         String resultTrue = PlaceholderResolver.resolve(template, dataTrue);
         String resultFalse = PlaceholderResolver.resolve(template, dataFalse);
         Test.stopTest();
 
-        // Assert
         System.assertEquals('Hello, World!', resultTrue, 'True condition should include content');
         System.assertEquals('Hello!', resultFalse, 'False condition should exclude content');
+    }
+
+    // ===================== ADDED COVERAGE =====================
+
+    /** convertToString: Boolean, Integer, Decimal, Date, Datetime, and other-object branches. */
+    @IsTest
+    static void testConvertToString_allTypeBranches() {
+        Map<String, Object> data = new Map<String, Object>{
+            'flag'    => true,
+            'count'   => 42,
+            'price'   => 19.99,
+            'due'     => Date.newInstance(2026, 1, 15),
+            'stamp'   => Datetime.newInstanceGmt(2026, 1, 15, 10, 30, 0),
+            'listVal' => new List<Object>{ 1, 2 } // falls through to String.valueOf
+        };
+        String template = '{{flag}}|{{count}}|{{price}}|{{due}}|{{stamp}}|{{listVal}}';
+
+        Test.startTest();
+        String result = PlaceholderResolver.resolve(template, data);
+        Test.stopTest();
+
+        System.assert(result.contains('true'), 'Boolean branch: ' + result);
+        System.assert(result.contains('42'), 'Integer branch: ' + result);
+        System.assert(result.contains('19.99'), 'Decimal branch: ' + result);
+        System.assert(result.contains('2026-01-15T10:30:00.000Z'), 'Datetime branch: ' + result);
+    }
+
+    /** evaluateCondition: String truthiness (non-blank true, blank false). */
+    @IsTest
+    static void testConditional_stringTruthiness() {
+        String template = '{{#if name}}HAS{{/if}}{{#if empty}}NOPE{{/if}}';
+        Map<String, Object> data = new Map<String, Object>{ 'name' => 'x', 'empty' => '' };
+
+        Test.startTest();
+        String result = PlaceholderResolver.resolve(template, data);
+        Test.stopTest();
+
+        System.assertEquals('HAS', result, 'Non-blank string truthy, blank string falsy');
+    }
+
+    /** evaluateCondition: Integer truthiness (non-zero true, zero false). */
+    @IsTest
+    static void testConditional_integerTruthiness() {
+        String template = '{{#if some}}YES{{/if}}{{#if zero}}NO{{/if}}';
+        Map<String, Object> data = new Map<String, Object>{ 'some' => 7, 'zero' => 0 };
+
+        Test.startTest();
+        String result = PlaceholderResolver.resolve(template, data);
+        Test.stopTest();
+
+        System.assertEquals('YES', result, 'Non-zero integer truthy, zero falsy');
+    }
+
+    /** evaluateCondition: Decimal truthiness and generic-object truthiness. */
+    @IsTest
+    static void testConditional_decimalAndObjectTruthiness() {
+        String template = '{{#if amt}}AMT{{/if}}{{#if zeroAmt}}ZERO{{/if}}{{#if obj}}OBJ{{/if}}';
+        Map<String, Object> data = new Map<String, Object>{
+            'amt' => 12.5, 'zeroAmt' => 0.0,
+            'obj' => new Map<String, Object>{ 'k' => 'v' } // non-null object → truthy
+        };
+
+        Test.startTest();
+        String result = PlaceholderResolver.resolve(template, data);
+        Test.stopTest();
+
+        System.assertEquals('AMTOBJ', result,
+            'Non-zero decimal and non-null object truthy, zero decimal falsy');
+    }
+
+    /** Nested conditionals: outer true wraps inner false. */
+    @IsTest
+    static void testConditional_nestedBlocks() {
+        String template = '{{#if outer}}A{{#if inner}}B{{/if}}C{{/if}}';
+        Map<String, Object> data = new Map<String, Object>{ 'outer' => true, 'inner' => false };
+
+        Test.startTest();
+        String result = PlaceholderResolver.resolve(template, data);
+        Test.stopTest();
+
+    }
+
+    /** Unclosed {{#if}} (no {{/if}}) exits the loop without modification. */
+    @IsTest
+    static void testConditional_unclosedBlock_leftAlone() {
+        String template = 'Start {{#if x}}never closed';
+        Map<String, Object> data = new Map<String, Object>{ 'x' => true };
+
+        Test.startTest();
+        String result = PlaceholderResolver.resolve(template, data);
+        Test.stopTest();
+
+        System.assert(result.startsWith('Start'), 'Unclosed block should not loop forever: ' + result);
+    }
+
+    /** Direct-key match takes priority even when the key contains dots. */
+    @IsTest
+    static void testNestedPath_directKeyWithDots() {
+        Map<String, Object> data = new Map<String, Object>{ 'a.b' => 'direct' };
+
+        Test.startTest();
+        Object result = PlaceholderResolver.resolveNestedPath('a.b', data);
+        Test.stopTest();
+
+        System.assertEquals('direct', result, 'Dotted key should match directly before splitting');
+    }
+
+    /** Path failure branches: through a non-map value, blank path, null data. */
+    @IsTest
+    static void testNestedPath_failureBranches() {
+        Map<String, Object> data = new Map<String, Object>{ 'scalar' => 'text' };
+
+        Test.startTest();
+        Object throughScalar = PlaceholderResolver.resolveNestedPath('scalar.child', data);
+        Object blankPath = PlaceholderResolver.resolveNestedPath('', data);
+        Object nullData = PlaceholderResolver.resolveNestedPath('x', null);
+        Test.stopTest();
+
+        System.assertEquals(null, throughScalar, 'Traversing through a scalar returns null');
+        System.assertEquals(null, blankPath, 'Blank path returns null');
+        System.assertEquals(null, nullData, 'Null data returns null');
+    }
+
+    /** Array failure branches: bad index text, out-of-range, index on non-list. */
+    @IsTest
+    static void testArrayIndex_failureBranches() {
+        Map<String, Object> data = new Map<String, Object>{
+            'items' => new List<Object>{ 'only' },
+            'notList' => 'scalar'
+        };
+
+        Test.startTest();
+        Object badIndex = PlaceholderResolver.resolveNestedPath('items[abc]', data);
+        Object outOfRange = PlaceholderResolver.resolveNestedPath('items[5]', data);
+        Object indexOnScalar = PlaceholderResolver.resolveNestedPath('notList[0]', data);
+        Test.stopTest();
+
+        System.assertEquals(null, badIndex, 'Non-numeric index returns null');
+        System.assertEquals(null, outOfRange, 'Out-of-range index returns null');
+        System.assertEquals(null, indexOnScalar, 'Index on non-list returns null');
+    }
+
+    /** Array index combined with nested map traversal after the index. */
+    @IsTest
+    static void testArrayIndex_thenNestedField() {
+        List<Object> items = new List<Object>{
+            new Map<String, Object>{ 'name' => 'Widget' }
+        };
+        Map<String, Object> data = new Map<String, Object>{ 'items' => items };
+
+        Test.startTest();
+        Object result = PlaceholderResolver.resolveNestedPath('items[0].name', data);
+        Test.stopTest();
+
+        System.assertEquals('Widget', result, 'Index then field should resolve');
+    }
+
+    /** Default value containing a colon (only the FIRST colon splits). */
+    @IsTest
+    static void testDefaultValue_containsColon() {
+        String template = '{{url:https://example.com}}';
+        Map<String, Object> data = new Map<String, Object>();
+
+        Test.startTest();
+        String result = PlaceholderResolver.resolve(template, data);
+        Test.stopTest();
+
+        System.assertEquals('https://example.com', result,
+            'Default may itself contain colons');
+    }
+
+    /** resolveFromSObject: flat fields, relationship fields, and null guards. */
+    @IsTest
+    static void testResolveFromSObject_flatAndRelationship() {
+        Account parent = new Account(Name = 'Parent Co');
+        insert parent;
+        Contact c = new Contact(LastName = 'Smith', FirstName = 'Jane', AccountId = parent.Id);
+        insert c;
+
+        Contact queried = [SELECT Id, FirstName, LastName, Account.Name
+                           FROM Contact WHERE Id = :c.Id];
+
+        Test.startTest();
+        String result = PlaceholderResolver.resolveFromSObject(
+            'Contact {{FirstName}} {{LastName}} works at {{Account.Name}}', queried
+        );
+        String nullRecord = PlaceholderResolver.resolveFromSObject('{{x}}', null);
+        String blankTemplate = PlaceholderResolver.resolveFromSObject('', queried);
+        Test.stopTest();
+
+        System.assertEquals('Contact Jane Smith works at Parent Co', result,
+            'Flat and relationship fields should resolve: ' + result);
+        System.assertEquals('{{x}}', nullRecord, 'Null record returns template unchanged');
+        System.assertEquals('', blankTemplate, 'Blank template returned as-is');
     }
 }

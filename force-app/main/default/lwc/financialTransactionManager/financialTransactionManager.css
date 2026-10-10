@@ -885,6 +885,13 @@
     color: var(--color-gray-800);
 }
 
+/* Inline hint under a field, e.g. when no additional charge is pending */
+.field-help {
+    margin-top: 0.25rem;
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-600);
+}
+
 .field-label.required::after {
     content: ' *';
     color: var(--color-danger);

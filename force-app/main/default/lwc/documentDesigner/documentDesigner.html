@@ -663,14 +663,16 @@
                                                         <td key={col._key}>Sample data</td>
                                                     </template>
                                                 </tr>
-                                                <tr>
-                                                    <template if:true={sec.showRowNumbers}>
-                                                        <td style="text-align:center;">2</td>
-                                                    </template>
-                                                    <template for:each={sec._tableColumns} for:item="col">
-                                                        <td key={col._key}>Sample data</td>
-                                                    </template>
-                                                </tr>
+                                                <template if:true={sec._showSecondRow}>
+                                                    <tr>
+                                                        <template if:true={sec.showRowNumbers}>
+                                                            <td style="text-align:center;">2</td>
+                                                        </template>
+                                                        <template for:each={sec._tableColumns} for:item="col">
+                                                            <td key={col._key}>Sample data</td>
+                                                        </template>
+                                                    </tr>
+                                                </template>
                                             </tbody>
                                             <template if:true={sec._showTotalsRow}>
                                                 <tfoot>
@@ -850,14 +852,22 @@
                                     value={editingSection.selectedRelationship}
                                     options={childRelationshipOptions}
                                     data-field="selectedRelationship"
+                                    field-level-help="Select a child relationship to list its records as rows. Leave as 'None' to build the table from the main record's own fields (renders a single row)."
                                     onchange={handleSectionFieldChange}></lightning-combobox>
                             </div>
+                            <template if:true={isMainRecordTable}>
+                                <div class="slds-box slds-theme_shade slds-p-around_x-small slds-m-bottom_small slds-text-body_small slds-text-color_weak">
+                                    <lightning-icon icon-name="utility:info" size="xx-small" class="slds-m-right_xx-small"></lightning-icon>
+                                    No child object selected — this table will show <strong>one row</strong> with values from the main record (and its parent lookups).
+                                </div>
+                            </template>
                             <div class="config-row">
                                 <lightning-input label="Order By" value={editingSection.orderBy}
-                                    data-field="orderBy" onchange={handleSectionFieldChange}></lightning-input>
+                                    data-field="orderBy" onchange={handleSectionFieldChange}
+                                    disabled={isMainRecordTable}></lightning-input>
                                 <lightning-input type="number" label="Max Rows" value={editingSection.maxRows}
                                     data-field="maxRows" onchange={handleSectionFieldChange}
-                                    min="1" max="500"></lightning-input>
+                                    min="1" max="500" disabled={isMainRecordTable}></lightning-input>
                             </div>
                             <div class="config-row">
                                 <lightning-input type="checkbox" label="Row Numbers"

@@ -77,4 +77,18 @@
         <shortDescription>intergrationType</shortDescription>
         <value>salesforce</value>
     </labels>
+    <labels>
+        <fullName>Enable_Master_Payment_Schedule_Trigger</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Enable_Master_Payment_Schedule_Trigger</shortDescription>
+        <value>false</value>
+    </labels>
+    <labels>
+        <fullName>Enable_Payment_Schedule_Trigger</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Enable_Payment_Schedule_Trigger</shortDescription>
+        <value>true</value>
+    </labels>
 </CustomLabels>

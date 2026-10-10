@@ -124,7 +124,7 @@ public with sharing class PaymentScheduleViewController {
             
             // Query all Payment Schedules
             List<Payment_Schedule__c> schedules = [
-                SELECT Id, Name, Milestone_Name__c, Status__c,
+                SELECT Id, Name, Milestone_Name__c, Status__c, Demand_Raised__c,
                        Amount__c, Percentage__c, Pending_Amount__c,
                        Interest_Pending__c,
                        Payment_Schedule_Amount__c, GST_Amount__c, TDS_Amount__c,
@@ -149,7 +149,9 @@ public with sharing class PaymentScheduleViewController {
                 PaymentScheduleWrapper wrapper = new PaymentScheduleWrapper();
                 wrapper.id = schedule.Id;
                 wrapper.name = schedule.Name != null ? schedule.Name : '';
-                wrapper.milestoneName = schedule.Milestone_Name__c != null ? schedule.Milestone_Name__c : '';
+                wrapper.milestoneName = String.isNotBlank(schedule.Milestone_Name__c)
+                    ? schedule.Milestone_Name__c
+                    : (schedule.Name != null ? schedule.Name : '');
                 wrapper.status = schedule.Status__c != null ? schedule.Status__c : '';
                 wrapper.amount = schedule.Amount__c != null ? schedule.Amount__c : 0;
                 wrapper.percentage = schedule.Percentage__c != null ? schedule.Percentage__c : 0;
@@ -178,18 +180,24 @@ public with sharing class PaymentScheduleViewController {
                     completedCount++;
 
                     // Track last completed milestone
-                    lastCompletedMilestone = schedule.Milestone_Name__c != null ?
+                    lastCompletedMilestone = String.isNotBlank(schedule.Milestone_Name__c) ?
                                             schedule.Milestone_Name__c : schedule.Name;
 
                     // Next demand = Bank Flat + Bank GST when a bank split exists on the
                     // milestone, otherwise the full schedule amount (Base + GST + TDS).
-                    totalPendingForNextDemand += demandable;
-                    if (wrapper.isBankDemand) {
-                        totalBankForNextDemand += demandable;
-                    } else {
-                        totalCustomerForNextDemand += demandable;
+                    // Exclude milestones whose demand has already been raised so the "Next
+                    // Payment Demand" total never re-demands an existing demand (e.g. the
+                    // booking-amount demand on milestone #1). This keeps the single-demand
+                    // total in agreement with the Bulk Raise Demand flow.
+                    if (schedule.Demand_Raised__c != true) {
+                        totalPendingForNextDemand += demandable;
+                        if (wrapper.isBankDemand) {
+                            totalBankForNextDemand += demandable;
+                        } else {
+                            totalCustomerForNextDemand += demandable;
+                        }
+                        totalInterestForNextDemand += (schedule.Interest_Pending__c != null ? schedule.Interest_Pending__c : 0);
                     }
-                    totalInterestForNextDemand += (schedule.Interest_Pending__c != null ? schedule.Interest_Pending__c : 0);
                 }
                 
                 // Format currency values
@@ -251,7 +259,7 @@ public with sharing class PaymentScheduleViewController {
         if (ps.Bank_Flat_Amount__c != null) {
             return nz(ps.Bank_Flat_Amount__c) + nz(ps.Bank_GST_Amount__c);
         }
-        return nz(ps.Payment_Schedule_Amount__c) + nz(ps.GST_Amount__c) + nz(ps.TDS_Amount__c);
+        return nz(ps.Pending_Amount__c);
     }
 
     private static Decimal nz(Decimal v) {
@@ -280,6 +288,7 @@ public with sharing class PaymentScheduleViewController {
             FROM Payment_Schedule__c
             WHERE Booking__c = :bookingId
             AND Status__c = :PostSalesConstants.SCHEDULE_STATUS_COMPLETED
+            AND (Demand_Raised__c = false OR Demand_Raised__c = null)
             ORDER BY Due_Date__c ASC NULLS LAST, CreatedDate ASC
         ];
 
@@ -344,10 +353,31 @@ public with sharing class PaymentScheduleViewController {
                 'Nothing to raise: no completed payment schedule has a pending amount or interest.');
         }
 
+        // Previous dues: milestones on this booking already demanded but still unpaid. These are
+        // NOT re-raised here (they stay pending on their original demand); they are surfaced on
+        // this demand so Net_Demand_Amount__c (= Demand Amount + Previous Dues + Interest) reflects
+        // the customer's full outstanding — matching the Bulk Raise Demand behaviour. Runs before
+        // the schedules raised now are marked demanded, so those aren't counted here.
+        Decimal previousDues = 0;
+        for (AggregateResult ar : [
+            SELECT SUM(Pending_Amount__c) prev
+            FROM Payment_Schedule__c
+            WHERE Booking__c = :bookingId
+            AND Demand_Raised__c = true
+            AND Pending_Amount__c > 0
+        ]) {
+            Object prev = ar.get('prev');
+            if (prev != null) previousDues = (Decimal) prev;
+        }
+
         Demands__c demand = new Demands__c();
         demand.Booking__c = bookingId;
-        demand.Demand_Amount__c = grandTotal;
+        // Current demand principal only. Interest goes in Interest_Amount__c and previous dues in
+        // Previous_Dues__c; the Net_Demand_Amount__c formula sums all three, so interest must NOT
+        // also sit inside Demand_Amount__c or it would be double-counted in the net.
+        demand.Demand_Amount__c = totalPending;
         demand.Pending_Amount__c = grandTotal;
+        demand.Previous_Dues__c = previousDues;
         demand.Interest_Amount__c = totalInterest;
         // Cumulative components of this demand — Flat + GST + TDS equals totalPending (Interest
         // is tracked separately above), so Flat + GST + TDS + Interest = Demand_Amount__c.

@@ -5,7 +5,7 @@
  * @author System
  * @date 2026-03-01
  */
-public with sharing class PostSalesConstants {
+public without sharing class PostSalesConstants {
 
     // ==================== DEMAND STATUSES ====================
     public static final String DEMAND_STATUS_OPEN = 'Open';
@@ -38,7 +38,7 @@ public with sharing class PostSalesConstants {
     public static final String UNIT_STATUS_BOOKED = 'Booked';
 
     // ==================== BOOKING STATUSES ====================
-    public static final String BOOKING_STATUS_CANCELLED = 'Cancelled';
+    public static final String BOOKING_STATUS_CANCELLED = 'Cancellation';
 
     // ==================== PAYMENT SCHEDULE STATUSES ====================
     public static final String SCHEDULE_STATUS_PAID = 'Paid';
@@ -46,7 +46,7 @@ public with sharing class PostSalesConstants {
     public static final String SCHEDULE_STATUS_WAIVED = 'Waived';
 
     public static final Set<String> SCHEDULE_CLOSED_STATUSES = new Set<String>{
-        SCHEDULE_STATUS_PAID, SCHEDULE_STATUS_WAIVED
+        SCHEDULE_STATUS_PAID, SCHEDULE_STATUS_COMPLETED, SCHEDULE_STATUS_WAIVED
     };
 
     // ==================== MILESTONE STATUSES ====================
@@ -74,6 +74,10 @@ public with sharing class PostSalesConstants {
     public static final String ALLOCATION_CREDIT_ADJUSTMENT = 'Credit Adjustment';
     public static final String ALLOCATION_DEMAND_PAYMENT = 'Demand Payment';
     public static final String ALLOCATION_PAYMENT_SCHEDULE = 'Payment Schedule';
+    public static final String ALLOCATION_ADDITIONAL_CHARGE = 'Additional Charge';
+
+    // ==================== RECEIPT TYPES ====================
+    public static final String RECEIPT_TYPE_ADDITIONAL_CHARGE = 'Additional Charge';
 
     // ==================== ATTACHMENT TYPES ====================
     public static final String ATTACHMENT_TYPE_VF_PAGE = 'VFPage';

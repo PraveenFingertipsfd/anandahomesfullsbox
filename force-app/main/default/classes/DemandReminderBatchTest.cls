@@ -8,7 +8,7 @@ private class DemandReminderBatchTest {
     static void setup() {
         Project__c project = new Project__c(
             Name = 'Reminder Batch Project',
-            Project_Type__c = 'Apartment'
+            Project_Type__c = 'Residential'
         );
         insert project;
 
@@ -60,7 +60,6 @@ private class DemandReminderBatchTest {
             Due_Date__c = Date.today().addDays(-10),
             Reminder_Date__c = Date.today(),
             Pending_Amount__c = 100000,
-            Status__c = PostSalesConstants.DEMAND_STATUS_RAISED,
             Number_of_Reminders__c = 0
         );
         insert overdue;

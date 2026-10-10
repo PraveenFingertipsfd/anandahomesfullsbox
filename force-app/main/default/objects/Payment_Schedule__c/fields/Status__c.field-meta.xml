@@ -21,6 +21,16 @@
                 <label>Completed</label>
             </value>
             <value>
+                <fullName>Paid</fullName>
+                <default>false</default>
+                <label>Paid</label>
+            </value>
+            <value>
+                <fullName>Partially Paid</fullName>
+                <default>false</default>
+                <label>Partially Paid</label>
+            </value>
+            <value>
                 <fullName>Demanded</fullName>
                 <default>false</default>
                 <isActive>false</isActive>

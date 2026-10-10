@@ -275,9 +275,17 @@ export default class DocumentDesigner extends LightningElement {
     }
     get isEditingExistingSection() { return this.editingSectionIndex >= 0; }
 
+    // True when the table being edited has NO child object selected, i.e. it is a
+    // "main record table" that renders a single row from the parent record itself.
+    get isMainRecordTable() {
+        return this.editingSection.type === 'table' &&
+               !this.editingSection.selectedRelationship &&
+               !this.editingSection.childObject;
+    }
+
     get childRelationshipOptions() {
         return [
-            { label: '-- Select Relationship --', value: '' },
+            { label: '-- None (Use Main Record - 1 Row) --', value: '' },
             ...this.childRelationships.map(r => ({
                 label: r.label,
                 value: r.childObjectName + '|' + r.relationshipFieldName + '|' + r.relationshipName
@@ -553,6 +561,11 @@ export default class DocumentDesigner extends LightningElement {
                 _key: 'tc-' + ci,
                 label: c.label || 'Column'
             }));
+
+            // Main-record table (no child object) renders exactly ONE row from the
+            // parent record itself; child tables show 2 sample rows in preview.
+            sec._isParentTable = !s.childObject;
+            sec._showSecondRow = !!s.childObject;
 
             // Bottom summary/totals ROW (mirrors what the generated document produces).
             // Shown when "Show Totals Row" is on OR any column has a Total configured.
@@ -1100,13 +1113,27 @@ export default class DocumentDesigner extends LightningElement {
             this._loadTableLookupParentFields();
         }
 
-        if (field === 'selectedRelationship' && value) {
-            const parts = value.split('|');
-            this.editingSection.childObject = parts[0];
-            this.editingSection.relationshipField = parts[1];
-            this.editingSection.relationshipName = parts[2];
-            this.editingSection = { ...this.editingSection };
-            this.loadChildFields(parts[0]);
+        if (field === 'selectedRelationship') {
+            if (value) {
+                const parts = value.split('|');
+                this.editingSection = {
+                    ...this.editingSection,
+                    childObject: parts[0],
+                    relationshipField: parts[1],
+                    relationshipName: parts[2]
+                };
+                this.loadChildFields(parts[0]);
+            } else {
+                // Cleared -> main-record (parent) table mode: renders ONE row sourced
+                // from the main record's own fields (and lookup-parent paths).
+                this.editingSection = {
+                    ...this.editingSection,
+                    childObject: '',
+                    relationshipField: '',
+                    relationshipName: ''
+                };
+                this.childFieldOptions = [];
+            }
         }
     }
 
@@ -1209,9 +1236,27 @@ export default class DocumentDesigner extends LightningElement {
         ];
     }
 
+    // Field picker options for table columns.
+    // - Child relationship selected -> the child object's fields.
+    // - No child object (main-record table, 1 row) -> the MAIN object's fields plus
+    //   lookup-parent paths (e.g. Booking__r.Total_Flat_Cost__c).
+    get childFieldOptionsForCombobox() {
+        if (this.editingSection.selectedRelationship || this.editingSection.childObject) {
+            return [
+                { label: '-- Select Field --', value: '' },
+                ...this.childFieldOptions.map(f => ({ label: f.label + ' (' + f.value + ')', value: f.value }))
+            ];
+        }
+        return [
+            { label: '-- Select Field --', value: '' },
+            ...this.fieldOptions.map(f => ({ label: f.label + ' (' + f.value + ')', value: f.value })),
+            ...this.tableLookupParentFields
+        ];
+    }
+
     // Loads fields from every lookup parent of the main object so the table "Parent Field"
     // total can reference a related record (e.g. Booking__r.Total_Flat_Cost__c). Called when a
-    // table section editor is opened.
+    // table section editor is opened. Also feeds the column Field picker for main-record tables.
     _loadTableLookupParentFields() {
         const lookups = (this.fieldOptions || []).filter(f => f.type === 'REFERENCE');
         if (!lookups.length || !this.templateData.objectApiName) {
@@ -1383,7 +1428,12 @@ export default class DocumentDesigner extends LightningElement {
             return text.substring(0, 80) + (text.length > 80 ? '...' : '');
         }
         if (section.type === 'heading') return section.content || 'Heading';
-        if (section.type === 'table') return 'Child: ' + (section.title || section.childObject || 'Untitled');
+        if (section.type === 'table') {
+            if (!section.childObject) {
+                return 'Main record (1 row): ' + (section.title || 'Untitled');
+            }
+            return 'Child: ' + (section.title || section.childObject || 'Untitled');
+        }
         if (section.type === 'fieldGrid') return (section.fields ? section.fields.length : 0) + ' fields';
         if (section.type === 'separator') return 'Horizontal line (' + (section.style || 'solid') + ')';
         if (section.type === 'pageBreak') return 'Forces new page';
@@ -1403,13 +1453,6 @@ export default class DocumentDesigner extends LightningElement {
             _isLast: i === this.sections.length - 1,
             _badgeClass: 'section-type-badge section-type-' + (s.type || 'content')
         }));
-    }
-
-    get childFieldOptionsForCombobox() {
-        return [
-            { label: '-- Select Field --', value: '' },
-            ...this.childFieldOptions.map(f => ({ label: f.label + ' (' + f.value + ')', value: f.value }))
-        ];
     }
 
     get fieldOptionsForGrid() {

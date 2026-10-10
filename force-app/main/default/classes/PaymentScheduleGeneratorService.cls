@@ -146,8 +146,9 @@ public with sharing class PaymentScheduleGeneratorService {
                 Payment_Schedule__c ps = new Payment_Schedule__c();
                 ps.Booking__c = booking.Id;
                 ps.Master_Payment_Schedule__c = ms.Id;
+                ps.Milestone_Name__c = ms.Name;
                 ps.Is_Milestone_Based__c = true;
-                ps.Status__c = 'Pending';
+                ps.Status__c = ms.Status__c;
                 ps.Demand_Raised__c = false;
                 // Flow the Agreement flag from the master milestone (BRD pointer 5).
                 ps.Is_Agreement__c = ms.Is_Agreement__c == true;
@@ -171,7 +172,7 @@ public with sharing class PaymentScheduleGeneratorService {
                     ps.Sequence__c = ms.Sequence__c;
                     ps.S_No__c = ms.Sequence__c;
                     ps.Percentage__c = ms.Percentage__c;
-                    ps.Milestone_Name__c = ms.Payment_Type__c;
+                   // ps.Milestone_Name__c = ms.Payment_Type__c;
                     ps.Description__c = ms.Description__c;
                 }
 
@@ -217,7 +218,16 @@ public with sharing class PaymentScheduleGeneratorService {
         }
 
         if (!schedulesToInsert.isEmpty()) {
-            insert schedulesToInsert;
+            // Freshly generated schedules carry no bank/customer split yet — the split is
+            // entered later in the prorata editor. Suspend the split invariant for this
+            // trusted generation insert so Prorata bookings can be created.
+            Boolean priorInvariantBypass = ProrataInvariantService.bypass;
+            ProrataInvariantService.bypass = true;
+            try {
+                insert schedulesToInsert;
+            } finally {
+                ProrataInvariantService.bypass = priorInvariantBypass;
+            }
         }
 
         if (!bookingsToUpdate.isEmpty()) {

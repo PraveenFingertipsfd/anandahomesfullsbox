@@ -37,6 +37,11 @@ public class HomeNotificationControllerTest {
         System.assertNotEquals(null, pendingFollowUps, 'pendingFollowUps list returned');
         System.assertNotEquals(null, pendingSiteVisits, 'pendingSiteVisits list returned');
 
+        // Move Scheduled_Date into the past (allowed on update — Schedule_Date rule is insert-only)
+        // so the controller's Completed_Date__c = now stamp passes Completed_Date_after_the_Schedule_Date.
+        fu.Scheduled_Date__c = System.now().addMinutes(-5);
+        update fu;
+
         String updateFollowupResult = HomeNotificationController.updateFollowupDetails(fu.Id, 'Completed', 'testing');
         System.assertNotEquals(null, updateFollowupResult, 'updateFollowupDetails returned status');
 
@@ -120,6 +125,11 @@ public class HomeNotificationControllerTest {
         fu.CLead__c = testLead.Id;
         fu.Call_Duration_In_Mins__c = 0;
         insert fu;
+
+        // Move Scheduled_Date into the past (allowed on update — Schedule_Date rule is insert-only)
+        // so the controller's Completed_Date__c = now stamp passes Completed_Date_after_the_Schedule_Date.
+        fu.Scheduled_Date__c = System.now().addMinutes(-5);
+        update fu;
 
         Test.startTest();
         String result = HomeNotificationController.updateFollowupDetails(fu.Id, 'Completed', 'Done');

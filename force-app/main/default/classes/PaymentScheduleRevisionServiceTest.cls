@@ -9,13 +9,13 @@ private class PaymentScheduleRevisionServiceTest {
     private static Payment_Schedule__c ps;
 
     private static void buildData() {
-        Project__c project = new Project__c(Name = 'P', Project_Type__c = 'Apartment', Interest_Rate__c = 18);
+        Project__c project = new Project__c(Name = 'P', Project_Type__c = 'Residential', Interest_Rate__c = 18);
         insert project;
         Plot__c unit = new Plot__c(Project__c = project.Id, Unit_Type__c = 'Apartment', Status__c = 'Booked');
         insert unit;
         booking = new Booking__c(
             Project__c = project.Id, Plot__c = unit.Id, Booking_Date__c = Date.today(),
-            Status__c = 'Booked', Funding_Type__c = 'Self'
+            Status__c = 'Booked', Funding_Type__c = 'Self-Funded'
         );
         insert booking;
         ps = new Payment_Schedule__c(

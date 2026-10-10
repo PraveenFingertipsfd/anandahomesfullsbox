@@ -537,6 +537,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Self</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Self-Funded</fullName>
             <default>false</default>
         </values>
@@ -2014,6 +2018,10 @@
     <picklistValues>
         <picklist>Status__c</picklist>
         <values>
+            <fullName>Active</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Agreement</fullName>
             <default>false</default>
         </values>
@@ -2026,7 +2034,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Cancelled</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Demands %26 Collections</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Draft</fullName>
             <default>false</default>
         </values>
         <values>

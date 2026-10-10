@@ -1,14 +1,16 @@
 import { LightningElement, api, track, wire } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { CloseActionScreenEvent } from 'lightning/actions';
+import { NavigationMixin } from 'lightning/navigation';
 import { refreshApex } from '@salesforce/apex';
 import getContext from '@salesforce/apex/FirstApplicantChangeController.getContext';
 import createChange from '@salesforce/apex/FirstApplicantChangeController.createChange';
 
-export default class FirstApplicantChange extends LightningElement {
+export default class FirstApplicantChange extends NavigationMixin(LightningElement) {
     @api recordId; // Booking__c
 
     @track ctx;
+    @track changes = [];
     @track newApplicant = '';
     @track newEmail = '';
     @track newMobile = '';
@@ -21,6 +23,7 @@ export default class FirstApplicantChange extends LightningElement {
         this.wiredCtx = result;
         if (result.data) {
             this.ctx = result.data;
+            this.buildChangeLinks();
         } else if (result.error) {
             this.showError(result.error);
         }
@@ -30,16 +33,52 @@ export default class FirstApplicantChange extends LightningElement {
         return this.ctx ? this.ctx.currentApplicant : '';
     }
 
-    get changes() {
-        return (this.ctx && this.ctx.changes) ? this.ctx.changes : [];
-    }
-
     get hasChanges() {
         return this.changes.length > 0;
     }
 
     get submitDisabled() {
         return this.isLoading || !this.newApplicant;
+    }
+
+    // Builds the row list with a generated record URL for each change,
+    // so the Name column can render as a real, right-click-able link.
+    buildChangeLinks() {
+        const list = (this.ctx && this.ctx.changes) ? this.ctx.changes : [];
+        const rows = list.map((c) => ({ ...c, url: '#' }));
+        this.changes = rows;
+
+        Promise.all(
+            rows.map((c) =>
+                this[NavigationMixin.GenerateUrl]({
+                    type: 'standard__recordPage',
+                    attributes: {
+                        recordId: c.id,
+                        objectApiName: 'First_Applicant_Change__c',
+                        actionName: 'view'
+                    }
+                }).then((url) => {
+                    c.url = url;
+                })
+            )
+        ).then(() => {
+            this.changes = [...rows]; // trigger re-render once urls resolve
+        });
+    }
+
+    // Keeps navigation inside the Lightning app (no full page reload) while
+    // still leaving href set so ctrl/cmd-click "open in new tab" works.
+    handleRecordClick(event) {
+        event.preventDefault();
+        const id = event.currentTarget.dataset.id;
+        this[NavigationMixin.Navigate]({
+            type: 'standard__recordPage',
+            attributes: {
+                recordId: id,
+                objectApiName: 'First_Applicant_Change__c',
+                actionName: 'view'
+            }
+        });
     }
 
     handleNewApplicant(event) { this.newApplicant = event.detail.value; }
@@ -67,7 +106,6 @@ export default class FirstApplicantChange extends LightningElement {
             this.newMobile = '';
             this.reason = '';
             if (this.wiredCtx) await refreshApex(this.wiredCtx);
-            // Close the Quick Action modal (no-op on a record page).
             this.dispatchEvent(new CloseActionScreenEvent());
         } catch (error) {
             this.showError(error);

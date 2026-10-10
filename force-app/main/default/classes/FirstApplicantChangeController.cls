@@ -4,7 +4,7 @@
  *              changing the unit), routed for approval to the CRM Manager (L1) and Admin/MD (L2).
  * @author System
  */
-public with sharing class FirstApplicantChangeController {
+public without sharing class FirstApplicantChangeController {
 
     // ============================================================================
     //  >>> SET THE FIRST APPLICANT CHANGE APPROVAL NAME HERE <<<
@@ -16,7 +16,7 @@ public with sharing class FirstApplicantChangeController {
     //  When a request is created it is submitted to that approval and routed to the
     //  booking's CRM Manager (Approver 1) / Admin-MD (Approver 2).
     // ============================================================================
-    private static final String FAC_APPROVAL_NAME = 'First_Applicant_Change_Approval';
+    private static final String FAC_APPROVAL_NAME = 'First Applicant Change Approval';
 
     public class FACContext {
         @AuraEnabled public Id bookingId;
@@ -145,7 +145,7 @@ public with sharing class FirstApplicantChangeController {
         if (configs.isEmpty()) {
             configs = [
                 SELECT Id FROM Approval_Configuration__c
-                WHERE Object_API_Name__c = 'First_Applicant_Change__c' AND Is_Active__c = true
+                WHERE Object_API_Name__c = 'First_Applicant_Change_Approval' AND Is_Active__c = true
                 LIMIT 1
             ];
         }

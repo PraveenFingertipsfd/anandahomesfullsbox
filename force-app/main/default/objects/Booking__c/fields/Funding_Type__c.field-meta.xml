@@ -31,6 +31,11 @@
                 <label>Partial</label>
             </value>
             <value>
+                <fullName>Self</fullName>
+                <default>false</default>
+                <label>Self</label>
+            </value>
+            <value>
                 <fullName>Mixed Funding</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
@@ -47,12 +52,6 @@
                 <default>false</default>
                 <isActive>false</isActive>
                 <label>None</label>
-            </value>
-            <value>
-                <fullName>Self</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Self</label>
             </value>
         </valueSetDefinition>
     </valueSet>

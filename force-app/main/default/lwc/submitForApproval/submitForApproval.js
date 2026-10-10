@@ -11,6 +11,7 @@ import submitForApprovalApex from '@salesforce/apex/DynamicApprovalController.su
 import searchApproverUsers from '@salesforce/apex/DynamicApprovalController.searchApproverUsers';
 import getRequiredFieldsStatus from '@salesforce/apex/DynamicApprovalController.getRequiredFieldsStatus';
 import saveRequiredFieldValues from '@salesforce/apex/DynamicApprovalController.saveRequiredFieldValues';
+import getPendingReceiptCount from '@salesforce/apex/DynamicApprovalController.getPendingReceiptCount';
 import searchLookupRecords from '@salesforce/apex/DynamicFormExecutionController.searchLookupRecords';
 
 export default class SubmitForApproval extends LightningElement {
@@ -32,11 +33,11 @@ export default class SubmitForApproval extends LightningElement {
     
     @track selectedConfigId = '';
     @track approverPreviews = [];
-    @track comments = '';
     @track availableOptions = [];
     @track requiredFieldStatuses = [];
     @track isLoadingRequiredFields = false;
     @track editedFieldValues = {};
+    @track pendingReceiptCount = 0;
     
     // ==================== NON-TRACKED PROPERTIES ====================
     
@@ -108,9 +109,14 @@ export default class SubmitForApproval extends LightningElement {
         return this.requiredFieldStatuses.some(f => !f.isFilled);
     }
 
+    get hasPendingReceipts() {
+        return this.pendingReceiptCount > 0;
+    }
+
     get isSubmitDisabled() {
         return this.isLoading || this.isLoadingPreview || !this.selectedConfigId
-            || this.isLoadingRequiredFields || this.hasUnfilledRequiredFields;
+            || this.isLoadingRequiredFields || this.hasUnfilledRequiredFields
+            || this.hasPendingReceipts;
     }
     
     // ==================== LIFECYCLE ====================
@@ -172,6 +178,15 @@ export default class SubmitForApproval extends LightningElement {
                 recordId: this.recordId
             });
             this.processApprovalStatus(status);
+
+            // NEW: check for related Receipt__c records pending approval
+            try {
+                this.pendingReceiptCount = await getPendingReceiptCount({
+                    recordId: this.recordId
+                });
+            } catch (e) {
+                this.pendingReceiptCount = 0;
+            }
 
         } catch (error) {
             console.error('Error in loadApprovalStatus:', error);
@@ -406,7 +421,12 @@ export default class SubmitForApproval extends LightningElement {
             this._patchRequiredLookup(fieldName, { lookupResults: [], hasLookupResults: false });
             return;
         }
-        searchLookupRecords({ objectApiName: refObject, searchTerm: term })
+        searchLookupRecords({
+            objectApiName: refObject,
+            searchTerm: term,
+            contextRecordId: this.recordId,
+            fieldApiName: fieldName
+        })
             .then(results => {
                 const list = results || [];
                 this._patchRequiredLookup(fieldName, {
@@ -553,11 +573,7 @@ export default class SubmitForApproval extends LightningElement {
         this.selectedConfigId = event.detail.value;
         this.loadApproverPreview();
     }
-    
-    handleCommentsChange(event) {
-        this.comments = event.target.value;
-    }
-    
+
     handleCancel() {
         this.dispatchEvent(new CloseActionScreenEvent());
     }
@@ -570,6 +586,14 @@ export default class SubmitForApproval extends LightningElement {
 
         if (!this.selectedConfigId) {
             this.showToast('Error', 'Please select an approval process', 'error');
+            return;
+        }
+
+        // NEW: block submission if related receipts are pending approval
+        if (this.hasPendingReceipts) {
+            this.showToast('Error',
+                this.pendingReceiptCount + ' Receipt(s) on this Booking are Pending For Approval. Submission is blocked until they are approved or rejected.',
+                'error');
             return;
         }
 
@@ -589,7 +613,7 @@ export default class SubmitForApproval extends LightningElement {
         try {
             // If Approval_Comments__c is a configured required field, its value ALSO flows into the
             // STANDARD approval submission comment (it is still saved on the record too).
-            let submissionComments = this.comments || '';
+            let submissionComments = '';
             const commentField = this.requiredFieldStatuses.find(
                 f => f.fieldApiName === 'Approval_Comments__c'
             );

@@ -57,7 +57,7 @@ public class PaymentScheduleTriggerTest {
         book.Project1__c = project.Id; 
         book.Date_of_Booking__c = System.today(); 
         book.Mode_Of_Payment__c = 'Credit Card';
-        book.Funding_Type__c = 'Self';
+        book.Funding_Type__c = 'Self-Funded';
 		book.Plot__c = unit.Id;
         book.Loan_Sanction_Confirmed__c = true;
         book.Loan_Sanctioned_Amount__c = 10000;

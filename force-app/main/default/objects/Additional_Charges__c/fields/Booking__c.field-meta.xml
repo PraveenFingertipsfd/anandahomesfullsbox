@@ -3,7 +3,6 @@
     <fullName>Booking__c</fullName>
     <label>Booking</label>
     <referenceTo>Booking__c</referenceTo>
-    <relationshipLabel>Additional Charges</relationshipLabel>
     <relationshipName>Additional_Charges</relationshipName>
     <relationshipOrder>0</relationshipOrder>
     <reparentableMasterDetail>false</reparentableMasterDetail>

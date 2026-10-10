@@ -1,282 +1,334 @@
 <template>
-    <div class="modal-container">
-        <section role="dialog" tabindex="-1" aria-modal="true"
-                 class="slds-modal slds-fade-in-open slds-modal_large">
-            <div class="slds-modal__container custom-modal-container">
+    <!-- Rendered as plain content. The Quick Action supplies the modal chrome (panel,
+         header, close button), so this component must NOT build its own — doing that
+         nests a modal inside a modal and leaves white bands above and below. -->
+    <div class="psm-root">
 
-                <!-- Fixed header -->
-                <header class="slds-modal__header custom-modal-header">
-                    <button class="slds-button slds-button_icon slds-modal__close custom-close-btn"
-                            title="Close" onclick={handleClose}>
-                        <lightning-icon icon-name="utility:close" alternative-text="Close"
-                                        variant="inverse" size="small"></lightning-icon>
-                    </button>
-                    <h2 class="slds-modal__title slds-text-heading_medium">
-                        <lightning-icon icon-name="utility:money" variant="inverse" size="small"
+        <template if:true={isLoading}>
+            <div class="slds-is-relative psm-loading">
+                <lightning-spinner alternative-text="Loading the schedule" size="medium"></lightning-spinner>
+            </div>
+        </template>
+
+        <template if:false={isLoading}>
+
+            <div class="psm-body">
+
+                <template if:true={hasError}>
+                    <div class="psm-alert psm-alert-error" role="alert">
+                        <lightning-icon icon-name="utility:error" size="x-small" variant="error"
                             class="slds-m-right_x-small"></lightning-icon>
-                        Payment Schedule Editor (Bank / Customer split)
-                    </h2>
-                </header>
+                        <span>{errorMessage}</span>
+                    </div>
+                </template>
 
-                <!-- Scrollable content -->
-                <div class="slds-modal__content custom-modal-content">
-                    <template if:true={isLoading}>
-                        <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
-                    </template>
+                <template if:false={editingEnabled}>
+                    <div class="psm-alert psm-alert-warning" role="alert">
+                        <span>This booking is read-only. Ask your administrator to change the schedule edit mode.</span>
+                    </div>
+                </template>
 
-                    <template if:true={hasError}>
-                        <div class="slds-text-color_error slds-p-around_small">
-                            <lightning-icon icon-name="utility:error" size="x-small" variant="error"></lightning-icon>
-                            {errorMessage}
-                        </div>
-                    </template>
+                <template if:true={hasSchedules}>
 
-                    <template if:false={editingEnabled}>
-                        <div class="slds-notify slds-notify_alert slds-theme_warning slds-m-bottom_small" role="alert">
-                            <span>Custom schedule editing is not enabled. Contact your administrator.</span>
+                    <!-- The one number to drive to zero -->
+                    <template if:true={isProrata}>
+                        <div class={meterClass}>
+                            <div class="alloc-main">
+                                <span class="alloc-value">{remainingText}</span>
+                                <span class="alloc-sub">
+                                    Bank Payable {sumBankText} of {loanSanctionedText} sanctioned
+                                </span>
+                            </div>
+                            <div class="alloc-actions">
+                                <lightning-button label="Spread across milestones" variant="neutral"
+                                    onclick={handleDistribute} disabled={isSaving}></lightning-button>
+                                <lightning-button label="Clear all" variant="neutral"
+                                    class="slds-m-left_x-small" onclick={handleClearAll}
+                                    disabled={isSaving}></lightning-button>
+                                <template if:true={isDirty}>
+                                    <lightning-button label="Undo changes" variant="neutral"
+                                        class="slds-m-left_x-small" onclick={handleDiscard}
+                                        disabled={isSaving}></lightning-button>
+                                </template>
+                            </div>
                         </div>
                     </template>
 
                     <!-- Booking context -->
-                    <template if:true={hasSchedules}>
-                        <div class="slds-grid slds-wrap slds-gutters_x-small slds-m-bottom_small psm-cards">
-                            <div class="slds-col">
-                                <div class="slds-box slds-box_x-small slds-theme_shade">
-                                    <p class="slds-text-title_caps">Funding Type</p>
-                                    <p class="slds-text-heading_small">{fundingType}</p>
-                                </div>
-                            </div>
-                            <div class="slds-col">
-                                <div class="slds-box slds-box_x-small slds-theme_shade">
-                                    <p class="slds-text-title_caps">Total Payable</p>
-                                    <p class="slds-text-heading_small">{totalPayableText}</p>
-                                </div>
-                            </div>
-                            <template if:true={isProrata}>
-                                <div class="slds-col">
-                                    <div class="slds-box slds-box_x-small slds-theme_shade">
-                                        <p class="slds-text-title_caps">Loan Sanctioned (Bank)</p>
-                                        <p class="slds-text-heading_small">{loanSanctionedText}</p>
-                                    </div>
-                                </div>
-                                <div class="slds-col">
-                                    <div class="slds-box slds-box_x-small slds-theme_shade">
-                                        <p class="slds-text-title_caps">Deficit (Customer)</p>
-                                        <p class="slds-text-heading_small">{deficitText}</p>
-                                    </div>
-                                </div>
-                            </template>
+                    <div class="psm-stats">
+                        <div class="psm-stat">
+                            <span class="psm-stat-label">Funding Type</span>
+                            <span class="psm-stat-value">{fundingType}</span>
                         </div>
+                        <div class="psm-stat">
+                            <span class="psm-stat-label">Grand Total</span>
+                            <span class="psm-stat-value">{grandTotalText}</span>
+                        </div>
+                        <template if:true={isProrata}>
+                            <div class="psm-stat psm-stat-bank">
+                                <span class="psm-stat-label">Loan Sanctioned · Bank</span>
+                                <span class="psm-stat-value">{loanSanctionedText}</span>
+                            </div>
+                            <div class="psm-stat psm-stat-cust">
+                                <span class="psm-stat-label">Deficit · Customer</span>
+                                <span class="psm-stat-value">{deficitText}</span>
+                            </div>
+                        </template>
+                        <div class="psm-stat">
+                            <span class="psm-stat-label">TDS · Customer</span>
+                            <span class="psm-stat-value">{totalTdsText}</span>
+                        </div>
+                    </div>
 
-                        <!-- Live reconciliation -->
-                        <div class="slds-box slds-box_x-small slds-m-bottom_small recon-panel">
-                            <div class="slds-grid slds-wrap slds-gutters_xx-small">
-                                <div class="slds-col slds-size_1-of-2 slds-large-size_1-of-4">
-                                    Percentages total:
-                                    <span class={pctClass}>{sumPercentageText}%</span> / 100%
-                                </div>
-                                <div class="slds-col slds-size_1-of-2 slds-large-size_1-of-4">
-                                    Grand total:
-                                    <span class={totalClass}>{sumTotalText}</span> / {originalTotalText}
-                                </div>
-                                <template if:true={isProrata}>
-                                    <div class="slds-col slds-size_1-of-2 slds-large-size_1-of-4">
-                                        Bank Payable total:
-                                        <span class={bankFlatClass}>{sumBankFlatText}</span> / {loanSanctionedText}
-                                    </div>
-                                </template>
+                    <!-- Live reconciliation -->
+                    <template if:true={isProrata}>
+                        <div class="recon-panel">
+                            <div class="recon-row">
+                                <span class="recon-item">
+                                    Bank Payable
+                                    <span class={bankClass}>{sumBankText}</span>
+                                    <span class="recon-of">of {loanSanctionedText}</span>
+                                </span>
                                 <template if:true={isStrictProrata}>
-                                    <div class="slds-col slds-size_1-of-2 slds-large-size_1-of-4">
-                                        Customer Payable total:
-                                        <span class={custFlatClass}>{sumCustomerFlatText}</span> / {effectiveDeficitText}
-                                    </div>
+                                    <span class="recon-item">
+                                        Customer Payable
+                                        <span class={custClass}>{sumCustText}</span>
+                                        <span class="recon-of">of {effectiveDeficitText}</span>
+                                    </span>
                                 </template>
                             </div>
-                            <template if:true={hasLockedUnsplit}>
-                                <div class="slds-m-top_x-small slds-text-body_small slds-text-color_weak">
-                                    Deficit target of {deficitText} reduced by {lockedUnsplitTotalText} already
-                                    settled by locked milestone(s) not eligible for a split → target
-                                    {effectiveDeficitText}.
-                                </div>
-                            </template>
+                            <p class="recon-note">
+                                TDS of {totalTdsText} is payable by the customer and sits outside the split.
+                                <template if:true={hasLockedUnsplit}>
+                                    Demand-raised milestones carry no split, so {lockedUnsplitTotalText} is
+                                    already settled and the Deficit target drops to {effectiveDeficitText}.
+                                </template>
+                            </p>
+                        </div>
+                    </template>
+
+                    <!-- What is stopping the send -->
+                    <template if:true={hasIssues}>
+                        <div class="issue-panel" role="alert">
+                            <h3 class="issue-head">
+                                <lightning-icon icon-name="utility:warning" size="x-small" variant="error"
+                                    class="slds-m-right_x-small"></lightning-icon>
+                                {issueHeading}
+                            </h3>
+                            <ul class="issue-list">
+                                <template for:each={issues} for:item="issue">
+                                    <li key={issue.key}>
+                                        <button type="button" class="issue-link" data-key={issue.key}
+                                            onclick={handleIssueClick}>
+                                            <strong>{issue.label}</strong> — {issue.message}
+                                        </button>
+                                    </li>
+                                </template>
+                            </ul>
                         </div>
                     </template>
 
                     <!-- One card per milestone -->
-                    <template if:true={hasSchedules}>
-                        <div class="ms-list">
-                            <template for:each={schedules} for:item="sch">
-                                <div key={sch.id} class="ms-card">
-                                    <div class="ms-card-head">
-                                        <div class="ms-title">
-                                            <span class="ms-seq">{sch.sequence}</span>
-                                            <span class="ms-name">{sch.milestoneName}</span>
-                                            <template if:true={sch.cannotEdit}>
+                    <div class="ms-list">
+                        <template for:each={schedules} for:item="sch">
+                            <div key={sch.id} data-card={sch.id} class={sch.cardClass}>
+
+                                <div class="ms-card-head">
+                                    <div class="ms-title">
+                                        <span class="ms-seq">{sch.sequence}</span>
+                                        <span class="ms-name">{sch.milestoneName}</span>
+                                        <template if:true={sch.cannotEdit}>
+                                            <span class="ms-lock">
                                                 <lightning-icon icon-name="utility:lock" size="xx-small"
-                                                    title={sch.lockReason} class="slds-m-left_xx-small"></lightning-icon>
-                                            </template>
-                                        </div>
+                                                    class="slds-m-right_xx-small"></lightning-icon>
+                                                {sch.lockReason}
+                                            </span>
+                                        </template>
+                                    </div>
+                                    <div class="ms-head-right">
+                                        <template if:true={sch.showBalance}>
+                                            <span class={sch.balanceClass}>{sch.balanceText}</span>
+                                        </template>
                                         <span class={sch.statusClass}>{sch.status}</span>
+                                        <template if:true={sch.canEdit}>
+                                            <lightning-button-menu alternative-text="Milestone actions"
+                                                icon-size="x-small" menu-alignment="right" variant="bare">
+                                                <lightning-menu-item value="fill"
+                                                    label="Put the rest of the loan here"
+                                                    data-id={sch.id} onclick={handleFillRemaining}>
+                                                </lightning-menu-item>
+                                                <lightning-menu-item value="cust" label="Move all to customer"
+                                                    data-id={sch.id} onclick={handleAllToCustomer}>
+                                                </lightning-menu-item>
+                                            </lightning-button-menu>
+                                        </template>
                                     </div>
+                                </div>
 
-                                    <div class="ms-basics">
-                                        <div class="ms-field">
-                                            <label>Percentage</label>
-                                            <template if:true={sch.canEdit}>
-                                                <lightning-input type="number" value={sch.percentage}
-                                                    data-id={sch.id} data-field="percentage"
-                                                    onchange={handleFieldChange} variant="label-hidden" step="0.01">
-                                                </lightning-input>
-                                            </template>
-                                            <template if:false={sch.canEdit}><span class="ms-ro">{sch.percentage}%</span></template>
-                                        </div>
-                                        <div class="ms-field">
-                                            <label>Base (Flat)</label>
-                                            <template if:true={sch.canEdit}>
-                                                <lightning-input type="number" value={sch.baseAmount}
-                                                    data-id={sch.id} data-field="baseAmount"
-                                                    onchange={handleFieldChange} variant="label-hidden" step="0.01">
-                                                </lightning-input>
-                                            </template>
-                                            <template if:false={sch.canEdit}><span class="ms-ro">{sch.baseAmount}</span></template>
-                                        </div>
-                                        <div class="ms-field">
-                                            <label>GST</label>
-                                            <template if:true={sch.canEdit}>
-                                                <lightning-input type="number" value={sch.gstAmount}
-                                                    data-id={sch.id} data-field="gstAmount"
-                                                    onchange={handleFieldChange} variant="label-hidden" step="0.01">
-                                                </lightning-input>
-                                            </template>
-                                            <template if:false={sch.canEdit}><span class="ms-ro">{sch.gstAmount}</span></template>
-                                        </div>
-                                        <div class="ms-field">
-                                            <label>TDS</label>
-                                            <template if:true={sch.canEdit}>
-                                                <lightning-input type="number" value={sch.tdsAmount}
-                                                    data-id={sch.id} data-field="tdsAmount"
-                                                    onchange={handleFieldChange} variant="label-hidden" step="0.01">
-                                                </lightning-input>
-                                            </template>
-                                            <template if:false={sch.canEdit}><span class="ms-ro">{sch.tdsAmount}</span></template>
-                                        </div>
-                                        <div class="ms-field">
-                                            <label>Total</label>
-                                            <span class="ms-ro psm-total">{sch.liveTotal}</span>
-                                        </div>
-                                        <div class="ms-field">
-                                            <label>Pending</label>
-                                            <span class="ms-ro psm-pending">{sch.pendingAmount}</span>
-                                        </div>
+                                <!-- Read-only context, set when the schedule was generated -->
+                                <div class="ms-basics">
+                                    <div class="ms-field">
+                                        <label>Percentage</label>
+                                        <span class="ms-ro">{sch.percentageText}</span>
                                     </div>
+                                    <div class="ms-field">
+                                        <label>Base (Flat)</label>
+                                        <span class="ms-ro">{sch.baseText}</span>
+                                    </div>
+                                    <div class="ms-field">
+                                        <label>GST</label>
+                                        <span class="ms-ro">{sch.gstText}</span>
+                                    </div>
+                                    <div class="ms-field">
+                                        <label>TDS</label>
+                                        <span class="ms-ro ms-ro-muted">{sch.tdsText}</span>
+                                    </div>
+                                    <div class="ms-field">
+                                        <label>Total</label>
+                                        <span class="ms-ro psm-total">{sch.amountText}</span>
+                                    </div>
+                                    <div class="ms-field">
+                                        <label>Pending</label>
+                                        <span class="ms-ro psm-pending">{sch.pendingText}</span>
+                                    </div>
+                                </div>
 
-                                    <!-- Bank vs Customer bifurcation — locked rows show whatever is actually
-                                         stored (blank if never split); nothing is inferred or displayed here.
-                                         Any locked/unsplit amount is only accounted for in the Deficit target
-                                         shown in the reconciliation panel above. -->
-                                    <template if:true={isProrata}>
-                                        <div class="ms-bifurcation">
-                                            <div class="biforc-box biforc-bank">
-                                                <div class="biforc-head">
-                                                    <lightning-icon icon-name="utility:company" size="x-small"></lightning-icon>
-                                                    Bank Payable
-                                                </div>
-                                                <div class="biforc-fields">
-                                                    <div class="biforc-field">
-                                                        <label>Flat</label>
-                                                        <template if:true={sch.canEdit}>
-                                                            <lightning-input type="number" value={sch.bankFlat}
-                                                                data-id={sch.id} data-field="bankFlat"
-                                                                onchange={handleFieldChange} variant="label-hidden" step="0.01">
-                                                            </lightning-input>
-                                                        </template>
-                                                        <template if:false={sch.canEdit}><span class="ms-ro">{sch.bankFlat}</span></template>
-                                                    </div>
-                                                    <div class="biforc-field">
-                                                        <label>GST</label>
-                                                        <template if:true={sch.canEdit}>
-                                                            <lightning-input type="number" value={sch.bankGst}
-                                                                data-id={sch.id} data-field="bankGst"
-                                                                onchange={handleFieldChange} variant="label-hidden" step="0.01">
-                                                            </lightning-input>
-                                                        </template>
-                                                        <template if:false={sch.canEdit}><span class="ms-ro">{sch.bankGst}</span></template>
-                                                    </div>
-                                                </div>
+                                <template if:true={isProrata}>
+                                    <div class="ms-bifurcation">
+
+                                        <div class="biforc-box biforc-bank">
+                                            <div class="biforc-head">
+                                                <lightning-icon icon-name="utility:company" size="x-small"></lightning-icon>
+                                                Bank Payable
+                                                <span class="biforc-sum">{sch.bankPayableText}</span>
                                             </div>
-
-                                            <div class="biforc-box biforc-customer">
-                                                <div class="biforc-head">
-                                                    <lightning-icon icon-name="utility:user" size="x-small"></lightning-icon>
-                                                    Customer Payable
-                                                </div>
-                                                <div class="biforc-fields">
-                                                    <div class="biforc-field">
-                                                        <label>Flat</label>
-                                                        <template if:true={sch.canEdit}>
-                                                            <lightning-input type="number" value={sch.customerFlat}
-                                                                data-id={sch.id} data-field="customerFlat"
-                                                                onchange={handleFieldChange} variant="label-hidden" step="0.01">
-                                                            </lightning-input>
-                                                        </template>
-                                                        <template if:false={sch.canEdit}><span class="ms-ro">{sch.customerFlat}</span></template>
-                                                    </div>
-                                                    <div class="biforc-field">
-                                                        <label>GST</label>
-                                                        <template if:true={sch.canEdit}>
-                                                            <lightning-input type="number" value={sch.customerGst}
-                                                                data-id={sch.id} data-field="customerGst"
-                                                                onchange={handleFieldChange} variant="label-hidden" step="0.01">
-                                                            </lightning-input>
-                                                        </template>
-                                                        <template if:false={sch.canEdit}><span class="ms-ro">{sch.customerGst}</span></template>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="biforc-box biforc-opts">
+                                            <div class="biforc-fields">
                                                 <div class="biforc-field">
-                                                    <label>Forecast Date</label>
+                                                    <label>
+                                                        Flat
+                                                        <template if:true={sch.flatAutoOnBank}>
+                                                            <span class="ms-auto">auto</span>
+                                                        </template>
+                                                    </label>
                                                     <template if:true={sch.canEdit}>
-                                                        <lightning-input type="date" value={sch.forecastDate}
-                                                            data-id={sch.id} data-field="forecastDate"
-                                                            onchange={handleFieldChange} variant="label-hidden">
+                                                        <lightning-input type="number" step="0.01"
+                                                            value={sch.bankFlat} data-id={sch.id}
+                                                            data-field="bankFlat" onchange={handleFieldChange}
+                                                            variant="label-hidden" class={sch.bankFlatClass}>
                                                         </lightning-input>
                                                     </template>
-                                                    <template if:false={sch.canEdit}><span class="ms-ro">{sch.forecastDate}</span></template>
+                                                    <template if:false={sch.canEdit}>
+                                                        <span class="ms-ro">{sch.bankFlatText}</span>
+                                                    </template>
+                                                </div>
+                                                <div class="biforc-field">
+                                                    <label>
+                                                        GST
+                                                        <template if:true={sch.gstAutoOnBank}>
+                                                            <span class="ms-auto">auto</span>
+                                                        </template>
+                                                    </label>
+                                                    <template if:true={sch.canEdit}>
+                                                        <lightning-input type="number" step="0.01"
+                                                            value={sch.bankGst} data-id={sch.id}
+                                                            data-field="bankGst" onchange={handleFieldChange}
+                                                            variant="label-hidden" class={sch.bankGstClass}>
+                                                        </lightning-input>
+                                                    </template>
+                                                    <template if:false={sch.canEdit}>
+                                                        <span class="ms-ro">{sch.bankGstText}</span>
+                                                    </template>
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="biforc-box biforc-customer">
+                                            <div class="biforc-head">
+                                                <lightning-icon icon-name="utility:user" size="x-small"></lightning-icon>
+                                                Customer Payable
+                                                <span class="biforc-sum">{sch.customerPayableText}</span>
+                                            </div>
+                                            <div class="biforc-fields">
+                                                <div class="biforc-field">
+                                                    <label>
+                                                        Flat
+                                                        <template if:true={sch.flatAutoOnCustomer}>
+                                                            <span class="ms-auto">auto</span>
+                                                        </template>
+                                                    </label>
+                                                    <template if:true={sch.canEdit}>
+                                                        <lightning-input type="number" step="0.01"
+                                                            value={sch.customerFlat} data-id={sch.id}
+                                                            data-field="customerFlat" onchange={handleFieldChange}
+                                                            variant="label-hidden" class={sch.customerFlatClass}>
+                                                        </lightning-input>
+                                                    </template>
+                                                    <template if:false={sch.canEdit}>
+                                                        <span class="ms-ro">{sch.customerFlatText}</span>
+                                                    </template>
+                                                </div>
+                                                <div class="biforc-field">
+                                                    <label>
+                                                        GST
+                                                        <template if:true={sch.gstAutoOnCustomer}>
+                                                            <span class="ms-auto">auto</span>
+                                                        </template>
+                                                    </label>
+                                                    <template if:true={sch.canEdit}>
+                                                        <lightning-input type="number" step="0.01"
+                                                            value={sch.customerGst} data-id={sch.id}
+                                                            data-field="customerGst" onchange={handleFieldChange}
+                                                            variant="label-hidden" class={sch.customerGstClass}>
+                                                        </lightning-input>
+                                                    </template>
+                                                    <template if:false={sch.canEdit}>
+                                                        <span class="ms-ro">{sch.customerGstText}</span>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <template if:true={sch.hasIssue}>
+                                        <div class="ms-card-issue">
+                                            <lightning-icon icon-name="utility:error" size="xx-small"
+                                                variant="error" class="slds-m-right_xx-small"></lightning-icon>
+                                            {sch.issueText}
+                                        </div>
                                     </template>
-                                </div>
-                            </template>
-                        </div>
-                    </template>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                </template>
 
-                    <template if:true={showBalanceHint}>
-                        <div class="psm-validation-bar slds-m-top_small">
-                            <lightning-icon icon-name="utility:warning" size="x-small" variant="error"
-                                class="slds-m-right_x-small"></lightning-icon>
-                            Percentages must total 100%, the grand total must stay
-                            <strong>&nbsp;{originalTotalText}&nbsp;</strong><template if:true={isProrata}>, Bank Payable (Flat + GST) must total the
-                            Loan Sanctioned</template><template if:true={isStrictProrata}> and Customer Payable (Flat + GST) must total the
-                            Deficit (adjusted for milestones already settled by locked rows)</template>. Save is enabled once these match.
-                        </div>
-                    </template>
-                </div>
-
-                <!-- Fixed footer -->
-                <footer class="slds-modal__footer custom-modal-footer">
-                    <lightning-button label="Close" variant="neutral" class="slds-m-right_x-small"
-                        onclick={handleClose}>
-                    </lightning-button>
-                    <template if:true={hasSchedules}>
-                        <lightning-button label="Save Changes" variant="brand"
-                            onclick={handleSave} disabled={saveDisabled}>
-                        </lightning-button>
-                    </template>
-                </footer>
+                <template if:false={hasSchedules}>
+                    <p class="psm-empty">
+                        This booking has no payment schedule yet. Generate the schedule before splitting it.
+                    </p>
+                </template>
             </div>
-        </section>
+
+            <!-- Sticky action bar. Not a modal footer — it rides the bottom of the content. -->
+            <div class="psm-actions">
+                <template if:true={showConfirmClose}>
+                    <span class="psm-confirm">
+                        Close without sending? Your changes will be lost.
+                    </span>
+                    <lightning-button label="Keep editing" variant="neutral"
+                        class="slds-m-right_x-small" onclick={handleCancelClose}></lightning-button>
+                    <lightning-button label="Discard and close" variant="destructive"
+                        onclick={handleConfirmClose}></lightning-button>
+                </template>
+
+                <template if:false={showConfirmClose}>
+                    <span class="psm-note">{footerNote}</span>
+                    <lightning-button label="Close" variant="neutral" class="slds-m-right_x-small"
+                        onclick={handleClose}></lightning-button>
+                    <lightning-button label="Send for approval" variant="brand"
+                        onclick={handleSave} disabled={saveDisabled}></lightning-button>
+                </template>
+            </div>
+        </template>
     </div>
 </template>

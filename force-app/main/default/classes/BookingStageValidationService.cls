@@ -61,24 +61,24 @@ public with sharing class BookingStageValidationService {
             if (old == null) continue;
             if (b.Status__c == old.Status__c) continue;
 
-            // A booking that has already been Cancelled or Swapped is terminal — its status
+            // A booking that has already been Cancellation or Swapped is terminal — its status
             // cannot be changed again (prevents "un-cancelling" / reactivating a swapped booking).
-            if (old.Status__c == 'Cancelled' || old.Status__c == 'Swapped') {
+            if (old.Status__c == 'Cancellation' || old.Status__c == 'Swapped') {
                 b.addError('This booking is ' + old.Status__c + ' and its status can no longer be changed.');
                 continue;
             }
 
             // BUG-0514: Cancellation must be approval-driven. A booking may only enter the
             // Cancellation stage after a cancellation approval has been submitted, and may only
-            // reach Cancelled once that approval is Approved (blocks e.g. Booked -> Cancelled/
+            // reach Cancellation once that approval is Approved (blocks e.g. Booked -> Cancellation/
             // Cancellation directly).
-            if (b.Status__c == 'Cancellation' || b.Status__c == 'Cancelled') {
+            if (b.Status__c == 'Cancellation' || b.Status__c == 'Cancellation') {
                 if (!isSubmittedOrApproved(b.Cancellation_Approval_Before_Agreement__c)) {
                     b.addError('Cannot move this booking to ' + b.Status__c
                         + ': a Cancellation approval must be submitted first.');
                     continue;
                 }
-                if (b.Status__c == 'Cancelled'
+                if (b.Status__c == 'Cancellation'
                     && !isApproved(b.Cancellation_Approval_Before_Agreement__c)) {
                     b.addError('Cannot cancel this booking: a Cancellation approval must be Approved first.');
                     continue;

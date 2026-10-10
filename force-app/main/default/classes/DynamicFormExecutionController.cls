@@ -357,21 +357,42 @@ public with sharing class DynamicFormExecutionController {
         uniquePaths.remove(null);
         uniquePaths.remove('');
         if (uniquePaths.isEmpty()) return result;
+        List<String> pathList = new List<String>(uniquePaths);
 
-        String query = 'SELECT ' + String.join(new List<String>(uniquePaths), ', ') +
-                       ' FROM ' + String.escapeSingleQuotes(objectApiName) +
-                       ' WHERE Id = :rid LIMIT 1';
-        List<SObject> rows;
-        try { rows = Database.query(query); }
-        catch (Exception e) { return result; }
-        if (rows.isEmpty()) return result;
+        // Try one combined query first (cheap). But if a single path is invalid - e.g. a stale
+        // relationship such as Quote__r.X that does not exist on this object - the whole query
+        // throws, which used to blank EVERY default on the form. So on failure, fall back to
+        // resolving each path in its own query: a bad path then only drops itself, and every
+        // valid selection (Unit__r.Id, Project1__r.Id, ...) still resolves.
+        SObject row = queryContextRow(objectApiName, pathList, rid);
+        if (row != null) {
+            for (String path : pathList) {
+                try { result.put(path, resolvePath(row, path)); }
+                catch (Exception ignored) { /* leave path unresolved */ }
+            }
+            return result;
+        }
 
-        SObject row = rows[0];
-        for (String path : uniquePaths) {
-            try { result.put(path, resolvePath(row, path)); }
+        for (String path : pathList) {
+            SObject r = queryContextRow(objectApiName, new List<String>{ path }, rid);
+            if (r == null) continue; // invalid path - skip it, keep the rest
+            try { result.put(path, resolvePath(r, path)); }
             catch (Exception ignored) { /* leave path unresolved */ }
         }
         return result;
+    }
+
+    /** Query one record for the given SOQL paths; returns null if the query is invalid or matches nothing. */
+    private static SObject queryContextRow(String objectApiName, List<String> paths, Id rid) {
+        String query = 'SELECT ' + String.join(paths, ', ') +
+                       ' FROM ' + String.escapeSingleQuotes(objectApiName) +
+                       ' WHERE Id = :rid LIMIT 1';
+        try {
+            List<SObject> rows = Database.query(query);
+            return rows.isEmpty() ? null : rows[0];
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     private static Object resolvePath(SObject record, String path) {
@@ -513,17 +534,39 @@ public with sharing class DynamicFormExecutionController {
 
     /**
      * Search records for lookup fields in dynamic forms.
+     *
+     * @param contextRecordId (optional) the record the form/modal is running against. When
+     *        provided together with fieldApiName, field-specific filters that depend on the
+     *        source record are applied (see buildContextFilter).
+     * @param fieldApiName (optional) the API name of the lookup field being populated.
      */
     @AuraEnabled
-    public static List<Map<String, String>> searchLookupRecords(String objectApiName, String searchTerm) {
+    public static List<Map<String, String>> searchLookupRecords(String objectApiName, String searchTerm,
+                                                                String contextRecordId, String fieldApiName) {
         List<Map<String, String>> results = new List<Map<String, String>>();
         if (String.isBlank(objectApiName) || String.isBlank(searchTerm) || searchTerm.length() < 2) {
             return results;
         }
 
         String searchKey = '%' + String.escapeSingleQuotes(searchTerm) + '%';
+        LookupContextFilter ctx = buildContextFilter(objectApiName, contextRecordId, fieldApiName);
+        Id ctxProjectId = ctx == null ? null : ctx.projectId;
+        Id ctxExcludeId = ctx == null ? null : ctx.excludeRecordId;
+
         String query = 'SELECT Id, Name FROM ' + String.escapeSingleQuotes(objectApiName) +
-                       ' WHERE Name LIKE :searchKey ORDER BY Name LIMIT 20';
+                       ' WHERE Name LIKE :searchKey';
+        if (ctx != null) {
+            if (ctxProjectId != null) {
+                query += ' AND Project__c = :ctxProjectId';
+            }
+            if (ctx.availableOnly) {
+                query += ' AND Status__c = \'Available\'';
+            }
+            if (ctxExcludeId != null) {
+                query += ' AND Id != :ctxExcludeId';
+            }
+        }
+        query += ' ORDER BY Name LIMIT 20';
         try {
             for (SObject rec : Database.query(query)) {
                 results.add(new Map<String, String>{
@@ -535,6 +578,50 @@ public with sharing class DynamicFormExecutionController {
             System.debug('Lookup search error: ' + e.getMessage());
         }
         return results;
+    }
+
+    /** Context-dependent filter criteria for a lookup search (see buildContextFilter). */
+    private class LookupContextFilter {
+        Id projectId;        // restrict results to this Project__c
+        Id excludeRecordId;  // exclude this record from results
+        Boolean availableOnly = false; // restrict to Status__c = 'Available'
+    }
+
+    /**
+     * Builds field-specific lookup filters that mirror the declarative lookup filters that a
+     * custom search UI cannot enforce on its own.
+     *
+     * Booking__c.Swap_To_Plot__c ("Swap To Unit"): only units in the same project as the
+     * booking, with Status__c = 'Available', excluding the booking's current unit — matching
+     * both the field's lookupFilter metadata and BookingSwapHandler's server-side eligibility.
+     */
+    private static LookupContextFilter buildContextFilter(String objectApiName, String contextRecordId, String fieldApiName) {
+        if (String.isBlank(contextRecordId) || String.isBlank(fieldApiName)) {
+            return null;
+        }
+        Id ctxId;
+        try {
+            ctxId = Id.valueOf(contextRecordId);
+        } catch (Exception e) {
+            return null;
+        }
+
+        if (fieldApiName == 'Swap_To_Plot__c'
+                && objectApiName == 'Plot__c'
+                && ctxId.getSObjectType() == Booking__c.SObjectType) {
+            List<Booking__c> bookings = [
+                SELECT Project__c, Plot__c FROM Booking__c WHERE Id = :ctxId LIMIT 1
+            ];
+            if (bookings.isEmpty()) {
+                return null;
+            }
+            LookupContextFilter ctx = new LookupContextFilter();
+            ctx.projectId = bookings[0].Project__c;
+            ctx.excludeRecordId = bookings[0].Plot__c;
+            ctx.availableOnly = true;
+            return ctx;
+        }
+        return null;
     }
 
     /**

@@ -10,5 +10,6 @@
 trigger DemandTrigger on Demands__c (before insert) {
     if (Trigger.isBefore && Trigger.isInsert) {
         DemandReminderService.populateReminderDates(Trigger.new);
+        DemandReminderService.markCalculateFlag(Trigger.new);   // <-- added
     }
 }

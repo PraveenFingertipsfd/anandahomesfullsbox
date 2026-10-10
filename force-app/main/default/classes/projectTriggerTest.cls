@@ -20,7 +20,7 @@ public class projectTriggerTest {
         ld1.Project1__c = pr.Id; 
         ld1.Date_of_Booking__c = System.today(); 
         ld1.Mode_Of_Payment__c = 'Credit Card';
-        ld1.Funding_Type__c = 'Self';
+        ld1.Funding_Type__c = 'Self-Funded';
 
         
         insert ld1;

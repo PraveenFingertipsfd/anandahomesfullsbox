@@ -51,7 +51,7 @@ private class LeadPushAPITest {
 
     @IsTest
     static void testPushLeadWithCampaignId() {
-        Campaign__c camp = new Campaign__c(Campaign_Name__c = 'Campaign By Id');
+        Campaign__c camp = new Campaign__c(Campaign_Name__c = 'Campaign By Id', Is_Active__c = true);
         insert camp;
 
         String requestBody = JSON.serialize(new Map<String, String>{
@@ -180,7 +180,7 @@ private class LeadPushAPITest {
     /** Covers campaign branch: only campaignName provided (no campaignId). */
     @IsTest
     static void testPushLead_CampaignNameOnly() {
-        Campaign__c camp = new Campaign__c(Campaign_Name__c = 'Name Only Campaign');
+        Campaign__c camp = new Campaign__c(Campaign_Name__c = 'Name Only Campaign', Is_Active__c = true);
         insert camp;
 
         String requestBody = JSON.serialize(new Map<String, String>{

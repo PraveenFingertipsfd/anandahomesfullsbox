@@ -1,186 +1,402 @@
 <template>
-    <lightning-card title="Payment Schedule Editor (Prorata-aware)" icon-name="utility:money">
-        <div class="slds-p-around_medium">
+    <lightning-card title="Payment schedule split" icon-name="utility:money">
+
+        <div class="slds-p-horizontal_medium slds-p-bottom_medium">
+
             <template if:true={isLoading}>
-                <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
-            </template>
-
-            <template if:true={hasError}>
-                <div class="slds-text-color_error slds-p-around_small">
-                    <lightning-icon icon-name="utility:error" size="x-small" variant="error"></lightning-icon>
-                    {errorMessage}
+                <div class="slds-is-relative slds-p-vertical_xx-large">
+                    <lightning-spinner alternative-text="Loading the payment schedule" size="medium"></lightning-spinner>
                 </div>
             </template>
 
-            <template if:false={editingEnabled}>
-                <div class="slds-notify slds-notify_alert slds-theme_warning slds-m-bottom_small" role="alert">
-                    <span>Custom schedule editing is not enabled. Contact your administrator.</span>
-                </div>
-            </template>
+            <template if:false={isLoading}>
 
-            <template if:true={isProrata}>
-                <div class="slds-box slds-box_x-small slds-m-bottom_small slds-theme_shade">
-                    <strong>Prorata / Partial booking.</strong>
-                    Bank Flat across milestones must total <strong>{totals.loanSanctioned}</strong> (Loan Sanctioned),
-                    and Customer Flat must total <strong>{totals.deficit}</strong> (Deficit).
-                    Demanded / paid milestones are locked.
-                </div>
-            </template>
+                <!-- Load failure -->
+                <template if:true={hasError}>
+                    <div class="slds-notify slds-notify_alert slds-theme_error slds-m-bottom_small" role="alert">
+                        <lightning-icon icon-name="utility:error" size="x-small" variant="inverse"
+                            class="slds-m-right_x-small"></lightning-icon>
+                        <span>{errorMessage}</span>
+                    </div>
+                </template>
 
-            <template if:true={hasSchedules}>
-                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped">
-                    <thead>
-                        <tr class="slds-line-height_reset">
-                            <th class="slds-text-title_caps">Seq</th>
-                            <th class="slds-text-title_caps">Milestone</th>
-                            <th class="slds-text-title_caps">Percentage</th>
-                            <th class="slds-text-title_caps">Base Amount</th>
-                            <th class="slds-text-title_caps">GST</th>
-                            <th class="slds-text-title_caps">TDS</th>
-                            <th class="slds-text-title_caps">Total Amount</th>
-                            <th class="slds-text-title_caps">Paid</th>
-                            <th class="slds-text-title_caps">Pending</th>
-                            <th class="slds-text-title_caps">Status</th>
-                            <template if:true={isProrata}>
-                                <th class="slds-text-title_caps">Bank Flat</th>
-                                <th class="slds-text-title_caps">Cust. Flat</th>
-                                <th class="slds-text-title_caps">Bank GST</th>
-                                <th class="slds-text-title_caps">Cust. GST</th>
-                                <th class="slds-text-title_caps">With GST</th>
-                                <th class="slds-text-title_caps">Forecast</th>
+                <!-- Editing switched off -->
+                <template if:false={editingEnabled}>
+                    <div class="slds-notify slds-notify_alert slds-theme_warning slds-m-bottom_small" role="alert">
+                        <span>This booking is set to read-only. Ask your administrator to change the schedule edit mode.</span>
+                    </div>
+                </template>
+
+                <template if:true={hasRows}>
+
+                    <!-- Allocation meter: the single figure the user is working toward -->
+                    <template if:true={isProrata}>
+                        <div class={remainingClass}>
+                            <div class="psp-meter-main">
+                                <span class="psp-meter-value">{remainingLabel}</span>
+                                <span class="psp-meter-sub">
+                                    Bank Payable
+                                    <lightning-formatted-number value={sumBank} format-style="currency"
+                                        currency-code="INR" maximum-fraction-digits="2">
+                                    </lightning-formatted-number>
+                                    of
+                                    <lightning-formatted-number value={totals.loanSanctioned} format-style="currency"
+                                        currency-code="INR" maximum-fraction-digits="2">
+                                    </lightning-formatted-number>
+                                    sanctioned
+                                </span>
+                            </div>
+                            <div class="psp-meter-actions">
+                                <lightning-button label="Spread across milestones" variant="neutral"
+                                    onclick={handleDistribute} disabled={isSaving}>
+                                </lightning-button>
+                                <lightning-button label="Clear all" variant="neutral"
+                                    class="slds-m-left_x-small" onclick={handleClearAll} disabled={isSaving}>
+                                </lightning-button>
+                                <template if:true={isDirty}>
+                                    <lightning-button label="Undo changes" variant="neutral"
+                                        class="slds-m-left_x-small" onclick={handleDiscard} disabled={isSaving}>
+                                    </lightning-button>
+                                </template>
+                            </div>
+                        </div>
+
+                        <p class="psp-rule">
+                            Bank Flat and Bank GST across all milestones must total the Loan Sanctioned Amount.
+                            Everything else, including TDS, is payable by the customer.
+                            <template if:true={hasLockedUnsplit}>
+                                Demand-raised milestones carry no split, so
+                                <lightning-formatted-number value={lockedUnsplitTotal} format-style="currency"
+                                    currency-code="INR" maximum-fraction-digits="2">
+                                </lightning-formatted-number>
+                                is already settled and excluded from the Deficit target.
                             </template>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <template for:each={schedules} for:item="sch">
-                            <tr key={sch.id}>
-                                <td>
-                                    {sch.sequence}
-                                    <template if:true={sch.cannotEdit}>
-                                        <lightning-icon icon-name="utility:lock" size="xx-small"
-                                            title={sch.lockReason} class="slds-m-left_xx-small">
-                                        </lightning-icon>
-                                    </template>
-                                </td>
-                                <td>{sch.milestoneName}</td>
+                        </p>
+                    </template>
 
-                                <td>
-                                    <template if:true={sch.canEdit}>
-                                        <lightning-input type="number" value={sch.percentage}
-                                            data-id={sch.id} data-field="percentage"
-                                            onchange={handleFieldChange} variant="label-hidden" step="0.01">
-                                        </lightning-input>
-                                    </template>
-                                    <template if:false={sch.canEdit}>{sch.percentage}</template>
-                                </td>
+                    <!-- What is stopping submission -->
+                    <template if:true={hasIssues}>
+                        <div class="psp-issues" role="alert">
+                            <h3 class="psp-issues-head">
+                                <lightning-icon icon-name="utility:warning" size="x-small" variant="error"
+                                    class="slds-m-right_x-small"></lightning-icon>
+                                {issueHeading}
+                            </h3>
+                            <ul class="psp-issues-list">
+                                <template for:each={blockingIssues} for:item="issue">
+                                    <li key={issue.key}>
+                                        <button type="button" class="psp-issue-link" data-key={issue.key}
+                                            onclick={handleIssueClick}>
+                                            <strong>{issue.label}</strong> — {issue.message}
+                                        </button>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                    </template>
 
-                                <td>
-                                    <template if:true={sch.canEdit}>
-                                        <lightning-input type="number" value={sch.baseAmount}
-                                            data-id={sch.id} data-field="baseAmount"
-                                            onchange={handleFieldChange} variant="label-hidden" step="0.01">
-                                        </lightning-input>
+                    <!-- Schedule -->
+                    <div class="psp-scroll">
+                        <table class="slds-table slds-table_bordered psp-table">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th class="psp-sticky-1 psp-th">Seq</th>
+                                    <th class="psp-sticky-2 psp-th">Milestone</th>
+                                    <th class="psp-th psp-num">Base</th>
+                                    <th class="psp-th psp-num">GST</th>
+                                    <th class="psp-th psp-num">TDS</th>
+                                    <th class="psp-th psp-num">Amount</th>
+                                    <template if:true={isProrata}>
+                                        <th class="psp-th psp-num psp-bank-edge">Bank Flat</th>
+                                        <th class="psp-th psp-num">Cust. Flat</th>
+                                        <th class="psp-th psp-num">Bank GST</th>
+                                        <th class="psp-th psp-num psp-cust-edge">Cust. GST</th>
+                                        <th class="psp-th psp-num">Bank Payable</th>
+                                        <th class="psp-th psp-num">Cust. Payable</th>
+                                        <th class="psp-th psp-num">Balance</th>
+                                        <th class="psp-th"></th>
                                     </template>
-                                    <template if:false={sch.canEdit}>{sch.baseAmount}</template>
-                                </td>
+                                </tr>
+                            </thead>
 
-                                <td>
-                                    <template if:true={sch.canEdit}>
-                                        <lightning-input type="number" value={sch.gstAmount}
-                                            data-id={sch.id} data-field="gstAmount"
-                                            onchange={handleFieldChange} variant="label-hidden" step="0.01">
-                                        </lightning-input>
+                            <tbody>
+                                <template for:each={rows} for:item="row">
+                                    <tr key={row.id} data-row={row.id} class={row.rowClass}>
+                                        <td class="psp-sticky-1">
+                                            {row.sequence}
+                                            <template if:true={row.hasIssue}>
+                                                <lightning-icon icon-name="utility:error" size="xx-small"
+                                                    variant="error" title={row.issueText}
+                                                    class="slds-m-left_xx-small"></lightning-icon>
+                                            </template>
+                                        </td>
+                                        <td class="psp-sticky-2">
+                                            <span class="psp-milestone">{row.milestoneName}</span>
+                                            <template if:false={row.canEdit}>
+                                                <span class="psp-lock">{row.lockReason}</span>
+                                            </template>
+                                        </td>
+
+                                        <td class="psp-num">
+                                            <lightning-formatted-number value={row.baseAmount}
+                                                format-style="currency" currency-code="INR"
+                                                maximum-fraction-digits="2"></lightning-formatted-number>
+                                        </td>
+                                        <td class="psp-num">
+                                            <lightning-formatted-number value={row.gstAmount}
+                                                format-style="currency" currency-code="INR"
+                                                maximum-fraction-digits="2"></lightning-formatted-number>
+                                        </td>
+                                        <td class="psp-num psp-muted">
+                                            <lightning-formatted-number value={row.tdsAmount}
+                                                format-style="currency" currency-code="INR"
+                                                maximum-fraction-digits="2"></lightning-formatted-number>
+                                        </td>
+                                        <td class="psp-num">
+                                            <lightning-formatted-number value={row.amount}
+                                                format-style="currency" currency-code="INR"
+                                                maximum-fraction-digits="2"></lightning-formatted-number>
+                                        </td>
+
+                                        <template if:true={isProrata}>
+                                            <!-- Bank Flat -->
+                                            <td class="psp-num psp-bank-edge">
+                                                <template if:true={row.canEdit}>
+                                                    <lightning-input type="number" step="0.01"
+                                                        value={row.bankFlat} data-id={row.id} data-field="bankFlat"
+                                                        onchange={handleFieldChange} variant="label-hidden"
+                                                        class={row.bankFlatClass}
+                                                        message-when-bad-input="Enter an amount">
+                                                    </lightning-input>
+                                                </template>
+                                                <template if:false={row.canEdit}>
+                                                    <lightning-formatted-number value={row.bankFlat}
+                                                        format-style="currency" currency-code="INR"
+                                                        maximum-fraction-digits="2"></lightning-formatted-number>
+                                                </template>
+                                            </td>
+
+                                            <!-- Customer Flat -->
+                                            <td class="psp-num">
+                                                <template if:true={row.canEdit}>
+                                                    <lightning-input type="number" step="0.01"
+                                                        value={row.customerFlat} data-id={row.id}
+                                                        data-field="customerFlat" onchange={handleFieldChange}
+                                                        variant="label-hidden" class={row.customerFlatClass}>
+                                                    </lightning-input>
+                                                    <template if:true={row.flatDerivedIsCustomer}>
+                                                        <span class="psp-auto">auto</span>
+                                                    </template>
+                                                </template>
+                                                <template if:false={row.canEdit}>
+                                                    <lightning-formatted-number value={row.customerFlat}
+                                                        format-style="currency" currency-code="INR"
+                                                        maximum-fraction-digits="2"></lightning-formatted-number>
+                                                </template>
+                                            </td>
+
+                                            <!-- Bank GST -->
+                                            <td class="psp-num">
+                                                <template if:true={row.canEdit}>
+                                                    <lightning-input type="number" step="0.01"
+                                                        value={row.bankGst} data-id={row.id} data-field="bankGst"
+                                                        onchange={handleFieldChange} variant="label-hidden"
+                                                        class={row.bankGstClass}>
+                                                    </lightning-input>
+                                                </template>
+                                                <template if:false={row.canEdit}>
+                                                    <lightning-formatted-number value={row.bankGst}
+                                                        format-style="currency" currency-code="INR"
+                                                        maximum-fraction-digits="2"></lightning-formatted-number>
+                                                </template>
+                                            </td>
+
+                                            <!-- Customer GST -->
+                                            <td class="psp-num psp-cust-edge">
+                                                <template if:true={row.canEdit}>
+                                                    <lightning-input type="number" step="0.01"
+                                                        value={row.customerGst} data-id={row.id}
+                                                        data-field="customerGst" onchange={handleFieldChange}
+                                                        variant="label-hidden" class={row.customerGstClass}>
+                                                    </lightning-input>
+                                                    <template if:true={row.gstDerivedIsCustomer}>
+                                                        <span class="psp-auto">auto</span>
+                                                    </template>
+                                                </template>
+                                                <template if:false={row.canEdit}>
+                                                    <lightning-formatted-number value={row.customerGst}
+                                                        format-style="currency" currency-code="INR"
+                                                        maximum-fraction-digits="2"></lightning-formatted-number>
+                                                </template>
+                                            </td>
+
+                                            <td class="psp-num psp-strong">
+                                                <lightning-formatted-number value={row.bankPayable}
+                                                    format-style="currency" currency-code="INR"
+                                                    maximum-fraction-digits="2"></lightning-formatted-number>
+                                            </td>
+                                            <td class="psp-num psp-strong">
+                                                <lightning-formatted-number value={row.customerPayable}
+                                                    format-style="currency" currency-code="INR"
+                                                    maximum-fraction-digits="2"></lightning-formatted-number>
+                                            </td>
+
+                                            <td class="psp-num">
+                                                <template if:true={row.rowBalanced}>
+                                                    <lightning-icon icon-name="utility:check" size="xx-small"
+                                                        variant="success" alternative-text="Balanced"></lightning-icon>
+                                                </template>
+                                                <template if:false={row.rowBalanced}>
+                                                    <span class={row.balanceClass}>{row.balanceLabel}</span>
+                                                </template>
+                                            </td>
+
+                                            <td>
+                                                <template if:true={row.canEdit}>
+                                                    <lightning-button-menu alternative-text="Row actions"
+                                                        icon-size="x-small" menu-alignment="right" variant="bare">
+                                                        <lightning-menu-item value="fill" label="Put the rest here"
+                                                            data-id={row.id} onclick={handleFillRemaining}>
+                                                        </lightning-menu-item>
+                                                        <lightning-menu-item value="reset" label="Move all to customer"
+                                                            data-id={row.id} onclick={handleResetRow}>
+                                                        </lightning-menu-item>
+                                                    </lightning-button-menu>
+                                                </template>
+                                            </td>
+                                        </template>
+                                    </tr>
+                                </template>
+                            </tbody>
+
+                            <!-- Totals -->
+                            <tfoot class="psp-foot">
+                                <tr>
+                                    <td class="psp-sticky-1 psp-foot-label">Total</td>
+                                    <td class="psp-sticky-2"></td>
+                                    <td class="psp-num">
+                                        <lightning-formatted-number value={sumBase} format-style="currency"
+                                            currency-code="INR" maximum-fraction-digits="2"></lightning-formatted-number>
+                                    </td>
+                                    <td class="psp-num">
+                                        <lightning-formatted-number value={sumGst} format-style="currency"
+                                            currency-code="INR" maximum-fraction-digits="2"></lightning-formatted-number>
+                                    </td>
+                                    <td class="psp-num">
+                                        <lightning-formatted-number value={sumTds} format-style="currency"
+                                            currency-code="INR" maximum-fraction-digits="2"></lightning-formatted-number>
+                                    </td>
+                                    <td class="psp-num">
+                                        <lightning-formatted-number value={sumAmount} format-style="currency"
+                                            currency-code="INR" maximum-fraction-digits="2"></lightning-formatted-number>
+                                    </td>
+                                    <template if:true={isProrata}>
+                                        <td colspan="4"></td>
+                                        <td class="psp-num">
+                                            <lightning-formatted-number value={sumBank} format-style="currency"
+                                                currency-code="INR" maximum-fraction-digits="2"></lightning-formatted-number>
+                                        </td>
+                                        <td class="psp-num">
+                                            <lightning-formatted-number value={sumCust} format-style="currency"
+                                                currency-code="INR" maximum-fraction-digits="2"></lightning-formatted-number>
+                                        </td>
+                                        <td colspan="2"></td>
                                     </template>
-                                    <template if:false={sch.canEdit}>{sch.gstAmount}</template>
-                                </td>
-
-                                <td>
-                                    <template if:true={sch.canEdit}>
-                                        <lightning-input type="number" value={sch.tdsAmount}
-                                            data-id={sch.id} data-field="tdsAmount"
-                                            onchange={handleFieldChange} variant="label-hidden" step="0.01">
-                                        </lightning-input>
-                                    </template>
-                                    <template if:false={sch.canEdit}>{sch.tdsAmount}</template>
-                                </td>
-
-                                <td>{sch.amount}</td>
-                                <td>{sch.amountPaid}</td>
-                                <td>{sch.pendingAmount}</td>
-                                <td>{sch.status}</td>
+                                </tr>
 
                                 <template if:true={isProrata}>
-                                    <td>
-                                        <template if:true={sch.canEdit}>
-                                            <lightning-input type="number" value={sch.bankFlat}
-                                                data-id={sch.id} data-field="bankFlat"
-                                                onchange={handleFieldChange} variant="label-hidden" step="0.01">
-                                            </lightning-input>
-                                        </template>
-                                        <template if:false={sch.canEdit}>{sch.bankFlat}</template>
-                                    </td>
-                                    <td>
-                                        <template if:true={sch.canEdit}>
-                                            <lightning-input type="number" value={sch.customerFlat}
-                                                data-id={sch.id} data-field="customerFlat"
-                                                onchange={handleFieldChange} variant="label-hidden" step="0.01">
-                                            </lightning-input>
-                                        </template>
-                                        <template if:false={sch.canEdit}>{sch.customerFlat}</template>
-                                    </td>
-                                    <td>
-                                        <template if:true={sch.canEdit}>
-                                            <lightning-input type="number" value={sch.bankGst}
-                                                data-id={sch.id} data-field="bankGst"
-                                                onchange={handleFieldChange} variant="label-hidden" step="0.01">
-                                            </lightning-input>
-                                        </template>
-                                        <template if:false={sch.canEdit}>{sch.bankGst}</template>
-                                    </td>
-                                    <td>
-                                        <template if:true={sch.canEdit}>
-                                            <lightning-input type="number" value={sch.customerGst}
-                                                data-id={sch.id} data-field="customerGst"
-                                                onchange={handleFieldChange} variant="label-hidden" step="0.01">
-                                            </lightning-input>
-                                        </template>
-                                        <template if:false={sch.canEdit}>{sch.customerGst}</template>
-                                    </td>
-                                    <td>
-                                        <template if:true={sch.canEdit}>
-                                            <lightning-input type="checkbox" checked={sch.withGst}
-                                                data-id={sch.id} data-field="withGst"
-                                                onchange={handleFieldChange} variant="label-hidden">
-                                            </lightning-input>
-                                        </template>
-                                        <template if:false={sch.canEdit}>{sch.withGst}</template>
-                                    </td>
-                                    <td>
-                                        <template if:true={sch.canEdit}>
-                                            <lightning-input type="date" value={sch.forecastDate}
-                                                data-id={sch.id} data-field="forecastDate"
-                                                onchange={handleFieldChange} variant="label-hidden">
-                                            </lightning-input>
-                                        </template>
-                                        <template if:false={sch.canEdit}>{sch.forecastDate}</template>
-                                    </td>
-                                </template>
-                            </tr>
-                        </template>
-                    </tbody>
-                </table>
-            </template>
+                                    <tr class="psp-foot-target">
+                                        <td class="psp-sticky-1 psp-foot-label">Target</td>
+                                        <td class="psp-sticky-2"></td>
+                                        <td colspan="4" class="psp-foot-note">
+                                            Loan Sanctioned for the bank; the remainder, excluding TDS, for the customer
+                                        </td>
+                                        <td colspan="4"></td>
+                                        <td class="psp-num">
+                                            <lightning-formatted-number value={totals.loanSanctioned}
+                                                format-style="currency" currency-code="INR"
+                                                maximum-fraction-digits="2"></lightning-formatted-number>
+                                        </td>
+                                        <td class="psp-num">
+                                            <template if:true={showDeficitRow}>
+                                                <lightning-formatted-number value={deficitTarget}
+                                                    format-style="currency" currency-code="INR"
+                                                    maximum-fraction-digits="2"></lightning-formatted-number>
+                                            </template>
+                                        </td>
+                                        <td colspan="2"></td>
+                                    </tr>
 
-            <div class="slds-m-top_medium slds-text-align_right">
-                <lightning-button label="Close" variant="neutral" class="slds-m-right_x-small"
-                    onclick={handleClose}>
-                </lightning-button>
-                <template if:true={hasSchedules}>
-                    <lightning-button label="Save Changes" variant="brand"
-                        onclick={handleSave} disabled={saveDisabled}>
-                    </lightning-button>
+                                    <tr class="psp-foot-variance">
+                                        <td class="psp-sticky-1 psp-foot-label">Difference</td>
+                                        <td class="psp-sticky-2"></td>
+                                        <td colspan="8"></td>
+                                        <td class="psp-num">
+                                            <span class={bankVarianceClass}>
+                                                <lightning-formatted-number value={bankVariance}
+                                                    format-style="currency" currency-code="INR"
+                                                    maximum-fraction-digits="2"></lightning-formatted-number>
+                                            </span>
+                                        </td>
+                                        <td class="psp-num">
+                                            <template if:true={showDeficitRow}>
+                                                <span class={custVarianceClass}>
+                                                    <lightning-formatted-number value={custVariance}
+                                                        format-style="currency" currency-code="INR"
+                                                        maximum-fraction-digits="2"></lightning-formatted-number>
+                                                </span>
+                                            </template>
+                                        </td>
+                                        <td colspan="2"></td>
+                                    </tr>
+                                </template>
+                            </tfoot>
+                        </table>
+                    </div>
                 </template>
-            </div>
+
+                <template if:false={hasRows}>
+                    <div class="slds-illustration slds-text-align_center slds-p-vertical_large">
+                        <p class="slds-text-body_regular">
+                            This booking has no payment schedule yet. Generate the schedule before splitting it
+                            between the bank and the customer.
+                        </p>
+                    </div>
+                </template>
+
+                <!-- Actions -->
+                <div class="psp-actions">
+                    <template if:true={showSubmitReason}>
+                        <span class="psp-submit-reason">{submitReason}</span>
+                    </template>
+                    <lightning-button label="Close" variant="neutral" class="slds-m-right_x-small"
+                        onclick={handleClose}></lightning-button>
+                    <lightning-button label="Send for approval" variant="brand"
+                        onclick={handleSubmitClick} disabled={submitDisabled}></lightning-button>
+                </div>
+
+            </template>
         </div>
     </lightning-card>
+
+    <!-- Discard confirmation -->
+    <template if:true={showConfirmClose}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_small">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 class="slds-modal__title">Close without submitting?</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <p>Your split changes have not been sent for approval and will be lost.</p>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Keep editing" variant="neutral"
+                        onclick={handleCancelClose}></lightning-button>
+                    <lightning-button label="Discard and close" variant="destructive"
+                        class="slds-m-left_x-small" onclick={handleConfirmClose}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
 </template>

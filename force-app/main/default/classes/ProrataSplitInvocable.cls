@@ -7,7 +7,7 @@
  *              Sanctioned Amount, and its schedules are not already split.
  * @author System
  */
-public with sharing class ProrataSplitInvocable {
+public without sharing class ProrataSplitInvocable {
 
     public class Input {
         @InvocableVariable(required=true label='Booking Id')

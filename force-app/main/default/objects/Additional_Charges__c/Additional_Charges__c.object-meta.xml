@@ -158,14 +158,14 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ControlledByParent</externalSharingModel>
-    <label>Additional Charges</label>
+    <label>NotUsedAdditional Charges</label>
     <nameField>
         <displayFormat>AC-{0000}</displayFormat>
         <label>Additional Charges ID</label>
         <trackHistory>false</trackHistory>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Additional Charges</pluralLabel>
+    <pluralLabel>NotUedAdditional Charges</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>
     <visibility>Public</visibility>

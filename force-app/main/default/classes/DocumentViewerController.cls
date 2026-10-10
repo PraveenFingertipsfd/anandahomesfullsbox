@@ -2,6 +2,8 @@
  * @description Controller for the Document Viewer LWC.
  * Fetches active templates for a given object/record, evaluates visibility
  * conditions (field values, profile, user), and generates PDF URLs.
+ * Also discovers Visualforce pages related to the record's object
+ * (e.g. pages with standardController="Booking__c") for a second section.
  */
 public with sharing class DocumentViewerController {
 
@@ -19,14 +21,20 @@ public with sharing class DocumentViewerController {
         @AuraEnabled public String viewUrl { get; set; }
     }
 
+    /** Wrapper for a related Visualforce page shown in the "VF Pages" section */
+    public class ViewerVfPage {
+        @AuraEnabled public String id { get; set; }
+        @AuraEnabled public String name { get; set; }        // API name (with namespace if any)
+        @AuraEnabled public String label { get; set; }       // MasterLabel for display
+        @AuraEnabled public String description { get; set; }
+        @AuraEnabled public String url { get; set; }         // /apex/PageName?id=recordId
+    }
+
     // ============================== MAIN METHOD ==============================
 
     /**
      * @description Get active templates visible for the given record.
      *              Evaluates visibility conditions stored in Template_JSON__c.
-     * @param recordId The record to generate documents for
-     * @param objectApiName The object API name (optional - derived from recordId if blank)
-     * @return List of templates the current user can see for this record
      */
     @AuraEnabled
     public static List<ViewerTemplate> getTemplatesForRecord(String recordId, String objectApiName) {
@@ -35,12 +43,10 @@ public with sharing class DocumentViewerController {
                 throw new AuraHandledException('Record ID is required');
             }
 
-            // Derive object API name from record ID if not provided
             if (String.isBlank(objectApiName)) {
                 objectApiName = Id.valueOf(recordId).getSObjectType().getDescribe().getName();
             }
 
-            // Query active templates for this object (Document Viewer context only)
             List<Document_Template__c> templates = [
                 SELECT Id, Name, Description__c, Template_JSON__c,
                        Template_Content_Document_Id__c,
@@ -57,10 +63,8 @@ public with sharing class DocumentViewerController {
                 return new List<ViewerTemplate>();
             }
 
-            // Query the record for condition evaluation
             SObject record = queryRecordForConditions(recordId, objectApiName, templates);
 
-            // Get current user info for profile/user conditions
             User currentUser = [
                 SELECT Id, ProfileId, Profile.Name, UserRoleId, UserRole.Name
                 FROM User
@@ -68,17 +72,14 @@ public with sharing class DocumentViewerController {
                 LIMIT 1
             ];
 
-            // Build VF page base URL
             String baseUrl = '/apex/DynamicDocumentPDF';
 
             List<ViewerTemplate> result = new List<ViewerTemplate>();
             for (Document_Template__c tmpl : templates) {
-                // Evaluate visibility conditions from Template_JSON__c
                 if (!isTemplateVisible(tmpl, record, currentUser)) {
                     continue;
                 }
 
-                // Evaluate matching criteria from Matching_Criteria__c field
                 if (String.isNotBlank(tmpl.Matching_Criteria__c)) {
                     Boolean criteriaMatch = ConfigMatchingService.evaluateCriteria(
                         tmpl.Matching_Criteria__c, Id.valueOf(recordId), objectApiName
@@ -109,9 +110,197 @@ public with sharing class DocumentViewerController {
         }
     }
 
+    // ============================== VF PAGES SECTION ==============================
+
+    /**
+     * @description Get Visualforce pages related to the record's object.
+     *              A page is considered "related" when its markup uses the object as
+     *              its standardController (e.g. standardController="Booking__c").
+     *              NOTE: ApexPage.Markup is a long text area and cannot be filtered
+     *              in SOQL, so matching is done in Apex after querying.
+     * @param recordId       The record whose object drives the match (used for ?id= in URLs)
+     * @param objectApiName  Optional - derived from recordId if blank
+     */
+    @AuraEnabled
+    public static List<ViewerVfPage> getVfPagesForRecord(String recordId, String objectApiName) {
+        try {
+            if (String.isBlank(recordId)) {
+                throw new AuraHandledException('Record ID is required');
+            }
+
+            if (String.isBlank(objectApiName)) {
+                objectApiName = Id.valueOf(recordId).getSObjectType().getDescribe().getName();
+            }
+
+            List<ApexPage> pages = [
+                SELECT Id, Name, MasterLabel, Description, Markup, NamespacePrefix
+                FROM ApexPage
+                ORDER BY MasterLabel ASC
+                LIMIT 1000
+            ];
+
+            String objLower = objectApiName.toLowerCase();          // booking__c
+            String baseNameLower = objLower.removeEnd('__c');       // booking
+
+            // Matches controller="SomeBookingController" / standardController=... with any spacing/quotes
+            Pattern controllerAttr = Pattern.compile('(?i)controller\\s*=\\s*["\']([^"\']+)["\']');
+
+            List<ViewerVfPage> result = new List<ViewerVfPage>();
+            for (ApexPage pg : pages) {
+                // Skip the internal renderer page used for the document templates
+                if (pg.Name == 'DynamicDocumentPDF') continue;
+
+                String nameLower = pg.Name.toLowerCase();
+                String labelLower = pg.MasterLabel != null ? pg.MasterLabel.toLowerCase() : '';
+                String markupLower = pg.Markup != null ? pg.Markup.toLowerCase() : '';
+
+                Boolean isRelated = false;
+
+                // 1. Markup mentions the object anywhere:
+                //    standardController="Booking__c", SOQL in components, merge fields, etc.
+                if (markupLower.contains(objLower)) {
+                    isRelated = true;
+                }
+
+                // 2. Page name or label contains the base object name (e.g. "Booking")
+                if (!isRelated && (nameLower.contains(baseNameLower) || labelLower.contains(baseNameLower))) {
+                    isRelated = true;
+                }
+
+                // 3. Custom controller class name contains the base name
+                //    e.g. controller="BookingAllotmentController"
+                if (!isRelated && String.isNotBlank(markupLower)) {
+                    Matcher m = controllerAttr.matcher(markupLower);
+                    while (m.find()) {
+                        if (m.group(1) != null && m.group(1).contains(baseNameLower)) {
+                            isRelated = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!isRelated) continue;
+
+                String pageName = String.isNotBlank(pg.NamespacePrefix)
+                    ? pg.NamespacePrefix + '__' + pg.Name
+                    : pg.Name;
+
+                ViewerVfPage vp = new ViewerVfPage();
+                vp.id = pg.Id;
+                vp.name = pageName;
+                vp.label = String.isNotBlank(pg.MasterLabel) ? pg.MasterLabel : pg.Name;
+                vp.description = pg.Description;
+                vp.url = '/apex/' + pageName + '?id=' + recordId;
+                result.add(vp);
+            }
+
+            return result;
+        } catch (AuraHandledException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new AuraHandledException('Error loading Visualforce pages: ' + e.getMessage());
+        }
+    }
+
+    /**
+     * @description Result of a VF page export: the content plus the detected
+     *              file type, so the client saves it with the right extension.
+     */
+    public class VfExportResult {
+        @AuraEnabled public String base64 { get; set; }
+        @AuraEnabled public String fileType { get; set; } // 'doc' (HTML content) or 'pdf'
+    }
+
+    /**
+     * @description Render a Visualforce page for the given record and return
+     *              its content base64-encoded. Pages that render as HTML are
+     *              downloaded as .doc (Word opens HTML-based .doc natively).
+     *              Pages defined with renderAs="pdf" return PDF bytes from
+     *              getContent(), which cannot be converted to Word in Apex —
+     *              those are flagged as 'pdf' so the client saves a valid .pdf.
+     *              A format=word parameter is passed so pages with a dynamic
+     *              renderAs can opt into returning HTML for Word export.
+     * @param pageName The VF page API name (including namespace prefix if any)
+     * @param recordId The record id passed to the page as ?id=
+     * @return VfExportResult with base64 content and detected file type
+     */
+    /** Shared guard: only pages the viewer lists for this record can be exported */
+    private static void assertPageAllowed(String pageName, String recordId) {
+        String objectApiName = Id.valueOf(recordId).getSObjectType().getDescribe().getName();
+        for (ViewerVfPage vp : getVfPagesForRecord(recordId, objectApiName)) {
+            if (vp.name == pageName) {
+                return;
+            }
+        }
+        throw new AuraHandledException('This page is not available for export');
+    }
+
+    /**
+     * @description Render a Visualforce page as PDF for the given record and
+     *              return the bytes base64-encoded. Works for every VF page:
+     *              getContentAsPDF() forces PDF rendering even for pages that
+     *              normally render as HTML.
+     */
+    @AuraEnabled
+    public static String getVfPageContentAsPdf(String pageName, String recordId) {
+        try {
+            if (String.isBlank(pageName) || String.isBlank(recordId)) {
+                throw new AuraHandledException('Page name and record ID are required');
+            }
+            assertPageAllowed(pageName, recordId);
+
+            PageReference pr = new PageReference('/apex/' + pageName);
+            pr.getParameters().put('id', recordId);
+
+            Blob content;
+            if (Test.isRunningTest()) {
+                content = Blob.valueOf('PDF-TEST');
+            } else {
+                content = pr.getContentAsPDF();
+            }
+            return EncodingUtil.base64Encode(content);
+        } catch (AuraHandledException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new AuraHandledException('Error generating PDF: ' + e.getMessage());
+        }
+    }
+
+    @AuraEnabled
+    public static VfExportResult getVfPageContentAsWord(String pageName, String recordId) {
+        try {
+            if (String.isBlank(pageName) || String.isBlank(recordId)) {
+                throw new AuraHandledException('Page name and record ID are required');
+            }
+            assertPageAllowed(pageName, recordId);
+
+            PageReference pr = new PageReference('/apex/' + pageName);
+            pr.getParameters().put('id', recordId);
+            // Honored only if the page uses a dynamic renderAs that reads this
+            // parameter — lets PDF pages return HTML for true Word export.
+            pr.getParameters().put('format', 'word');
+
+            Blob content;
+            if (Test.isRunningTest()) {
+                content = Blob.valueOf('<html><body>Test</body></html>');
+            } else {
+                content = pr.getContent(); // rendered output of the page
+            }
+
+            VfExportResult res = new VfExportResult();
+            res.base64 = EncodingUtil.base64Encode(content);
+            // '%PDF' in base64 starts with 'JVBERi' — detect renderAs="pdf" pages
+            res.fileType = res.base64.startsWith('JVBERi') ? 'pdf' : 'doc';
+            return res;
+        } catch (AuraHandledException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new AuraHandledException('Error generating file: ' + e.getMessage());
+        }
+    }
+
     /**
      * Get templates filtered by Action Binding (e.g., 'Demand Raiser').
-     * Only returns templates whose Action_Binding__c includes the specified action.
      */
     @AuraEnabled
     public static List<ViewerTemplate> getTemplatesForAction(String recordId, String objectApiName, String actionName) {
@@ -144,7 +333,6 @@ public with sharing class DocumentViewerController {
             List<ViewerTemplate> result = new List<ViewerTemplate>();
 
             for (Document_Template__c tmpl : templates) {
-                // Evaluate matching criteria
                 if (String.isNotBlank(tmpl.Matching_Criteria__c)) {
                     Boolean criteriaMatch = ConfigMatchingService.evaluateCriteria(
                         tmpl.Matching_Criteria__c, Id.valueOf(recordId), objectApiName
@@ -175,21 +363,6 @@ public with sharing class DocumentViewerController {
 
     // ============================== CONDITION EVALUATION ==============================
 
-    /**
-     * @description Check if a template should be visible based on its conditions.
-     * Conditions are stored in Template_JSON__c under the "visibilityConditions" key.
-     * Format:
-     * {
-     *   "visibilityConditions": {
-     *     "logic": "AND" | "OR",
-     *     "rules": [
-     *       { "type": "field", "field": "Status__c", "operator": "equals", "value": "Active" },
-     *       { "type": "profile", "operator": "equals", "value": "System Administrator" },
-     *       { "type": "user", "field": "Id", "operator": "equals", "value": "005..." }
-     *     ]
-     *   }
-     * }
-     */
     private static Boolean isTemplateVisible(Document_Template__c tmpl, SObject record, User currentUser) {
         String jsonStr = TemplateJsonStorageService.loadTemplateJson(tmpl);
         if (String.isBlank(jsonStr)) return true;
@@ -213,13 +386,12 @@ public with sharing class DocumentViewerController {
                 Map<String, Object> rule = (Map<String, Object>) ruleObj;
                 Boolean ruleResult = evaluateRule(rule, record, currentUser);
 
-                if (isAnd && !ruleResult) return false;  // AND: any false => false
-                if (!isAnd && ruleResult) return true;    // OR: any true => true
+                if (isAnd && !ruleResult) return false;
+                if (!isAnd && ruleResult) return true;
             }
 
-            return isAnd; // AND: all true => true, OR: all false => false
+            return isAnd;
         } catch (Exception e) {
-            // If conditions can't be parsed, show the template
             return true;
         }
     }
@@ -234,7 +406,6 @@ public with sharing class DocumentViewerController {
         String actualValue = '';
 
         if (ruleType == 'field') {
-            // Record field condition
             String fieldName = (String) rule.get('field');
             if (String.isBlank(fieldName) || record == null) return true;
             try {
@@ -244,13 +415,10 @@ public with sharing class DocumentViewerController {
                 return true;
             }
         } else if (ruleType == 'profile') {
-            // Profile condition
             actualValue = currentUser.Profile?.Name != null ? currentUser.Profile.Name : '';
         } else if (ruleType == 'userRole') {
-            // Role condition
             actualValue = currentUser.UserRole?.Name != null ? currentUser.UserRole.Name : '';
         } else if (ruleType == 'user') {
-            // User field condition
             String fieldName = (String) rule.get('field');
             if (fieldName == 'Id') {
                 actualValue = currentUser.Id;
@@ -283,7 +451,6 @@ public with sharing class DocumentViewerController {
         } else if (operator == 'isNotBlank') {
             return String.isNotBlank(actualValue);
         } else if (operator == 'in') {
-            // Comma-separated list check
             for (String v : expectedValue.split(',')) {
                 if (actualValue.equalsIgnoreCase(v.trim())) return true;
             }
@@ -297,7 +464,6 @@ public with sharing class DocumentViewerController {
 
     private static SObject queryRecordForConditions(String recordId, String objectApiName,
                                                       List<Document_Template__c> templates) {
-        // Collect all field names needed from conditions
         Set<String> fieldNames = new Set<String>{'Id'};
 
         for (Document_Template__c tmpl : templates) {
@@ -326,7 +492,6 @@ public with sharing class DocumentViewerController {
             }
         }
 
-        // Validate fields exist
         Schema.SObjectType sType = Schema.getGlobalDescribe().get(objectApiName);
         if (sType == null) return null;
         Map<String, Schema.SObjectField> fieldMap = sType.getDescribe().fields.getMap();
@@ -370,10 +535,6 @@ public with sharing class DocumentViewerController {
         }
     }
 
-    /**
-     * @description Get picklist values for a field on the given object.
-     *              Used by the visibility condition builder in the designer.
-     */
     @AuraEnabled(cacheable=true)
     public static List<Map<String, String>> getPicklistValues(String objectApiName, String fieldApiName) {
         List<Map<String, String>> result = new List<Map<String, String>>();

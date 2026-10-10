@@ -147,6 +147,9 @@ static void testGetAllocatedProjectValue() {
             Tower__c = block.Id,
             Unit__c = unit.Id,
             S_No__c = 1,
+            Payment_Type__c = 'On Booking',
+            Percentage__c = 10,
+            Sequence__c = 1,
             Payment_Percent__c = 10,
             Amount__c = 1000
         );

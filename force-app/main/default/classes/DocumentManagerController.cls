@@ -534,7 +534,11 @@ public with sharing class DocumentManagerController {
                 link.Visibility = 'AllUsers';
                 insert link;
             }
-            
+
+            // When a Booking document of a mapped type is uploaded, set the matching "uploaded"
+            // checkbox on the Booking (e.g. Signed Booking Form -> Signed_Booking_Form_Uploaded__c).
+            syncBookingUploadFlag(bookingId, documentType);
+
         } catch (AuraHandledException e) {
             throw e;
         } catch (Exception e) {
@@ -542,6 +546,34 @@ public with sharing class DocumentManagerController {
         }
     }
     
+    // Maps a ContentVersion Document_Type__c to the Booking checkbox that should be set true when a
+    // document of that type is uploaded. Add more entries here to wire up other slots.
+    private static final Map<String, String> DOC_TYPE_TO_BOOKING_FLAG = new Map<String, String>{
+        'Signed Booking Form' => 'Signed_Booking_Form_Uploaded__c'
+    };
+
+    /**
+     * @description When a document of a mapped type is uploaded against a Booking, set the matching
+     *              "uploaded" checkbox on that Booking to true. Isolated with its own try/catch so a
+     *              flag update (e.g. no edit access) never fails the document upload itself.
+     * @param recordId     the record the document is linked to (only acted on when it is a Booking)
+     * @param documentType the ContentVersion Document_Type__c selected for the upload
+     */
+    private static void syncBookingUploadFlag(String recordId, String documentType) {
+        if (String.isBlank(recordId) || String.isBlank(documentType)) return;
+        String flagField = DOC_TYPE_TO_BOOKING_FLAG.get(documentType);
+        if (String.isBlank(flagField)) return;
+        try {
+            Id rid = (Id) recordId;
+            if (rid.getSObjectType() != Booking__c.SObjectType) return;
+            Booking__c b = new Booking__c(Id = rid);
+            b.put(flagField, true);
+            update b;
+        } catch (Exception e) {
+            System.debug(LoggingLevel.WARN, 'syncBookingUploadFlag skipped: ' + e.getMessage());
+        }
+    }
+
     // ============ DELETE DOCUMENT ============
     
     @AuraEnabled

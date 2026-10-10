@@ -8,7 +8,7 @@ private class DemandTriggerTest {
 
     private static Booking__c setup(DateTime welcomeDateTime) {
         Project__c project = new Project__c(
-            Name = 'P', Project_Type__c = 'Apartment', Interest_Rate__c = 18,
+            Name = 'P', Project_Type__c = 'Residential', Interest_Rate__c = 18,
             Enable_Reminder_1__c = true, Reminder_1_Days__c = 15
         );
         insert project;

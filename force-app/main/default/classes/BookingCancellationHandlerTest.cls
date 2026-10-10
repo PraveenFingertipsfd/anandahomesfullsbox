@@ -16,10 +16,7 @@ private class BookingCancellationHandlerTest {
         );
         insert project;
         
-        Quote__c quote = new Quote__c(
-            Project__c = project.Id
-            // Populate any other mandatory fields
-        );
+        Quote__c quote = new Quote__c();
         insert quote;
         
         List<Plot__c> units = new List<Plot__c>();

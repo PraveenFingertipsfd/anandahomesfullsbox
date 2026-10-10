@@ -53,8 +53,17 @@
             <value>
                 <fullName>Active</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
                 <label>Active</label>
+            </value>
+            <value>
+                <fullName>Draft</fullName>
+                <default>false</default>
+                <label>Draft</label>
+            </value>
+            <value>
+                <fullName>Cancelled</fullName>
+                <default>false</default>
+                <label>Cancelled</label>
             </value>
             <value>
                 <fullName>Agreement Done</fullName>
@@ -75,22 +84,10 @@
                 <label>Approved, Active</label>
             </value>
             <value>
-                <fullName>Cancelled</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Cancelled</label>
-            </value>
-            <value>
                 <fullName>Completed</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
                 <label>Completed</label>
-            </value>
-            <value>
-                <fullName>Draft</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Draft</label>
             </value>
             <value>
                 <fullName>On Hold</fullName>
