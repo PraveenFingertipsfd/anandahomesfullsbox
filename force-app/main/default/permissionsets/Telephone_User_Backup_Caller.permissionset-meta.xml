@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Read and edit access to the Telephone User checkbox and Today's Backup Caller lookup on User. Assign to System Administrator, BDM and Pre Sales Head users who manage the User Availability page.</description>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>User.Telephone_User__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>User.Todays_Backup_Caller__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Telephone User Backup Caller</label>
+</PermissionSet>

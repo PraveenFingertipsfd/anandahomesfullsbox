@@ -4,6 +4,19 @@ public without sharing class UserAvailabilityHistoryHandler {
     // the User DML; stamped on the history row closed by this transaction.
     public static String turnOffReason;
 
+    /**
+     * Before-update: a backup caller only covers a user while they are on leave / offline.
+     * When Working flips from off to on, drop Today's Backup Caller so it does not carry over.
+     */
+    public static void clearBackupCallerWhenWorking(List<User> newUsers, Map<Id, User> oldMap) {
+        for (User u : newUsers) {
+            User oldU = oldMap.get(u.Id);
+            if (u.is_working__c == true && oldU != null && oldU.is_working__c != true && u.Todays_Backup_Caller__c != null) {
+                u.Todays_Backup_Caller__c = null;
+            }
+        }
+    }
+
     public static void handleAvailabilityChange(List<User> newUsers, Map<Id, User> oldMap) {
         Set<Id> flippedOn  = new Set<Id>();
         Set<Id> flippedOff = new Set<Id>();

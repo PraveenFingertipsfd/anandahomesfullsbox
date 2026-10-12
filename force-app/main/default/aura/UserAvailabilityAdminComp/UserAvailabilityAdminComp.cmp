@@ -11,136 +11,198 @@
     <aura:attribute name="selProfileFilter" type="String"/>
     <aura:attribute name="CurrentUser" type="Object"/>
     <aura:attribute name="profileNames" type="String" />
+    <aura:attribute name="todayLabel" type="String" />
+
+    <!-- Backup caller assignment -->
+    <aura:attribute name="showBackupModal" type="Boolean" default="false"/>
+    <aura:attribute name="backupForUser" type="Object"/>
+    <aura:attribute name="backupCandidates" type="User[]"/>
+    <aura:attribute name="selBackupUserId" type="String" default=""/>
+    <aura:attribute name="backupSaving" type="Boolean" default="false"/>
+
     <force:recordData recordId="{!$SObjectType.CurrentUser.Id}"
                       fields="Profile.Name"
                       targetFields="{!v.CurrentUser}"
                       recordUpdated="{!c.doInit}" />
-    
-    <div class="slds-box slds-theme_shade">
-        <h1>
-            <span class="slds-page-header__title slds-hyphenate" title="User Availability">User Availability</span>
-        </h1>
-        <br/>
-        <hr style="margin:0px"/>
-        
-        <!-- <div class="slds-card__body slds-card__body_inner">
-            <lightning:select name="filter" aura:id="filter" label="Filter by Zone" value="{!v.selZoneFilter}" onchange="{! c.onChange }" >
-                <option value="Chennai">Chennai</option>
-                <option value="Bangalore">Bangalore</option>
-                <option value="Hyderabad">Hyderabad</option>
-                <option value="Coimbatore">Coimbatore</option>
-                <option value="Mysore">Mysore</option>
-                <option value="Pune">Pune</option>
-                <option value="Trichy">Trichy</option>
-                <option value="Ballari">Ballari</option>
-                <option value="Hosur">Hosur</option>
-            </lightning:select>
-        </div>-->
-        <div class="slds-card__body slds-card__body_inner">
-            <aura:if isTrue="{!v.profileNames == 'System Administrator' || v.profileNames == 'BDM'}">
-                <lightning:select name="filter" aura:id="filter" label="Filter by Profile" value="{!v.selProfileFilter}" onchange="{! c.onChange }" >
-                    
-                    <option value="Pre-Sales Executive">Pre-Sales Executive</option>
-                    <option value="Pre-Sales TL">Pre-Sales TL</option>
-                    <option value="Pre-Sales Head">Pre-Sales Head</option>
-                    <option value="Associate Manager">Associate Manager</option>
-                    <option value="Sales Head">Sales Head</option>
-                    <option value="Sales Project Head">Sales TL</option>
-                    <option value="GRE">GRE</option>
-                    
-                </lightning:select>
-            </aura:if>
-            <aura:if isTrue="{!v.profileNames == 'Pre Sales Head'}">
-                <lightning:select name="filter" aura:id="filter" label="Filter by Profile" value="{!v.selProfileFilter}" onchange="{! c.onChange }" >
-                    
-                    <option value="Pre-Sales ExecutivePre Sales">Pre-Sales Executive</option>
-                    
-                </lightning:select>
-            </aura:if>
-            <aura:if isTrue="{!v.profileNames == 'Sales Head'}">
-                <lightning:select name="filter" aura:id="filter" label="Filter by Profile" value="{!v.selProfileFilter}" onchange="{! c.onChange }" >
-                    
-                    <option value="Sales Project Head">Sales Project Head</option>
-                    
-                    <option value="STM">STM</option>
-                </lightning:select>
-            </aura:if>
-            
-            
-        </div>
-        <hr style="margin:0px"/>
-        <div class="slds-grid slds-wrap"> 
-            
-            <div class="slds-col">
-                <div class="slds-grid slds-gutters">
-                    
-                    <div class="slds-col">
-                        
-                        <div class="slds-align_absolute-center">
-                            <table border="1" style="padding:1px">
-                                <th style="padding:5px">Name</th>
-                                <th style="padding:5px">User Name</th>
-                                <th style="padding:5px">Manager</th>
-                                <th style="padding:5px">Profile</th>
-                                <th style="padding:5px">Working</th>
-                                <th style="padding:5px">Availability</th>
-                                <aura:iteration items="{!v.paginationList}" var="usr"  indexVar="i">
-                                    <aura:if isTrue="{!usr != null}">
-                                        <tr>
-                                            <td style="padding:5px;overflow-wrap:anywhere">
-                                                {!usr.Name}
-                                            </td>
-                                            <td style="padding:5px;overflow-wrap:anywhere">
-                                                {!usr.Username}
-                                            </td>
-                                            <td style="padding:5px;overflow-wrap:anywhere">
-                                                {!usr.Manager.Name}
-                                            </td>
-                                            <td style="padding:5px;overflow-wrap:anywhere">
-                                                {!usr.Profile.Name}
-                                            </td>
-                                            <td style="padding:5px">
-                                                <div aura:id="option2" data-index="{!i}" data-id="{!usr.Id}" onchange="{!c.selectChange2}" >
-                                                    <lightning:input class="slds-p-right_medium"  type="toggle"   checked="{!usr.is_working__c}" value="{!usr.is_working__c}" messageToggleActive="Working"  messageToggleInactive="On Leave"/>
-                                                    
-                                                </div>
-                                            </td>
-                                            <td style="padding:5px">
-                                                <div aura:id="option" data-index="{!i}" data-id="{!usr.Id}" onchange="{!c.selectChange}" >
-                                                    <lightning:input class="slds-p-right_medium"  type="toggle"   checked="{!usr.Availability__c}" value="{!usr.Availability__c}" messageToggleActive="Available"  messageToggleInactive="Offline"/>
-                                                    <!--<lightning:icon size="xx-small" iconName="{!usr.Availability__c ? 'action:approval' : 'action:close'}"/>  -->
-                                                </div>
-                                            </td>
-                                            
-                                            
-                                        </tr></aura:if>
-                                </aura:iteration>
+
+    <div class="ua-page">
+        <div class="ua-card">
+            <div class="ua-head">
+                <h1 class="ua-title" title="User Availability">User Availability</h1>
+                <span class="ua-sub">{!v.todayLabel}</span>
+            </div>
+
+            <div class="ua-filter">
+                <aura:if isTrue="{!v.profileNames == 'System Administrator' || v.profileNames == 'BDM'}">
+                    <lightning:select name="filter" aura:id="filter" label="Filter by Profile" value="{!v.selProfileFilter}" onchange="{! c.onChange }" >
+
+                        <option value="Pre-Sales Executive">Pre-Sales Executive</option>
+                        <option value="Pre-Sales TL">Pre-Sales TL</option>
+                        <option value="Pre-Sales Head">Pre-Sales Head</option>
+                        <option value="Associate Manager">Associate Manager</option>
+                        <option value="Sales Head">Sales Head</option>
+                        <option value="Sales Project Head">Sales TL</option>
+                        <option value="GRE">GRE</option>
+                        <option value="Telephone User">Telephone User</option>
+
+                    </lightning:select>
+                </aura:if>
+                <aura:if isTrue="{!v.profileNames == 'Pre Sales Head'}">
+                    <lightning:select name="filter" aura:id="filter" label="Filter by Profile" value="{!v.selProfileFilter}" onchange="{! c.onChange }" >
+
+                        <option value="Pre-Sales ExecutivePre Sales">Pre-Sales Executive</option>
+                        <option value="Telephone User">Telephone User</option>
+
+                    </lightning:select>
+                </aura:if>
+                <aura:if isTrue="{!v.profileNames == 'Sales Head'}">
+                    <lightning:select name="filter" aura:id="filter" label="Filter by Profile" value="{!v.selProfileFilter}" onchange="{! c.onChange }" >
+
+                        <option value="Sales Project Head">Sales Project Head</option>
+
+                        <option value="STM">STM</option>
+                    </lightning:select>
+                </aura:if>
+                <aura:if isTrue="{!v.selProfileFilter == 'Telephone User'}">
+                    <div class="ua-hint slds-m-top_x-small">Shows users with the Telephone User checkbox ticked. Assign Backup Caller appears when Working is off. Turning Working on clears the backup caller.</div>
+                </aura:if>
+            </div>
+            <hr class="ua-rule"/>
+
+            <div class="ua-table-wrap">
+                <table class="ua-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>User Name</th>
+                            <th>Manager</th>
+                            <th>Profile</th>
+                            <th>Working</th>
+                            <th>Availability</th>
+                            <aura:if isTrue="{!v.selProfileFilter == 'Telephone User'}">
+                                <th class="ua-col-new">Backup Caller</th>
+                            </aura:if>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:iteration items="{!v.paginationList}" var="usr"  indexVar="i">
+                            <aura:if isTrue="{!usr != null}">
                                 <tr>
-                                    <aura:if isTrue="{!v.users.length != 0}">
-                                        <td colspan="5" style="padding:5px">
-                                            <lightning:button label="First" disabled="{!v.start == 0}"  onclick="{!c.first}" />
-                                            
-                                            <lightning:button label="Previous" disabled="{!v.start == 0}"  onclick="{!c.previous}" />
-                                            
-                                            <lightning:button label="Next" disabled="{!v.end >= v.totalSize-1}" onclick="{!c.next}" />
-                                            
-                                            <lightning:button label="Last" disabled="{!v.end >= v.totalSize-1}" onclick="{!c.last}" />
-                                            
-                                        </td>
-                                    </aura:if>
-                                    <aura:if isTrue="{!v.users.length == 0}">
-                                        <td colspan="5" style="padding:5px">
-                                            <div style="color:red;font-size:15px;font-weight:bold">No users found.</div>
+                                    <td class="ua-wrap">
+                                        {!usr.Name}
+                                    </td>
+                                    <td class="ua-wrap">
+                                        {!usr.Username}
+                                    </td>
+                                    <td class="ua-wrap">
+                                        {!usr.Manager.Name}
+                                    </td>
+                                    <td class="ua-wrap">
+                                        {!usr.Profile.Name}
+                                    </td>
+                                    <td>
+                                        <div aura:id="option2" data-index="{!i}" data-id="{!usr.Id}" onchange="{!c.selectChange2}" >
+                                            <lightning:input class="slds-p-right_medium"  type="toggle"   checked="{!usr.is_working__c}" value="{!usr.is_working__c}" messageToggleActive="Working"  messageToggleInactive="On Leave"/>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div aura:id="option" data-index="{!i}" data-id="{!usr.Id}" onchange="{!c.selectChange}" >
+                                            <lightning:input class="slds-p-right_medium"  type="toggle"   checked="{!usr.Availability__c}" value="{!usr.Availability__c}" messageToggleActive="Available"  messageToggleInactive="Offline"/>
+                                        </div>
+                                    </td>
+                                    <aura:if isTrue="{!v.selProfileFilter == 'Telephone User'}">
+                                        <td class="ua-col-new">
+                                            <aura:if isTrue="{!usr.is_working__c == false}">
+                                                <div class="ua-backup">
+                                                    <aura:if isTrue="{!!empty(usr.Todays_Backup_Caller__c)}">
+                                                        <span class="ua-chip ua-chip-set"><span class="ua-dot"></span>{!usr.Todays_Backup_Caller__r.Name}</span>
+                                                        <aura:set attribute="else">
+                                                            <span class="ua-chip"><span class="ua-dot"></span>Not assigned</span>
+                                                        </aura:set>
+                                                    </aura:if>
+                                                    <lightning:button class="ua-btn"
+                                                                      label="{!empty(usr.Todays_Backup_Caller__c) ? 'Assign Backup Caller' : 'Change Backup Caller'}"
+                                                                      value="{!usr.Id}"
+                                                                      onclick="{!c.openBackupModal}"/>
+                                                </div>
+                                                <aura:set attribute="else">
+                                                    <span class="ua-hint">Working. No backup needed.</span>
+                                                </aura:set>
+                                            </aura:if>
                                         </td>
                                     </aura:if>
                                 </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+                            </aura:if>
+                        </aura:iteration>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <aura:if isTrue="{!v.users.length != 0}">
+                                <td colspan="7">
+                                    <div class="ua-pager">
+                                        <lightning:button label="Previous" disabled="{!v.start == 0}"  onclick="{!c.previous}" />
+                                        <lightning:button label="Next" disabled="{!v.end >= v.totalSize-1}" onclick="{!c.next}" />
+                                    </div>
+                                </td>
+                            </aura:if>
+                            <aura:if isTrue="{!v.users.length == 0}">
+                                <td colspan="7">
+                                    <div class="ua-empty">No users found.</div>
+                                </td>
+                            </aura:if>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
         </div>
     </div>
-    
-    
+
+    <!-- Assign Backup Caller modal -->
+    <aura:if isTrue="{!v.showBackupModal}">
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="ua-backup-title" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header ua-modal-head">
+                    <lightning:buttonIcon iconName="utility:close" variant="bare-inverse" alternativeText="Close" class="slds-modal__close" onclick="{!c.closeBackupModal}"/>
+                    <h2 id="ua-backup-title" class="slds-modal__title slds-hyphenate">Assign Backup Caller</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <dl class="ua-kv">
+                        <dt>For user</dt>
+                        <dd><b>{!v.backupForUser.Name}</b> <span class="ua-hint">({!v.backupForUser.Username})</span></dd>
+                        <dt>Current backup</dt>
+                        <dd>
+                            <aura:if isTrue="{!!empty(v.backupForUser.Todays_Backup_Caller__c)}">
+                                {!v.backupForUser.Todays_Backup_Caller__r.Name}
+                                <aura:set attribute="else"><span class="ua-hint">None</span></aura:set>
+                            </aura:if>
+                        </dd>
+                        <dt>Date</dt>
+                        <dd>{!v.todayLabel}</dd>
+                    </dl>
+                    <div class="slds-m-top_medium">
+                        <lightning:select aura:id="backupSel" name="backupSel" label="Backup Caller (telephone users working today)" value="{!v.selBackupUserId}" onchange="{!c.onBackupChange}">
+                            <option value="">-- Select --</option>
+                            <aura:iteration items="{!v.backupCandidates}" var="c">
+                                <option value="{!c.Id}" selected="{!c.Id == v.selBackupUserId}">{!c.Name + ' - ' + (c.Availability__c ? 'Available' : 'Offline')}</option>
+                            </aura:iteration>
+                        </lightning:select>
+                        <div class="ua-hint slds-m-top_x-small">
+                            <aura:if isTrue="{!v.backupCandidates.length == 0}">
+                                No telephone users are working today.
+                                <aura:set attribute="else">
+                                    {!v.backupCandidates.length} telephone user(s) working today. On-leave users are hidden.
+                                </aura:set>
+                            </aura:if>
+                        </div>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning:button label="Cancel" onclick="{!c.closeBackupModal}"/>
+                    <lightning:button variant="brand" label="Save" onclick="{!c.saveBackupCaller}" disabled="{!empty(v.selBackupUserId) || v.backupSaving}"/>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+
 </aura:component>

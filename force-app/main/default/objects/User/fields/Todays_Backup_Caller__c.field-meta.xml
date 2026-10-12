@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Todays_Backup_Caller__c</fullName>
+    <description>Telephone user assigned today to take calls on behalf of this user while they are on leave or offline. Set from the User Availability page.</description>
+    <label>Today's Backup Caller</label>
+    <relationshipLabel>Backup Caller For</relationshipLabel>
+    <relationshipName>Backup_Caller_For_Users</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Hierarchy</type>
+</CustomField>

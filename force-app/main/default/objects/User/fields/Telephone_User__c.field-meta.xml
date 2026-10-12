@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Telephone_User__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Marks the user as a telephone user. Telephone users appear under the "Telephone User" filter on the User Availability page and can be assigned a backup caller.</description>
+    <label>Telephone User</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Checkbox</type>
+</CustomField>
